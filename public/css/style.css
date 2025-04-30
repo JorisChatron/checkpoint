@@ -8,7 +8,7 @@ body {
     display: flex;
     justify-content: flex-start; /* Changer ici pour que tout soit à gauche */
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0,5rem 2rem;
     background-color: #1F1B2E;
     border-bottom: 2px solid #7F39FB;
     position: sticky;
@@ -47,6 +47,7 @@ body {
     display: flex;
     gap: 1rem;
     margin-left: auto; /* Pousse les liens vers la droite */
+    margin-right: 10px;
     }
     .auth-links a {
     color: #BB86FC; /* Violet pour les liens d'authentification aussi */
