@@ -100,3 +100,20 @@ h2 {
 p {
     color: #E0F7FA;
 }
+
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-image: url('../images/background.png'); /* adapte le chemin si nécessaire */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* effet "parallaxe" qui reste fixe */
+    color: #E0F7FA;
+}
+
+main, .content, .container { /* adapte les classes à ta structure */
+    background-color: rgba(15, 15, 30, 0.85); /* violet très sombre avec transparence */
+    padding: 1rem;
+    border-radius: 10px;
+}
