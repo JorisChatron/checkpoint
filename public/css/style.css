@@ -3,85 +3,100 @@ body {
     font-family: 'Orbitron', sans-serif; /* Police Orbitron ajoutée */
     background-color: #0D0D1A;
     color: #E0F7FA;
-    }
-    header {
-    display: flex;
-    justify-content: flex-start; /* Changer ici pour que tout soit à gauche */
-    align-items: center;
-    padding: 0,5rem 2rem;
+}
+
+header {
     background-color: #1F1B2E;
     border-bottom: 2px solid #7F39FB;
     position: sticky;
     top: 0;
     z-index: 100;
-    }
-    /* Logo container */
-    .logo-container {
+}
+
+.navbar {
     display: flex;
-    justify-content: flex-start; /* Garde le logo à gauche */
-    }
-    .logo {
-    max-width: 100px; /* Limite la largeur du logo */
-    height: auto; /* Garde les proportions de l'image intactes */
-    }
-    /* Navbar links */
-    .navbar-links {
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 0.5rem 2rem;
+}
+
+/* Logo centré */
+.logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Sections gauche/droite */
+.navbar-section {
     display: flex;
     gap: 1rem;
-    justify-content: flex-start; /* Les liens sont maintenant bien alignés à gauche */
-    margin-left: 20px; /* Un peu d'espace entre le logo et les liens */
-    }
-    .navbar-links a {
-    color: #BB86FC; /* Violet pour les liens */
-    text-decoration: none; /* Supprimer le soulignement par défaut */
-    border-bottom: 2px solid transparent; /* Aucun soulignement par défaut */
+}
+
+/* Liens de navigation */
+.navbar-links a {
+    color: #BB86FC;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
     transition: border-color 0.3s;
-    }
-    /* Soulignement bleu turquoise au survol */
-    .navbar-links a:hover,
-    .navbar-links a.active {
-    border-color: #00E5FF; /* Le soulignement devient bleu turquoise au survol et quand actif */
-    }
-    /* Authentication links */
-    .auth-links {
-    display: flex;
-    gap: 1rem;
-    margin-left: auto; /* Pousse les liens vers la droite */
-    margin-right: 10px;
-    }
-    .auth-links a {
-    color: #BB86FC; /* Violet pour les liens d'authentification aussi */
-    }
-    /* Burger menu */
-    .burger {
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+    border-color: #00E5FF;
+}
+
+/* Liens d'authentification */
+.auth-links a {
+    color: #BB86FC;
+}
+
+/* Burger menu */
+.burger {
     display: none;
     background: none;
     color: #BB86FC;
     font-size: 1.5rem;
     border: none;
     cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-section {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
     }
-    @media (max-width: 768px) {
-    .navbar-links, .auth-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
+
+    .navbar.active .navbar-section {
+        display: flex;
     }
-    header.active .navbar-links,
-    header.active .auth-links {
-    display: flex;
-    }
+
     .logo-container {
-    justify-content: center; /* Centrer le logo sur les petits écrans */
+        position: static;
+        transform: none;
+        margin: 1rem auto;
     }
+
     .burger {
-    display: block; /* Afficher le menu burger sur petits écrans */
+        display: block;
+        margin-left: auto;
     }
-    }
-    /* Nouveau CSS pour les titres et le texte */
-    h2 {
-    color: #9B5DE5; /* Violet pour les titres */
-    }
-    p {
-    color: #E0F7FA; /* Blanc pour le texte */
-    }
+}
+
+/* Titres et paragraphes */
+h2 {
+    color: #9B5DE5;
+}
+
+p {
+    color: #E0F7FA;
+}

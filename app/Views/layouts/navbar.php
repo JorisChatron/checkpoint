@@ -13,20 +13,24 @@
 </head>
 <body>
 <header>
-<div class="logo-container">
-<img src="<?= base_url('images/logo.png') ?>" alt="Logo" class="logo">
-</div>
-<nav class="navbar-links">
-<a href="<?= base_url() ?>">Accueil</a>
-<a href="<?= base_url('profile') ?>">Profil</a>
-<a href="<?= base_url('wishlist') ?>">Wishlist</a>
-<a href="<?= base_url('avis') ?>">Avis</a>
-</nav>
-<div class="auth-links">
-<a href="<?= base_url('login') ?>">Connexion</a>
-<a href="<?= base_url('register') ?>">Inscription</a>
-</div>
-<button class="burger">☰</button>
+  <nav class="navbar">
+    <div class="navbar-section navbar-links">
+      <a href="<?= base_url() ?>">Accueil</a>
+      <a href="<?= base_url('profile') ?>">Profil</a>
+      <a href="<?= base_url('wishlist') ?>">Wishlist</a>
+      <a href="<?= base_url('avis') ?>">Avis</a>
+    </div>
+
+    <div class="logo-container">
+      <img src="<?= base_url('images/logo.png') ?>" alt="Logo" class="logo">
+    </div>
+
+    <div class="navbar-section auth-links">
+      <a href="<?= base_url('login') ?>">Connexion</a>
+      <a href="<?= base_url('register') ?>">Inscription</a>
+    </div>
+
+    <button class="burger">☰</button>
+  </nav>
 </header>
-</body>
-</html>
+
