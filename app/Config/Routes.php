@@ -13,4 +13,7 @@ $routes->get('wishlist', 'WishlistController::index');
 $routes->get('avis', 'ReviewController::index');
 $routes->get('register', 'Auth::showRegisterForm');
 $routes->post('register', 'Auth::register');
+$routes->get('login', 'Auth::showLoginForm');
+$routes->post('login', 'Auth::login');
+$routes->get('logout', 'Auth::logout');
 

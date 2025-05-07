@@ -26,11 +26,18 @@
     </div>
 
     <div class="navbar-section auth-links">
-      <a href="<?= base_url('login') ?>">Connexion</a>
-      <a href="<?= base_url('register') ?>">Inscription</a>
+      <?php if (session()->get('user_id')) : ?>
+        <!-- Si l'utilisateur est connecté, afficher le bouton Déconnexion -->
+        <a href="<?= site_url('logout') ?>" class="btn btn-danger">Déconnexion</a>
+      <?php else : ?>
+        <!-- Si l'utilisateur n'est pas connecté, afficher les boutons Connexion et Inscription -->
+        <a href="<?= base_url('login') ?>" class="btn btn-primary">Connexion</a>
+        <a href="<?= base_url('register') ?>" class="btn btn-secondary">Inscription</a>
+      <?php endif; ?>
     </div>
 
     <button class="burger">☰</button>
   </nav>
 </header>
+
 

@@ -7,33 +7,27 @@ use CodeIgniter\Controller;
 
 class Auth extends Controller
 {
-    // Affiche le formulaire d'inscription
     public function showRegisterForm()
     {
         return view('auth/register');
     }
 
-    // Gère l'inscription de l'utilisateur
     public function register()
     {
         $validation = \Config\Services::validation();
 
-        // Définir les règles de validation
         $validation->setRules([
             'username' => 'required|min_length[3]',
             'email'    => 'required|valid_email',
             'password' => 'required|min_length[6]'
         ]);
 
-        // Vérifie la validation
         if (! $validation->withRequest($this->request)->run()) {
-            // Si validation échoue, on renvoie la vue avec les erreurs
             return view('auth/register', [
-                'validation' => $validation // Passe l'objet validation à la vue
+                'validation' => $validation
             ]);
         }
 
-        // Si validation passe, on enregistre l'utilisateur
         $userModel = new UserModel();
 
         $userModel->save([
@@ -42,10 +36,60 @@ class Auth extends Controller
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ]);
 
-        // Redirige vers la page d'accueil après inscription réussie
-        return redirect()->to('/');
+        return redirect()->to('/'); // Redirige vers la page d'accueil
+    }
+
+    // Afficher le formulaire de connexion
+    public function showLoginForm()
+    {
+        return view('auth/login');
+    }
+
+    // Gérer la connexion
+    public function login()
+{
+    $validation = \Config\Services::validation();
+
+    $validation->setRules([
+        'username' => 'required',
+        'password' => 'required'
+    ]);
+
+    if (! $validation->withRequest($this->request)->run()) {
+        // Si la validation échoue, retourner la vue avec les erreurs de validation
+        return view('auth/login', [
+            'validation' => $validation
+        ]);
+    }
+
+    $userModel = new UserModel();
+    $user = $userModel->where('username', $this->request->getPost('username'))->first();
+
+    // Vérifier si l'utilisateur existe et si le mot de passe est correct
+    if ($user && password_verify($this->request->getPost('password'), $user['password'])) {
+        // Si tout est ok, l'utilisateur peut être connecté
+        session()->set('user_id', $user['id']);
+        session()->set('username', $user['username']);
+        return redirect()->to('/'); // Rediriger vers la page d'accueil après connexion
+    } else {
+        // Sinon afficher une erreur
+        return view('auth/login', [
+            'validation' => $validation,  // Assure-toi de passer aussi validation ici
+            'error' => 'Nom d\'utilisateur ou mot de passe incorrect'
+        ]);
     }
 }
+
+
+    // Déconnexion
+    public function logout()
+{
+    session()->destroy(); // Détruire la session pour déconnecter l'utilisateur
+    return redirect()->to('/login'); // Redirige vers la page de connexion après déconnexion
+}
+
+}
+
 
 
 
