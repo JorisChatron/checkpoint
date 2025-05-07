@@ -1,7 +1,3 @@
-<?php
-
-echo $this->include('layouts/navbar');
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,8 +16,13 @@ echo $this->include('layouts/navbar');
     </script>
 </head>
 <body>
-<main>
-    <?= $this->renderSection('content') ?>
-</main>
+
+    <?= $this->include('layouts/navbar') ?>
+
+    <main>
+        <?= $this->renderSection('content') ?>
+    </main>
+
 </body>
 </html>
+
