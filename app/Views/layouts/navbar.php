@@ -19,7 +19,6 @@
         <!-- Section des liens principaux -->
         <div class="navbar-section navbar-links">
             <a href="<?= base_url() ?>">Accueil</a>
-            <a href="<?= base_url('profile') ?>">Profil</a>
             <a href="<?= base_url('wishlist') ?>">Wishlist</a>
             <a href="<?= base_url('avis') ?>">Avis</a>
         </div>
@@ -31,7 +30,9 @@
 
         <!-- Menu burger -->
         <div class="burger-menu">
-            <button class="burger" id="burger-button">☰</button>
+            <button class="burger" id="burger-button">
+                <img src="<?= base_url('images/burger-icon.png') ?>" alt="Menu" class="burger-icon">
+            </button>
             <div class="dropdown hidden" id="burger-dropdown">
                 <ul>
                     <?php if (session()->get('user_id')) : ?>
