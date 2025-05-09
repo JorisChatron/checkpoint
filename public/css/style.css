@@ -32,7 +32,6 @@ header {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-
 /* Logo centré */
 .logo-container {
     position: absolute;
@@ -55,28 +54,68 @@ header {
 .navbar-links a {
     color: #BB86FC;
     text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.3s;
+    margin-right: 15px;
+    transition: color 0.3s;
 }
 
-.navbar-links a:hover,
-.navbar-links a.active {
-    border-color: #00E5FF;
+.navbar-links a:hover {
+    color: #00E5FF;
 }
 
-/* Liens d'authentification */
-.auth-links a {
-    color: #BB86FC;
-}
-
-/* Burger menu */
+/* Style du bouton burger */
 .burger {
-    display: none;
+    font-size: 24px;
     background: none;
-    color: #BB86FC;
-    font-size: 1.5rem;
     border: none;
     cursor: pointer;
+    color: #fff;
+    z-index: 101; /* Au-dessus des autres éléments */
+}
+
+/* Conteneur du menu burger */
+.burger-menu {
+    position: relative;
+}
+
+/* Style du menu déroulant */
+.dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: rgba(31, 27, 46, 0.95); /* Fond semi-transparent */
+    border: 1px solid #7F39FB;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: none; /* Masqué par défaut */
+    width: 200px;
+}
+
+.dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown ul li {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.dropdown ul li a {
+    text-decoration: none;
+    color: #BB86FC;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.dropdown ul li a:hover {
+    color: #00E5FF;
+}
+
+/* Afficher le menu lorsqu'il est actif */
+.dropdown.active {
+    display: block;
 }
 
 /* Responsive */
@@ -126,5 +165,10 @@ main {
 /* Sections internes */
 .section {
     margin-bottom: 2rem;
+}
+
+/* Hidden class */
+.hidden {
+    display: none;
 }
 
