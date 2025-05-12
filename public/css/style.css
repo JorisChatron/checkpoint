@@ -78,6 +78,7 @@ header {
     border-radius: 50%; /* Rend l'image circulaire */
     object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
     transition: transform 0.3s ease; /* Animation fluide */
+    border: 2px solid #BB86FC;
 }
 
 .burger-icon:hover {
@@ -255,7 +256,18 @@ input[type="file"]:active {
     display: inline-block;
 }
 
-/* Masquer le champ file natif */
+/* Masquer l'input natif */
+.custom-file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Style du label personnalisé */
 .custom-file-upload input[type="file"] {
     position: absolute;
     left: 0;
@@ -340,5 +352,63 @@ input[type="file"]:active {
 .custom-file-label:active {
     background-color: #5A189A; /* Couleur plus foncée au clic */
     transform: scale(0.95); /* Légère réduction de taille */
+}
+
+/* Style du label personnalisé */
+.file-upload > .custom-file-label {
+    background-color: #7F39FB; /* Couleur principale */
+    color: #E0F7FA; /* Texte clair */
+    border: 2px solid #BB86FC; /* Bordure dans le thème */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    cursor: pointer; /* Curseur en mode clic */
+    text-transform: uppercase; /* Texte en majuscules */
+    transition: all 0.3s ease; /* Animation fluide */
+    display: inline-block;
+    text-align: center;
+    z-index: 1; /* Assure que le label est au-dessus */
+    position: relative; /* Nécessaire pour éviter les conflits */
+}
+
+/* Effet au survol */
+.file-upload > .custom-file-label:hover {
+    background-color: #9B5DE5; /* Couleur plus claire au survol */
+    color: #00E5FF; /* Texte plus vif */
+    border-color: #00E5FF; /* Bordure assortie */
+    transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet au clic */
+.file-upload > .custom-file-label:active {
+    background-color: #5A189A; /* Couleur plus foncée au clic */
+    transform: scale(0.95); /* Légère réduction de taille */
+}
+
+/* Conteneur pour l'aperçu d'image */
+.image-preview {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet visuel */
+}
+
+.profile-picture {
+    width: 100px; /* Largeur fixe */
+    height: 100px; /* Hauteur fixe */
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur sans déformation */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet visuel */
+    display: block;
+    margin: 0 auto; /* Centre l'image */
 }
 
