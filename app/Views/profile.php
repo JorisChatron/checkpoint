@@ -7,8 +7,10 @@
 <div class="profile-container">
     <img src="<?= base_url($user['profile_picture']) ?>" alt="Photo de profil" class="profile-picture">
     <form action="<?= base_url('profile/upload') ?>" method="post" enctype="multipart/form-data">
-        <label for="profile_picture">Changer ma photo de profil :</label>
-        <input type="file" name="profile_picture" id="profile_picture" accept="image/*">
+        <div class="file-upload">
+            <label for="profile_picture" class="custom-file-label">Choisir un fichier</label>
+            <input type="file" id="profile_picture" name="profile_picture" class="custom-file-input" accept="image/*">
+        </div>
         <button type="submit">Mettre à jour</button>
     </form>
 </div>

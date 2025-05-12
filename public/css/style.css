@@ -184,3 +184,161 @@ main {
     display: none;
 }
 
+/* Style des boutons globaux */
+button:not(.burger), input[type="submit"], input[type="button"] {
+    background-color: #7F39FB; /* Couleur principale */
+    color: #E0F7FA; /* Texte clair */
+    border: 2px solid #BB86FC; /* Bordure dans le thème */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    cursor: pointer; /* Curseur en mode clic */
+    transition: all 0.3s ease; /* Animation fluide */
+    text-transform: uppercase; /* Texte en majuscules */
+}
+
+/* Effet au survol */
+button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #9B5DE5; /* Couleur plus claire au survol */
+    color: #00E5FF; /* Texte plus vif */
+    border-color: #00E5FF; /* Bordure assortie */
+    transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet au clic */
+button:not(.burger):active, input[type="submit"]:active, input[type="button"]:active {
+    background-color: #5A189A; /* Couleur plus foncée au clic */
+    transform: scale(0.95); /* Légère réduction de taille */
+}
+
+/* Désactiver les boutons */
+button:not(.burger):disabled, input[type="submit"]:disabled, input[type="button"]:disabled {
+    background-color: #444; /* Couleur grise pour les boutons désactivés */
+    color: #999; /* Texte grisé */
+    border-color: #666; /* Bordure grisée */
+    cursor: not-allowed; /* Curseur interdit */
+    opacity: 0.6; /* Transparence */
+}
+
+/* Style pour les boutons de type file */
+input[type="file"] {
+    background-color: #7F39FB; /* Couleur principale */
+    color: #E0F7FA; /* Texte clair */
+    border: 2px solid #BB86FC; /* Bordure dans le thème */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px; /* Espacement interne */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    cursor: pointer; /* Curseur en mode clic */
+    transition: all 0.3s ease; /* Animation fluide */
+    text-transform: uppercase; /* Texte en majuscules */
+}
+
+/* Effet au survol */
+input[type="file"]:hover {
+    background-color: #9B5DE5; /* Couleur plus claire au survol */
+    color: #00E5FF; /* Texte plus vif */
+    border-color: #00E5FF; /* Bordure assortie */
+    transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet au clic */
+input[type="file"]:active {
+    background-color: #5A189A; /* Couleur plus foncée au clic */
+    transform: scale(0.95); /* Légère réduction de taille */
+}
+
+/* Conteneur pour le champ file */
+.custom-file-upload {
+    position: relative;
+    display: inline-block;
+}
+
+/* Masquer le champ file natif */
+.custom-file-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Style du bouton personnalisé */
+.custom-file-upload label {
+    background-color: #7F39FB; /* Couleur principale */
+    color: #E0F7FA; /* Texte clair */
+    border: 2px solid #BB86FC; /* Bordure dans le thème */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    cursor: pointer; /* Curseur en mode clic */
+    transition: all 0.3s ease; /* Animation fluide */
+    text-transform: uppercase; /* Texte en majuscules */
+    display: inline-block;
+}
+
+/* Effet au survol */
+.custom-file-upload label:hover {
+    background-color: #9B5DE5; /* Couleur plus claire au survol */
+    color: #00E5FF; /* Texte plus vif */
+    border-color: #00E5FF; /* Bordure assortie */
+    transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet au clic */
+.custom-file-upload label:active {
+    background-color: #5A189A; /* Couleur plus foncée au clic */
+    transform: scale(0.95); /* Légère réduction de taille */
+}
+
+/* Conteneur pour le bouton de type file */
+.file-upload {
+    position: relative;
+    display: inline-block;
+}
+
+/* Masquer l'input natif */
+.custom-file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Style du label personnalisé */
+.custom-file-label {
+    background-color: #7F39FB; /* Couleur principale */
+    color: #E0F7FA; /* Texte clair */
+    border: 2px solid #BB86FC; /* Bordure dans le thème */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    cursor: pointer; /* Curseur en mode clic */
+    text-transform: uppercase; /* Texte en majuscules */
+    transition: all 0.3s ease; /* Animation fluide */
+    display: inline-block;
+    text-align: center;
+}
+
+/* Effet au survol */
+.custom-file-label:hover {
+    background-color: #9B5DE5; /* Couleur plus claire au survol */
+    color: #00E5FF; /* Texte plus vif */
+    border-color: #00E5FF; /* Bordure assortie */
+    transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet au clic */
+.custom-file-label:active {
+    background-color: #5A189A; /* Couleur plus foncée au clic */
+    transform: scale(0.95); /* Légère réduction de taille */
+}
+
