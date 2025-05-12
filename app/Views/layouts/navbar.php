@@ -33,7 +33,7 @@
         <!-- Menu burger -->
         <div class="burger-menu">
             <button class="burger" id="burger-button">
-                <img src="<?= base_url('images/burger-icon.png') ?>" alt="Menu" class="burger-icon">
+                <img src="<?= base_url(session()->get('profile_picture') ?? 'images/burger-icon.png') ?>" alt="Menu" class="burger-icon">
             </button>
             <div class="dropdown hidden" id="burger-dropdown">
                 <ul>

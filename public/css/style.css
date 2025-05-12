@@ -72,6 +72,18 @@ header {
     z-index: 101; /* Au-dessus des autres éléments */
 }
 
+.burger-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
+    transition: transform 0.3s ease; /* Animation fluide */
+}
+
+.burger-icon:hover {
+    transform: scale(1.1); /* Grossit de 10% au survol */
+}
+
 /* Conteneur du menu burger */
 .burger-menu {
     position: relative;
