@@ -16,4 +16,5 @@ $routes->post('register', 'Auth::register');
 $routes->get('login', 'Auth::showLoginForm');
 $routes->post('login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
+$routes->get('mes-jeux', 'MesJeux::index');
 

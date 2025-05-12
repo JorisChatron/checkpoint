@@ -19,8 +19,8 @@
         <!-- Section des liens principaux -->
         <div class="navbar-section navbar-links">
             <a href="<?= base_url() ?>">Accueil</a>
+            <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
             <a href="<?= base_url('wishlist') ?>">Wishlist</a>
-            <a href="<?= base_url('avis') ?>">Avis</a>
         </div>
 
         <!-- Logo centré -->
