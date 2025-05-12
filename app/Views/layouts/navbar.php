@@ -25,7 +25,9 @@
 
         <!-- Logo centré -->
         <div class="logo-container">
-            <img src="<?= base_url('images/logo.png') ?>" alt="Logo" class="logo">
+            <a href="<?= base_url() ?>"> <!-- Lien vers la page d'accueil -->
+                <img src="<?= base_url('images/logo.png') ?>" alt="Logo" class="logo">
+            </a>
         </div>
 
         <!-- Menu burger -->
