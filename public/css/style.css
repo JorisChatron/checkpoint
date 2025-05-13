@@ -565,7 +565,7 @@ form button:active {
 
 /* Contenu du modal */
 .modal-content {
-    background-color: rgba(42, 42, 63, 0.95); /* Couleur #2A2A3F avec 95% d'opacité */
+    background-color: rgba(42, 42, 63, 0.5); /* Couleur #2A2A3F avec 85% d'opacité */
     padding: 30px;
     border-radius: 12px; /* Coins arrondis plus prononcés */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Ombre plus marquée */
