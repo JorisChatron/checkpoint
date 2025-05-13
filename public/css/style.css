@@ -131,6 +131,33 @@ header {
     display: block;
 }
 
+/* Liste des suggestions */
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #1E1E2F;
+    border: 1px solid #BB86FC;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.suggestions-list li {
+    padding: 10px;
+    color: #E0F7FA;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestions-list li:hover {
+    background-color: #2A2A3F;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .navbar-section {
@@ -412,6 +439,17 @@ input[type="file"]:active {
     margin: 0 auto; /* Centre l'image */
 }
 
+/* Aperçu de la jaquette */
+#coverPreview {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-top: 10px;
+    border: 2px solid #BB86FC;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 /* Centrer les champs de formulaire */
 form {
     display: flex;
@@ -496,6 +534,19 @@ form button:active {
     background-color: #5A189A; /* Couleur plus foncée */
 }
 
+/* Conteneur pour les lignes flexibles */
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Espace entre les champs */
+    gap: 20px; /* Espacement entre les colonnes */
+    width: 100%;
+}
+
+/* Champs dans une ligne flexible */
+.form-row .form-group {
+    flex: 1; /* Les champs prennent une largeur égale */
+}
+
 /* Modal - Conteneur principal */
 .modal {
     display: none; /* Masqué par défaut */
@@ -504,37 +555,118 @@ form button:active {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    background-color: rgba(0, 0, 0, 0.8); /* Fond semi-transparent plus sombre */
     z-index: 1000;
     justify-content: center;
     align-items: center;
+    overflow-y: auto; /* Permet le défilement vertical si le contenu dépasse */
+    padding: 20px; /* Ajoute un peu d'espace autour du contenu */
 }
 
 /* Contenu du modal */
 .modal-content {
-    background-color: rgba(42, 42, 63, 0.9); /* Couleur #2A2A3F avec 90% d'opacité */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-color: rgba(42, 42, 63, 0.95); /* Couleur #2A2A3F avec 95% d'opacité */
+    padding: 30px;
+    border-radius: 12px; /* Coins arrondis plus prononcés */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Ombre plus marquée */
     width: 90%;
-    max-width: 400px;
+    max-width: 500px; /* Largeur maximale augmentée */
+    max-height: 90vh; /* Hauteur maximale à 90% de la hauteur de la fenêtre */
+    overflow-y: auto; /* Permet le défilement à l'intérieur du modal si nécessaire */
     position: relative;
     color: #E0F7FA; /* Couleur du texte pour un bon contraste */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px; /* Ajoute de l'espace en haut pour le titre */
+}
+
+/* Titre du modal */
+.modal-content h2 {
+    font-size: 1.8rem;
+    color: #9B5DE5; /* Couleur du titre */
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Champs de formulaire */
+.modal-content .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #BB86FC;
+    border-radius: 8px;
+    background-color: #1E1E2F;
+    color: #E0F7FA;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* Effet au survol des champs */
+.modal-content input:hover,
+.modal-content select:hover,
+.modal-content textarea:hover {
+    border-color: #9B5DE5;
+    background-color: #2A2A3F;
+}
+
+/* Effet au focus des champs */
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    border-color: #00E5FF;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 }
 
 /* Bouton de fermeture */
 .modal-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     background: none;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #333;
+    color: #E0F7FA;
+    transition: color 0.3s ease;
 }
 
 .modal-close:hover {
-    color: #ff0000;
+    color: #FF6F61;
+}
+
+/* Bouton de soumission */
+.modal-content button {
+    background-color: #7F39FB;
+    color: #E0F7FA;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.modal-content button:hover {
+    background-color: #9B5DE5;
+    transform: scale(1.05);
+}
+
+.modal-content button:active {
+    background-color: #5A189A;
+    transform: scale(0.95);
 }
 
