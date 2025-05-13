@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API_KEY = 'ff6f7941c211456c8806541638fdfaff'; // Remplacez par votre clé API RAWG
 
+    // Masquer l'aperçu de la jaquette au chargement
+    coverPreview.classList.add('hidden');
+
     searchGameInput.addEventListener('input', async () => {
         const query = searchGameInput.value;
 
@@ -70,7 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             releaseYearInput.value = game.released ? game.released.split('-')[0] : '';
                             genreInput.value = game.genres.map(genre => genre.name).join(', ');
                             coverInput.value = game.background_image;
-                            coverPreview.src = game.background_image;
+
+                            // Affiche l'aperçu de la jaquette si une image est disponible
+                            if (game.background_image) {
+                                coverPreview.src = game.background_image;
+                                coverPreview.classList.remove('hidden');
+                            } else {
+                                coverPreview.classList.add('hidden');
+                            }
 
                             // Vide les suggestions
                             suggestionsList.innerHTML = '';

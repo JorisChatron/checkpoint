@@ -38,14 +38,18 @@ $this->section('content');
                 <input type="text" id="genre" name="genre" placeholder="Genre" readonly>
             </div>
 
-            <div class="form-group">
-                <label for="cover">Jaquette :</label>
-                <input type="text" id="cover" name="cover" placeholder="URL de la jaquette" readonly>
-                <img id="coverPreview" src="" alt="Preview de la jaquette">
+            <div class="form-group form-row">
+                <div class="form-field">
+                    <label for="cover">Jaquette :</label>
+                    <input type="text" id="cover" name="cover" placeholder="URL de la jaquette" readonly>
+                </div>
+                <div class="form-preview">
+                    <img id="coverPreview" src="" alt="Preview de la jaquette" class="hidden">
+                </div>
             </div>
 
             <!-- Ligne pour Statut et Temps de jeu -->
-            <div class="form-row">
+            <div class="form-row-status">
                 <div class="form-group">
                     <label for="status">Statut :</label>
                     <select id="status" name="status">

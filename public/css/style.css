@@ -158,6 +158,35 @@ header {
     background-color: #2A2A3F;
 }
 
+/* Style de la barre de défilement */
+::-webkit-scrollbar {
+    width: 10px; /* Largeur de la barre verticale */
+    height: 10px; /* Hauteur de la barre horizontale */
+}
+
+/* Couleur de l'arrière-plan de la barre */
+::-webkit-scrollbar-track {
+    background: rgba(31, 27, 46, 0.9); /* Fond semi-transparent assorti au thème */
+    border-radius: 8px; /* Coins arrondis */
+}
+
+/* Couleur et style de la poignée de défilement */
+::-webkit-scrollbar-thumb {
+    background: #7F39FB; /* Couleur principale */
+    border-radius: 8px; /* Coins arrondis */
+    border: 2px solid rgba(31, 27, 46, 0.9); /* Bordure assortie au fond */
+}
+
+/* Couleur au survol de la poignée */
+::-webkit-scrollbar-thumb:hover {
+    background: #9B5DE5; /* Couleur plus claire au survol */
+}
+
+/* Couleur au clic sur la poignée */
+::-webkit-scrollbar-thumb:active {
+    background: #5A189A; /* Couleur plus foncée au clic */
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .navbar-section {
@@ -441,13 +470,130 @@ input[type="file"]:active {
 
 /* Aperçu de la jaquette */
 #coverPreview {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 12px;
-    object-fit: cover;
-    margin-top: 10px;
-    border: 2px solid #BB86FC;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 200px; /* Double la largeur maximale de l'image */
+    max-height: 200px; /* Double la hauteur maximale de l'image */
+    border-radius: 12px; /* Coins arrondis */
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet visuel */
+}
+
+/* Masquer l'aperçu de la jaquette */
+#coverPreview.hidden {
+    display: none;
+}
+
+/* Conteneur pour le champ et l'aperçu */
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Espace entre les champs */
+    gap: 20px; /* Ajoute un espacement de 20px entre les colonnes */
+    width: 100%;
+    align-items: flex-start; /* Aligne les champs en haut */
+}
+
+/* Champ "Année de sortie" */
+#releaseYear {
+    width: 80px; /* Largeur adaptée à 4 chiffres */
+    padding: 10px; /* Espacement interne */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    border-radius: 8px; /* Coins arrondis */
+    background-color: #1E1E2F; /* Couleur de fond */
+    color: #E0F7FA; /* Couleur du texte */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    text-align: center; /* Centre le texte dans le champ */
+    box-sizing: border-box; /* Inclut la bordure dans la largeur */
+}
+
+/* Champ "Statut" */
+#status {
+    width: 100%; /* Le champ occupe toute la largeur disponible */
+    padding: 10px; /* Espacement interne */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    border-radius: 8px; /* Coins arrondis */
+    background-color: #1E1E2F; /* Couleur de fond */
+    color: #E0F7FA; /* Couleur du texte */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Inclut la bordure dans la largeur */
+    height: 40px; /* Fixe une hauteur uniforme */
+    appearance: none; /* Supprime le style natif du navigateur */
+    text-align: left; /* Aligne le texte à gauche */
+}
+
+/* Conteneur pour "Statut" et "Temps de jeu" */
+.form-row-status {
+    display: flex;
+    justify-content: space-between; /* Espace entre les colonnes */
+    gap: 20px; /* Espacement entre les champs */
+    width: 100%;
+    align-items: center; /* Aligne les champs verticalement au centre */
+}
+
+/* Labels dans "Statut" et "Temps de jeu" */
+.form-row-status .form-group {
+    display: flex;
+    flex-direction: column; /* Aligne le label et le champ verticalement */
+    justify-content: center; /* Centre verticalement */
+}
+
+.form-row-status .form-group label {
+    margin-bottom: 0; /* Supprime l'espacement sous le label */
+    font-size: 1rem;
+    color: #9B5DE5; /* Couleur des labels */
+    line-height: 1.5; /* Uniformise la hauteur des labels */
+}
+
+/* Ajuster l'écart entre le label "Statut" et son champ */
+.form-row-status .form-group:nth-child(1) label {
+    margin-bottom: 5px; /* Augmente l'écart entre le label et le champ */
+}
+
+/* Ajuster l'écart entre le label "Temps de jeu" et son champ */
+.form-row-status .form-group:nth-child(2) label {
+    margin-bottom: -10px; /* Réduit l'écart entre le label et le champ */
+}
+
+/* Champs dans "Statut" et "Temps de jeu" */
+.form-row-status .form-group select,
+.form-row-status .form-group input {
+    width: 100%; /* Les champs occupent toute la largeur disponible */
+    padding: 10px; /* Espacement interne */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    border-radius: 8px; /* Coins arrondis */
+    background-color: #1E1E2F; /* Couleur de fond */
+    color: #E0F7FA; /* Couleur du texte */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Inclut la bordure dans la largeur */
+    height: 40px; /* Fixe une hauteur uniforme pour tous les champs */
+    margin-top: 30px; /* Ajuste la position verticale */
+}
+/* Ajuster la position du label "Temps de jeu" */
+.form-row-status .form-group:nth-child(2) label {
+    margin-top: 14px; /* Descend le label de 10 pixels */
+}
+/* Champ "Temps de jeu" */
+#playtime {
+    width: 100%; /* Le champ occupe toute la largeur disponible */
+    padding: 10px; /* Espacement interne */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    border-radius: 8px; /* Coins arrondis */
+    background-color: #1E1E2F; /* Couleur de fond */
+    color: #E0F7FA; /* Couleur du texte */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    transition: all 0.3s ease; /* Animation fluide */
+    box-sizing: border-box; /* Inclut la bordure dans la largeur */
+    margin-top: 14px; /* Ajuste la position verticale */
+}
+
+/* Ajuster la position de "Statut" */
+#status {
+    margin-top: 0px; /* Ajuste la position verticale */
 }
 
 /* Centrer les champs de formulaire */
@@ -538,8 +684,9 @@ form button:active {
 .form-row {
     display: flex;
     justify-content: space-between; /* Espace entre les champs */
-    gap: 20px; /* Espacement entre les colonnes */
+    gap: 20px; /* Ajoute un espacement de 20px entre les colonnes */
     width: 100%;
+    align-items: flex-start; /* Aligne les champs en haut */
 }
 
 /* Champs dans une ligne flexible */
@@ -570,7 +717,7 @@ form button:active {
     border-radius: 12px; /* Coins arrondis plus prononcés */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Ombre plus marquée */
     width: 90%;
-    max-width: 500px; /* Largeur maximale augmentée */
+    max-width: 600px; /* Augmente la largeur maximale du modal */
     max-height: 90vh; /* Hauteur maximale à 90% de la hauteur de la fenêtre */
     overflow-y: auto; /* Permet le défilement à l'intérieur du modal si nécessaire */
     position: relative;
