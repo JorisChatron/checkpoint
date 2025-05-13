@@ -18,4 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
             burgerDropdown.classList.remove('active');
         }
     });
+
+    const openModalButton = document.getElementById('openModal');
+    const closeModalButton = document.getElementById('closeModal');
+    const modal = document.getElementById('addGameModal');
+
+    // Ouvrir le modal
+    openModalButton.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    // Fermer le modal
+    closeModalButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Fermer le modal en cliquant à l'extérieur
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 });
