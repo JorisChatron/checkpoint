@@ -422,7 +422,8 @@ form {
 /* Champs de formulaire */
 form input[type="text"],
 form input[type="email"],
-form input[type="password"] {
+form input[type="password"],
+form input[type="number"] { /* Ajout de type="number" */
     width: 80%; /* Largeur réduite à 80% */
     max-width: 400px; /* Largeur maximale */
     padding: 10px 15px; /* Espacement interne */
@@ -450,7 +451,8 @@ form label {
 /* Effet au survol */
 form input[type="text"]:hover,
 form input[type="email"]:hover,
-form input[type="password"]:hover {
+form input[type="password"]:hover,
+form input[type="number"]:hover { /* Ajout de type="number" */
     border-color: #9B5DE5; /* Bordure plus claire au survol */
     background-color: #2A2A3F; /* Fond légèrement éclairci */
 }
@@ -458,7 +460,8 @@ form input[type="password"]:hover {
 /* Effet au focus */
 form input[type="text"]:focus,
 form input[type="email"]:focus,
-form input[type="password"]:focus {
+form input[type="password"]:focus,
+form input[type="number"]:focus { /* Ajout de type="number" */
     border-color: #00E5FF; /* Bordure vive au focus */
     outline: none; /* Supprime le contour par défaut */
     box-shadow: 0 0 8px rgba(0, 229, 255, 0.5); /* Ajoute une lueur */
