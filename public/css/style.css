@@ -630,18 +630,29 @@ form button:active {
 /* Bouton de fermeture */
 .modal-close {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px; /* Position verticale */
+    
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1,2rem; /* Taille de la croix */
     cursor: pointer;
     color: #E0F7FA;
-    transition: color 0.3s ease;
+    width: auto; /* Ajuste automatiquement la largeur */
+    max-width: 20%; /* Limite la largeur à 30% du modal */
+    height: 30px; /* Hauteur fixe */
+    padding: 5px 10px; /* Ajoute un espacement interne */
+    display: inline-flex; /* Utilise inline-flex pour éviter que le bouton prenne toute la largeur */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre le contenu verticalement */
+    border-radius: 8px; /* Coins légèrement arrondis */
+    background-color: rgba(42, 42, 63, 0.8); /* Ajoute un fond semi-transparent */
+    transition: all 0.3s ease; /* Animation fluide */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Ajoute une ombre légère */
 }
 
 .modal-close:hover {
-    color: #FF6F61;
+    color: #FF6F61; /* Change la couleur de la croix au survol */
+    background-color: rgba(255, 111, 97, 0.2); /* Change le fond au survol */
 }
 
 /* Bouton de soumission */
