@@ -412,3 +412,84 @@ input[type="file"]:active {
     margin: 0 auto; /* Centre l'image */
 }
 
+/* Centrer les champs de formulaire */
+form {
+    display: flex;
+    flex-direction: column; /* Aligne les éléments verticalement */
+    align-items: center; /* Centre les champs horizontalement */
+}
+
+/* Champs de formulaire */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 80%; /* Largeur réduite à 80% */
+    max-width: 400px; /* Largeur maximale */
+    padding: 10px 15px; /* Espacement interne */
+    margin-bottom: 1rem; /* Espacement entre les champs */
+    border: 2px solid #BB86FC; /* Bordure assortie au thème */
+    border-radius: 8px; /* Coins arrondis */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    color: #E0F7FA; /* Couleur du texte */
+    background-color: #1E1E2F; /* Couleur de fond */
+    transition: all 0.3s ease; /* Animation fluide */
+}
+
+/* Centrer les labels */
+form label {
+    display: block; /* Force les labels à occuper toute la largeur */
+    margin-bottom: 0.5rem; /* Espacement entre le label et le champ */
+    font-size: 1rem; /* Taille du texte */
+    color: #9B5DE5; /* Couleur des labels */
+    text-align: left; /* Aligne le texte à gauche */
+    width: 80%; /* Largeur alignée avec les champs */
+    max-width: 400px; /* Largeur maximale */
+}
+
+/* Effet au survol */
+form input[type="text"]:hover,
+form input[type="email"]:hover,
+form input[type="password"]:hover {
+    border-color: #9B5DE5; /* Bordure plus claire au survol */
+    background-color: #2A2A3F; /* Fond légèrement éclairci */
+}
+
+/* Effet au focus */
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+    border-color: #00E5FF; /* Bordure vive au focus */
+    outline: none; /* Supprime le contour par défaut */
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5); /* Ajoute une lueur */
+}
+
+/* Bouton de soumission */
+form button {
+    background-color: #7F39FB; /* Couleur principale */
+    color: #E0F7FA; /* Texte clair */
+    padding: 10px 15px; /* Espacement interne */
+    border: none; /* Supprime la bordure par défaut */
+    border-radius: 8px; /* Coins arrondis */
+    font-size: 1rem; /* Taille du texte */
+    font-family: 'Orbitron', sans-serif; /* Police du site */
+    cursor: pointer; /* Curseur en mode clic */
+    text-transform: uppercase; /* Texte en majuscules */
+    transition: all 0.3s ease; /* Animation fluide */
+    width: 80%; /* Largeur alignée avec les champs */
+    max-width: 400px; /* Largeur maximale */
+    margin-top: 1rem; /* Espacement au-dessus */
+}
+
+/* Effet au survol du bouton */
+form button:hover {
+    background-color: #9B5DE5; /* Couleur plus claire */
+    transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet au clic sur le bouton */
+form button:active {
+    transform: scale(0.95); /* Légère réduction de taille */
+    background-color: #5A189A; /* Couleur plus foncée */
+}
+
