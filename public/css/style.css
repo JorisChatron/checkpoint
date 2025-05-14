@@ -624,7 +624,7 @@ form input[type="number"]:focus { /* Ajout de type="number" */
 /* Bouton de soumission */
 form button {
     background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair */
+    color: #E0F7FA; /* Texte clair *    /
     padding: 10px 15px; /* Espacement interne */
     border: none; /* Supprime la bordure par défaut */
     border-radius: 8px; /* Coins arrondis */
