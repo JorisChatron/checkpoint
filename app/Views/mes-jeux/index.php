@@ -52,16 +52,17 @@ $this->section('content');
             <div class="form-row-status">
                 <div class="form-group">
                     <label for="status">Statut :</label>
-                    <select id="status" name="status">
-                        <option value="En cours">En cours</option>
-                        <option value="Terminé">Terminé</option>
-                        <option value="Complété">Complété</option>
-                        <option value="Abandonné">Abandonné</option>
+                    <select name="status" id="status" class="form-control" required>
+                        <option value="">Choisir un statut</option>
+                        <option value="en cours">En cours</option>
+                        <option value="termine">Terminé</option>
+                        <option value="complete">Complété</option>
+                        <option value="abandonne">Abandonné</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="playtime">Temps de jeu :</label>
-                    <input type="number" id="playtime" name="playtime" placeholder="Temps de jeu (en heures)">
+                    <input type="text" name="playtime" id="playtime" class="form-control" placeholder="Temps de jeu (en h)">
                 </div>
             </div>
 

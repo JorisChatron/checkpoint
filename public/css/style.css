@@ -506,64 +506,45 @@ input[type="file"]:active {
     box-sizing: border-box; /* Inclut la bordure dans la largeur */
 }
 
-
-
-/* Conteneur pour "Statut" et "Temps de jeu" */
+/* Pour les groupes dans la ligne statut/temps de jeu */
 .form-row-status {
     display: flex;
-    justify-content: space-between; /* Espace entre les colonnes */
-    gap: 20px; /* Espacement entre les champs */
+    gap: 20px;
     width: 100%;
-    align-items: center; /* Aligne les champs verticalement au centre */
+    max-width: 420px;
+    margin: 0 auto 2rem auto;
+    align-items: flex-start; /* Aligne les items en haut */
 }
 
-/* Labels dans "Statut" et "Temps de jeu" */
+/* Chaque colonne (statut ou temps de jeu) */
 .form-row-status .form-group {
     display: flex;
-    flex-direction: column; /* Aligne le label et le champ verticalement */
-    justify-content: center; /* Centre verticalement */
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 90px;
+    width: 200px;
+    max-width: 200px;
+    margin: 0;
 }
 
+/* Labels parfaitement alignés */
 .form-row-status .form-group label {
-    margin-bottom: 0; /* Supprime l'espacement sous le label */
+    margin-bottom: 8px;
     font-size: 1rem;
-    color: #9B5DE5; /* Couleur des labels */
-    line-height: 1.5; /* Uniformise la hauteur des labels */
+    color: #9B5DE5;
+    text-align: left;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 0;
 }
 
-/* Ajuster l'écart entre le label "Statut" et son champ */
-.form-row-status .form-group:nth-child(1) label {
-    margin-bottom: 5px; /* Augmente l'écart entre le label et le champ */
-}
-
-/* Ajuster l'écart entre le label "Temps de jeu" et son champ */
-.form-row-status .form-group:nth-child(2) label {
-    margin-bottom: -10px; /* Réduit l'écart entre le label et le champ */
-}
-
-
-/* Ajuster la position du label "Temps de jeu" */
-.form-row-status .form-group:nth-child(2) label {
-    margin-top: 14px; /* Descend le label de 10 pixels */
-}
-/* Champ "Temps de jeu" */
-#playtime {
-    width: 100%; /* Le champ occupe toute la largeur disponible */
-    padding: 10px; /* Espacement interne */
-    border: 2px solid #BB86FC; /* Bordure assortie au thème */
-    border-radius: 8px; /* Coins arrondis */
-    background-color: #1E1E2F; /* Couleur de fond */
-    color: #E0F7FA; /* Couleur du texte */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    transition: all 0.3s ease; /* Animation fluide */
-    box-sizing: border-box; /* Inclut la bordure dans la largeur */
-    margin-top: 14px; /* Ajuste la position verticale */
-}
-
-/* Ajuster la position de "Statut" */
-#status {
-    margin-top: 0px; /* Ajuste la position verticale */
+/* Champs parfaitement alignés */
+.form-row-status .form-control,
+.form-row-status select {
+    width: 100%;
+    max-width: 200px;
+    box-sizing: border-box;
+    margin-top: 0;
 }
 
 /* Centrer les champs de formulaire */
@@ -661,7 +642,54 @@ form button:active {
 
 /* Champs dans une ligne flexible */
 .form-row .form-group {
-    flex: 1; /* Les champs prennent une largeur égale */
+    display: flex;
+    flex-direction: column;
+    min-height: 100px; /* Ajuste cette valeur selon la taille de tes champs + message */
+    justify-content: flex-start;
+    position: relative;
+}
+
+/* Pour tous les groupes de champs */
+.form-group {
+    position: relative;
+    margin-bottom: 2rem;
+    min-height: 90px; /* Ajuste cette valeur pour couvrir la hauteur du champ + message */
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Pour tous les champs du formulaire */
+.form-control {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 15px;
+    border: 2px solid #BB86FC;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #E0F7FA;
+    background-color: #1E1E2F;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    height: 48px; /* Hauteur fixe pour tous les champs */
+}
+
+/* Affiche le message d'erreur en bulle sous le champ, sans agrandir le champ */
+.text-danger {
+    margin-top: 8px;
+    font-size: 0.95em;
+    color: #FF6F61;
+    background: rgba(31,27,46,0.95);
+    border-radius: 8px;
+    padding: 6px 12px;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    word-break: break-word;
+    box-sizing: border-box;
 }
 
 /* Modal - Conteneur principal */
@@ -709,6 +737,11 @@ form button:active {
 
 /* Champs de formulaire */
 .modal-content .form-group {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px; /* Ajuste cette valeur selon la taille de tes champs + message */
+    justify-content: flex-start;
+    position: relative;
     width: 100%;
     margin-bottom: 1rem;
 }
