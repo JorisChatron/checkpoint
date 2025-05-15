@@ -382,18 +382,15 @@ input[type="file"]:active {
 
 /* Style du label personnalisé */
 .custom-file-label {
-    background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair */
-    border: 2px solid #BB86FC; /* Bordure dans le thème */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 10px 20px; /* Espacement interne */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    cursor: pointer; /* Curseur en mode clic */
-    text-transform: uppercase; /* Texte en majuscules */
-    transition: all 0.3s ease; /* Animation fluide */
-    display: inline-block;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    margin: 0 auto 1rem auto;
 }
 
 /* Effet au survol */
