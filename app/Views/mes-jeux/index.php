@@ -14,6 +14,9 @@
             <p><strong>Genre :</strong> <?= esc($game['category']) ?></p>
             <p><strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h</p>
             <!-- Ajoute d'autres infos si besoin -->
+            <form class="delete-game-form" data-id="<?= $game['id'] ?>">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
         </div>
     <?php endforeach; ?>
 </div>

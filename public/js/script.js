@@ -125,4 +125,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    document.querySelectorAll('.delete-game-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!confirm('Supprimer ce jeu de votre bibliothèque ?')) return;
+            const gameStatsId = this.getAttribute('data-id');
+            fetch(`/checkpoint/public/mes-jeux/delete/${gameStatsId}`, {
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) location.reload();
+            });
+        });
+    });
 });
