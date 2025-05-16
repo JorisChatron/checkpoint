@@ -212,6 +212,22 @@ header {
     }
 }
 
+@media (max-width: 1200px) {
+    .carousel {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 800px) {
+    .carousel {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 500px) {
+    .carousel {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Titres et paragraphes */
 h2 {
     color: #9B5DE5;
@@ -830,17 +846,19 @@ form button:active {
 
 /* Carousel */
 .carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    padding: 1rem 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    justify-items: center;
+    align-items: stretch;
+    margin: 2rem 0;
 }
 
 .carousel-card {
-    perspective: 1000px;
     width: 220px;
     height: 320px;
-    margin: 0 10px;
+    margin: 0;
+    perspective: 1000px;
     display: flex;
     align-items: center;
     justify-content: center;
