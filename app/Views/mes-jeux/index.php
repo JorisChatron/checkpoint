@@ -21,7 +21,9 @@
                     <p><strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h</p>
                     <p><strong>Notes :</strong> <?= esc($game['notes']) ?></p>
                     <form class="delete-game-form" data-id="<?= $game['id'] ?>">
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-danger" title="Supprimer" style="padding:6px 18px;font-size:1.1rem;line-height:1.1;border-radius:8px;background:#ff6f61;border:none;display:block;margin:18px auto 0 auto;">
+                            &times;
+                        </button>
                     </form>
                 </div>
             </div>
