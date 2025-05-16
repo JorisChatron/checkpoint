@@ -828,3 +828,21 @@ form button:active {
     transform: scale(0.95);
 }
 
+/* Carousel */
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.carousel-card {
+    min-width: 220px;
+    background: rgba(31,27,46,0.95);
+    border: 2px solid #7F39FB;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+

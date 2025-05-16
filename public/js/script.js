@@ -107,4 +107,22 @@ document.addEventListener('DOMContentLoaded', () => {
             suggestionsList.innerHTML = '';
         }
     });
+
+    const form = document.getElementById('addGameForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            fetch('/checkpoint/public/mes-jeux/add', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        });
+    }
 });

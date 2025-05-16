@@ -1,12 +1,25 @@
-<?php
-
-$this->extend('layouts/default');
-$this->section('content');
-?>
+<?php $this->extend('layouts/default'); ?>
+<?php $this->section('content'); ?>
 
 <h2>Mes Jeux</h2>
-<p>Vous n'avez pas encore ajouté de jeux.</p>
 <button id="openModal" class="btn btn-primary">Ajouter un jeu</button>
+
+<?php if (!empty($games)): ?>
+<div class="carousel">
+    <?php foreach ($games as $game): ?>
+        <div class="carousel-card">
+            <h3><?= esc($game['name']) ?></h3>
+            <p><strong>Plateforme :</strong> <?= esc($game['platform']) ?></p>
+            <p><strong>Année :</strong> <?= esc($game['release_date']) ?></p>
+            <p><strong>Genre :</strong> <?= esc($game['category']) ?></p>
+            <p><strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h</p>
+            <!-- Ajoute d'autres infos si besoin -->
+        </div>
+    <?php endforeach; ?>
+</div>
+<?php else: ?>
+    <p>Vous n'avez pas encore ajouté de jeux.</p>
+<?php endif; ?>
 
 <!-- Modal -->
 <div id="addGameModal" class="modal">
