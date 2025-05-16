@@ -140,4 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    document.querySelectorAll('.carousel-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Ne retourne pas la carte si on clique sur le bouton supprimer
+            if (e.target.closest('button')) return;
+            // Ferme les autres cartes ouvertes
+            document.querySelectorAll('.carousel-card.flipped').forEach(c => {
+                if (c !== card) c.classList.remove('flipped');
+            });
+            card.classList.toggle('flipped');
+        });
+    });
 });
