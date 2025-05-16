@@ -152,4 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.toggle('flipped');
         });
     });
+
+    if (coverInput.value) {
+        coverPreview.src = coverInput.value;
+        coverPreview.classList.remove('hidden');
+    } else {
+        coverPreview.src = '/public/images/default-cover.png';
+        coverPreview.classList.remove('hidden');
+    }
 });
