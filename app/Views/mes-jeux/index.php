@@ -10,6 +10,7 @@
         <div class="carousel-card">
             <div class="card-inner">
                 <div class="card-front">
+                    <div class="game-title-overlay"><?= esc($game['name']) ?></div>
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="carousel-cover">
                 </div>
                 <div class="card-back">
