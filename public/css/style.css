@@ -996,3 +996,40 @@ form button:active {
     display: block;
 }
 
+.card-actions {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+}
+.carousel-card:hover .card-actions {
+    display: flex;
+}
+.btn-delete-card {
+    background: rgba(127, 57, 251, 0.75) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    transition: background 0.2s, transform 0.2s;
+    padding: 0;
+    line-height: 1;
+}
+.btn-delete-card:hover {
+    background: rgba(155, 93, 229, 0.92) !important;
+    color: #00E5FF !important;
+    transform: scale(1.12);
+}
+

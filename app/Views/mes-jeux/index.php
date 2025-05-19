@@ -11,9 +11,19 @@
             <div class="card-inner">
                 <div class="card-front">
                     <div class="game-title-overlay"><?= esc($game['name']) ?></div>
+                    <div class="card-actions">
+                        <form class="delete-game-form" data-id="<?= $game['id'] ?>">
+                            <button type="submit" class="btn btn-danger btn-delete-card" title="Supprimer">&times;</button>
+                        </form>
+                    </div>
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="carousel-cover">
                 </div>
                 <div class="card-back">
+                    <div class="card-actions">
+                        <form class="delete-game-form" data-id="<?= $game['id'] ?>">
+                            <button type="submit" class="btn btn-danger btn-delete-card" title="Supprimer">&times;</button>
+                        </form>
+                    </div>
                     <div class="card-back-content">
                         <h3><?= esc($game['name']) ?></h3>
                         <p><strong>Plateforme :</strong> <?= esc($game['platform']) ?></p>
@@ -22,11 +32,6 @@
                         <p><strong>Statut :</strong> <?= esc($game['status']) ?></p>
                         <p><strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h</p>
                         <p><strong>Notes :</strong> <?= esc($game['notes']) ?></p>
-                        <form class="delete-game-form" data-id="<?= $game['id'] ?>">
-                            <button type="submit" class="btn btn-danger" title="Supprimer" style="padding:6px 18px;font-size:1.1rem;line-height:1.1;border-radius:8px;background:#ff6f61;border:none;display:block;margin:18px auto 0 auto;">
-                                &times;
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
