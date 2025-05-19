@@ -25,7 +25,6 @@
                         </form>
                     </div>
                     <div class="card-back-content">
-                        <h3><?= esc($game['name']) ?></h3>
                         <p><strong>Plateforme :</strong> <?= esc($game['platform']) ?></p>
                         <p><strong>Année :</strong> <?= esc($game['release_date']) ?></p>
                         <p><strong>Genre :</strong> <?= esc($game['category']) ?></p>
