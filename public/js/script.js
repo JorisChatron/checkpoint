@@ -113,15 +113,33 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(form);
-            fetch('/checkpoint/public/mes-jeux/add', {
+            
+            // Détermine l'URL en fonction de la page actuelle
+            const isWishlistPage = window.location.pathname.includes('wishlist');
+            const endpoint = isWishlistPage ? '/checkpoint/public/wishlist/add' : '/checkpoint/public/mes-jeux/add';
+            
+            console.log('Envoi du formulaire à :', endpoint);
+            console.log('Données du formulaire :', Object.fromEntries(formData));
+            
+            fetch(endpoint, {
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
+            .then(res => {
+                console.log('Réponse reçue :', res);
+                return res.json();
+            })
             .then(data => {
+                console.log('Données reçues :', data);
                 if (data.success) {
                     location.reload();
+                } else {
+                    alert(data.error || 'Une erreur est survenue');
                 }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi du formulaire :', error);
+                alert('Une erreur est survenue lors de l\'envoi du formulaire');
             });
         });
     }
@@ -129,9 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.delete-game-form').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            if (!confirm('Supprimer ce jeu de votre bibliothèque ?')) return;
-            const gameStatsId = this.getAttribute('data-id');
-            fetch(`/checkpoint/public/mes-jeux/delete/${gameStatsId}`, {
+            if (!confirm('Supprimer ce jeu ?')) return;
+            
+            const gameId = this.getAttribute('data-id');
+            // Détermine l'URL en fonction de la page actuelle
+            const isWishlistPage = window.location.pathname.includes('wishlist');
+            const endpoint = isWishlistPage ? `/checkpoint/public/wishlist/delete/${gameId}` : `/checkpoint/public/mes-jeux/delete/${gameId}`;
+            
+            fetch(endpoint, {
                 method: 'POST'
             })
             .then(res => res.json())
