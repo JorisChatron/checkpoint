@@ -14,18 +14,20 @@
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="carousel-cover">
                 </div>
                 <div class="card-back">
-                    <h3><?= esc($game['name']) ?></h3>
-                    <p><strong>Plateforme :</strong> <?= esc($game['platform']) ?></p>
-                    <p><strong>Année :</strong> <?= esc($game['release_date']) ?></p>
-                    <p><strong>Genre :</strong> <?= esc($game['category']) ?></p>
-                    <p><strong>Statut :</strong> <?= esc($game['status']) ?></p>
-                    <p><strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h</p>
-                    <p><strong>Notes :</strong> <?= esc($game['notes']) ?></p>
-                    <form class="delete-game-form" data-id="<?= $game['id'] ?>">
-                        <button type="submit" class="btn btn-danger" title="Supprimer" style="padding:6px 18px;font-size:1.1rem;line-height:1.1;border-radius:8px;background:#ff6f61;border:none;display:block;margin:18px auto 0 auto;">
-                            &times;
-                        </button>
-                    </form>
+                    <div class="card-back-content">
+                        <h3><?= esc($game['name']) ?></h3>
+                        <p><strong>Plateforme :</strong> <?= esc($game['platform']) ?></p>
+                        <p><strong>Année :</strong> <?= esc($game['release_date']) ?></p>
+                        <p><strong>Genre :</strong> <?= esc($game['category']) ?></p>
+                        <p><strong>Statut :</strong> <?= esc($game['status']) ?></p>
+                        <p><strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h</p>
+                        <p><strong>Notes :</strong> <?= esc($game['notes']) ?></p>
+                        <form class="delete-game-form" data-id="<?= $game['id'] ?>">
+                            <button type="submit" class="btn btn-danger" title="Supprimer" style="padding:6px 18px;font-size:1.1rem;line-height:1.1;border-radius:8px;background:#ff6f61;border:none;display:block;margin:18px auto 0 auto;">
+                                &times;
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
