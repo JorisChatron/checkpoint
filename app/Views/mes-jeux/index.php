@@ -19,11 +19,6 @@
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="carousel-cover">
                 </div>
                 <div class="card-back">
-                    <div class="card-actions">
-                        <form class="delete-game-form" data-id="<?= $game['id'] ?>">
-                            <button type="submit" class="btn btn-danger btn-delete-card" title="Supprimer">&times;</button>
-                        </form>
-                    </div>
                     <div class="card-back-content">
                         <p><strong>Plateforme :</strong> <?= esc($game['platform']) ?></p>
                         <p><strong>Année :</strong> <?= esc($game['release_date']) ?></p>
