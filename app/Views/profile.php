@@ -32,13 +32,16 @@
 </div>
 
 <h3 class="profile-section-title">Mon Top 5</h3>
+<button id="openTop5Modal" class="btn btn-primary" style="margin-bottom:1.2rem;">Choisir mon top 5</button>
 <div class="dashboard-row" id="top5-profile">
     <?php if (!empty($top5)): ?>
         <?php foreach ($top5 as $game): ?>
             <div class="game-card" draggable="true" data-id="<?= $game['id'] ?>">
-                <?php if (!empty($game['cover'])): ?>
-                    <img src="<?= base_url($game['cover']) ?>" alt="<?= esc($game['name']) ?>" style="max-width:60px; max-height:60px; border-radius:8px; margin-right:10px;">
-                <?php endif; ?>
+                <?php
+                    $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
+                    $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
+                ?>
+                <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="max-width:60px; max-height:60px; border-radius:8px; margin-right:10px;">
                 <div>
                     <span style="font-weight:bold; color:#9B5DE5;">#<?= esc($game['position']) ?></span> <span><?= esc($game['name']) ?></span><br>
                     <span style="font-size:0.95em; color:#BB86FC;">[<?= esc($game['platform']) ?>, <?= esc($game['release_date']) ?>, <?= esc($game['category']) ?>]</span>
@@ -48,6 +51,34 @@
     <?php else: ?>
         <p style="color:#9B5DE5;">Aucun jeu dans le top 5 pour l'instant.</p>
     <?php endif; ?>
+</div>
+
+<!-- Modal de sélection du top 5 -->
+<div id="top5Modal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+        <button class="modal-close" id="closeTop5Modal">&times;</button>
+        <h2>Choisissez vos 5 jeux favoris</h2>
+        <form id="top5Form">
+            <div style="max-height:320px;overflow-y:auto;">
+                <?php foreach ($allGames as $game): ?>
+                    <?php
+                        $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
+                        $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
+                    ?>
+                    <div style="display:flex;align-items:center;margin-bottom:0.7rem;">
+                        <input type="checkbox" name="top5[]" value="<?= $game['id'] ?>" id="game<?= $game['id'] ?>" class="top5-checkbox" style="margin-right:10px;">
+                        <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;margin-right:10px;">
+                        <label for="game<?= $game['id'] ?>" style="cursor:pointer;">
+                            <?= esc($game['name']) ?> <span style="color:#BB86FC;font-size:0.95em;">[<?= esc($game['platform']) ?>]</span>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div style="margin-top:1.2rem;text-align:center;">
+                <button type="submit" class="btn btn-primary">Valider</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- JavaScript pour la preview -->
@@ -158,6 +189,66 @@
             .catch(error => {
                 showToast('error', 'Erreur lors de la sauvegarde du top 5');
                 setTimeout(() => location.reload(), 1200);
+            });
+        }
+
+        // Modal top 5
+        const openTop5Modal = document.getElementById('openTop5Modal');
+        const closeTop5Modal = document.getElementById('closeTop5Modal');
+        const top5Modal = document.getElementById('top5Modal');
+        const top5Form = document.getElementById('top5Form');
+
+        if(openTop5Modal && closeTop5Modal && top5Modal) {
+            openTop5Modal.addEventListener('click', () => {
+                top5Modal.classList.add('active');
+            });
+            closeTop5Modal.addEventListener('click', () => {
+                top5Modal.classList.remove('active');
+            });
+            window.addEventListener('click', (e) => {
+                if(e.target === top5Modal) top5Modal.classList.remove('active');
+            });
+        }
+
+        // Limite à 5 cases cochées
+        const checkboxes = document.querySelectorAll('.top5-checkbox');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const checked = document.querySelectorAll('.top5-checkbox:checked');
+                if(checked.length > 5) {
+                    cb.checked = false;
+                    showToast('error', 'Vous ne pouvez choisir que 5 jeux.');
+                }
+            });
+        });
+
+        // Soumission du top 5
+        if(top5Form) {
+            top5Form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const checked = Array.from(document.querySelectorAll('.top5-checkbox:checked')).map(cb => cb.value);
+                if(checked.length !== 5) {
+                    showToast('error', 'Veuillez sélectionner exactement 5 jeux.');
+                    return;
+                }
+                fetch('/checkpoint/public/profile/setTop5', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ top5: checked })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        showToast('success', 'Top 5 mis à jour !');
+                        setTimeout(() => location.reload(), 1200);
+                    } else {
+                        showToast('error', data.error || 'Erreur lors de la mise à jour du top 5');
+                    }
+                })
+                .catch(() => showToast('error', 'Erreur lors de la requête.'));
             });
         }
     });

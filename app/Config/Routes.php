@@ -21,4 +21,5 @@ $routes->post('mes-jeux/add', 'MesJeux::add');
 $routes->post('mes-jeux/delete/(:num)', 'MesJeux::delete/$1');
 $routes->post('wishlist/add', 'WishlistController::add');
 $routes->post('wishlist/delete/(:num)', 'WishlistController::delete/$1');
+$routes->post('profile/setTop5', 'UserController::setTop5');
 
