@@ -33,16 +33,16 @@ $this->section('content');
 <div class="wishlist-carousel">
     <?php foreach ($wishlist as $game): ?>
         <div class="wishlist-card">
-            <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" 
-                 alt="<?= esc($game['name']) ?>" 
-                 class="card-cover">
-            
+            <div class="card-cover-container">
+                <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" 
+                     alt="<?= esc($game['name']) ?>" 
+                     class="card-cover">
+            </div>
             <div class="card-actions">
                 <form class="delete-game-form" data-id="<?= $game['id'] ?>">
                     <button type="submit" class="btn-action delete" title="Supprimer">&times;</button>
                 </form>
             </div>
-
             <div class="card-info">
                 <h3 class="card-title"><?= esc($game['name']) ?></h3>
                 <div class="card-details">

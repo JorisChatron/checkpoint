@@ -34,19 +34,28 @@
 <?php if (!empty($games)): ?>
 <div class="dashboard-row">
     <?php foreach ($games as $game): ?>
-        <div class="game-card">
-            <?php if (!empty($game['cover'])): ?>
-                <img src="<?= esc($game['cover']) ?>" alt="Jaquette" style="max-width:60px; max-height:60px; border-radius:8px; margin-right:10px;">
-            <?php endif; ?>
-            <div>
-                <span style="font-weight:bold; color:#9B5DE5;"><?= esc($game['name']) ?></span><br>
-                <span style="font-size:0.95em; color:#BB86FC;">[<?= esc($game['platform']) ?>, <?= esc($game['release_date']) ?>, <?= esc($game['category']) ?>]</span><br>
-                <span style="font-size:0.95em; color:#E0F7FA;">Statut : <?= esc($game['status']) ?> | <?= esc($game['play_time']) ?> h</span>
-                <br><span style="font-size:0.95em; color:#E0F7FA;">Notes : <?= esc($game['notes']) ?></span>
+        <div class="game-card carousel-card">
+            <div class="card-front">
+                <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
+                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;"><?= esc($game['name']) ?></span>
+                </div>
+                <div class="card-cover-container" style="height:100%;">
+                    <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="card-cover">
+                </div>
             </div>
-            <form class="delete-game-form" data-id="<?= $game['id'] ?>" style="margin-left:auto;">
-                <button type="submit" class="btn-action delete" title="Supprimer">&times;</button>
-            </form>
+            <div class="card-back">
+                <div style="padding: 1rem; color: #E0F7FA; width: 100%;">
+                    <strong>Plateforme :</strong> <?= esc($game['platform']) ?><br>
+                    <strong>Année :</strong> <?= esc($game['release_date']) ?><br>
+                    <strong>Genre :</strong> <?= esc($game['category']) ?><br>
+                    <strong>Statut :</strong> <?= esc($game['status']) ?><br>
+                    <strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h<br>
+                    <strong>Notes :</strong> <?= esc($game['notes']) ?>
+                    <form class="delete-game-form" data-id="<?= $game['id'] ?>" style="margin-top:1rem;">
+                        <button type="submit" class="btn-action delete" title="Supprimer">&times;</button>
+                    </form>
+                </div>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>
