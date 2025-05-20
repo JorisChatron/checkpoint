@@ -33,18 +33,19 @@ $this->section('content');
 <div class="wishlist-carousel">
     <?php foreach ($wishlist as $game): ?>
         <div class="wishlist-card">
-            <div class="card-cover-container">
-                <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" 
-                     alt="<?= esc($game['name']) ?>" 
-                     class="card-cover">
+            <div style="width:100%;display:flex;justify-content:center;align-items:center;margin-top:1.2rem;">
+                <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>"
+                     alt="<?= esc($game['name']) ?>"
+                     class="card-cover"
+                     style="width:180px;height:180px;object-fit:cover;border-radius:12px;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;background:#1E1E2F;display:block;">
             </div>
             <div class="card-actions">
                 <form class="delete-game-form" data-id="<?= $game['id'] ?>">
                     <button type="submit" class="btn-action delete" title="Supprimer">&times;</button>
                 </form>
             </div>
-            <div class="card-info">
-                <h3 class="card-title"><?= esc($game['name']) ?></h3>
+            <div class="card-info" style="margin-top:1.2rem;">
+                <h3 class="card-title" style="text-align:center;"><?= esc($game['name']) ?></h3>
                 <div class="card-details">
                     <div class="card-detail">
                         <strong>Plateforme</strong>
