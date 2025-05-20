@@ -1533,3 +1533,19 @@ textarea:hover {
     border-color: #00E5FF !important;
 }
 
+/* Style pour les cartes des derniers jeux joués */
+.game-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block; /* Pour s'assurer que l'image est bien visible */
+}
+
+.game-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
