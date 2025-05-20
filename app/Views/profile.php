@@ -5,13 +5,13 @@
 
 <div class="profile-container">
     <!-- L'image de profil sera remplacée par la preview -->
-    <img id="preview" src="<?= base_url($user['profile_picture']) ?>" alt="Photo de profil" class="profile-picture" style="max-width: 100px; max-height: 100px; border-radius: 50%; object-fit: cover;">
-    <form action="<?= base_url('profile/upload') ?>" method="post" enctype="multipart/form-data">
-        <div class="file-upload">
-            <label for="profile_picture" class="custom-file-label">Choisir un fichier</label>
-            <input type="file" id="profile_picture" name="profile_picture" class="custom-file-input" accept="image/*">
+    <img id="preview" src="<?= base_url($user['profile_picture']) ?>" alt="Photo de profil" class="profile-picture" style="max-width: 100px; max-height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1.2rem;">
+    <form action="<?= base_url('profile/upload') ?>" method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:320px;margin:0 auto;">
+        <div class="file-upload" style="width:100%;margin-bottom:0.7rem;">
+            <label for="profile_picture" class="custom-file-label" style="width:100%;box-sizing:border-box;">Choisir un fichier</label>
+            <input type="file" id="profile_picture" name="profile_picture" class="custom-file-input" accept="image/*" style="width:100%;">
         </div>
-        <button type="submit">Mettre à jour</button>
+        <button type="submit" style="width:100%;box-sizing:border-box;">Mettre à jour</button>
     </form>
 </div>
 
