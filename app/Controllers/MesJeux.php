@@ -12,15 +12,57 @@ class MesJeux extends BaseController
     {
         $userId = session()->get('user_id');
         $gameStatsModel = new GameStatsModel();
-        $games = $gameStatsModel
+
+        // Récupération des filtres
+        $platform = $this->request->getGet('platform');
+        $status = $this->request->getGet('status');
+        $genre = $this->request->getGet('genre');
+
+        $builder = $gameStatsModel
             ->select('game_stats.*, games.name, games.platform, games.release_date, games.category, games.cover')
             ->join('games', 'games.id = game_stats.game_id')
+            ->where('game_stats.user_id', $userId);
+
+        if ($platform) {
+            $builder->where('games.platform', $platform);
+        }
+        if ($status) {
+            $builder->where('game_stats.status', $status);
+        }
+        if ($genre) {
+            $builder->like('games.category', $genre);
+        }
+
+        $games = $builder->findAll();
+
+        // Pour les filtres dynamiques (liste unique des plateformes, statuts, genres)
+        $platforms = $gameStatsModel
+            ->select('games.platform')
+            ->join('games', 'games.id = game_stats.game_id')
             ->where('game_stats.user_id', $userId)
+            ->groupBy('games.platform')
+            ->findAll();
+        $statuses = $gameStatsModel
+            ->select('game_stats.status')
+            ->where('game_stats.user_id', $userId)
+            ->groupBy('game_stats.status')
+            ->findAll();
+        $genres = $gameStatsModel
+            ->select('games.category')
+            ->join('games', 'games.id = game_stats.game_id')
+            ->where('game_stats.user_id', $userId)
+            ->groupBy('games.category')
             ->findAll();
 
         return view('mes-jeux/index', [
             'title' => 'Mes Jeux',
-            'games' => $games
+            'games' => $games,
+            'platforms' => $platforms,
+            'statuses' => $statuses,
+            'genres' => $genres,
+            'selectedPlatform' => $platform,
+            'selectedStatus' => $status,
+            'selectedGenre' => $genre,
         ]);
     }
 

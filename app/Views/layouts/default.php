@@ -6,7 +6,7 @@
     <title><?= esc($title ?? 'Checkpoint') ?></title>
     <link rel="icon" type="image/png" href="<?= base_url('images/icon.png') ?>" sizes="32x32">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= base_url('public/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
     <script defer>
         document.addEventListener('DOMContentLoaded', () => {
             const burger = document.querySelector('.burger');
@@ -22,6 +22,8 @@
     <main>
         <?= $this->renderSection('content') ?>
     </main>
+    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; top: 30px; right: 30px; z-index: 9999;"></div>
+    <script src="<?= base_url('js/script.js') ?>" defer></script>
 </body>
 </html>
 

@@ -23,22 +23,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModalButton = document.getElementById('closeModal');
     const modal = document.getElementById('addGameModal');
 
-    // Ouvrir le modal
-    openModalButton.addEventListener('click', () => {
-        modal.style.display = 'flex';
-    });
-
-    // Fermer le modal
-    closeModalButton.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    // Fermer le modal en cliquant à l'extérieur
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+    if (openModalButton && modal) {
+        openModalButton.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+    }
+    if (closeModalButton && modal) {
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+    }
+    if (modal) {
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    }
 
     const searchGameInput = document.getElementById('searchGame');
     const suggestionsList = document.getElementById('suggestions');
@@ -46,11 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const genreInput = document.getElementById('genre');
     const coverInput = document.getElementById('cover');
     const coverPreview = document.getElementById('coverPreview');
+    const coverPreviewContainer = document.getElementById('coverPreviewContainer');
 
     const API_KEY = 'ff6f7941c211456c8806541638fdfaff'; // Remplacez par votre clé API RAWG
 
     // Masquer l'aperçu de la jaquette au chargement
-    coverPreview.classList.add('hidden');
+    if (coverPreview) coverPreview.classList.add('hidden');
+    if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
 
     searchGameInput.addEventListener('input', async () => {
         const query = searchGameInput.value;
@@ -73,15 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             releaseYearInput.value = game.released ? game.released.split('-')[0] : '';
                             genreInput.value = game.genres.map(genre => genre.name).join(', ');
                             coverInput.value = game.background_image;
-
+                            if (game.platforms && game.platforms.length > 0) {
+                                const platforms = game.platforms.map(p => p.platform.name).join(', ');
+                                document.getElementById('platform').value = platforms;
+                            } else {
+                                document.getElementById('platform').value = '';
+                            }
                             // Affiche l'aperçu de la jaquette si une image est disponible
                             if (game.background_image) {
                                 coverPreview.src = game.background_image;
                                 coverPreview.classList.remove('hidden');
+                                if (coverPreviewContainer) coverPreviewContainer.classList.remove('hidden');
                             } else {
                                 coverPreview.classList.add('hidden');
+                                if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
                             }
-
                             // Vide les suggestions
                             suggestionsList.innerHTML = '';
                         });
@@ -98,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Vide les suggestions si moins de 2 caractères
             suggestionsList.innerHTML = '';
+            if (coverPreview) coverPreview.classList.add('hidden');
+            if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
         }
     });
 
@@ -113,33 +124,24 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(form);
-            
             // Détermine l'URL en fonction de la page actuelle
             const isWishlistPage = window.location.pathname.includes('wishlist');
             const endpoint = isWishlistPage ? '/checkpoint/public/wishlist/add' : '/checkpoint/public/mes-jeux/add';
-            
-            console.log('Envoi du formulaire à :', endpoint);
-            console.log('Données du formulaire :', Object.fromEntries(formData));
-            
             fetch(endpoint, {
                 method: 'POST',
                 body: formData
             })
-            .then(res => {
-                console.log('Réponse reçue :', res);
-                return res.json();
-            })
+            .then(res => res.json())
             .then(data => {
-                console.log('Données reçues :', data);
                 if (data.success) {
-                    location.reload();
+                    showToast('success', 'Jeu ajouté avec succès !');
+                    setTimeout(() => location.reload(), 1200);
                 } else {
-                    alert(data.error || 'Une erreur est survenue');
+                    showToast('error', data.error || 'Une erreur est survenue');
                 }
             })
             .catch(error => {
-                console.error('Erreur lors de l\'envoi du formulaire :', error);
-                alert('Une erreur est survenue lors de l\'envoi du formulaire');
+                showToast('error', 'Erreur lors de l\'envoi du formulaire');
             });
         });
     }
@@ -148,18 +150,20 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             if (!confirm('Supprimer ce jeu ?')) return;
-            
             const gameId = this.getAttribute('data-id');
-            // Détermine l'URL en fonction de la page actuelle
             const isWishlistPage = window.location.pathname.includes('wishlist');
             const endpoint = isWishlistPage ? `/checkpoint/public/wishlist/delete/${gameId}` : `/checkpoint/public/mes-jeux/delete/${gameId}`;
-            
             fetch(endpoint, {
                 method: 'POST'
             })
             .then(res => res.json())
             .then(data => {
-                if (data.success) location.reload();
+                if (data.success) {
+                    showToast('success', 'Jeu supprimé avec succès !');
+                    setTimeout(() => location.reload(), 1200);
+                } else {
+                    showToast('error', data.error || 'Erreur lors de la suppression');
+                }
             });
         });
     });
@@ -179,8 +183,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (coverInput.value) {
         coverPreview.src = coverInput.value;
         coverPreview.classList.remove('hidden');
+        if (coverPreviewContainer) coverPreviewContainer.classList.remove('hidden');
     } else {
-        coverPreview.src = '/public/images/default-cover.png';
-        coverPreview.classList.remove('hidden');
+        coverPreview.src = '';
+        coverPreview.classList.add('hidden');
+        if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
     }
 });
+
+// Toast notifications
+window.showToast = function(type, message) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('tabindex', '0');
+    toast.innerHTML = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-20px) scale(0.98)';
+        setTimeout(() => container.removeChild(toast), 400);
+    }, 2600);
+    toast.focus();
+};

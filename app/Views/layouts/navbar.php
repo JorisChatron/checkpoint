@@ -1,19 +1,4 @@
 <?php helper('url'); ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkpoint</title>
-
-    <!-- Inclusion des fichiers CSS -->
-    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-    <link rel="icon" href="<?= base_url('favicon.ico') ?>" type="image/x-icon">
-
-    <!-- Inclusion des fichiers JS -->
-    <script src="<?= base_url('js/script.js') ?>" defer></script>
-</head>
-<body>
 <header>
     <nav class="navbar">
         <!-- Section des liens principaux -->
@@ -49,7 +34,5 @@
         </div>
     </nav>
 </header>
-</body>
-</html>
 
 

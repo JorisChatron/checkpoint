@@ -14,15 +14,47 @@ class WishlistController extends BaseController
         }
 
         $model = new WishlistModel();
-        $wishlist = $model
+
+        // Récupération des filtres
+        $platform = $this->request->getGet('platform');
+        $status = $this->request->getGet('status');
+        $genre = $this->request->getGet('genre');
+
+        $builder = $model
             ->select('wishlist.*, games.name, games.platform, games.release_date, games.category, games.cover')
             ->join('games', 'games.id = wishlist.game_id')
-            ->where('wishlist.user_id', $userId)
-            ->findAll();
+            ->where('wishlist.user_id', $userId);
+
+        if ($platform) {
+            $builder->where('games.platform', $platform);
+        }
+        if ($status) {
+            $builder->where('wishlist.status', $status);
+        }
+        if ($genre) {
+            $builder->where('games.category', $genre);
+        }
+
+        $wishlist = $builder->findAll();
+
+        // Récupérer les valeurs distinctes pour les filtres
+        $platforms = $model->select('games.platform')->join('games', 'games.id = wishlist.game_id')->where('wishlist.user_id', $userId)->distinct()->findAll();
+        $genres = $model->select('games.category')->join('games', 'games.id = wishlist.game_id')->where('wishlist.user_id', $userId)->distinct()->findAll();
+        $statuses = [
+            ['status' => 'souhaité'],
+            ['status' => 'acheté'],
+            ['status' => 'joué']
+        ];
 
         return view('wishlist/index', [
             'title' => 'Ma Wishlist',
-            'wishlist' => $wishlist
+            'wishlist' => $wishlist,
+            'platforms' => $platforms,
+            'genres' => $genres,
+            'statuses' => $statuses,
+            'selectedPlatform' => $platform,
+            'selectedStatus' => $status,
+            'selectedGenre' => $genre
         ]);
     }
 
