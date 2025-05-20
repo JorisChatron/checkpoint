@@ -5,7 +5,7 @@ $this->section('content');
 ?>
 
 <section class="dashboard-home">
-    <h2>Derniers jeux joués</h2>
+    <h2>Derniers jeux ajoutés</h2>
     <div class="dashboard-row" id="last-played-games">
         <?php foreach (($lastPlayedGames ?? []) as $game): ?>
             <div class="game-card" style="position:relative; padding:0;">
