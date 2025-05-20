@@ -133,25 +133,18 @@ header {
 
 /* Liste des suggestions */
 .suggestions-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    background-color: #1E1E2F;
-    border: 1px solid #BB86FC;
-    border-radius: 8px;
-    max-height: 200px;
-    overflow-y: auto;
     position: absolute;
+    top: 100%;
+    left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 2px;
 }
 
 .suggestions-list:empty {
     display: none;
     border: none;
 }
-
 
 .suggestions-list li {
     padding: 10px;
