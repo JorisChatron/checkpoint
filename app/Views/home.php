@@ -25,7 +25,7 @@ $this->section('content');
 
     <h2>Mon top 5</h2>
     <div class="dashboard-row" id="top5-games">
-        <?php foreach (($top5 ?? []) as $game): ?>
+        <?php foreach (($top5 ?? []) as $idx => $game): ?>
             <div class="game-card" style="position:relative; padding:0;">
                 <?php
                     $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
@@ -34,7 +34,7 @@ $this->section('content');
                 <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
                 <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
                     <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
-                        <?= esc($game['name']) ?>
+                        #<?= $idx+1 ?> <?= esc($game['name']) ?>
                     </span>
                 </div>
             </div>

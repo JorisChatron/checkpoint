@@ -17,18 +17,11 @@
 
 <h3 class="profile-section-title">Statistiques</h3>
 <div class="dashboard-stats">
-    <div class="stat-card">
-        <span><?= esc($stats['nbGames']) ?></span><br>Jeux possédés
-    </div>
-    <div class="stat-card">
-        <span><?= esc($stats['nbWishlist']) ?></span><br>En wishlist
-    </div>
-    <div class="stat-card">
-        <span><?= esc($stats['totalPlayTime'] ?? 0) ?></span><br>Heures de jeu
-    </div>
-    <div class="stat-card">
-        <span><?= esc($stats['nbFinished']) ?></span><br>Jeux terminés
-    </div>
+    <div class="stat-card">Jeux possédés : <span><?= esc($stats['nbGames'] ?? 0) ?></span></div>
+    <div class="stat-card">Jeux terminés : <span><?= esc($stats['nbFinished'] ?? 0) ?></span></div>
+    <div class="stat-card">Temps de jeu global : <span><?= esc($stats['totalPlayTime'] ?? '0h') ?></span></div>
+    <div class="stat-card">Jeux attendus : <span><?= esc($stats['nbExpected'] ?? 0) ?></span></div>
+    <div class="stat-card">Jeux complétés : <span><?= esc($stats['nbCompleted'] ?? 0) ?></span></div>
 </div>
 
 <h3 class="profile-section-title">Mon Top 5</h3>

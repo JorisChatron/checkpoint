@@ -27,15 +27,22 @@ class UserModel extends Model
         $nbGames = $db->table('game_stats')->where('user_id', $userId)->countAllResults();
         // Nombre de jeux en wishlist
         $nbWishlist = $db->table('wishlist')->where('user_id', $userId)->countAllResults();
-        // Temps de jeu total
-        $totalPlayTime = $db->table('game_stats')->selectSum('play_time')->where('user_id', $userId)->get()->getRow('play_time') ?? 0;
-        // Nombre de jeux terminés (progress = 100)
-        $nbFinished = $db->table('game_stats')->where('user_id', $userId)->where('progress', 100)->countAllResults();
+        // Temps de jeu total (formaté en heures)
+        $playtime = $db->table('game_stats')->selectSum('play_time')->where('user_id', $userId)->get()->getRow('play_time') ?? 0;
+        $playtimeStr = ((int)$playtime) . 'h';
+        // Nombre de jeux terminés (status = 'termine')
+        $nbFinished = $db->table('game_stats')->where('user_id', $userId)->where('status', 'termine')->countAllResults();
+        // Nombre de jeux complétés (status = 'complete')
+        $nbCompleted = $db->table('game_stats')->where('user_id', $userId)->where('status', 'complete')->countAllResults();
+        // Nombre de jeux attendus (wishlist.status = 'souhaité')
+        $nbExpected = $db->table('wishlist')->where('user_id', $userId)->where('status', 'souhaité')->countAllResults();
         return [
             'nbGames' => $nbGames,
             'nbWishlist' => $nbWishlist,
-            'totalPlayTime' => $totalPlayTime,
-            'nbFinished' => $nbFinished
+            'totalPlayTime' => $playtimeStr,
+            'nbFinished' => $nbFinished,
+            'nbCompleted' => $nbCompleted,
+            'nbExpected' => $nbExpected
         ];
     }
 }
