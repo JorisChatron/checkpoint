@@ -1490,3 +1490,44 @@ textarea:hover {
     max-height: 100%;
 }
 
+.carousel-card .btn-action.delete {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    border-radius: 50%;
+    background: rgba(31, 27, 46, 0.4) !important;
+    color: #E0F7FA !important;
+    border: 2px solid #7F39FB !important;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, background 0.2s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: none;
+}
+
+.carousel-card:hover .card-front .btn-action.delete {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.carousel-card.flipped .btn-action.delete {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.carousel-card .btn-action.delete:hover {
+    background: rgba(127, 57, 251, 0.7) !important;
+    color: #00E5FF !important;
+    border-color: #00E5FF !important;
+}
+

@@ -37,8 +37,11 @@
         <div class="game-card carousel-card">
             <div class="card-front">
                 <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
-                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;"><?= esc($game['name']) ?></span>
+                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
+                        <?= esc($game['name']) ?>
+                    </span>
                 </div>
+                <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">&times;</button>
                 <div class="card-cover-container" style="height:100%;">
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="card-cover">
                 </div>
@@ -51,9 +54,6 @@
                     <strong>Statut :</strong> <?= esc($game['status']) ?><br>
                     <strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h<br>
                     <strong>Notes :</strong> <?= esc($game['notes']) ?>
-                    <form class="delete-game-form" data-id="<?= $game['id'] ?>" style="margin-top:1rem;">
-                        <button type="submit" class="btn-action delete" title="Supprimer">&times;</button>
-                    </form>
                 </div>
             </div>
         </div>
