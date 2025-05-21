@@ -4,8 +4,10 @@
         <!-- Section des liens principaux (desktop uniquement) -->
         <div class="navbar-section navbar-links navbar-desktop-only">
             <a href="<?= base_url() ?>">Accueil</a>
-            <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
-            <a href="<?= base_url('wishlist') ?>">Wishlist</a>
+            <?php if (session()->get('user_id')) : ?>
+                <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
+                <a href="<?= base_url('wishlist') ?>">Wishlist</a>
+            <?php endif; ?>
         </div>
 
         <!-- Logo centré -->
@@ -23,9 +25,9 @@
             <div class="dropdown hidden" id="burger-dropdown">
                 <ul>
                     <li class="navbar-mobile-only"><a href="<?= base_url() ?>">Accueil</a></li>
-                    <li class="navbar-mobile-only"><a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a></li>
-                    <li class="navbar-mobile-only"><a href="<?= base_url('wishlist') ?>">Wishlist</a></li>
                     <?php if (session()->get('user_id')) : ?>
+                        <li class="navbar-mobile-only"><a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a></li>
+                        <li class="navbar-mobile-only"><a href="<?= base_url('wishlist') ?>">Wishlist</a></li>
                         <li><a href="<?= base_url('profile') ?>">Profil</a></li>
                         <li><a href="<?= site_url('logout') ?>">Déconnexion</a></li>
                     <?php else : ?>
