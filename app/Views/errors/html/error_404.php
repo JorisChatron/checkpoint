@@ -66,7 +66,7 @@
             }
             .error-code {
                 font-size: 3.2rem;
-            }
+        }
             .error-title {
                 font-size: 1.2rem;
             }

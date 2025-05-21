@@ -11,7 +11,12 @@ class Home extends BaseController
     {
         $userId = session()->get('user_id');
         if (!$userId) {
-            return redirect()->to('/login');
+            // Visiteur non connecté : on affiche la page d'accueil publique
+            return view('home', [
+                'lastPlayedGames' => [],
+                'top5' => [],
+                'stats' => []
+            ]);
         }
 
         $db = \Config\Database::connect();

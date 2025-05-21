@@ -12,7 +12,7 @@
 
         <!-- Logo centré -->
         <div class="logo-container">
-            <a href="<?= base_url() ?>"> <!-- Lien vers la page d'accueil -->
+            <a href="<?= base_url() ?>"> <!-- Toujours la page d'accueil publique -->
                 <img src="<?= base_url('images/logo.png') ?>" alt="Logo" class="logo">
             </a>
         </div>

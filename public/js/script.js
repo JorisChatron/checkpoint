@@ -24,21 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('addGameModal');
 
     if (openModalButton && modal) {
-        openModalButton.addEventListener('click', () => {
+    openModalButton.addEventListener('click', () => {
             modal.classList.add('active');
-        });
+    });
     }
     if (closeModalButton && modal) {
-        closeModalButton.addEventListener('click', () => {
+    closeModalButton.addEventListener('click', () => {
             modal.classList.remove('active');
-        });
+    });
     }
     if (modal) {
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
                 modal.classList.remove('active');
-            }
-        });
+        }
+    });
     }
 
     const searchGameInput = document.getElementById('searchGame');

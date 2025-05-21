@@ -35,18 +35,18 @@
 <div class="dashboard-row">
     <?php foreach ($games as $game): ?>
         <div class="game-card carousel-card">
-            <div class="card-front">
+                <div class="card-front">
                 <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
                     <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
                         <?= esc($game['name']) ?>
                     </span>
-                </div>
+                    </div>
                 <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">&times;</button>
                 <div class="card-cover-container" style="height:100%;">
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="card-cover">
                 </div>
-            </div>
-            <div class="card-back">
+                </div>
+                <div class="card-back">
                 <div style="padding: 1rem; color: #E0F7FA; width: 100%;">
                     <strong>Plateforme :</strong> <?= esc($game['platform']) ?><br>
                     <strong>Année :</strong> <?= esc($game['release_date']) ?><br>
@@ -89,8 +89,8 @@
                 <input type="text" id="genre" name="genre" placeholder="Genre" readonly>
             </div>
             <div class="form-group">
-                <label for="cover">Jaquette :</label>
-                <input type="text" id="cover" name="cover" placeholder="URL de la jaquette" readonly>
+                    <label for="cover">Jaquette :</label>
+                    <input type="text" id="cover" name="cover" placeholder="URL de la jaquette" readonly>
                 <div class="form-preview cover-preview-container hidden" id="coverPreviewContainer">
                     <img id="coverPreview" src="" alt="Aperçu de la jaquette" class="hidden">
                     <span>Aperçu de la jaquette</span>

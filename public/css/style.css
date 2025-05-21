@@ -822,12 +822,12 @@ form button:active {
 }
 @media (max-width: 700px) {
     .modal-content .form-row {
-        flex-direction: column;
+    flex-direction: column;
         gap: 0.7rem;
         align-items: stretch;
     }
     .modal-content .form-row .form-group {
-        width: 100%;
+    width: 100%;
         max-width: 100%;
     }
 }
@@ -1051,7 +1051,7 @@ form button:active {
         padding: 0.7rem 0.5rem;
     }
     .filters-bar select {
-        width: 100%;
+    width: 100%;
         min-width: unset;
     }
 }
@@ -1262,7 +1262,7 @@ form button:active {
     .auth-section {
         padding: 1.2rem 0.5rem;
         max-width: 98vw;
-    }
+}
     .auth-title {
         font-size: 1.3rem;
     }
@@ -1325,7 +1325,7 @@ form button:active {
     .toast {
         min-width: 90vw;
         max-width: 98vw;
-        font-size: 0.98rem;
+    font-size: 0.98rem;
         padding: 0.8rem 0.7rem;
     }
 }
@@ -1549,5 +1549,48 @@ textarea:hover {
 @media (max-width: 768px) {
   .navbar-desktop-only { display: none !important; }
   .navbar-mobile-only { display: block !important; }
+}
+
+/* Boutons page d'accueil publique */
+.home-btn {
+    display: inline-block;
+    width: 260px;
+    max-width: 90vw;
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    padding: 1rem 0;
+    font-size: 1.15rem;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 10px;
+    border: 2px solid #7F39FB;
+    background: linear-gradient(90deg, #7F39FB 80%, #9B5DE5 100%);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 12px #7F39FB33;
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+    text-align: center;
+    cursor: pointer;
+}
+.home-btn:hover {
+    background: linear-gradient(90deg, #9B5DE5 80%, #00E5FF 100%);
+    color: #1E1E2F;
+    border-color: #00E5FF;
+    box-shadow: 0 6px 24px #00E5FF55;
+    transform: translateY(-2px) scale(1.04);
+}
+.home-btn:active {
+    background: #5A189A;
+    color: #fff;
+    transform: scale(0.98);
+}
+
+/* Conteneur pour centrer et espacer les boutons */
+.home-btns-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 2.5rem 0 1.5rem 0;
 }
 
