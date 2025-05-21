@@ -1,8 +1,8 @@
 <?php helper('url'); ?>
 <header>
     <nav class="navbar">
-        <!-- Section des liens principaux -->
-        <div class="navbar-section navbar-links">
+        <!-- Section des liens principaux (desktop uniquement) -->
+        <div class="navbar-section navbar-links navbar-desktop-only">
             <a href="<?= base_url() ?>">Accueil</a>
             <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
             <a href="<?= base_url('wishlist') ?>">Wishlist</a>
@@ -22,6 +22,9 @@
             </button>
             <div class="dropdown hidden" id="burger-dropdown">
                 <ul>
+                    <li class="navbar-mobile-only"><a href="<?= base_url() ?>">Accueil</a></li>
+                    <li class="navbar-mobile-only"><a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a></li>
+                    <li class="navbar-mobile-only"><a href="<?= base_url('wishlist') ?>">Wishlist</a></li>
                     <?php if (session()->get('user_id')) : ?>
                         <li><a href="<?= base_url('profile') ?>">Profil</a></li>
                         <li><a href="<?= site_url('logout') ?>">Déconnexion</a></li>

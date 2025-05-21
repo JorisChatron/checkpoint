@@ -1542,3 +1542,12 @@ textarea:hover {
     overflow: hidden;
 }
 
+/* Affiche les liens principaux seulement sur desktop */
+.navbar-desktop-only { display: flex !important; }
+.navbar-mobile-only { display: none !important; }
+
+@media (max-width: 768px) {
+  .navbar-desktop-only { display: none !important; }
+  .navbar-mobile-only { display: block !important; }
+}
+
