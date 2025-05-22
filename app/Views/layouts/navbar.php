@@ -7,6 +7,7 @@
             <?php if (session()->get('user_id')) : ?>
                 <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
                 <a href="<?= base_url('wishlist') ?>">Wishlist</a>
+                <a href="<?= base_url('calendrier') ?>">Calendrier</a>
             <?php endif; ?>
         </div>
 
@@ -28,6 +29,7 @@
                     <?php if (session()->get('user_id')) : ?>
                         <li class="navbar-mobile-only"><a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a></li>
                         <li class="navbar-mobile-only"><a href="<?= base_url('wishlist') ?>">Wishlist</a></li>
+                        <li class="navbar-mobile-only"><a href="<?= base_url('calendrier') ?>">Calendrier</a></li>
                         <li><a href="<?= base_url('profile') ?>">Profil</a></li>
                         <li><a href="<?= site_url('logout') ?>">Déconnexion</a></li>
                     <?php else : ?>
