@@ -146,8 +146,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Gestionnaire pour les formulaires de suppression (ancienne version)
     document.querySelectorAll('.delete-game-form').forEach(form => {
         form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!confirm('Supprimer ce jeu ?')) return;
+            const gameId = this.getAttribute('data-id');
+            const isWishlistPage = window.location.pathname.includes('wishlist');
+            const endpoint = isWishlistPage ? `/checkpoint/public/wishlist/delete/${gameId}` : `/checkpoint/public/mes-jeux/delete/${gameId}`;
+            fetch(endpoint, {
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('success', 'Jeu supprimé avec succès !');
+                    setTimeout(() => location.reload(), 1200);
+                } else {
+                    showToast('error', data.error || 'Erreur lors de la suppression');
+                }
+            });
+        });
+    });
+    
+    // Gestionnaire pour les boutons de suppression directs
+    document.querySelectorAll('.btn-action.delete').forEach(button => {
+        button.addEventListener('click', function(e) {
             e.preventDefault();
             if (!confirm('Supprimer ce jeu ?')) return;
             const gameId = this.getAttribute('data-id');
