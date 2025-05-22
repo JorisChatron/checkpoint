@@ -148,4 +148,11 @@ class UserController extends BaseController
         }
         return $this->response->setJSON(['success' => true]);
     }
+
+    public function toggleAdult()
+    {
+        $show = $this->request->getPost('show_adult') == '1';
+        session()->set('show_adult', $show);
+        return $this->response->setJSON(['success' => true]);
+    }
 }

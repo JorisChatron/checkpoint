@@ -5,8 +5,8 @@
         <div class="navbar-section navbar-links navbar-desktop-only">
             <a href="<?= base_url() ?>">Accueil</a>
             <?php if (session()->get('user_id')) : ?>
-                <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
-                <a href="<?= base_url('wishlist') ?>">Wishlist</a>
+            <a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a>
+            <a href="<?= base_url('wishlist') ?>">Wishlist</a>
                 <a href="<?= base_url('calendrier') ?>">Calendrier</a>
             <?php endif; ?>
         </div>

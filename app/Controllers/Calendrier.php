@@ -43,6 +43,33 @@ class Calendrier extends Controller
             $error = "Erreur lors de la récupération des sorties : " . $e->getMessage();
         }
 
+        // Filtrage fort du contenu adulte (sauf si l'utilisateur a désactivé le filtre)
+        $showAdult = session()->get('show_adult');
+        if (!$showAdult) {
+            $adultWords = ['adult', 'adulte', 'erotic', 'hentai', 'nsfw', 'ecchi', 'sex', 'mature', 'yaoi', 'yuri', '18+', 'r18', 'xxx', 'porn'];
+            $games = array_filter($games, function($game) use ($adultWords) {
+                // Filtre sur les genres
+                if (!empty($game['genres'])) {
+                    foreach ($game['genres'] as $genre) {
+                        foreach ($adultWords as $word) {
+                            if (stripos($genre['name'], $word) !== false) return false;
+                        }
+                    }
+                }
+                // Filtre sur le titre
+                foreach ($adultWords as $word) {
+                    if (isset($game['name']) && stripos($game['name'], $word) !== false) return false;
+                }
+                // Filtre sur la description
+                if (isset($game['description_raw'])) {
+                    foreach ($adultWords as $word) {
+                        if (stripos($game['description_raw'], $word) !== false) return false;
+                    }
+                }
+                return true;
+            });
+        }
+
         return view('calendrier/index', [
             'games' => $games,
             'year' => $year,

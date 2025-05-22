@@ -76,6 +76,14 @@
     </div>
 </div>
 
+<h3 class="profile-section-title">Préférences</h3>
+<form id="adultFilterForm" style="margin-bottom:2rem;max-width:400px;">
+    <label style="color:#BB86FC;font-size:1.08rem;display:flex;align-items:center;gap:0.7em;">
+        <input type="checkbox" id="showAdultCheckbox" name="show_adult" value="1" <?= session()->get('show_adult') ? 'checked' : '' ?>>
+        Afficher le contenu adulte (18+)
+    </label>
+</form>
+
 <!-- JavaScript pour la preview -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -258,6 +266,24 @@
         }
         document.querySelectorAll('.top5-checkbox').forEach(cb => {
             cb.addEventListener('change', updateTop5Positions);
+        });
+
+        document.getElementById('showAdultCheckbox').addEventListener('change', function() {
+            fetch('<?= base_url('profile/toggleAdult') ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+                body: 'show_adult=' + (this.checked ? '1' : '0')
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    showToast('success', 'Préférence enregistrée.');
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    showToast('error', 'Erreur lors de la sauvegarde de la préférence.');
+                }
+            })
+            .catch(() => showToast('error', 'Erreur réseau.'));
         });
     });
 </script>
