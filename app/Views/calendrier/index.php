@@ -80,6 +80,11 @@ $this->section('content');
                 <a href="<?= base_url('calendrier/'.$year.'/'.$week.'/page/'.($page-1)) ?>" class="home-btn" style="width:140px;font-size:1rem;margin-right:1.2rem;">&larr; Précédent</a>
             <?php endif; ?>
             <span style="color:#BB86FC;font-size:1.1rem;">Page <?= $page ?> / <?= $nbPages ?></span>
+            <select id="pageSelector" style="width:120px;display:inline-block;margin:0 1.2rem;padding:0.5rem;background:rgba(31,27,46,0.92);color:#BB86FC;border:1px solid #7F39FB;border-radius:8px;cursor:pointer;">
+                <?php for($i = 1; $i <= $nbPages; $i++): ?>
+                    <option value="<?= $i ?>" <?= $i == $page ? 'selected' : '' ?>>Page <?= $i ?></option>
+                <?php endfor; ?>
+            </select>
             <?php if ($page < $nbPages): ?>
                 <a href="<?= base_url('calendrier/'.$year.'/'.$week.'/page/'.($page+1)) ?>" class="home-btn" style="width:140px;font-size:1rem;margin-left:1.2rem;">Suivant &rarr;</a>
             <?php endif; ?>
@@ -109,6 +114,14 @@ function updateWeek(weekStr) {
         window.location.href = `/checkpoint/public/calendrier/${year}/${week}`;
     }
 }
+
+// Gestion du sélecteur de page
+document.getElementById('pageSelector').addEventListener('change', function() {
+    const selectedPage = this.value;
+    const currentUrl = window.location.pathname;
+    const baseUrl = currentUrl.split('/page/')[0];
+    window.location.href = `${baseUrl}/page/${selectedPage}`;
+});
 
 // Modal détails jeu RAWG
 const modal = document.getElementById('gameModal');
