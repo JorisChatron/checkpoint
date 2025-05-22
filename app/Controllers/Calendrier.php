@@ -46,7 +46,19 @@ class Calendrier extends Controller
         // Filtrage fort du contenu adulte (sauf si l'utilisateur a désactivé le filtre)
         $showAdult = session()->get('show_adult');
         if (!$showAdult) {
-            $adultWords = ['adult', 'adulte', 'erotic', 'hentai', 'nsfw', 'ecchi', 'sex', 'mature', 'yaoi', 'yuri', '18+', 'r18', 'xxx', 'porn'];
+            $adultWords = [
+                // Contenu sexuel explicite
+                'sex', 'sexual', 'sexuel', 'sexuelle', 'nude', 'nudity', 'nudité', 'naked', 'nu', 'nue',
+                'erotic', 'érotique', 'hentai', 'ecchi', 'yaoi', 'yuri', 'nsfw', '18+', 'r18',
+                'porn', 'pornographic', 'pornographique', 'xxx', 'adult', 'adulte',
+                // Termes liés au contenu sexuel
+                'intimate', 'intime', 'seduction', 'séduction', 'seductive', 'séductrice',
+                'explicit', 'explicite', 'mature', 'mature content', 'contenu mature',
+                // Termes spécifiques aux jeux
+                'dating sim', 'visual novel', 'otome', 'dating game', 'jeu de drague',
+                'strip', 'striptease', 'strip poker', 'strip game'
+            ];
+
             $games = array_filter($games, function($game) use ($adultWords) {
                 // Filtre sur les genres
                 if (!empty($game['genres'])) {
@@ -56,16 +68,44 @@ class Calendrier extends Controller
                         }
                     }
                 }
+
                 // Filtre sur le titre
                 foreach ($adultWords as $word) {
                     if (isset($game['name']) && stripos($game['name'], $word) !== false) return false;
                 }
+
                 // Filtre sur la description
                 if (isset($game['description_raw'])) {
                     foreach ($adultWords as $word) {
                         if (stripos($game['description_raw'], $word) !== false) return false;
                     }
                 }
+
+                // Filtre sur les tags
+                if (!empty($game['tags'])) {
+                    foreach ($game['tags'] as $tag) {
+                        foreach ($adultWords as $word) {
+                            if (stripos($tag['name'], $word) !== false) return false;
+                        }
+                    }
+                }
+
+                // Filtre sur l'URL
+                if (isset($game['website'])) {
+                    foreach ($adultWords as $word) {
+                        if (stripos($game['website'], $word) !== false) return false;
+                    }
+                }
+
+                // Filtre sur le nom du développeur
+                if (!empty($game['developers'])) {
+                    foreach ($game['developers'] as $developer) {
+                        foreach ($adultWords as $word) {
+                            if (stripos($developer['name'], $word) !== false) return false;
+                        }
+                    }
+                }
+
                 return true;
             });
         }
