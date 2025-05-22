@@ -68,9 +68,61 @@ class WishlistController extends BaseController
         $gameModel = new GameModel();
         $wishlistModel = new WishlistModel();
 
-        $data = $this->request->getPost();
+        // Accepte JSON ou POST classique
+        $data = $this->request->getJSON(true) ?: $this->request->getPost();
         log_message('debug', 'Données reçues : ' . json_encode($data));
 
+        // Cas ajout rapide depuis le calendrier (RAWG)
+        if (isset($data['game_id']) && !isset($data['searchGame'])) {
+            $rawgId = $data['game_id'];
+            // Vérifie si le jeu existe déjà dans la base
+            $game = $gameModel->where('rawg_id', $rawgId)->first();
+            if (!$game) {
+                // Récupère les infos du jeu via l'API RAWG
+                $apiKey = 'ff6f7941c211456c8806541638fdfaff';
+                $url = "https://api.rawg.io/api/games/{$rawgId}?key={$apiKey}";
+                $response = @file_get_contents($url);
+                if (!$response) {
+                    return $this->response->setJSON(['success' => false, 'error' => 'Impossible de récupérer les infos du jeu.']);
+                }
+                $rawgGame = json_decode($response, true);
+                if (empty($rawgGame['name'])) {
+                    return $this->response->setJSON(['success' => false, 'error' => 'Jeu introuvable sur RAWG.']);
+                }
+                // Crée le jeu dans la base
+                $gameId = $gameModel->insert([
+                    'name' => $rawgGame['name'],
+                    'platform' => isset($rawgGame['platforms'][0]['platform']['name']) ? $rawgGame['platforms'][0]['platform']['name'] : null,
+                    'release_date' => $rawgGame['released'] ?? null,
+                    'category' => isset($rawgGame['genres'][0]['name']) ? $rawgGame['genres'][0]['name'] : null,
+                    'cover' => $rawgGame['background_image'] ?? null,
+                    'rawg_id' => $rawgId
+                ], true);
+            } else {
+                $gameId = $game['id'];
+            }
+            // Vérifie si déjà dans la wishlist
+            $existingWishlistItem = $wishlistModel->where([
+                'user_id' => $userId,
+                'game_id' => $gameId
+            ])->first();
+            if ($existingWishlistItem) {
+                return $this->response->setJSON(['success' => false, 'message' => 'Ce jeu est déjà dans votre wishlist']);
+            }
+            // Ajoute à la wishlist
+            try {
+                $wishlistModel->insert([
+                    'user_id' => $userId,
+                    'game_id' => $gameId,
+                    'status' => $data['status'] ?? 'souhaité'
+                ]);
+                return $this->response->setJSON(['success' => true]);
+            } catch (\Exception $e) {
+                return $this->response->setJSON(['success' => false, 'error' => 'Erreur lors de l\'ajout à la wishlist : ' . $e->getMessage()]);
+            }
+        }
+
+        // --- Cas classique (formulaire) ---
         $gameName = $data['searchGame'] ?? null;
         $platform = $data['platform'] ?? null;
         $releaseYear = $data['releaseYear'] ?? null;

@@ -116,12 +116,15 @@ function updateWeek(weekStr) {
 }
 
 // Gestion du sélecteur de page
-document.getElementById('pageSelector').addEventListener('change', function() {
-    const selectedPage = this.value;
-    const currentUrl = window.location.pathname;
-    const baseUrl = currentUrl.split('/page/')[0];
-    window.location.href = `${baseUrl}/page/${selectedPage}`;
-});
+var pageSelector = document.getElementById('pageSelector');
+if (pageSelector) {
+    pageSelector.addEventListener('change', function() {
+        const selectedPage = this.value;
+        const currentUrl = window.location.pathname;
+        const baseUrl = currentUrl.split('/page/')[0];
+        window.location.href = `${baseUrl}/page/${selectedPage}`;
+    });
+}
 
 // Modal détails jeu RAWG
 const modal = document.getElementById('gameModal');
@@ -149,7 +152,41 @@ function openGameModal(gameId) {
                     <b>Genres :</b> ${game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : 'Inconnu'}
                 </div>
                 <a href="${game.website || '#'}" target="_blank" style="color:#00E5FF;text-decoration:underline;">Site officiel</a>
+                <br><br>
+                <button id="addToWishlistBtn" style="margin-top:1rem;padding:0.7rem 2.2rem;background:#7F39FB;color:#fff;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à la wishlist</button>
+                <div id="wishlistMsg" style="margin-top:1rem;font-size:1rem;"></div>
             `;
+            // Ajout du handler pour le bouton wishlist
+            setTimeout(function() {
+                var btn = document.getElementById('addToWishlistBtn');
+                if(btn) {
+                    btn.onclick = function() {
+                        btn.disabled = true;
+                        btn.textContent = 'Ajout en cours...';
+                        fetch('/checkpoint/public/wishlist/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: JSON.stringify({
+                                game_id: game.id,
+                                status: 'souhaité'
+                            })
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            document.getElementById('wishlistMsg').textContent = data.success ? 'Ajouté à la wishlist !' : (data.message || 'Erreur lors de l\'ajout.');
+                            btn.style.display = 'none';
+                        })
+                        .catch(() => {
+                            document.getElementById('wishlistMsg').textContent = 'Erreur lors de l\'ajout.';
+                            btn.disabled = false;
+                            btn.textContent = 'Ajouter à la wishlist';
+                        });
+                    }
+                }
+            }, 100);
         })
         .catch(() => {
             modalBody.innerHTML = '<span style="color:#FF6F61;">Erreur lors du chargement des infos du jeu.</span>';
