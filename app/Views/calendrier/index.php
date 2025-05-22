@@ -101,6 +101,63 @@ $this->section('content');
         </div>
     </div>
 </section>
+
+<!-- Modal d'ajout à la wishlist -->
+<div id="addWishlistModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeWishlistModal">&times;</button>
+        <h2>Ajouter à ma wishlist</h2>
+        <form id="addWishlistForm">
+            <?= csrf_field() ?>
+            
+            <!-- Informations du jeu -->
+            <input type="hidden" id="rawg_game_id" name="game_id">
+            <div class="form-group">
+                <label for="game_name">Nom du jeu :</label>
+                <input type="text" id="game_name" name="searchGame" readonly required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="wishlist_platform">Plateforme :</label>
+                    <input type="text" id="wishlist_platform" name="platform" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="wishlist_releaseYear">Année de sortie :</label>
+                    <input type="text" id="wishlist_releaseYear" name="releaseYear" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="wishlist_genre">Genre :</label>
+                <input type="text" id="wishlist_genre" name="genre" readonly>
+            </div>
+
+            <!-- Aperçu de la jaquette -->
+            <div class="form-group">
+                <label for="wishlist_cover">Jaquette :</label>
+                <input type="text" id="wishlist_cover" name="cover" readonly>
+                <div class="form-preview" id="wishlistCoverContainer">
+                    <img id="wishlistCoverPreview" src="" alt="Aperçu de la jaquette" style="max-width:200px;margin-top:1rem;border-radius:10px;">
+                </div>
+            </div>
+
+            <!-- Statut -->
+            <div class="form-group">
+                <label for="wishlist_status">Statut :</label>
+                <select name="status" id="wishlist_status" required>
+                    <option value="">Sélectionnez un statut</option>
+                    <option value="souhaité">Souhaité</option>
+                    <option value="acheté">Acheté</option>
+                    <option value="joué">Joué</option>
+                </select>
+            </div>
+
+            <button type="submit">Ajouter à ma wishlist</button>
+        </form>
+    </div>
+</div>
+
 <!-- Flatpickr CSS/JS placés en haut pour garantir le chargement -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -156,34 +213,40 @@ function openGameModal(gameId) {
                 <button id="addToWishlistBtn" style="margin-top:1rem;padding:0.7rem 2.2rem;background:#7F39FB;color:#fff;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à la wishlist</button>
                 <div id="wishlistMsg" style="margin-top:1rem;font-size:1rem;"></div>
             `;
+            
             // Ajout du handler pour le bouton wishlist
             setTimeout(function() {
                 var btn = document.getElementById('addToWishlistBtn');
                 if(btn) {
                     btn.onclick = function() {
-                        btn.disabled = true;
-                        btn.textContent = 'Ajout en cours...';
-                        fetch('/checkpoint/public/wishlist/add', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            },
-                            body: JSON.stringify({
-                                game_id: game.id,
-                                status: 'souhaité'
-                            })
-                        })
-                        .then(r => r.json())
-                        .then(data => {
-                            document.getElementById('wishlistMsg').textContent = data.success ? 'Ajouté à la wishlist !' : (data.message || 'Erreur lors de l\'ajout.');
-                            btn.style.display = 'none';
-                        })
-                        .catch(() => {
-                            document.getElementById('wishlistMsg').textContent = 'Erreur lors de l\'ajout.';
-                            btn.disabled = false;
-                            btn.textContent = 'Ajouter à la wishlist';
-                        });
+                        // Ferme le modal de détails du jeu
+                        modal.classList.remove('active');
+                        
+                        // Ouvre le modal d'ajout à la wishlist
+                        const wishlistModal = document.getElementById('addWishlistModal');
+                        
+                        // Remplit les champs du formulaire avec les données du jeu
+                        document.getElementById('rawg_game_id').value = game.id;
+                        document.getElementById('game_name').value = game.name;
+                        document.getElementById('wishlist_platform').value = game.platforms && game.platforms.length ? game.platforms[0].platform.name : '';
+                        document.getElementById('wishlist_releaseYear').value = game.released ? game.released.split('-')[0] : '';
+                        document.getElementById('wishlist_genre').value = game.genres && game.genres.length ? game.genres.map(g => g.name).join(', ') : '';
+                        document.getElementById('wishlist_cover').value = game.background_image || '';
+                        
+                        // Affiche l'aperçu de la jaquette
+                        const coverPreview = document.getElementById('wishlistCoverPreview');
+                        if (game.background_image) {
+                            coverPreview.src = game.background_image;
+                            coverPreview.style.display = 'block';
+                        } else {
+                            coverPreview.style.display = 'none';
+                        }
+                        
+                        // Sélection par défaut du statut "souhaité"
+                        document.getElementById('wishlist_status').value = 'souhaité';
+                        
+                        // Ouvre le modal
+                        wishlistModal.classList.add('active');
                     }
                 }
             }, 100);
@@ -268,5 +331,83 @@ function getWeekNumber(date) {
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
     return String(Math.ceil((((d - yearStart) / 86400000) + 1)/7)).padStart(2,'0');
 }
+
+if (modal) {
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+}
+
+// Gestion du modal d'ajout à la wishlist
+const wishlistModal = document.getElementById('addWishlistModal');
+const closeWishlistModalBtn = document.getElementById('closeWishlistModal');
+
+if (closeWishlistModalBtn) {
+    closeWishlistModalBtn.addEventListener('click', () => {
+        wishlistModal.classList.remove('active');
+    });
+}
+
+if (wishlistModal) {
+    wishlistModal.addEventListener('click', (event) => {
+        if (event.target === wishlistModal) {
+            wishlistModal.classList.remove('active');
+        }
+    });
+}
+
+// Gestion du formulaire d'ajout à la wishlist
+const addWishlistForm = document.getElementById('addWishlistForm');
+if (addWishlistForm) {
+    addWishlistForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Création de l'objet FormData
+        const formData = new FormData(addWishlistForm);
+        
+        // Conversion en objet JSON
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+        
+        // Ajout du token CSRF s'il existe
+        const csrfName = document.querySelector('meta[name="X-CSRF-TOKEN"]')?.getAttribute('content') || 'csrf_test_name';
+        const csrfToken = document.querySelector(`input[name="${csrfName}"]`)?.value || '';
+        jsonData[csrfName] = csrfToken;
+        
+        // Envoi de la requête
+        fetch('/checkpoint/public/wishlist/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify(jsonData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
+                wishlistModal.classList.remove('active');
+            } else {
+                showToast('error', data.error || data.message || 'Une erreur est survenue');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            showToast('error', 'Erreur lors de l\'ajout à la wishlist');
+        });
+    });
+}
+
+document.querySelectorAll('.calendrier-card').forEach(card => {
+    card.addEventListener('click', function() {
+        openGameModal(this.dataset.gameId);
+    });
+});
 </script>
 <?php $this->endSection(); ?> 
