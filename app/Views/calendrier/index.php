@@ -2,6 +2,8 @@
 $this->extend('layouts/default');
 $this->section('content');
 ?>
+<link rel="stylesheet" href="<?= base_url('css/default-cover.css') ?>">
+
 <section class="dashboard-home" style="max-width:1100px;margin:2.5rem auto 2rem auto;">
     <h1 style="color:#9B5DE5;text-align:center;font-size:2rem;margin-bottom:2.2rem;">Sorties de la semaine</h1>
     <div style="text-align:center;margin-bottom:2rem;">
@@ -60,7 +62,16 @@ $this->section('content');
                 <div class="game-card calendrier-card" 
                      data-game-id="<?= esc($game['id']) ?>"
                      style="width:210px;height:320px;flex-direction:column;justify-content:flex-start;align-items:center;overflow:hidden;cursor:pointer;">
-                    <img src="<?= !empty($game['background_image']) ? esc($game['background_image']) : base_url('images/default-cover.png') ?>" alt="<?= esc($game['name']) ?>" style="width:100%;height:180px;object-fit:cover;border-radius:10px 10px 0 0;">
+                    <?php if (!empty($game['background_image'])): ?>
+                        <img src="<?= esc($game['background_image']) ?>" 
+                             alt="<?= esc($game['name']) ?>" 
+                             style="width:100%;height:180px;object-fit:cover;border-radius:10px 10px 0 0;">
+                    <?php else: ?>
+                        <div class="default-game-cover" style="height:180px;border-radius:10px 10px 0 0;">
+                            <div class="game-title"><?= esc($game['name']) ?></div>
+                            <div class="no-cover-text">Jaquette indisponible</div>
+                        </div>
+                    <?php endif; ?>
                     <div style="padding:1rem 0.7rem 0.5rem 0.7rem;width:100%;text-align:center;">
                         <span style="display:block;font-weight:bold;color:#9B5DE5;font-size:1.08rem;text-shadow:0 2px 8px #000;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
                             <?= esc($game['name']) ?>
@@ -193,8 +204,19 @@ function openGameModal(gameId) {
         .then(res => res.json())
         .then(game => {
             const desc = game.description_raw ? game.description_raw : '<i>Aucune description disponible.</i>';
+            let coverHtml = '';
+            if (game.background_image) {
+                coverHtml = `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">`;
+            } else {
+                coverHtml = `
+                    <div class="default-game-cover" style="width:220px;height:220px;margin-bottom:1.2rem;">
+                        <div class="game-title">${game.name}</div>
+                        <div class="no-cover-text">Jaquette non disponible sur RAWG.io</div>
+                    </div>
+                `;
+            }
             modalBody.innerHTML = `
-                <img src="${game.background_image || '<?= base_url('images/default-cover.png') ?>'}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">
+                ${coverHtml}
                 <h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>
                 <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">Sortie : ${game.released ? (new Date(game.released)).toLocaleDateString('fr-FR') : 'Date inconnue'}</div>
                 <div id="game-desc" style="color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;max-height:120px;overflow:auto;">

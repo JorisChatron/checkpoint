@@ -37,6 +37,9 @@ $this->section('content');
 </section>
 <?php else: ?>
 <section class="dashboard-home">
+    <?php if (isset($username)): ?>
+        <h1 style="color:#9B5DE5;text-align:center;font-size:2.2rem;margin-bottom:2.2rem;">Bienvenue, <?= esc($username) ?> !</h1>
+    <?php endif; ?>
     <h2>Derniers jeux ajoutés</h2>
     <div class="dashboard-row" id="last-played-games">
         <?php foreach (($lastPlayedGames ?? []) as $game): ?>

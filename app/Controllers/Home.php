@@ -15,7 +15,8 @@ class Home extends BaseController
             return view('home', [
                 'lastPlayedGames' => [],
                 'top5' => [],
-                'stats' => []
+                'stats' => [],
+                'username' => session()->get('username')
             ]);
         }
 
@@ -58,7 +59,8 @@ class Home extends BaseController
         return view('home', [
             'lastPlayedGames' => $lastPlayedGames,
             'top5' => $top5,
-            'stats' => $stats
+            'stats' => $stats,
+            'username' => session()->get('username')
         ]);
     }
 
