@@ -1,3 +1,5 @@
+console.log('Script.js chargé');
+
 document.addEventListener('DOMContentLoaded', () => {
     // Gestion du menu burger
     initBurgerMenu();
@@ -29,17 +31,38 @@ function initBurgerMenu() {
 }
 
 function initModal() {
+    console.log('Initialisation du modal');
     const modal = document.getElementById('addGameModal');
     const openBtn = document.getElementById('openModal');
     const closeBtn = document.getElementById('closeModal');
-    if (!modal) return;
-
-    const toggleModal = (show) => modal.classList[show ? 'add' : 'remove']('active');
     
-    openBtn?.addEventListener('click', () => toggleModal(true));
-    closeBtn?.addEventListener('click', () => toggleModal(false));
+    console.log('Modal:', modal);
+    console.log('Bouton ouvert:', openBtn);
+    console.log('Bouton fermé:', closeBtn);
+    
+    if (!modal) {
+        console.log('Modal non trouvé');
+        return;
+    }
+
+    const toggleModal = (show) => {
+        console.log('Toggle modal:', show);
+        modal.classList[show ? 'add' : 'remove']('active');
+    };
+    
+    openBtn?.addEventListener('click', () => {
+        console.log('Clic sur le bouton ouvert');
+        toggleModal(true);
+    });
+    closeBtn?.addEventListener('click', () => {
+        console.log('Clic sur le bouton fermé');
+        toggleModal(false);
+    });
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) toggleModal(false);
+        if (e.target === modal) {
+            console.log('Clic en dehors du modal');
+            toggleModal(false);
+        }
     });
 }
 
@@ -57,7 +80,8 @@ function initGameSearch() {
             'platform': game.platforms?.[0]?.platform?.name || '',
             'releaseYear': game.released?.split('-')[0] || '',
             'genre': game.genres?.map(g => g.name).join(', ') || '',
-            'cover': game.background_image || ''
+            'cover': game.background_image || '',
+            'game_id': game.id || ''
         };
 
         Object.entries(fields).forEach(([id, value]) => {
@@ -132,19 +156,44 @@ function initForms() {
         const endpoint = isWishlist ? '/checkpoint/public/wishlist/add' : '/checkpoint/public/mes-jeux/add';
 
         try {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                body: formData
-            });
+            let response;
+            if (isWishlist) {
+                response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        game_id: formData.get('game_id'),
+                        searchGame: formData.get('searchGame'),
+                        platform: formData.get('platform'),
+                        releaseYear: formData.get('releaseYear'),
+                        genre: formData.get('genre'),
+                        cover: formData.get('cover'),
+                        status: formData.get('status')
+                    })
+                });
+            } else {
+                response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                });
+            }
+            
             const data = await response.json();
             
             if (data.success) {
                 showToast('success', 'Jeu ajouté avec succès !');
                 setTimeout(() => location.reload(), 1200);
             } else {
-                showToast('error', data.error || 'Une erreur est survenue');
+                showToast('error', data.error || data.message || 'Une erreur est survenue');
             }
         } catch (error) {
+            console.error('Erreur:', error);
             showToast('error', 'Erreur lors de l\'envoi du formulaire');
         }
     });

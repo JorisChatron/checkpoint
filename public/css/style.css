@@ -756,8 +756,8 @@ form button:active {
 }
 
 .modal.active {
-    display: flex;
     opacity: 1;
+    visibility: visible;
 }
 
 .modal-content {

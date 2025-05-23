@@ -177,9 +177,7 @@ var pageSelector = document.getElementById('pageSelector');
 if (pageSelector) {
     pageSelector.addEventListener('change', function() {
         const selectedPage = this.value;
-        const currentUrl = window.location.pathname;
-        const baseUrl = currentUrl.split('/page/')[0];
-        window.location.href = `${baseUrl}/page/${selectedPage}`;
+        window.location.href = `<?= base_url('calendrier/'.$year.'/'.$week.'/page/') ?>${selectedPage}`;
     });
 }
 

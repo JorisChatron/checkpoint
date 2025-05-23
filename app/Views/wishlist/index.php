@@ -77,6 +77,7 @@ $this->section('content');
         <h2>Ajouter un jeu à ma wishlist</h2>
         <form id="addGameForm" action="/checkpoint/public/wishlist/add" method="POST">
             <?= csrf_field() ?>
+            <input type="hidden" id="game_id" name="game_id">
             
             <!-- Recherche de jeu -->
             <div class="form-group">
@@ -213,6 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('releaseYear').value = game.release_date;
         document.getElementById('genre').value = game.category;
         document.getElementById('cover').value = game.cover;
+        document.getElementById('game_id').value = game.id;
         
         const coverPreview = document.getElementById('coverPreview');
         if (game.cover) {

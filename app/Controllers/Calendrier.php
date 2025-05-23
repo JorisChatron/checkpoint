@@ -5,7 +5,7 @@ use CodeIgniter\Controller;
 
 class Calendrier extends Controller
 {
-    public function index($year = null, $week = null, $page = 1)
+    public function index($year = null, $week = null, $segment = null, $page = null)
     {
         // Détermine la semaine à afficher
         $now = new \DateTime();
@@ -13,7 +13,10 @@ class Calendrier extends Controller
             $year = (int)$now->format('o');
             $week = (int)$now->format('W');
         }
-        $page = (int)($page ?? 1);
+        
+        // Gestion de la pagination
+        $page = ($segment === 'page' && $page) ? (int)$page : 1;
+        
         // Calcule le lundi et dimanche de la semaine
         $monday = new \DateTime();
         $monday->setISODate($year, $week);
