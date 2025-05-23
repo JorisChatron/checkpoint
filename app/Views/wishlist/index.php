@@ -10,21 +10,21 @@ $this->section('content');
 <!-- Barre de filtres -->
 <form class="filters-bar" method="get" action="">
     <select name="platform" onchange="this.form.submit()">
-        <option value="">Plateforme</option>
+        <option value="" <?= ($selectedPlatform === null || $selectedPlatform === '') ? 'selected' : '' ?>>Plateforme</option>
         <?php foreach ($platforms as $p): ?>
-            <option value="<?= esc($p['platform']) ?>" <?= ($selectedPlatform == $p['platform']) ? 'selected' : '' ?>><?= esc($p['platform']) ?></option>
+            <option value="<?= esc($p['platform']) ?>" <?= ($selectedPlatform === $p['platform']) ? 'selected' : '' ?>><?= esc($p['platform']) ?></option>
         <?php endforeach; ?>
     </select>
     <select name="status" onchange="this.form.submit()">
-        <option value="">Statut</option>
+        <option value="" <?= ($selectedStatus === null || $selectedStatus === '') ? 'selected' : '' ?>>Statut</option>
         <?php foreach ($statuses as $s): ?>
-            <option value="<?= esc($s['status']) ?>" <?= ($selectedStatus == $s['status']) ? 'selected' : '' ?>><?= esc($s['status']) ?></option>
+            <option value="<?= esc($s['status']) ?>" <?= ($selectedStatus === $s['status']) ? 'selected' : '' ?>><?= esc($s['status']) ?></option>
         <?php endforeach; ?>
     </select>
     <select name="genre" onchange="this.form.submit()">
-        <option value="">Genre</option>
+        <option value="" <?= ($selectedGenre === null || $selectedGenre === '') ? 'selected' : '' ?>>Genre</option>
         <?php foreach ($genres as $g): ?>
-            <option value="<?= esc($g['category']) ?>" <?= ($selectedGenre == $g['category']) ? 'selected' : '' ?>><?= esc($g['category']) ?></option>
+            <option value="<?= esc($g['category']) ?>" <?= ($selectedGenre === $g['category']) ? 'selected' : '' ?>><?= esc($g['category']) ?></option>
         <?php endforeach; ?>
     </select>
 </form>
@@ -47,19 +47,19 @@ $this->section('content');
                 <div class="card-details">
                     <div class="card-detail">
                         <strong>Plateforme</strong>
-                        <?= esc($game['platform']) ?>
+                        <?= esc(!empty($game['platform']) ? $game['platform'] : 'Inconnue') ?>
                     </div>
                     <div class="card-detail">
                         <strong>Année</strong>
-                        <?= esc($game['release_date']) ?>
+                        <?= esc(!empty($game['release_date']) ? $game['release_date'] : 'Inconnue') ?>
                     </div>
                     <div class="card-detail">
                         <strong>Genre</strong>
-                        <?= esc($game['category']) ?>
+                        <?= esc(!empty($game['category']) ? $game['category'] : 'Inconnu') ?>
                     </div>
                     <div class="card-detail">
                         <strong>Statut</strong>
-                        <?= esc($game['status']) ?>
+                        <?= esc(!empty($game['status']) ? $game['status'] : 'Inconnu') ?>
                     </div>
                 </div>
             </div>

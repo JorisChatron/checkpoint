@@ -8,10 +8,10 @@ class WishlistModel extends Model
     protected $table = 'wishlist';
     protected $primaryKey = 'id';
     protected $allowedFields = ['user_id', 'game_id', 'status'];
-    protected $useTimestamps = true;
-    protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at';
+    protected $useTimestamps = false;
+    protected $createdField = '';
+    protected $updatedField = '';
+    protected $deletedField = '';
     protected $useSoftDeletes = false;
 
     protected $validationRules = [

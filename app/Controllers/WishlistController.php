@@ -98,9 +98,9 @@ class WishlistController extends BaseController
                             // Crée le jeu dans la base même avec des informations partielles
                             $gameId = $gameModel->insert([
                                 'name' => $rawgGame['name'] ?? ('Jeu ID: ' . $rawgId),
-                                'platform' => isset($rawgGame['platforms'][0]['platform']['name']) ? $rawgGame['platforms'][0]['platform']['name'] : 'Plateforme inconnue',
+                                'platform' => isset($rawgGame['platforms'][0]['platform']['name']) ? $rawgGame['platforms'][0]['platform']['name'] : 'Inconnue',
                                 'release_date' => $rawgGame['released'] ?? null,
-                                'category' => isset($rawgGame['genres'][0]['name']) ? $rawgGame['genres'][0]['name'] : null,
+                                'category' => isset($rawgGame['genres'][0]['name']) ? $rawgGame['genres'][0]['name'] : 'Inconnu',
                                 'cover' => $rawgGame['background_image'] ?? null,
                                 'rawg_id' => $rawgId
                             ], true);
@@ -140,9 +140,9 @@ class WishlistController extends BaseController
 
             // --- Cas classique (formulaire) ---
             $gameName = $data['searchGame'] ?? 'Jeu sans nom';
-            $platform = $data['platform'] ?? 'Plateforme inconnue';
+            $platform = $data['platform'] ?? 'Inconnue';
             $releaseYear = $data['releaseYear'] ?? null;
-            $genre = $data['genre'] ?? null;
+            $genre = $data['genre'] ?? 'Inconnu';
             $cover = $data['cover'] ?? null;
             
             // Log mais continuer même si des valeurs sont manquantes
