@@ -1,250 +1,236 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const burgerButton = document.getElementById('burger-button');
-    const burgerDropdown = document.getElementById('burger-dropdown');
+    // Gestion du menu burger
+    initBurgerMenu();
+    
+    // Gestion du modal
+    initModal();
+    
+    // Gestion de la recherche de jeux
+    initGameSearch();
+    
+    // Gestion des formulaires
+    initForms();
+    
+    // Gestion des cartes
+    initCards();
+});
 
-    if (!burgerButton || !burgerDropdown) {
-        console.error('Burger button or dropdown not found in the DOM.');
-        return;
-    }
+function initBurgerMenu() {
+    const burger = document.querySelector('.burger');
+    const dropdown = document.getElementById('burger-dropdown');
+    if (!burger || !dropdown) return;
 
-    // Ouvrir/fermer le menu burger au clic
-    burgerButton.addEventListener('click', () => {
-        burgerDropdown.classList.toggle('active');
-    });
-
-    // Fermer le menu si on clique en dehors
-    document.addEventListener('click', (event) => {
-        if (!burgerButton.contains(event.target) && !burgerDropdown.contains(event.target)) {
-            burgerDropdown.classList.remove('active');
+    burger.addEventListener('click', () => dropdown.classList.toggle('active'));
+    document.addEventListener('click', (e) => {
+        if (!burger.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
         }
     });
+}
 
-    const openModalButton = document.getElementById('openModal');
-    const closeModalButton = document.getElementById('closeModal');
+function initModal() {
     const modal = document.getElementById('addGameModal');
+    const openBtn = document.getElementById('openModal');
+    const closeBtn = document.getElementById('closeModal');
+    if (!modal) return;
 
-    if (openModalButton && modal) {
-    openModalButton.addEventListener('click', () => {
-            modal.classList.add('active');
+    const toggleModal = (show) => modal.classList[show ? 'add' : 'remove']('active');
+    
+    openBtn?.addEventListener('click', () => toggleModal(true));
+    closeBtn?.addEventListener('click', () => toggleModal(false));
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) toggleModal(false);
     });
-    }
-    if (closeModalButton && modal) {
-    closeModalButton.addEventListener('click', () => {
-            modal.classList.remove('active');
-    });
-    }
-    if (modal) {
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-                modal.classList.remove('active');
-        }
-    });
-    }
+}
 
-    const searchGameInput = document.getElementById('searchGame');
+function initGameSearch() {
+    const searchInput = document.getElementById('searchGame');
     const suggestionsList = document.getElementById('suggestions');
-    const releaseYearInput = document.getElementById('releaseYear');
-    const genreInput = document.getElementById('genre');
-    const coverInput = document.getElementById('cover');
-    const coverPreview = document.getElementById('coverPreview');
-    const coverPreviewContainer = document.getElementById('coverPreviewContainer');
+    if (!searchInput || !suggestionsList) return;
 
-    const API_KEY = 'ff6f7941c211456c8806541638fdfaff'; // Remplacez par votre clé API RAWG
+    const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
+    let searchTimeout;
 
-    // Masquer l'aperçu de la jaquette au chargement
-    if (coverPreview) coverPreview.classList.add('hidden');
-    if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
+    const updateGameFields = (game) => {
+        const fields = {
+            'searchGame': game.name,
+            'platform': game.platforms?.[0]?.platform?.name || '',
+            'releaseYear': game.released?.split('-')[0] || '',
+            'genre': game.genres?.map(g => g.name).join(', ') || '',
+            'cover': game.background_image || ''
+        };
 
-    searchGameInput.addEventListener('input', async () => {
-        const query = searchGameInput.value;
+        Object.entries(fields).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) element.value = value;
+        });
 
-        if (query.length > 1) { // Effectue une recherche après 2 caractères
+        const preview = document.getElementById('coverPreview');
+        const container = document.getElementById('coverPreviewContainer');
+        if (preview && container) {
+            if (game.background_image) {
+                preview.src = game.background_image;
+                preview.classList.remove('hidden');
+                container.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+                container.classList.add('hidden');
+            }
+        }
+    };
+
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            suggestionsList.innerHTML = '';
+            return;
+        }
+
+        searchTimeout = setTimeout(async () => {
             try {
                 const response = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}&search=${query}`);
                 const data = await response.json();
-
-                // Vide les suggestions précédentes
+                
                 suggestionsList.innerHTML = '';
-
-                if (data.results && data.results.length > 0) {
+                if (data.results?.length) {
                     data.results.forEach(game => {
                         const li = document.createElement('li');
                         li.textContent = game.name;
                         li.addEventListener('click', () => {
-                            // Remplit les champs avec les données du jeu sélectionné
-                            searchGameInput.value = game.name;
-                            releaseYearInput.value = game.released ? game.released.split('-')[0] : '';
-                            genreInput.value = game.genres.map(genre => genre.name).join(', ');
-                            coverInput.value = game.background_image;
-                            if (game.platforms && game.platforms.length > 0) {
-                                const platforms = game.platforms.map(p => p.platform.name).join(', ');
-                                document.getElementById('platform').value = platforms;
-                            } else {
-                                document.getElementById('platform').value = '';
-                            }
-                            // Affiche l'aperçu de la jaquette si une image est disponible
-                            if (game.background_image) {
-                                coverPreview.src = game.background_image;
-                                coverPreview.classList.remove('hidden');
-                                if (coverPreviewContainer) coverPreviewContainer.classList.remove('hidden');
-                            } else {
-                                coverPreview.classList.add('hidden');
-                                if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
-                            }
-                            // Vide les suggestions
+                            updateGameFields(game);
                             suggestionsList.innerHTML = '';
                         });
                         suggestionsList.appendChild(li);
                     });
                 } else {
-                    const li = document.createElement('li');
-                    li.textContent = 'Aucun résultat trouvé';
-                    suggestionsList.appendChild(li);
+                    suggestionsList.innerHTML = '<li>Aucun résultat trouvé</li>';
                 }
             } catch (error) {
-                console.error('Erreur lors de la récupération des suggestions :', error);
+                console.error('Erreur recherche:', error);
+                suggestionsList.innerHTML = '<li>Erreur lors de la recherche</li>';
             }
-        } else {
-            // Vide les suggestions si moins de 2 caractères
-            suggestionsList.innerHTML = '';
-            if (coverPreview) coverPreview.classList.add('hidden');
-            if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
-        }
+        }, 300);
     });
 
-    // Ferme les suggestions si on clique en dehors
-    document.addEventListener('click', (event) => {
-        if (!searchGameInput.contains(event.target) && !suggestionsList.contains(event.target)) {
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
             suggestionsList.innerHTML = '';
         }
     });
+}
 
+function initForms() {
     const form = document.getElementById('addGameForm');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(form);
-            // Détermine l'URL en fonction de la page actuelle
-            const isWishlistPage = window.location.pathname.includes('wishlist');
-            const endpoint = isWishlistPage ? '/checkpoint/public/wishlist/add' : '/checkpoint/public/mes-jeux/add';
-            fetch(endpoint, {
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const isWishlist = window.location.pathname.includes('wishlist');
+        const endpoint = isWishlist ? '/checkpoint/public/wishlist/add' : '/checkpoint/public/mes-jeux/add';
+
+        try {
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    showToast('success', 'Jeu ajouté avec succès !');
-                    setTimeout(() => location.reload(), 1200);
-                } else {
-                    showToast('error', data.error || 'Une erreur est survenue');
-                }
-            })
-            .catch(error => {
-                showToast('error', 'Erreur lors de l\'envoi du formulaire');
             });
-        });
-    }
-
-    // Gestionnaire pour les boutons de suppression
-    document.querySelectorAll('.btn-action.delete').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
+            const data = await response.json();
             
-            if (!confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?')) {
-                return;
+            if (data.success) {
+                showToast('success', 'Jeu ajouté avec succès !');
+                setTimeout(() => location.reload(), 1200);
+            } else {
+                showToast('error', data.error || 'Une erreur est survenue');
             }
-            
-            const gameId = this.getAttribute('data-id');
+        } catch (error) {
+            showToast('error', 'Erreur lors de l\'envoi du formulaire');
+        }
+    });
+}
+
+function initCards() {
+    // Gestion des boutons de suppression
+    document.querySelectorAll('.btn-action.delete').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?')) return;
+
+            const gameId = button.getAttribute('data-id');
             if (!gameId) {
                 showToast('error', 'ID du jeu non trouvé');
                 return;
             }
 
-            const isWishlistPage = window.location.pathname.includes('wishlist');
-            const endpoint = isWishlistPage ? `/checkpoint/public/wishlist/delete/${gameId}` : `/checkpoint/public/mes-jeux/delete/${gameId}`;
-            
-            fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur réseau');
-                }
-                return response.json();
-            })
-            .then(data => {
+            const isWishlist = window.location.pathname.includes('wishlist');
+            const endpoint = isWishlist ? 
+                `/checkpoint/public/wishlist/delete/${gameId}` : 
+                `/checkpoint/public/mes-jeux/delete/${gameId}`;
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                });
+                const data = await response.json();
+
                 if (data.success) {
-                    // Supprimer la carte du jeu de l'affichage
-                    const card = this.closest('.wishlist-card, .carousel-card');
+                    const card = button.closest('.wishlist-card, .carousel-card');
                     if (card) {
                         card.remove();
-                        
-                        // Si c'était le dernier jeu, afficher un message approprié
-                        const container = isWishlistPage ? 
-                            document.querySelector('.wishlist-carousel') : 
-                            document.querySelector('.games-carousel');
-                            
-                        if (container && document.querySelectorAll(isWishlistPage ? '.wishlist-card' : '.carousel-card').length === 0) {
-                            container.innerHTML = `<p class="${isWishlistPage ? 'wishlist' : 'games'}-empty-message">
-                                ${isWishlistPage ? 'Votre wishlist est vide.' : 'Vous n\'avez aucun jeu.'}
-                            </p>`;
-                        }
+                        checkEmptyContainer(isWishlist);
                     }
                     showToast('success', 'Jeu supprimé avec succès !');
                 } else {
-                    console.error('Erreur:', data.error);
                     showToast('error', data.error || 'Une erreur est survenue lors de la suppression');
                 }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
+            } catch (error) {
                 showToast('error', 'Une erreur est survenue lors de la suppression');
-            });
+            }
         });
     });
 
+    // Gestion du retournement des cartes
     document.querySelectorAll('.carousel-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Ne retourne pas la carte si on clique sur le bouton supprimer
+        card.addEventListener('click', (e) => {
             if (e.target.closest('button')) return;
-            // Ferme les autres cartes ouvertes
             document.querySelectorAll('.carousel-card.flipped').forEach(c => {
                 if (c !== card) c.classList.remove('flipped');
             });
             card.classList.toggle('flipped');
         });
     });
+}
 
-    if (coverInput.value) {
-        coverPreview.src = coverInput.value;
-        coverPreview.classList.remove('hidden');
-        if (coverPreviewContainer) coverPreviewContainer.classList.remove('hidden');
-    } else {
-        coverPreview.src = '';
-        coverPreview.classList.add('hidden');
-        if (coverPreviewContainer) coverPreviewContainer.classList.add('hidden');
+function checkEmptyContainer(isWishlist) {
+    const container = document.querySelector(isWishlist ? '.wishlist-carousel' : '.games-carousel');
+    const cards = document.querySelectorAll(isWishlist ? '.wishlist-card' : '.carousel-card');
+    
+    if (container && cards.length === 0) {
+        container.innerHTML = `<p class="${isWishlist ? 'wishlist' : 'games'}-empty-message">
+            ${isWishlist ? 'Votre wishlist est vide.' : 'Vous n\'avez aucun jeu.'}
+        </p>`;
     }
-});
+}
 
-// Toast notifications
 window.showToast = function(type, message) {
     const container = document.getElementById('toast-container');
     if (!container) return;
+
     const toast = document.createElement('div');
-    toast.className = 'toast toast-' + type;
+    toast.className = `toast toast-${type}`;
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
     toast.setAttribute('tabindex', '0');
     toast.innerHTML = message;
     container.appendChild(toast);
+
     setTimeout(() => {
         toast.style.opacity = '0';
         toast.style.transform = 'translateY(-20px) scale(0.98)';
         setTimeout(() => container.removeChild(toast), 400);
     }, 2600);
+    
     toast.focus();
 };

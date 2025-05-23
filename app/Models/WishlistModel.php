@@ -27,4 +27,13 @@ class WishlistModel extends Model
                     ->where('wishlist.user_id', $userId)
                     ->findAll();
     }
+
+    public function getDistinctValues($field, $userId)
+    {
+        return $this->select("games.{$field}")
+                   ->join('games', 'games.id = wishlist.game_id')
+                   ->where('wishlist.user_id', $userId)
+                   ->distinct()
+                   ->findAll();
+    }
 }
