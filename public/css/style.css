@@ -1,3 +1,20 @@
+/* ==========================================================================
+   Variables et configuration globale
+   ========================================================================== */
+:root {
+    --primary-color: #7F39FB;
+    --secondary-color: #BB86FC;
+    --accent-color: #00E5FF;
+    --text-color: #E0F7FA;
+    --background-dark: rgba(31, 27, 46, 0.9);
+    --background-darker: rgba(13, 13, 26, 0.85);
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+}
+
+/* ==========================================================================
+   Reset et styles de base
+   ========================================================================== */
 body {
     margin: 0;
     font-family: 'Orbitron', sans-serif;
@@ -6,9 +23,12 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: #E0F7FA;
+    color: var(--text-color);
 }
 
+/* ==========================================================================
+   Navigation et Header
+   ========================================================================== */
 header {
     display: flex;
     justify-content: center;
@@ -19,9 +39,9 @@ header {
 }
 
 .navbar {
-    background-color: rgba(31, 27, 46, 0.9); /* fond semi-transparent */
-    border: 2px solid #7F39FB;
-    border-radius: 12px;
+    background-color: var(--background-dark);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
     padding: 0.5rem 2rem;
     max-width: 1100px;
     width: 95%;
@@ -52,14 +72,14 @@ header {
 
 /* Liens de navigation */
 .navbar-links a {
-    color: #BB86FC;
+    color: var(--secondary-color);
     text-decoration: none;
     margin-right: 15px;
     transition: color 0.3s;
 }
 
 .navbar-links a:hover {
-    color: #00E5FF;
+    color: var(--accent-color);
 }
 
 /* Style du bouton burger */
@@ -78,7 +98,7 @@ header {
     border-radius: 50%; /* Rend l'image circulaire */
     object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
     transition: transform 0.3s ease; /* Animation fluide */
-    border: 2px solid #BB86FC;
+    border: 2px solid var(--secondary-color);
 }
 
 .burger-icon:hover {
@@ -95,8 +115,8 @@ header {
     position: absolute;
     top: 40px;
     right: 0;
-    background: rgba(31, 27, 46, 0.95); /* Fond semi-transparent */
-    border: 1px solid #7F39FB;
+    background: var(--background-dark);
+    border: 1px solid var(--primary-color);
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     z-index: 1000;
@@ -117,13 +137,13 @@ header {
 
 .dropdown ul li a {
     text-decoration: none;
-    color: #BB86FC;
+    color: var(--secondary-color);
     font-size: 1rem;
     transition: color 0.3s;
 }
 
 .dropdown ul li a:hover {
-    color: #00E5FF;
+    color: var(--accent-color);
 }
 
 /* Afficher le menu lorsqu'il est actif */
@@ -148,13 +168,13 @@ header {
 
 .suggestions-list li {
     padding: 10px;
-    color: #E0F7FA;
+    color: var(--text-color);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .suggestions-list li:hover {
-    background-color: #2A2A3F;
+    background-color: var(--background-darker);
 }
 
 /* Style de la barre de défilement */
@@ -165,25 +185,25 @@ header {
 
 /* Couleur de l'arrière-plan de la barre */
 ::-webkit-scrollbar-track {
-    background: rgba(31, 27, 46, 0.9); /* Fond semi-transparent assorti au thème */
+    background: var(--background-dark);
     border-radius: 8px; /* Coins arrondis */
 }
 
 /* Couleur et style de la poignée de défilement */
 ::-webkit-scrollbar-thumb {
-    background: #7F39FB; /* Couleur principale */
+    background: var(--primary-color);
     border-radius: 8px; /* Coins arrondis */
-    border: 2px solid rgba(31, 27, 46, 0.9); /* Bordure assortie au fond */
+    border: 2px solid var(--background-dark);
 }
 
 /* Couleur au survol de la poignée */
 ::-webkit-scrollbar-thumb:hover {
-    background: #9B5DE5; /* Couleur plus claire au survol */
+    background: var(--secondary-color);
 }
 
 /* Couleur au clic sur la poignée */
 ::-webkit-scrollbar-thumb:active {
-    background: #5A189A; /* Couleur plus foncée au clic */
+    background: var(--primary-color);
 }
 
 /* Responsive */
@@ -229,18 +249,20 @@ header {
 
 /* Titres et paragraphes */
 h2 {
-    color: #9B5DE5;
+    color: var(--secondary-color);
 }
 
 p {
-    color: #E0F7FA;
+    color: var(--text-color);
 }
 
-/* Conteneur principal */
+/* ==========================================================================
+   Composants principaux
+   ========================================================================== */
 main {
     max-width: 1200px;
     margin: 2rem auto;
-    background-color: rgba(13, 13, 26, 0.85);
+    background-color: var(--background-darker);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -251,6 +273,15 @@ main {
     margin-bottom: 2rem;
 }
 
+/* ==========================================================================
+   Formulaires et Inputs
+   ========================================================================== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 /* Hidden class */
 .hidden {
     display: none;
@@ -258,67 +289,67 @@ main {
 
 /* Style des boutons globaux */
 button:not(.burger), input[type="submit"], input[type="button"] {
-    background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair */
-    border: 2px solid #BB86FC; /* Bordure dans le thème */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 10px 20px; /* Espacement interne */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    cursor: pointer; /* Curseur en mode clic */
-    transition: all 0.3s ease; /* Animation fluide */
-    text-transform: uppercase; /* Texte en majuscules */
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
 /* Effet au survol */
 button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hover {
-    background-color: #9B5DE5; /* Couleur plus claire au survol */
-    color: #00E5FF; /* Texte plus vif */
-    border-color: #00E5FF; /* Bordure assortie */
-    transform: scale(1.05); /* Légère augmentation de taille */
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
 }
 
 /* Effet au clic */
 button:not(.burger):active, input[type="submit"]:active, input[type="button"]:active {
-    background-color: #5A189A; /* Couleur plus foncée au clic */
-    transform: scale(0.95); /* Légère réduction de taille */
+    background-color: var(--primary-color);
+    transform: scale(0.95);
 }
 
 /* Désactiver les boutons */
 button:not(.burger):disabled, input[type="submit"]:disabled, input[type="button"]:disabled {
-    background-color: #444; /* Couleur grise pour les boutons désactivés */
-    color: #999; /* Texte grisé */
-    border-color: #666; /* Bordure grisée */
-    cursor: not-allowed; /* Curseur interdit */
-    opacity: 0.6; /* Transparence */
+    background-color: #444;
+    color: #999;
+    border-color: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 /* Style pour les boutons de type file */
 input[type="file"] {
-    background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair */
-    border: 2px solid #BB86FC; /* Bordure dans le thème */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 10px; /* Espacement interne */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    cursor: pointer; /* Curseur en mode clic */
-    transition: all 0.3s ease; /* Animation fluide */
-    text-transform: uppercase; /* Texte en majuscules */
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
 /* Effet au survol */
 input[type="file"]:hover {
-    background-color: #9B5DE5; /* Couleur plus claire au survol */
-    color: #00E5FF; /* Texte plus vif */
-    border-color: #00E5FF; /* Bordure assortie */
-    transform: scale(1.05); /* Légère augmentation de taille */
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
 }
 
 /* Effet au clic */
 input[type="file"]:active {
-    background-color: #5A189A; /* Couleur plus foncée au clic */
-    transform: scale(0.95); /* Légère réduction de taille */
+    background-color: var(--primary-color);
+    transform: scale(0.95);
 }
 
 /* Conteneur pour le champ file */
@@ -351,31 +382,31 @@ input[type="file"]:active {
 
 /* Style du bouton personnalisé */
 .custom-file-upload label {
-    background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair */
-    border: 2px solid #BB86FC; /* Bordure dans le thème */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 10px 20px; /* Espacement interne */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    cursor: pointer; /* Curseur en mode clic */
-    transition: all 0.3s ease; /* Animation fluide */
-    text-transform: uppercase; /* Texte en majuscules */
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
     display: inline-block;
 }
 
 /* Effet au survol */
 .custom-file-upload label:hover {
-    background-color: #9B5DE5; /* Couleur plus claire au survol */
-    color: #00E5FF; /* Texte plus vif */
-    border-color: #00E5FF; /* Bordure assortie */
-    transform: scale(1.05); /* Légère augmentation de taille */
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
 }
 
 /* Effet au clic */
 .custom-file-upload label:active {
-    background-color: #5A189A; /* Couleur plus foncée au clic */
-    transform: scale(0.95); /* Légère réduction de taille */
+    background-color: var(--primary-color);
+    transform: scale(0.95);
 }
 
 /* Conteneur pour le bouton de type file */
@@ -410,48 +441,48 @@ input[type="file"]:active {
 
 /* Effet au survol */
 .custom-file-label:hover {
-    background-color: #9B5DE5; /* Couleur plus claire au survol */
-    color: #00E5FF; /* Texte plus vif */
-    border-color: #00E5FF; /* Bordure assortie */
-    transform: scale(1.05); /* Légère augmentation de taille */
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
 }
 
 /* Effet au clic */
 .custom-file-label:active {
-    background-color: #5A189A; /* Couleur plus foncée au clic */
-    transform: scale(0.95); /* Légère réduction de taille */
+    background-color: var(--primary-color);
+    transform: scale(0.95);
 }
 
 /* Style du label personnalisé */
 .file-upload > .custom-file-label {
-    background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair */
-    border: 2px solid #BB86FC; /* Bordure dans le thème */
-    border-radius: 8px; /* Coins arrondis */
-    padding: 10px 20px; /* Espacement interne */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    cursor: pointer; /* Curseur en mode clic */
-    text-transform: uppercase; /* Texte en majuscules */
-    transition: all 0.3s ease; /* Animation fluide */
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
     display: inline-block;
     text-align: center;
-    z-index: 1; /* Assure que le label est au-dessus */
-    position: relative; /* Nécessaire pour éviter les conflits */
+    z-index: 1;
+    position: relative;
 }
 
 /* Effet au survol */
 .file-upload > .custom-file-label:hover {
-    background-color: #9B5DE5; /* Couleur plus claire au survol */
-    color: #00E5FF; /* Texte plus vif */
-    border-color: #00E5FF; /* Bordure assortie */
-    transform: scale(1.05); /* Légère augmentation de taille */
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
 }
 
 /* Effet au clic */
 .file-upload > .custom-file-label:active {
-    background-color: #5A189A; /* Couleur plus foncée au clic */
-    transform: scale(0.95); /* Légère réduction de taille */
+    background-color: var(--primary-color);
+    transform: scale(0.95);
 }
 
 /* Conteneur pour l'aperçu d'image */
@@ -463,31 +494,31 @@ input[type="file"]:active {
 .image-preview img {
     max-width: 100px;
     max-height: 100px;
-    border-radius: 50%; /* Rend l'image circulaire */
-    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
-    border: 2px solid #BB86FC; /* Bordure assortie au thème */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet visuel */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .profile-picture {
-    width: 100px; /* Largeur fixe */
-    height: 100px; /* Hauteur fixe */
-    border-radius: 50%; /* Rend l'image circulaire */
-    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur sans déformation */
-    border: 2px solid #BB86FC; /* Bordure assortie au thème */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet visuel */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: block;
-    margin: 0 auto; /* Centre l'image */
+    margin: 0 auto;
 }
 
 /* Aperçu de la jaquette */
 #coverPreview {
-    max-width: 200px; /* Double la largeur maximale de l'image */
-    max-height: 200px; /* Double la hauteur maximale de l'image */
-    border-radius: 12px; /* Coins arrondis */
-    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur */
-    border: 2px solid #BB86FC; /* Bordure assortie au thème */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour un effet visuel */
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Masquer l'aperçu de la jaquette */
@@ -498,24 +529,24 @@ input[type="file"]:active {
 /* Conteneur pour le champ et l'aperçu */
 .form-row {
     display: flex;
-    justify-content: space-between; /* Espace entre les champs */
-    gap: 20px; /* Ajoute un espacement de 20px entre les colonnes */
+    justify-content: space-between;
+    gap: 20px;
     width: 100%;
-    align-items: flex-start; /* Aligne les champs en haut */
+    align-items: flex-start;
 }
 
 /* Champ "Année de sortie" */
 #releaseYear {
-    width: 80px; /* Largeur adaptée à 4 chiffres */
-    padding: 10px; /* Espacement interne */
-    border: 2px solid #BB86FC; /* Bordure assortie au thème */
-    border-radius: 8px; /* Coins arrondis */
-    background-color: #1E1E2F; /* Couleur de fond */
-    color: #E0F7FA; /* Couleur du texte */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    text-align: center; /* Centre le texte dans le champ */
-    box-sizing: border-box; /* Inclut la bordure dans la largeur */
+    width: 80px;
+    padding: 10px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    background-color: var(--background-darker);
+    color: var(--text-color);
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 /* Pour les groupes dans la ligne statut/temps de jeu */
@@ -525,7 +556,7 @@ input[type="file"]:active {
     width: 100%;
     max-width: 420px;
     margin: 0 auto 2rem auto;
-    align-items: flex-end; /* alignement bas pour labels et champs */
+    align-items: flex-end;
 }
 
 /* Chaque colonne (statut ou temps de jeu) */
@@ -543,7 +574,7 @@ input[type="file"]:active {
 .form-row-status .form-group label {
     margin-bottom: 4px;
     font-size: 1rem;
-    color: #9B5DE5;
+    color: var(--secondary-color);
     text-align: left;
     width: 100%;
     max-width: 200px;
@@ -557,107 +588,107 @@ input[type="file"]:active {
     max-width: 200px;
     box-sizing: border-box;
     margin-top: 0;
-    height: 48px; /* harmonise la hauteur des champs */
+    height: 48px;
 }
 
 /* Centrer les champs de formulaire */
 form {
     display: flex;
-    flex-direction: column; /* Aligne les éléments verticalement */
-    align-items: center; /* Centre les champs horizontalement */
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Champs de formulaire */
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
-form input[type="number"] { /* Ajout de type="number" */
-    width: 80%; /* Largeur réduite à 80% */
-    max-width: 400px; /* Largeur maximale */
-    padding: 10px 15px; /* Espacement interne */
-    margin-bottom: 1rem; /* Espacement entre les champs */
-    border: 2px solid #BB86FC; /* Bordure assortie au thème */
-    border-radius: 8px; /* Coins arrondis */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    color: #E0F7FA; /* Couleur du texte */
-    background-color: #1E1E2F; /* Couleur de fond */
-    transition: all 0.3s ease; /* Animation fluide */
+form input[type="number"] {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px 15px;
+    margin-bottom: 1rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-darker);
+    transition: all 0.3s ease;
 }
 
 /* Centrer les labels */
 form label {
-    display: block; /* Force les labels à occuper toute la largeur */
-    margin-bottom: 0.5rem; /* Espacement entre le label et le champ */
-    font-size: 1rem; /* Taille du texte */
-    color: #9B5DE5; /* Couleur des labels */
-    text-align: left; /* Aligne le texte à gauche */
-    width: 80%; /* Largeur alignée avec les champs */
-    max-width: 400px; /* Largeur maximale */
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--secondary-color);
+    text-align: left;
+    width: 80%;
+    max-width: 400px;
 }
 
 /* Effet au survol */
 form input[type="text"]:hover,
 form input[type="email"]:hover,
 form input[type="password"]:hover,
-form input[type="number"]:hover { /* Ajout de type="number" */
-    border-color: #9B5DE5; /* Bordure plus claire au survol */
-    background-color: #2A2A3F; /* Fond légèrement éclairci */
+form input[type="number"]:hover {
+    border-color: var(--secondary-color);
+    background-color: var(--background-darker);
 }
 
 /* Effet au focus */
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form input[type="password"]:focus,
-form input[type="number"]:focus { /* Ajout de type="number" */
-    border-color: #00E5FF; /* Bordure vive au focus */
-    outline: none; /* Supprime le contour par défaut */
-    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5); /* Ajoute une lueur */
+form input[type="number"]:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 }
 
 /* Bouton de soumission */
 form button {
-    background-color: #7F39FB; /* Couleur principale */
-    color: #E0F7FA; /* Texte clair *    /
-    padding: 10px 15px; /* Espacement interne */
-    border: none; /* Supprime la bordure par défaut */
-    border-radius: 8px; /* Coins arrondis */
-    font-size: 1rem; /* Taille du texte */
-    font-family: 'Orbitron', sans-serif; /* Police du site */
-    cursor: pointer; /* Curseur en mode clic */
-    text-transform: uppercase; /* Texte en majuscules */
-    transition: all 0.3s ease; /* Animation fluide */
-    width: 80%; /* Largeur alignée avec les champs */
-    max-width: 400px; /* Largeur maximale */
-    margin-top: 1rem; /* Espacement au-dessus */
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    width: 80%;
+    max-width: 400px;
+    margin-top: 1rem;
 }
 
 /* Effet au survol du bouton */
 form button:hover {
-    background-color: #9B5DE5; /* Couleur plus claire */
-    transform: scale(1.05); /* Légère augmentation de taille */
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
 }
 
 /* Effet au clic sur le bouton */
 form button:active {
-    transform: scale(0.95); /* Légère réduction de taille */
-    background-color: #5A189A; /* Couleur plus foncée */
+    transform: scale(0.95);
+    background-color: var(--primary-color);
 }
 
 /* Conteneur pour les lignes flexibles */
 .form-row {
     display: flex;
-    justify-content: space-between; /* Espace entre les champs */
-    gap: 20px; /* Ajoute un espacement de 20px entre les colonnes */
+    justify-content: space-between;
+    gap: 20px;
     width: 100%;
-    align-items: flex-start; /* Aligne les champs en haut */
+    align-items: flex-start;
 }
 
 /* Champs dans une ligne flexible */
 .form-row .form-group {
     display: flex;
     flex-direction: column;
-    min-height: 100px; /* Ajuste cette valeur selon la taille de tes champs + message */
+    min-height: 100px;
     justify-content: flex-start;
     position: relative;
 }
@@ -666,7 +697,7 @@ form button:active {
 .form-group {
     position: relative;
     margin-bottom: 2rem;
-    min-height: 90px; /* Ajuste cette valeur pour couvrir la hauteur du champ + message */
+    min-height: 90px;
     width: 100%;
     max-width: 400px;
     display: flex;
@@ -679,23 +710,23 @@ form button:active {
     width: 100%;
     max-width: 400px;
     padding: 10px 15px;
-    border: 2px solid #BB86FC;
+    border: 2px solid var(--secondary-color);
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Orbitron', sans-serif;
-    color: #E0F7FA;
-    background-color: #1E1E2F;
+    color: var(--text-color);
+    background-color: var(--background-darker);
     transition: all 0.3s ease;
     box-sizing: border-box;
-    height: 48px; /* Hauteur fixe pour tous les champs */
+    height: 48px;
 }
 
 /* Affiche le message d'erreur en bulle sous le champ, sans agrandir le champ */
 .text-danger {
     margin-top: 8px;
     font-size: 0.95em;
-    color: #FF6F61;
-    background: rgba(31,27,46,0.95);
+    color: #ff4444;
+    background: var(--background-darker);
     border-radius: 8px;
     padding: 6px 12px;
     display: block;
@@ -705,20 +736,23 @@ form button:active {
     box-sizing: border-box;
 }
 
-/* === MODAL AMÉLIORÉ === */
+/* ==========================================================================
+   Modales et Overlays
+   ========================================================================== */
 .modal {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: opacity var(--transition-speed), visibility var(--transition-speed);
 }
 
 .modal.active {
@@ -727,7 +761,7 @@ form button:active {
 }
 
 .modal-content {
-    background: linear-gradient(145deg, rgba(31, 27, 46, 0.95), rgba(42, 42, 63, 0.98));
+    background: linear-gradient(145deg, var(--background-dark), var(--background-darker));
     padding: 2.5rem;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -738,7 +772,7 @@ form button:active {
     position: relative;
     transform: translateY(20px);
     transition: transform 0.3s ease;
-    border: 2px solid #7F39FB;
+    border: 2px solid var(--primary-color);
 }
 
 .modal.active .modal-content {
@@ -747,7 +781,7 @@ form button:active {
 
 .modal-content h2 {
     font-size: 2rem;
-    color: #9B5DE5;
+    color: var(--secondary-color);
     margin-bottom: 2.5rem;
     text-align: center;
     font-family: 'Orbitron', sans-serif;
@@ -777,7 +811,7 @@ form button:active {
     padding: 0;
     margin-bottom: 0.8rem;
     font-size: 1rem;
-    color: #BB86FC;
+    color: var(--secondary-color);
     font-weight: 500;
     z-index: 1;
 }
@@ -786,9 +820,9 @@ form button:active {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: rgba(31, 27, 46, 0.9);
-    border: 2px solid #7F39FB;
-    color: #E0F7FA;
+    background: var(--background-dark);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -802,8 +836,8 @@ form button:active {
 }
 
 .modal-close:hover {
-    background: #7F39FB;
-    color: #00E5FF;
+    background: var(--primary-color);
+    color: var(--accent-color);
     transform: rotate(90deg);
 }
 
@@ -838,8 +872,8 @@ form button:active {
     width: 100%;
     max-height: 200px;
     overflow-y: auto;
-    background: rgba(31, 27, 46, 0.98);
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
     margin-top: 0.5rem;
     z-index: 1000;
@@ -848,22 +882,22 @@ form button:active {
 
 .suggestions-list li {
     padding: 0.8rem 1rem;
-    color: #E0F7FA;
+    color: var(--text-color);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .suggestions-list li:hover {
     background: rgba(127, 57, 251, 0.2);
-    color: #00E5FF;
+    color: var(--accent-color);
 }
 
 /* Style pour le bouton de soumission */
 .modal-content button[type="submit"] {
     width: 100%;
     padding: 1rem;
-    background: #7F39FB;
-    color: #E0F7FA;
+    background: var(--primary-color);
+    color: var(--text-color);
     border: none;
     border-radius: 10px;
     font-size: 1.1rem;
@@ -876,14 +910,14 @@ form button:active {
 }
 
 .modal-content button[type="submit"]:hover {
-    background: #9B5DE5;
+    background: var(--secondary-color);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(127, 57, 251, 0.3);
 }
 
 .modal-content button[type="submit"]:active {
     transform: translateY(0);
-    background: #5A189A;
+    background: var(--primary-color);
 }
 
 /* Style pour l'aperçu de la jaquette */
@@ -925,17 +959,27 @@ form button:active {
     }
 }
 
+/* ==========================================================================
+   Cartes et Carousels
+   ========================================================================== */
+.carousel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
 /* === DASHBOARD HOME === */
 .dashboard-home {
     max-width: 1100px;
     margin: 2rem auto;
-    background: rgba(13, 13, 26, 0.92);
+    background: var(--background-darker);
     border-radius: 18px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     padding: 2.5rem 2rem 2rem 2rem;
 }
 .dashboard-home h2 {
-    color: #9B5DE5;
+    color: var(--secondary-color);
     margin-top: 2rem;
     margin-bottom: 1rem;
     font-size: 1.5rem;
@@ -949,16 +993,16 @@ form button:active {
     justify-content: flex-start;
 }
 .game-card {
-    background: rgba(31, 27, 46, 0.95);
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-    width: 208px; /* 160px * 1.3 */
-    height: 117px; /* 90px * 1.3 */
+    width: 208px;
+    height: 117px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #E0F7FA;
+    color: var(--text-color);
     font-size: 1.1rem;
     font-family: 'Orbitron', sans-serif;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -970,7 +1014,7 @@ form button:active {
 .game-card:hover {
     transform: scale(1.06);
     box-shadow: 0 8px 24px #7F39FB44;
-    border-color: #9B5DE5;
+    border-color: var(--secondary-color);
     animation: none;
 }
 .dashboard-stats {
@@ -981,10 +1025,10 @@ form button:active {
     justify-content: flex-start;
 }
 .stat-card {
-    background: rgba(31, 27, 46, 0.95);
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
-    color: #00E5FF;
+    color: var(--accent-color);
     font-size: 1.1rem;
     padding: 1.2rem 2.2rem;
     min-width: 180px;
@@ -994,7 +1038,7 @@ form button:active {
     margin-bottom: 0.5rem;
 }
 .stat-card span {
-    color: #E0F7FA;
+    color: var(--text-color);
     font-weight: bold;
     font-size: 1.2em;
 }
@@ -1016,7 +1060,7 @@ form button:active {
     gap: 1.2rem;
     margin: 2rem 0 2.5rem 0;
     padding: 1rem 1.5rem;
-    background: rgba(31, 27, 46, 0.92);
+    background: var(--background-darker);
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.18);
     align-items: center;
@@ -1028,9 +1072,9 @@ form button:active {
     max-width: 100%;
     min-width: 120px;
     display: inline-block;
-    background: #1E1E2F;
-    color: #E0F7FA;
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Orbitron', sans-serif;
@@ -1041,7 +1085,7 @@ form button:active {
     box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 .filters-bar select:focus {
-    border-color: #00E5FF;
+    border-color: var(--accent-color);
     box-shadow: 0 0 8px #7F39FB55;
 }
 @media (max-width: 700px) {
@@ -1075,8 +1119,8 @@ form button:active {
 
 .wishlist-card {
     position: relative;
-    background: rgba(31, 27, 46, 0.95);
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
     border-radius: 15px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -1088,7 +1132,7 @@ form button:active {
 .wishlist-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(127, 57, 251, 0.3);
-    border-color: #9B5DE5;
+    border-color: var(--secondary-color);
     animation: none;
 }
 
@@ -1096,16 +1140,16 @@ form button:active {
     width: 100%;
     height: 70%;
     object-fit: cover;
-    border-bottom: 2px solid #7F39FB;
+    border-bottom: 2px solid var(--primary-color);
 }
 
 .wishlist-card .card-info {
     padding: 1rem;
-    background: rgba(31, 27, 46, 0.98);
+    background: var(--background-darker);
 }
 
 .wishlist-card .card-title {
-    color: #E0F7FA;
+    color: var(--text-color);
     font-size: 1.2rem;
     margin: 0 0 0.5rem 0;
     white-space: nowrap;
@@ -1121,11 +1165,11 @@ form button:active {
 }
 
 .wishlist-card .card-detail {
-    color: #BB86FC;
+    color: var(--secondary-color);
 }
 
 .wishlist-card .card-detail strong {
-    color: #00E5FF;
+    color: var(--accent-color);
     margin-right: 0.3rem;
 }
 
@@ -1144,9 +1188,9 @@ form button:active {
 }
 
 .wishlist-card .btn-action {
-    background: rgba(31, 27, 46, 0.9);
-    border: 2px solid #7F39FB;
-    color: #E0F7FA;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -1158,8 +1202,8 @@ form button:active {
 }
 
 .wishlist-card .btn-action:hover {
-    background: #7F39FB;
-    color: #00E5FF;
+    background: var(--primary-color);
+    color: var(--accent-color);
     transform: scale(1.1);
 }
 
@@ -1205,9 +1249,9 @@ form button:active {
 
 .wishlist-empty-message {
     text-align: center;
-    color: #9B5DE5;
-    background: rgba(31, 27, 46, 0.92);
-    border: 2px dashed #7F39FB;
+    color: var(--secondary-color);
+    background: var(--background-darker);
+    border: 2px dashed var(--primary-color);
     border-radius: 14px;
     padding: 2.5rem 1.5rem;
     font-size: 1.3rem;
@@ -1221,7 +1265,7 @@ form button:active {
 .auth-section {
     max-width: 420px;
     margin: 3.5rem auto 2.5rem auto;
-    background: rgba(31, 27, 46, 0.97);
+    background: var(--background-darker);
     border-radius: 18px;
     box-shadow: 0 0 20px #7F39FB33;
     padding: 2.5rem 2rem 2rem 2rem;
@@ -1230,7 +1274,7 @@ form button:active {
     align-items: center;
 }
 .auth-title {
-    color: #9B5DE5;
+    color: var(--secondary-color);
     font-size: 2rem;
     margin-bottom: 2rem;
     font-family: 'Orbitron', sans-serif;
@@ -1246,17 +1290,17 @@ form button:active {
 .auth-link {
     margin-top: 1.5rem;
     text-align: center;
-    color: #E0F7FA;
+    color: var(--text-color);
     font-size: 1rem;
 }
 .auth-link a {
-    color: #7F39FB;
+    color: var(--primary-color);
     text-decoration: underline;
     font-weight: bold;
     transition: color 0.2s;
 }
 .auth-link a:hover {
-    color: #00E5FF;
+    color: var(--accent-color);
 }
 @media (max-width: 600px) {
     .auth-section {
@@ -1281,7 +1325,7 @@ form button:active {
 .toast {
     min-width: 220px;
     max-width: 350px;
-    background: #7F39FB;
+    background: var(--primary-color);
     color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 16px #7F39FB55;
@@ -1338,9 +1382,9 @@ form button:active {
 select,
 .form-control,
 select[name="status"] {
-    background: #1E1E2F;
-    color: #E0F7FA;
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Orbitron', sans-serif;
@@ -1353,16 +1397,16 @@ select[name="status"] {
 
 select:focus,
 select:hover {
-    border-color: #00E5FF;
+    border-color: var(--accent-color);
     box-shadow: 0 0 8px #7F39FB55;
-    color: #00E5FF;
+    color: var(--accent-color);
 }
 
 /* Style moderne pour les textarea */
 textarea {
-    background: #1E1E2F;
-    color: #E0F7FA;
-    border: 2px solid #7F39FB;
+    background: var(--background-darker);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Orbitron', sans-serif;
@@ -1378,14 +1422,14 @@ textarea {
 
 textarea:focus,
 textarea:hover {
-    border-color: #00E5FF;
+    border-color: var(--accent-color);
     box-shadow: 0 0 8px #7F39FB55;
-    color: #00E5FF;
+    color: var(--accent-color);
 }
 
 /* Conteneur de la jaquette dans la carte jeu et wishlist */
 .card-cover-container {
-    width: 84px; /* 20% plus grand que 70px */
+    width: 84px;
     height: 84px;
     display: flex;
     align-items: center;
@@ -1400,17 +1444,17 @@ textarea:hover {
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
-    border: 2px solid #7F39FB;
+    border: 2px solid var(--primary-color);
     box-shadow: 0 2px 8px #7F39FB44;
-    background: #1E1E2F;
+    background: var(--background-darker);
 }
 
 /* Effet flip sur les cartes jeux */
 .carousel-card {
     perspective: 800px;
     position: relative;
-    min-width: 260px; /* 200px * 1.3 */
-    min-height: 156px; /* 120px * 1.3 */
+    min-width: 260px;
+    min-height: 156px;
 }
 .carousel-card .card-front,
 .carousel-card .card-back {
@@ -1429,7 +1473,7 @@ textarea:hover {
 }
 .carousel-card .card-front {
     z-index: 2;
-    background: rgba(31, 27, 46, 0.95);
+    background: var(--background-darker);
     display: flex;
     align-items: stretch;
     justify-content: stretch;
@@ -1448,15 +1492,15 @@ textarea:hover {
     height: 100%;
     border-radius: 12px;
     object-fit: cover;
-    border: 2px solid #7F39FB;
+    border: 2px solid var(--primary-color);
     box-shadow: 0 2px 8px #7F39FB44;
-    background: #1E1E2F;
+    background: var(--background-darker);
 }
 
 /* Scroll sur le verso */
 .carousel-card .card-back {
     transform: rotateY(180deg);
-    background: rgba(31, 27, 46, 0.98);
+    background: var(--background-darker);
     z-index: 1;
     overflow: hidden;
     display: flex;
@@ -1496,8 +1540,8 @@ textarea:hover {
     max-height: 32px !important;
     border-radius: 50%;
     background: rgba(31, 27, 46, 0.4) !important;
-    color: #E0F7FA !important;
-    border: 2px solid #7F39FB !important;
+    color: var(--text-color) !important;
+    border: 2px solid var(--primary-color) !important;
     position: absolute;
     opacity: 0;
     pointer-events: none;
@@ -1522,8 +1566,8 @@ textarea:hover {
 
 .carousel-card .btn-action.delete:hover {
     background: rgba(127, 57, 251, 0.7) !important;
-    color: #00E5FF !important;
-    border-color: #00E5FF !important;
+    color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
 }
 
 /* Style pour les cartes des derniers jeux joués */
@@ -1532,7 +1576,7 @@ textarea:hover {
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
-    display: block; /* Pour s'assurer que l'image est bien visible */
+    display: block;
 }
 
 .game-card {
@@ -1561,8 +1605,8 @@ textarea:hover {
     font-size: 1.15rem;
     font-family: 'Orbitron', sans-serif;
     border-radius: 10px;
-    border: 2px solid #7F39FB;
-    background: linear-gradient(90deg, #7F39FB 80%, #9B5DE5 100%);
+    border: 2px solid var(--primary-color);
+    background: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%);
     color: #fff;
     text-transform: uppercase;
     font-weight: 600;
@@ -1573,14 +1617,14 @@ textarea:hover {
     cursor: pointer;
 }
 .home-btn:hover {
-    background: linear-gradient(90deg, #9B5DE5 80%, #00E5FF 100%);
-    color: #1E1E2F;
-    border-color: #00E5FF;
+    background: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%);
+    color: var(--background-darker);
+    border-color: var(--accent-color);
     box-shadow: 0 6px 24px #00E5FF55;
     transform: translateY(-2px) scale(1.04);
 }
 .home-btn:active {
-    background: #5A189A;
+    background: var(--primary-color);
     color: #fff;
     transform: scale(0.98);
 }
