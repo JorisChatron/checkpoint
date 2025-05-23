@@ -114,13 +114,13 @@ $this->section('content');
             <input type="hidden" id="rawg_game_id" name="game_id">
             <div class="form-group">
                 <label for="game_name">Nom du jeu :</label>
-                <input type="text" id="game_name" name="searchGame" readonly required>
+                <input type="text" id="game_name" name="searchGame" readonly>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="wishlist_platform">Plateforme :</label>
-                    <input type="text" id="wishlist_platform" name="platform" readonly required>
+                    <input type="text" id="wishlist_platform" name="platform" readonly>
                 </div>
                 <div class="form-group">
                     <label for="wishlist_releaseYear">Année de sortie :</label>
@@ -145,7 +145,7 @@ $this->section('content');
             <!-- Statut -->
             <div class="form-group">
                 <label for="wishlist_status">Statut :</label>
-                <select name="status" id="wishlist_status" required>
+                <select name="status" id="wishlist_status">
                     <option value="">Sélectionnez un statut</option>
                     <option value="souhaité">Souhaité</option>
                     <option value="acheté">Acheté</option>

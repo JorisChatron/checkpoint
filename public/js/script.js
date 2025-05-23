@@ -146,48 +146,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Gestionnaire pour les formulaires de suppression (ancienne version)
-    document.querySelectorAll('.delete-game-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (!confirm('Supprimer ce jeu ?')) return;
-            const gameId = this.getAttribute('data-id');
-            const isWishlistPage = window.location.pathname.includes('wishlist');
-            const endpoint = isWishlistPage ? `/checkpoint/public/wishlist/delete/${gameId}` : `/checkpoint/public/mes-jeux/delete/${gameId}`;
-            fetch(endpoint, {
-                method: 'POST'
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    showToast('success', 'Jeu supprimé avec succès !');
-                    setTimeout(() => location.reload(), 1200);
-                } else {
-                    showToast('error', data.error || 'Erreur lors de la suppression');
-                }
-            });
-        });
-    });
-    
-    // Gestionnaire pour les boutons de suppression directs
+    // Gestionnaire pour les boutons de suppression
     document.querySelectorAll('.btn-action.delete').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            if (!confirm('Supprimer ce jeu ?')) return;
+            
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?')) {
+                return;
+            }
+            
             const gameId = this.getAttribute('data-id');
+            if (!gameId) {
+                showToast('error', 'ID du jeu non trouvé');
+                return;
+            }
+
             const isWishlistPage = window.location.pathname.includes('wishlist');
             const endpoint = isWishlistPage ? `/checkpoint/public/wishlist/delete/${gameId}` : `/checkpoint/public/mes-jeux/delete/${gameId}`;
+            
             fetch(endpoint, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             })
-            .then(res => res.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur réseau');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
+                    // Supprimer la carte du jeu de l'affichage
+                    const card = this.closest('.wishlist-card, .carousel-card');
+                    if (card) {
+                        card.remove();
+                        
+                        // Si c'était le dernier jeu, afficher un message approprié
+                        const container = isWishlistPage ? 
+                            document.querySelector('.wishlist-carousel') : 
+                            document.querySelector('.games-carousel');
+                            
+                        if (container && document.querySelectorAll(isWishlistPage ? '.wishlist-card' : '.carousel-card').length === 0) {
+                            container.innerHTML = `<p class="${isWishlistPage ? 'wishlist' : 'games'}-empty-message">
+                                ${isWishlistPage ? 'Votre wishlist est vide.' : 'Vous n\'avez aucun jeu.'}
+                            </p>`;
+                        }
+                    }
                     showToast('success', 'Jeu supprimé avec succès !');
-                    setTimeout(() => location.reload(), 1200);
                 } else {
-                    showToast('error', data.error || 'Erreur lors de la suppression');
+                    console.error('Erreur:', data.error);
+                    showToast('error', data.error || 'Une erreur est survenue lors de la suppression');
                 }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                showToast('error', 'Une erreur est survenue lors de la suppression');
             });
         });
     });

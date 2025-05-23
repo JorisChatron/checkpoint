@@ -40,9 +40,7 @@ $this->section('content');
                      style="width:180px;height:180px;object-fit:cover;border-radius:12px;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;background:#1E1E2F;display:block;">
             </div>
             <div class="card-actions">
-                <form class="delete-game-form" data-id="<?= $game['id'] ?>">
-                    <button type="submit" class="btn-action delete" title="Supprimer">&times;</button>
-                </form>
+                <button type="button" class="btn-action delete" data-id="<?= $game['id'] ?>" title="Supprimer">&times;</button>
             </div>
             <div class="card-info" style="margin-top:1.2rem;">
                 <h3 class="card-title" style="text-align:center;"><?= esc($game['name']) ?></h3>
