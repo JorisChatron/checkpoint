@@ -42,6 +42,12 @@ $this->section('content');
     // On trie les genres par ordre alpha
     asort($allGenres);
     ?>
+    <div style="text-align:center;margin-bottom:1.5rem;">
+        <div style="display:inline-flex;align-items:center;gap:1rem;background:rgba(31,27,46,0.92);padding:1rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;">
+            <input type="text" id="searchGame" placeholder="Rechercher un jeu..." style="padding:0.7rem;background:rgba(31,27,46,0.92);color:#E0F7FA;border:1px solid #7F39FB;border-radius:8px;width:300px;">
+            <button id="clearSearch" class="home-btn" style="width:auto;font-size:0.98rem;padding:0.7rem 1.2rem;">Effacer</button>
+        </div>
+    </div>
     <form id="genre-filter-form" style="background:rgba(31,27,46,0.92);padding:1.2rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;margin-bottom:2.2rem;max-width:900px;margin-left:auto;margin-right:auto;">
         <div style="display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-content:center;">
             <?php foreach ($allGenres as $slug => $name): ?>
@@ -315,6 +321,51 @@ document.getElementById('uncheckAllGenres').addEventListener('click', function()
 // Filtrage initial
 updateGenreFilter();
 
+// Code de recherche
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchGame');
+    const clearSearchBtn = document.getElementById('clearSearch');
+    const cards = document.querySelectorAll('.calendrier-card');
+    
+    function filterGames() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        cards.forEach(card => {
+            // On cible spécifiquement le span qui contient le nom du jeu
+            const titleSpan = card.querySelector('span[style*="font-weight:bold"]');
+            if (!titleSpan) return;
+            
+            const gameName = titleSpan.textContent.toLowerCase().trim();
+            const genres = (card.dataset.genres || '').split(',');
+            const checkedGenres = Array.from(document.querySelectorAll('.genre-checkbox:checked')).map(cb => cb.value);
+            
+            const matchesSearch = searchTerm === '' || gameName.includes(searchTerm);
+            const matchesGenres = genres.some(g => checkedGenres.includes(g));
+            
+            card.style.display = (matchesSearch && matchesGenres) ? '' : 'none';
+        });
+    }
+    
+    if (searchInput) {
+        // Filtrer à chaque frappe
+        searchInput.addEventListener('input', filterGames);
+        // Filtrer aussi quand on quitte le champ (pour être sûr)
+        searchInput.addEventListener('blur', filterGames);
+    }
+    
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', function() {
+            if (searchInput) {
+                searchInput.value = '';
+                filterGames();
+            }
+        });
+    }
+    
+    // Rendre la fonction de filtrage disponible globalement
+    window.updateGenreFilter = filterGames;
+});
+
 // Flatpickr pour choisir une semaine (mode semaine)
 if (typeof flatpickr !== 'undefined') {
     flatpickr("#hiddenWeekInput", {
@@ -424,10 +475,5 @@ if (addWishlistForm) {
     });
 }
 
-document.querySelectorAll('.calendrier-card').forEach(card => {
-    card.addEventListener('click', function() {
-        openGameModal(this.dataset.gameId);
-    });
-});
 </script>
 <?php $this->endSection(); ?> 
