@@ -1,67 +1,91 @@
 <?php 
 
 namespace App\Controllers;
-use App\Models\WishlistModel;
-use App\Models\GameModel;
+use App\Models\WishlistModel;  // Modèle pour la gestion de la wishlist
+use App\Models\GameModel;      // Modèle pour la gestion des jeux
 
+/**
+ * Contrôleur de gestion de la wishlist (liste de souhaits)
+ * Permet de gérer les jeux que l'utilisateur souhaite acquérir
+ */
 class WishlistController extends BaseController
 {
-    protected $wishlistModel;
-    protected $gameModel;
+    protected $wishlistModel;  // Instance du modèle Wishlist
+    protected $gameModel;      // Instance du modèle Game
 
+    /**
+     * Constructeur : initialise les modèles nécessaires
+     */
     public function __construct()
     {
         $this->wishlistModel = new WishlistModel();
         $this->gameModel = new GameModel();
     }
 
+    /**
+     * Affiche la liste des jeux dans la wishlist avec filtres
+     * 
+     * @return mixed Vue de la wishlist ou redirection
+     */
     public function index()
     {
+        // Vérification de la connexion utilisateur
         $userId = session()->get('user_id');
         if (!$userId) return redirect()->to('/login');
 
+        // Récupération des filtres depuis l'URL
         $filters = [
-            'platform' => $this->request->getGet('platform'),
-            'status' => $this->request->getGet('status'),
-            'genre' => $this->request->getGet('genre')
+            'platform' => $this->request->getGet('platform'),  // Filtre par plateforme
+            'status' => $this->request->getGet('status'),      // Filtre par statut
+            'genre' => $this->request->getGet('genre')         // Filtre par genre
         ];
 
+        // Construction de la requête avec jointure
         $builder = $this->wishlistModel
             ->select('wishlist.*, games.name, games.platform, games.release_date, games.category, games.cover')
             ->join('games', 'games.id = wishlist.game_id')
             ->where('wishlist.user_id', $userId);
 
+        // Application des filtres
         foreach ($filters as $key => $value) {
             if ($value) $builder->where($key === 'genre' ? 'games.category' : ($key === 'platform' ? 'games.platform' : 'wishlist.status'), $value);
         }
 
+        // Rendu de la vue avec les données
         return view('wishlist/index', [
             'title' => 'Ma Wishlist',
-            'wishlist' => $builder->findAll(),
-            'platforms' => $this->wishlistModel->getDistinctValues('platform', $userId),
-            'genres' => $this->wishlistModel->getDistinctValues('category', $userId),
-            'statuses' => [['status' => 'souhaité'], ['status' => 'acheté'], ['status' => 'joué']],
-            'selectedPlatform' => $filters['platform'],
-            'selectedStatus' => $filters['status'],
-            'selectedGenre' => $filters['genre']
+            'wishlist' => $builder->findAll(),                                    // Liste des jeux filtrée
+            'platforms' => $this->wishlistModel->getDistinctValues('platform', $userId), // Plateformes disponibles
+            'genres' => $this->wishlistModel->getDistinctValues('category', $userId),   // Genres disponibles
+            'statuses' => [['status' => 'souhaité'], ['status' => 'acheté'], ['status' => 'joué']], // Statuts possibles
+            'selectedPlatform' => $filters['platform'],  // Plateforme sélectionnée
+            'selectedStatus' => $filters['status'],      // Statut sélectionné
+            'selectedGenre' => $filters['genre']         // Genre sélectionné
         ]);
     }
 
+    /**
+     * Ajoute un jeu à la wishlist
+     * Gère à la fois les jeux RAWG et les jeux ajoutés manuellement
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     public function add()
     {
         try {
+            // Vérification de la connexion
             $userId = session()->get('user_id');
             if (!$userId) return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
 
+            // Récupération des données (JSON ou POST)
             $data = $this->request->getJSON(true) ?: $this->request->getPost();
             
-            // Gestion RAWG
+            // Traitement différent selon la source du jeu
             if (isset($data['game_id']) && !isset($data['searchGame'])) {
-                return $this->handleRawgGame($userId, $data);
+                return $this->handleRawgGame($userId, $data);  // Jeu depuis RAWG
             }
 
-            // Gestion formulaire classique
-            return $this->handleFormGame($userId, $data);
+            return $this->handleFormGame($userId, $data);      // Jeu depuis formulaire
 
         } catch (\Exception $e) {
             log_message('error', 'Exception dans add(): ' . $e->getMessage());
@@ -72,22 +96,38 @@ class WishlistController extends BaseController
         }
     }
 
+    /**
+     * Gère l'ajout d'un jeu depuis l'API RAWG
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param array $data Données du jeu
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     protected function handleRawgGame($userId, $data)
     {
         $rawgId = $data['game_id'];
+        // Vérifie si le jeu existe déjà dans la base
         $game = $this->gameModel->where('rawg_id', $rawgId)->first();
 
         if (!$game) {
-            $gameId = $this->createGameFromRawg($rawgId);
+            $gameId = $this->createGameFromRawg($rawgId);  // Création depuis RAWG
         } else {
-            $gameId = $game['id'];
+            $gameId = $game['id'];  // Utilisation du jeu existant
         }
 
         return $this->addToWishlist($userId, $gameId, $data['status'] ?? 'souhaité');
     }
 
+    /**
+     * Gère l'ajout d'un jeu depuis le formulaire manuel
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param array $data Données du formulaire
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     protected function handleFormGame($userId, $data)
     {
+        // Préparation des données du jeu
         $gameData = [
             'name' => $data['searchGame'] ?? 'Jeu sans nom',
             'platform' => $data['platform'] ?? 'Inconnue',
@@ -96,18 +136,27 @@ class WishlistController extends BaseController
             'cover' => $data['cover'] ?? null
         ];
 
+        // Vérifie si le jeu existe déjà
         $game = $this->gameModel->where(['name' => $gameData['name'], 'platform' => $gameData['platform']])->first();
         $gameId = $game ? $game['id'] : $this->gameModel->insert($gameData, true);
 
         return $this->addToWishlist($userId, $gameId, $data['status'] ?? 'souhaité');
     }
 
+    /**
+     * Crée un nouveau jeu à partir des données RAWG
+     * 
+     * @param int $rawgId ID du jeu dans l'API RAWG
+     * @return int ID du jeu créé
+     */
     protected function createGameFromRawg($rawgId)
     {
         try {
+            // Appel à l'API RAWG
             $apiKey = 'ff6f7941c211456c8806541638fdfaff';
             $response = @file_get_contents("https://api.rawg.io/api/games/{$rawgId}?key={$apiKey}");
             
+            // Si l'appel échoue, crée une entrée minimale
             if (!$response) {
                 return $this->gameModel->insert([
                     'name' => 'Jeu ID: ' . $rawgId,
@@ -116,6 +165,7 @@ class WishlistController extends BaseController
                 ], true);
             }
 
+            // Création du jeu avec les données RAWG
             $game = json_decode($response, true);
             return $this->gameModel->insert([
                 'name' => $game['name'] ?? ('Jeu ID: ' . $rawgId),
@@ -126,6 +176,7 @@ class WishlistController extends BaseController
                 'rawg_id' => $rawgId
             ], true);
         } catch (\Exception $e) {
+            // En cas d'erreur, crée une entrée minimale
             log_message('error', 'Erreur RAWG: ' . $e->getMessage());
             return $this->gameModel->insert([
                 'name' => 'Jeu ID: ' . $rawgId,
@@ -135,13 +186,23 @@ class WishlistController extends BaseController
         }
     }
 
+    /**
+     * Ajoute un jeu à la wishlist de l'utilisateur
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param int $gameId ID du jeu
+     * @param string $status Statut initial du jeu
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     protected function addToWishlist($userId, $gameId, $status)
     {
+        // Vérifie si le jeu est déjà dans la wishlist
         if ($this->wishlistModel->where(['user_id' => $userId, 'game_id' => $gameId])->first()) {
             return $this->response->setJSON(['success' => false, 'message' => 'Ce jeu est déjà dans votre wishlist']);
         }
 
         try {
+            // Ajout à la wishlist
             $this->wishlistModel->insert([
                 'user_id' => $userId,
                 'game_id' => $gameId,
@@ -153,12 +214,20 @@ class WishlistController extends BaseController
         }
     }
 
+    /**
+     * Supprime un jeu de la wishlist
+     * 
+     * @param int $wishlistId ID de l'entrée dans la wishlist
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     public function delete($wishlistId)
     {
         try {
+            // Vérification de la connexion
             $userId = session()->get('user_id');
             if (!$userId) return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
 
+            // Suppression avec vérification de propriété
             $deleted = $this->wishlistModel->where(['id' => $wishlistId, 'user_id' => $userId])->delete();
             return $this->response->setJSON(['success' => (bool)$deleted]);
         } catch (\Exception $e) {

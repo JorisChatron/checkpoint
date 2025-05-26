@@ -2,8 +2,18 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 
+/**
+ * Contrôleur API
+ * Gère les appels aux services externes comme la traduction
+ */
 class Api extends Controller
 {
+    /**
+     * Traduit un texte de l'anglais vers le français
+     * Utilise le service de traduction Argos Translate
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON contenant le texte traduit
+     */
     public function translate()
     {
         $json = $this->request->getJSON(true);

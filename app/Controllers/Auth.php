@@ -5,91 +5,125 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use CodeIgniter\Controller;
 
+/**
+ * Contrôleur d'authentification
+ * Gère l'inscription, la connexion et la déconnexion des utilisateurs
+ */
 class Auth extends Controller
 {
+    /**
+     * Affiche le formulaire d'inscription
+     * @return string Vue du formulaire d'inscription
+     */
     public function showRegisterForm()
     {
         return view('auth/register');
     }
 
+    /**
+     * Traite l'inscription d'un nouvel utilisateur
+     * Valide les données, crée le compte et redirige
+     * @return mixed Vue avec erreurs ou redirection
+     */
     public function register()
     {
+        // Récupération du service de validation
         $validation = \Config\Services::validation();
 
+        // Définition des règles de validation
         $validation->setRules([
-            'username' => 'required|min_length[3]',
-            'email'    => 'required|valid_email',
-            'password' => 'required|min_length[6]'
+            'username' => 'required|min_length[3]',     // Nom d'utilisateur requis, min 3 caractères
+            'email'    => 'required|valid_email',       // Email requis et valide
+            'password' => 'required|min_length[6]'      // Mot de passe requis, min 6 caractères
         ]);
 
+        // Exécution de la validation
         if (! $validation->withRequest($this->request)->run()) {
+            // Si la validation échoue, retour au formulaire avec les erreurs
             return view('auth/register', [
                 'validation' => $validation
             ]);
         }
 
+        // Création d'une instance du modèle utilisateur
         $userModel = new UserModel();
 
+        // Sauvegarde du nouvel utilisateur
         $userModel->save([
             'username' => $this->request->getPost('username'),
             'email'    => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'profile_picture' => 'images/burger-icon.png', // Ajoute l'image par défaut
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT), // Hashage du mot de passe
+            'profile_picture' => 'images/burger-icon.png', // Image de profil par défaut
         ]);
 
-        return redirect()->to('/'); // Redirige vers la page d'accueil
+        return redirect()->to('/'); // Redirection vers la page d'accueil
     }
 
-    // Afficher le formulaire de connexion
+    /**
+     * Affiche le formulaire de connexion
+     * @return string Vue du formulaire de connexion
+     */
     public function showLoginForm()
     {
         return view('auth/login');
     }
 
-    // Gérer la connexion
+    /**
+     * Traite la tentative de connexion
+     * Vérifie les identifiants et crée la session
+     * @return mixed Vue avec erreurs ou redirection
+     */
     public function login()
     {
+        // Récupération du service de validation
         $validation = \Config\Services::validation();
 
+        // Définition des règles de validation
         $validation->setRules([
-            'username' => 'required',
-            'password' => 'required'
+            'username' => 'required', // Nom d'utilisateur requis
+            'password' => 'required'  // Mot de passe requis
         ]);
 
+        // Exécution de la validation
         if (! $validation->withRequest($this->request)->run()) {
-            // Si la validation échoue, retourner la vue avec les erreurs de validation
+            // Si la validation échoue, retour au formulaire avec les erreurs
             return view('auth/login', [
                 'validation' => $validation
             ]);
         }
 
+        // Récupération de l'utilisateur par son nom d'utilisateur
         $userModel = new UserModel();
         $user = $userModel->where('username', $this->request->getPost('username'))->first();
 
-        // Vérifier si l'utilisateur existe et si le mot de passe est correct
+        // Vérification de l'existence de l'utilisateur et du mot de passe
         if ($user && password_verify($this->request->getPost('password'), $user['password'])) {
-            // Si tout est ok, l'utilisateur peut être connecté
+            // Création de la session utilisateur
             session()->set([
                 'user_id' => $user['id'],
                 'username' => $user['username'],
-                'profile_picture' => $user['profile_picture'] ?? 'images/burger-icon.png', // Utilise l'image par défaut si aucune photo n'est définie
+                'profile_picture' => $user['profile_picture'] ?? 'images/burger-icon.png', // Image par défaut si non définie
             ]);
 
-            return redirect()->to('/'); // Rediriger vers la page d'accueil après connexion
+            return redirect()->to('/'); // Redirection vers la page d'accueil
         } else {
-            // Sinon afficher une erreur
+            // Affichage des erreurs de connexion
             return view('auth/login', [
-                'validation' => $validation,  // Assure-toi de passer aussi validation ici
+                'validation' => $validation,
                 'error' => 'Nom d\'utilisateur ou mot de passe incorrect'
             ]);
         }
     }
 
-    // Déconnexion
+    /**
+     * Gère la déconnexion de l'utilisateur
+     * Détruit la session et redirige
+     * @return mixed Redirection vers la page de connexion
+     */
     public function logout()
     {
-        session()->destroy(); // Détruire la session pour déconnecter l'utilisateur
-        return redirect()->to('/login'); // Redirige vers la page de connexion après déconnexion
+        session()->destroy(); // Destruction de la session
+        return redirect()->to('/login'); // Redirection vers la page de connexion
     }
 }
 

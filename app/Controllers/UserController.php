@@ -4,8 +4,18 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 
+/**
+ * Contrôleur de gestion des utilisateurs
+ * Gère le profil, l'inscription et les préférences des utilisateurs
+ */
 class UserController extends BaseController
 {
+    /**
+     * Affiche le profil de l'utilisateur connecté
+     * Inclut ses statistiques, son top 5 et sa liste de jeux
+     * 
+     * @return mixed Vue du profil ou redirection
+     */
     public function profile()
     {
         $userId = session()->get('user_id');
@@ -40,6 +50,11 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * Gère le téléchargement et la mise à jour de la photo de profil
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     public function upload()
     {
         $userModel = new UserModel();
@@ -76,6 +91,12 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * Gère l'inscription d'un nouvel utilisateur
+     * Valide les données et crée le compte
+     * 
+     * @return mixed Vue avec erreurs ou redirection
+     */
     public function register()
     {
         $validation = \Config\Services::validation();
@@ -104,6 +125,11 @@ class UserController extends BaseController
         return redirect()->to('/'); // Redirige vers la page d'accueil
     }
 
+    /**
+     * Met à jour l'ordre des jeux dans le top 5 de l'utilisateur
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     public function updateTop5()
     {
         $userId = session()->get('user_id');
@@ -124,6 +150,12 @@ class UserController extends BaseController
         return $this->response->setJSON(['success' => true]);
     }
 
+    /**
+     * Définit un nouveau top 5 complet pour l'utilisateur
+     * Remplace l'ancien top 5 par la nouvelle sélection
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     public function setTop5()
     {
         $userId = session()->get('user_id');
@@ -149,6 +181,12 @@ class UserController extends BaseController
         return $this->response->setJSON(['success' => true]);
     }
 
+    /**
+     * Active ou désactive l'affichage du contenu adulte
+     * Met à jour la préférence dans la session
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
     public function toggleAdult()
     {
         $show = $this->request->getPost('show_adult') == '1';
