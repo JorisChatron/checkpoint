@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expression des besoins – Projet Checkpoint</title>
+    <style>
+        :root {
+            --bleu-fonce: rgba(31, 27, 46, 0.9);
+            --bleu-clair: #BB86FC;
+            --jaune:  #00E5FF;
+            --blanc-casse: #f7f7f9;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--blanc-casse);
+            color: var(--bleu-fonce);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(90deg, var(--bleu-fonce) 70%, var(--jaune) 100%);
+            color: #fff;
+            padding: 32px 0 24px 0;
+            text-align: center;
+            letter-spacing: 2px;
+            font-size: 2.2em;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(26,34,56,0.08);
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto 24px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(26,34,56,0.10);
+            padding: 40px 32px 32px 32px;
+        }
+        h1 {
+            display: none;
+        }
+        h2 {
+            margin-top: 2em;
+            color: var(--bleu-fonce);
+            border-left: 8px solid var(--jaune);
+            padding-left: 12px;
+            font-size: 1.5em;
+            background: linear-gradient(90deg, var(--bleu-clair) 0%, transparent 100%);
+            border-bottom: 1.5px solid var(--bleu-clair);
+            padding-bottom: 0.2em;
+        }
+        h3 {
+            color: var(--bleu-fonce);
+        }
+        ul, ol {
+            margin-left: 1.5em;
+        }
+        ul li::marker {
+            color: var(--jaune);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            background: var(--bleu-clair);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(26,34,56,0.06);
+        }
+        .table th, .table td {
+            border: 1px solid var(--bleu-fonce);
+            padding: 10px 14px;
+            text-align: left;
+        }
+        .table th {
+            background: var(--jaune);
+            color: var(--bleu-fonce);
+            font-weight: bold;
+        }
+        .table tr:nth-child(even) td {
+            background: #eaf1fb;
+        }
+        .img-center {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border: 2px solid var(--bleu-clair);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(26,34,56,0.10);
+        }
+        .resume {
+            background: var(--bleu-clair);
+            border-left: 6px solid var(--jaune);
+            padding: 1.2em 1.5em;
+            margin: 2em 0 0 0;
+            font-size: 1.13em;
+            color: var(--bleu-fonce);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(26,34,56,0.07);
+        }
+        strong {
+            color: var(--bleu-fonce);
+        }
+        @media print {
+            body {
+                background: #fff;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 0;
+            }
+            .img-center {
+                box-shadow: none;
+                border: none;
+            }
+            header, footer {
+                display: none;
+            }
+        }
+        footer {
+            text-align: center;
+            color: #888;
+            font-size: 1em;
+            padding: 18px 0 12px 0;
+            background: var(--blanc-casse);
+            border-top: 1.5px solid var(--bleu-clair);
+            letter-spacing: 1px;
+        }
+        /* Petits écrans */
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px 4vw 18px 4vw;
+            }
+            h2 {
+                font-size: 1.15em;
+                padding-left: 7px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>Checkpoint – Expression des besoins</header>
+<div class="container">
+    <h1>Expression des besoins – Projet Checkpoint</h1>
+
+    <h2>1. Contexte et origine du projet</h2>
+    <p>
+        Depuis de nombreuses années, je suis passionné par les jeux vidéo. Cette passion m'a amené à vouloir mieux organiser et suivre mon expérience de joueur : ajouter des notes, suivre ma progression, gérer les jeux que je compte acheter ou commencer, et garder une trace de mon parcours vidéoludique.<br>
+        Avant même de m'orienter vers le développement web, j'avais déjà en tête l'idée d'un outil personnel, centralisé et sur mesure, pour répondre à ce besoin. Une fois engagé dans ma formation de Développeur Web et Web Mobile, j'ai vu l'opportunité parfaite de concrétiser cette idée à travers un projet complet et structuré, à la fois utile et motivant pour moi.<br>
+        Ce projet, que j'ai nommé <strong>Checkpoint</strong>, est donc né de mon propre besoin et de ma volonté de développer un outil pratique dans un univers qui me passionne.
+    </p>
+
+    <h2>2. Objectifs du projet</h2>
+    <ul>
+        <li>Gérer sa collection de jeux vidéo (ajout, suivi, suppression)</li>
+        <li>Suivre sa progression et son temps de jeu sur chaque titre</li>
+        <li>Rédiger des notes et avis personnels sur ses jeux</li>
+        <li>Organiser une wishlist des jeux à venir ou à acheter</li>
+        <li>Visualiser un calendrier des prochaines sorties de jeux vidéo</li>
+    </ul>
+
+    <h2>3. Utilisateurs visés</h2>
+    <ul>
+        <li>Joueurs passionnés ou amateurs souhaitant garder une trace personnalisée de leur parcours de jeu</li>
+        <li>Personnes aimant organiser leurs sessions de jeu et planifier leurs futurs achats</li>
+        <li>Utilisateurs recherchant un outil personnel, sécurisé et centralisé</li>
+    </ul>
+
+    <h2>4. Fonctionnalités attendues</h2>
+    <ul>
+        <li><strong>Gestion de collection</strong> : ajout, modification, suppression de jeux possédés, suivi du statut (non commencé, en cours, terminé, abandonné…), temps de jeu, notes personnelles</li>
+        <li><strong>Wishlist</strong> : gestion d'une liste de jeux souhaités, possibilité de les ajouter à la collection</li>
+        <li><strong>Calendrier des sorties</strong> : affichage des sorties à venir (données issues de l'API RAWG), filtrage du contenu adulte</li>
+        <li><strong>Recherche & filtres</strong> : tri par genre, plateforme, statut, durée de jeu…</li>
+        <li><strong>Profil utilisateur</strong> : gestion du profil, photo, top 5 jeux favoris, statistiques personnelles</li>
+        <li><strong>Authentification</strong> : inscription, connexion, gestion sécurisée des sessions</li>
+        <li><strong>Interface responsive</strong> : design adapté à un usage sur ordinateur et mobile</li>
+        <li><strong>Sécurité</strong> : gestion sécurisée des sessions, protection des données utilisateurs</li>
+    </ul>
+
+    <h2>5. Contraintes</h2>
+    <ul>
+        <li><strong>Techniques</strong> :
+            <ul>
+                <li>Framework : CodeIgniter (architecture MVC)</li>
+                <li>Langages : PHP, HTML, CSS, JavaScript</li>
+                <li>Base de données : MySQL</li>
+                <li>Utilisation de l'API RAWG pour les données de jeux et les sorties</li>
+                <li>Application responsive (utilisable sur ordinateur et mobile)</li>
+                <li>Hébergement local pendant le développement</li>
+                <li>Outil de versionnement : Git (hébergement du code sur GitHub)</li>
+            </ul>
+        </li>
+        <li><strong>Temporelles</strong> : Projet réalisé sur plusieurs semaines dans le cadre de la formation</li>
+        <li><strong>Pédagogiques</strong> : Objectif : valoriser les compétences acquises (création de maquettes, base de données, développement front et back, gestion de projet)</li>
+    </ul>
+
+    <h2>6. Limites du projet</h2>
+    <ul>
+        <li>Version actuelle mono-utilisateur (ou multi-utilisateur sans fonctionnalités communautaires)</li>
+        <li>Pas de fonctionnalités sociales (amis, partage, etc.)</li>
+        <li>Données stockées en local (pas d'hébergement en ligne)</li>
+        <li>Import des jeux uniquement via l'API RAWG</li>
+    </ul>
+
+    <h2>7. Évolutions possibles</h2>
+    <ul>
+        <li>Ajout de fonctionnalités communautaires (amis, partages, classements)</li>
+        <li>Statistiques avancées sur le temps de jeu, les genres préférés, etc.</li>
+        <li>Connexion à d'autres bases de données externes (ex : IGDB)</li>
+        <li>Passage à une version en ligne hébergée</li>
+        <li>Développement d'une application mobile native</li>
+    </ul>
+
+    <h2>8. Tableau de correspondance besoins / fonctionnalités</h2>
+    <table class="table">
+        <tr>
+            <th>Besoin exprimé</th>
+            <th>Fonctionnalité développée</th>
+        </tr>
+        <tr>
+            <td>Gérer sa collection</td>
+            <td>Ajout, modification, suppression de jeux</td>
+        </tr>
+        <tr>
+            <td>Suivre sa progression</td>
+            <td>Statut, temps de jeu, notes</td>
+        </tr>
+        <tr>
+            <td>Organiser une wishlist</td>
+            <td>Wishlist, ajout/suppression</td>
+        </tr>
+        <tr>
+            <td>Voir les sorties à venir</td>
+            <td>Calendrier connecté à l'API RAWG</td>
+        </tr>
+        <tr>
+            <td>Personnaliser son profil</td>
+            <td>Profil, top 5, photo, stats</td>
+        </tr>
+        <tr>
+            <td>Sécurité des données</td>
+            <td>Authentification, gestion des sessions</td>
+        </tr>
+        <tr>
+            <td>Utilisation sur mobile et desktop</td>
+            <td>Interface responsive</td>
+        </tr>
+    </table>
+
+    <h2>9. Arborescence du site</h2>
+    <img src="images/arborescencecheckpoint.png" alt="Arborescence du site Checkpoint" class="img-center">
+
+    <div class="resume">
+        <strong>Résumé :</strong><br>
+        Checkpoint est une application web personnelle pour les joueurs, permettant de gérer sa collection, ses envies, ses notes et de suivre l'actualité vidéoludique, dans une interface moderne, sécurisée, responsive et évolutive.
+    </div>
+</div>
+<footer></footer>
+</body>
+</html> 
