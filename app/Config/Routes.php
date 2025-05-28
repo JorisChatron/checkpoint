@@ -27,4 +27,5 @@ $routes->get('calendrier/(:num)/(:num)', 'Calendrier::index/$1/$2');
 $routes->get('calendrier/(:num)/(:num)/page/(:num)', 'Calendrier::index/$1/$2/page/$3');
 $routes->post('api/translate', 'Api::translate');
 $routes->post('profile/toggleAdult', 'UserController::toggleAdult');
+$routes->get('api/searchGames', 'Api::searchGames');
 

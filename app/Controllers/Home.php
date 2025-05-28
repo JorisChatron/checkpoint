@@ -39,19 +39,20 @@ class Home extends BaseController
 
         // Récupération des 5 derniers jeux joués par l'utilisateur
         $lastPlayedGames = $db->table('game_stats')
-            ->select('games.name, games.cover')  // Sélection du nom et de la couverture du jeu
-            ->join('games', 'games.id = game_stats.game_id')  // Jointure avec la table des jeux
-            ->where('game_stats.user_id', $userId)  // Filtrage par utilisateur
-            ->orderBy('game_stats.updated_at DESC, game_stats.created_at DESC')  // Tri par date de mise à jour/création
-            ->limit(5)  // Limite à 5 résultats
+            ->select('games.name, games.cover, games.platform, games.release_date, games.category, game_stats.status, game_stats.play_time, game_stats.notes')
+            ->join('games', 'games.id = game_stats.game_id')
+            ->where('game_stats.user_id', $userId)
+            ->orderBy('game_stats.updated_at DESC, game_stats.created_at DESC')
+            ->limit(5)
             ->get()->getResultArray();
 
         // Récupération du Top 5 des jeux de l'utilisateur
         $top5 = $db->table('user_top_games')
-            ->select('games.name, games.cover')
+            ->select('games.name, games.cover, games.platform, games.release_date, games.category, game_stats.status, game_stats.play_time, game_stats.notes')
             ->join('games', 'games.id = user_top_games.game_id')
+            ->join('game_stats', 'game_stats.game_id = games.id AND game_stats.user_id = user_top_games.user_id')
             ->where('user_top_games.user_id', $userId)
-            ->orderBy('user_top_games.position ASC')  // Tri par position dans le classement
+            ->orderBy('user_top_games.position ASC')
             ->limit(5)
             ->get()->getResultArray();
 

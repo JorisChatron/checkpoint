@@ -40,4 +40,24 @@ class Api extends Controller
         $data = json_decode($result, true);
         return $this->response->setJSON(['translatedText' => $data['translatedText'] ?? '']);
     }
+
+    /**
+     * Recherche des jeux par nom (partiel)
+     * URL: /api/searchGames?q=nom
+     * Retourne un tableau JSON de jeux
+     */
+    public function searchGames()
+    {
+        $q = $this->request->getGet('q');
+        if (!$q || strlen($q) < 2) {
+            return $this->response->setJSON([]);
+        }
+        $db = \Config\Database::connect();
+        $games = $db->table('games')
+            ->select('id, name, platform, release_date, category, cover')
+            ->like('name', $q)
+            ->limit(10)
+            ->get()->getResultArray();
+        return $this->response->setJSON($games);
+    }
 } 

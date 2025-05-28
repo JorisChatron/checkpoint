@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Gestion des cartes
     initCards();
+
+    // === Recherche de jeux dans la navbar (desktop & mobile) ===
+    initNavbarGameSearch();
 });
 
 function initBurgerMenu() {
@@ -283,3 +286,129 @@ window.showToast = function(type, message) {
     
     toast.focus();
 };
+
+// === Recherche de jeux dans la navbar (desktop & mobile) ===
+function initNavbarGameSearch() {
+    // Desktop
+    const input = document.getElementById('navbarGameSearchInput');
+    const suggestions = document.getElementById('navbarGameSuggestions');
+    // Mobile
+    const inputMobile = document.getElementById('navbarGameSearchInputMobile');
+    const suggestionsMobile = document.getElementById('navbarGameSuggestionsMobile');
+
+    function setupSearch(inputEl, suggestionsEl) {
+        if (!inputEl || !suggestionsEl) return;
+        let timeout;
+        inputEl.addEventListener('input', function() {
+            clearTimeout(timeout);
+            const q = this.value.trim();
+            if (q.length < 2) {
+                suggestionsEl.style.display = 'none';
+                suggestionsEl.innerHTML = '';
+                return;
+            }
+            timeout = setTimeout(async () => {
+                try {
+                    const apiBase = window.CP_BASE_URL || '/';
+                    const res = await fetch(apiBase + 'api/searchGames?q=' + encodeURIComponent(q));
+                    const data = await res.json();
+                    suggestionsEl.innerHTML = '';
+                    if (data.length) {
+                        data.forEach(game => {
+                            const li = document.createElement('li');
+                            li.textContent = `${game.name} (${game.platform || 'Inconnue'})`;
+                            li.style.cursor = 'pointer';
+                            li.addEventListener('click', () => {
+                                showNavbarGameModal(game);
+                                suggestionsEl.style.display = 'none';
+                                suggestionsEl.innerHTML = '';
+                                inputEl.value = '';
+                            });
+                            suggestionsEl.appendChild(li);
+                        });
+                        suggestionsEl.style.display = 'block';
+                    } else {
+                        suggestionsEl.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Aucun résultat</li>';
+                        suggestionsEl.style.display = 'block';
+                    }
+                } catch (e) {
+                    suggestionsEl.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Erreur</li>';
+                    suggestionsEl.style.display = 'block';
+                }
+            }, 250);
+        });
+        document.addEventListener('click', (e) => {
+            if (!inputEl.contains(e.target) && !suggestionsEl.contains(e.target)) {
+                suggestionsEl.style.display = 'none';
+            }
+        });
+    }
+    setupSearch(input, suggestions);
+    setupSearch(inputMobile, suggestionsMobile);
+}
+
+function showNavbarGameModal(game) {
+    const modal = document.getElementById('navbarGameModal');
+    const body = document.getElementById('navbarGameModalBody');
+    const actions = document.getElementById('navbarGameModalActions');
+    if (!modal || !body || !actions) return;
+    // Affichage des infos du jeu
+    let html = '';
+    html += game.cover ? `<img src="${game.cover}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
+    html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${game.name}</h2>`;
+    html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${game.platform || 'Inconnue'}<br>Année : ${(game.release_date||'').split('-')[0] || 'Inconnue'}<br>Genre : ${game.category || 'Inconnu'}</div>`;
+    body.innerHTML = html;
+    // Boutons d'action
+    actions.innerHTML = `
+        <button class="home-btn" id="addToMyGamesBtn" style="margin:0 0.5rem 0.5rem 0;">Ajouter à mes jeux</button>
+        <button class="home-btn" id="addToWishlistBtn" style="background:linear-gradient(90deg,#00E5FF 80%,#9B5DE5 100%);color:#1E1E2F;border-color:#00E5FF;">Ajouter à la wishlist</button>
+    `;
+    actions.style.display = 'block';
+    modal.classList.add('active');
+    // Fermeture
+    document.getElementById('closeNavbarGameModal').onclick = () => modal.classList.remove('active');
+    window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+    // Ajout à mes jeux
+    document.getElementById('addToMyGamesBtn').onclick = async () => {
+        await addGameToCollection(game, false);
+    };
+    // Ajout à la wishlist
+    document.getElementById('addToWishlistBtn').onclick = async () => {
+        await addGameToCollection(game, true);
+    };
+}
+
+async function addGameToCollection(game, wishlist) {
+    const url = wishlist ? '/wishlist/add' : '/mes-jeux/add';
+    const payload = {
+        game_id: game.id,
+        searchGame: game.name,
+        platform: game.platform,
+        releaseYear: (game.release_date||'').split('-')[0] || '',
+        genre: game.category,
+        cover: game.cover,
+        status: wishlist ? 'souhaité' : 'en cours'
+    };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (data.success) {
+            showToast('success', wishlist ? 'Ajouté à la wishlist !' : 'Ajouté à votre collection !');
+            setTimeout(() => location.reload(), 1200);
+        } else {
+            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+        }
+    } catch (e) {
+        showToast('error', 'Erreur lors de l\'ajout');
+    }
+}
+
+// Initialisation de la recherche navbar
+initNavbarGameSearch();
