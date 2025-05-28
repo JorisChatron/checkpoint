@@ -54,7 +54,7 @@ class Api extends Controller
         }
         $db = \Config\Database::connect();
         $games = $db->table('games')
-            ->select('id, name, platform, release_date, category, cover')
+            ->select('id, name, platform, release_date, category, cover, developer, rawg_id')
             ->like('name', $q)
             ->limit(10)
             ->get()->getResultArray();

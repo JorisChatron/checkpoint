@@ -309,28 +309,30 @@ function initNavbarGameSearch() {
             }
             timeout = setTimeout(async () => {
                 try {
-                    const apiBase = window.CP_BASE_URL || '/';
-                    const res = await fetch(apiBase + 'api/searchGames?q=' + encodeURIComponent(q));
-                    const data = await res.json();
+                    // Recherche RAWG uniquement
+                    const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
+                    const rawgRes = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}&search=${encodeURIComponent(q)}`);
+                    const rawgData = await rawgRes.json();
                     suggestionsEl.innerHTML = '';
-                    if (data.length) {
-                        data.forEach(game => {
+                    if (rawgData.results && rawgData.results.length) {
+                        rawgData.results.slice(0, 8).forEach(game => {
                             const li = document.createElement('li');
-                            li.textContent = `${game.name} (${game.platform || 'Inconnue'})`;
+                            li.textContent = game.name;
                             li.style.cursor = 'pointer';
+                            li.style.fontStyle = 'italic';
+                            li.style.color = '#00E5FF';
                             li.addEventListener('click', () => {
-                                showNavbarGameModal(game);
+                                showRawgGameModal(game);
                                 suggestionsEl.style.display = 'none';
                                 suggestionsEl.innerHTML = '';
                                 inputEl.value = '';
                             });
                             suggestionsEl.appendChild(li);
                         });
-                        suggestionsEl.style.display = 'block';
                     } else {
                         suggestionsEl.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Aucun résultat</li>';
-                        suggestionsEl.style.display = 'block';
                     }
+                    suggestionsEl.style.display = 'block';
                 } catch (e) {
                     suggestionsEl.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Erreur</li>';
                     suggestionsEl.style.display = 'block';
@@ -357,13 +359,36 @@ function showNavbarGameModal(game) {
     html += game.cover ? `<img src="${game.cover}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
     html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${game.name}</h2>`;
     html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${game.platform || 'Inconnue'}<br>Année : ${(game.release_date||'').split('-')[0] || 'Inconnue'}<br>Genre : ${game.category || 'Inconnu'}</div>`;
-    body.innerHTML = html;
+    // Si developer présent, affiche-le, sinon tente RAWG
+    if (game.developer && game.developer !== 'Inconnu') {
+        html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : ${game.developer}</div>`;
+        body.innerHTML = html;
+        actions.style.display = 'block';
+    } else if (game.rawg_id) {
+        // Si rawg_id présent, fetch RAWG
+        fetch(`https://api.rawg.io/api/games/${game.rawg_id}?key=ff6f7941c211456c8806541638fdfaff`)
+            .then(res => res.json())
+            .then(rawg => {
+                const devs = rawg.developers && rawg.developers.length ? rawg.developers.map(d=>d.name).join(', ') : 'Inconnu';
+                html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : ${devs}</div>`;
+                body.innerHTML = html;
+                actions.style.display = 'block';
+            })
+            .catch(() => {
+                html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : Inconnu</div>`;
+                body.innerHTML = html;
+                actions.style.display = 'block';
+            });
+    } else {
+        html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : Inconnu</div>`;
+        body.innerHTML = html;
+        actions.style.display = 'block';
+    }
     // Boutons d'action
     actions.innerHTML = `
         <button class="home-btn" id="addToMyGamesBtn" style="margin:0 0.5rem 0.5rem 0;">Ajouter à mes jeux</button>
         <button class="home-btn" id="addToWishlistBtn" style="background:linear-gradient(90deg,#00E5FF 80%,#9B5DE5 100%);color:#1E1E2F;border-color:#00E5FF;">Ajouter à la wishlist</button>
     `;
-    actions.style.display = 'block';
     modal.classList.add('active');
     // Fermeture
     document.getElementById('closeNavbarGameModal').onclick = () => modal.classList.remove('active');
@@ -378,6 +403,46 @@ function showNavbarGameModal(game) {
     };
 }
 
+function showRawgGameModal(game) {
+    const modal = document.getElementById('navbarGameModal');
+    const body = document.getElementById('navbarGameModalBody');
+    const actions = document.getElementById('navbarGameModalActions');
+    if (!modal || !body || !actions) return;
+    // On recharge toutes les infos RAWG par ID
+    body.innerHTML = '<span style="color:#BB86FC;">Chargement...</span>';
+    actions.innerHTML = '';
+    actions.style.display = 'none';
+    fetch(`https://api.rawg.io/api/games/${game.id}?key=ff6f7941c211456c8806541638fdfaff`)
+        .then(res => res.json())
+        .then(rawg => {
+            let html = '';
+            html += rawg.background_image ? `<img src="${rawg.background_image}" alt="${rawg.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
+            html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${rawg.name}</h2>`;
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${rawg.platforms && rawg.platforms.length ? rawg.platforms.map(p=>p.platform.name).join(', ') : 'Inconnue'}<br>Année : ${(rawg.released||'').split('-')[0] || 'Inconnue'}<br>Genre : ${rawg.genres && rawg.genres.length ? rawg.genres.map(g=>g.name).join(', ') : 'Inconnu'}</div>`;
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : ${rawg.developers && rawg.developers.length ? rawg.developers.map(d=>d.name).join(', ') : 'Inconnu'}</div>`;
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Éditeur : ${rawg.publishers && rawg.publishers.length ? rawg.publishers.map(d=>d.name).join(', ') : 'Inconnu'}</div>`;
+            html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;max-height:120px;overflow:auto;\">${rawg.description_raw || '<i>Aucune description disponible.</i>'}</div>`;
+            body.innerHTML = html;
+            actions.innerHTML = `
+                <button class="home-btn" id="addToMyGamesBtn" style="margin:0 0.5rem 0.5rem 0;">Ajouter à mes jeux</button>
+                <button class="home-btn" id="addToWishlistBtn" style="background:linear-gradient(90deg,#00E5FF 80%,#9B5DE5 100%);color:#1E1E2F;border-color:#00E5FF;">Ajouter à la wishlist</button>
+            `;
+            actions.style.display = 'block';
+            modal.classList.add('active');
+            document.getElementById('closeNavbarGameModal').onclick = () => modal.classList.remove('active');
+            window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+            document.getElementById('addToMyGamesBtn').onclick = async () => {
+                await addGameToCollectionRawg(rawg, false);
+            };
+            document.getElementById('addToWishlistBtn').onclick = async () => {
+                await addGameToCollectionRawg(rawg, true);
+            };
+        })
+        .catch(() => {
+            body.innerHTML = '<span style="color:#FF6F61;">Erreur lors du chargement des infos du jeu.</span>';
+        });
+}
+
 async function addGameToCollection(game, wishlist) {
     const url = wishlist ? '/wishlist/add' : '/mes-jeux/add';
     const payload = {
@@ -388,6 +453,40 @@ async function addGameToCollection(game, wishlist) {
         genre: game.category,
         cover: game.cover,
         status: wishlist ? 'souhaité' : 'en cours'
+    };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (data.success) {
+            showToast('success', wishlist ? 'Ajouté à la wishlist !' : 'Ajouté à votre collection !');
+            setTimeout(() => location.reload(), 1200);
+        } else {
+            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+        }
+    } catch (e) {
+        showToast('error', 'Erreur lors de l\'ajout');
+    }
+}
+
+async function addGameToCollectionRawg(game, wishlist) {
+    const url = wishlist ? '/wishlist/add' : '/mes-jeux/add';
+    const payload = {
+        game_id: game.id,
+        searchGame: game.name,
+        platform: game.platforms && game.platforms.length ? game.platforms[0].platform.name : '',
+        releaseYear: (game.released||'').split('-')[0] || '',
+        genre: game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : '',
+        cover: game.background_image,
+        status: wishlist ? 'souhaité' : 'en cours',
+        rawg_id: game.id,
+        developer: game.developers && game.developers.length ? game.developers.map(d=>d.name).join(', ') : ''
     };
     try {
         const response = await fetch(url, {
