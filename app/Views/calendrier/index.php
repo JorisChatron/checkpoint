@@ -49,15 +49,19 @@ $this->section('content');
         </div>
     </div>
     <form id="genre-filter-form" style="background:rgba(31,27,46,0.92);padding:1.2rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;margin-bottom:2.2rem;max-width:900px;margin-left:auto;margin-right:auto;">
-        <div style="display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-content:center;">
-            <?php foreach ($allGenres as $slug => $name): ?>
-                <label style="color:#BB86FC;font-size:1.05rem;display:flex;align-items:center;gap:0.4em;">
-                    <input type="checkbox" class="genre-checkbox" value="<?= esc($slug) ?>" <?= (stripos($name, 'adult') === false && stripos($name, 'adulte') === false) ? 'checked' : '' ?>>
-                    <?= esc($name) ?>
-                </label>
-            <?php endforeach; ?>
-            <button type="button" id="checkAllGenres" class="home-btn" style="width:auto;font-size:0.98em;padding:0.5em 1.2em;">Tout cocher</button>
-            <button type="button" id="uncheckAllGenres" class="home-btn" style="width:auto;font-size:0.98em;padding:0.5em 1.2em;">Tout décocher</button>
+        <div class="genre-filter-box">
+            <div class="checkbox-list">
+                <?php foreach ($allGenres as $slug => $name): ?>
+                    <label style="color:#BB86FC;font-size:1.05rem;display:flex;align-items:center;gap:0.4em;">
+                        <input type="checkbox" class="genre-checkbox" value="<?= esc($slug) ?>" <?= (stripos($name, 'adult') === false && stripos($name, 'adulte') === false) ? 'checked' : '' ?>>
+                        <?= esc($name) ?>
+                    </label>
+                <?php endforeach; ?>
+            </div>
+            <div class="button-row">
+                <button type="button" id="checkAllGenres" class="home-btn" style="width:auto;font-size:0.98em;padding:0.5em 1.2em;">Tout cocher</button>
+                <button type="button" id="uncheckAllGenres" class="home-btn" style="width:auto;font-size:0.98em;padding:0.5em 1.2em;">Tout décocher</button>
+            </div>
         </div>
     </form>
     <div class="dashboard-row" style="flex-wrap:wrap;gap:2rem;justify-content:center;">
