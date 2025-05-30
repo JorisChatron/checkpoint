@@ -36,7 +36,6 @@ class WishlistController extends BaseController
         // Récupération des filtres depuis l'URL
         $filters = [
             'platform' => $this->request->getGet('platform'),  // Filtre par plateforme
-            'status' => $this->request->getGet('status'),      // Filtre par statut
             'genre' => $this->request->getGet('genre')         // Filtre par genre
         ];
 
@@ -48,19 +47,17 @@ class WishlistController extends BaseController
 
         // Application des filtres
         foreach ($filters as $key => $value) {
-            if ($value) $builder->where($key === 'genre' ? 'games.category' : ($key === 'platform' ? 'games.platform' : 'wishlist.status'), $value);
+            if ($value) $builder->where($key === 'genre' ? 'games.category' : 'games.platform', $value);
         }
 
         // Rendu de la vue avec les données
         return view('wishlist/index', [
             'title' => 'Ma Wishlist',
-            'wishlist' => $builder->findAll(),                                    // Liste des jeux filtrée
-            'platforms' => $this->wishlistModel->getDistinctValues('platform', $userId), // Plateformes disponibles
-            'genres' => $this->wishlistModel->getDistinctValues('category', $userId),   // Genres disponibles
-            'statuses' => [['status' => 'souhaité'], ['status' => 'acheté'], ['status' => 'joué']], // Statuts possibles
-            'selectedPlatform' => $filters['platform'],  // Plateforme sélectionnée
-            'selectedStatus' => $filters['status'],      // Statut sélectionné
-            'selectedGenre' => $filters['genre']         // Genre sélectionné
+            'wishlist' => $builder->findAll(),
+            'platforms' => $this->wishlistModel->getDistinctValues('platform', $userId),
+            'genres' => $this->wishlistModel->getDistinctValues('category', $userId),
+            'selectedPlatform' => $filters['platform'],
+            'selectedGenre' => $filters['genre']
         ]);
     }
 
@@ -115,7 +112,7 @@ class WishlistController extends BaseController
             $gameId = $game['id'];  // Utilisation du jeu existant
         }
 
-        return $this->addToWishlist($userId, $gameId, $data['status'] ?? 'souhaité');
+        return $this->addToWishlist($userId, $gameId);
     }
 
     /**
@@ -140,7 +137,7 @@ class WishlistController extends BaseController
         $game = $this->gameModel->where(['name' => $gameData['name'], 'platform' => $gameData['platform']])->first();
         $gameId = $game ? $game['id'] : $this->gameModel->insert($gameData, true);
 
-        return $this->addToWishlist($userId, $gameId, $data['status'] ?? 'souhaité');
+        return $this->addToWishlist($userId, $gameId);
     }
 
     /**
@@ -191,10 +188,9 @@ class WishlistController extends BaseController
      * 
      * @param int $userId ID de l'utilisateur
      * @param int $gameId ID du jeu
-     * @param string $status Statut initial du jeu
      * @return \CodeIgniter\HTTP\Response Réponse JSON
      */
-    protected function addToWishlist($userId, $gameId, $status)
+    protected function addToWishlist($userId, $gameId)
     {
         // Vérifie si le jeu est déjà dans la wishlist
         if ($this->wishlistModel->where(['user_id' => $userId, 'game_id' => $gameId])->first()) {
@@ -205,8 +201,7 @@ class WishlistController extends BaseController
             // Ajout à la wishlist
             $this->wishlistModel->insert([
                 'user_id' => $userId,
-                'game_id' => $gameId,
-                'status' => $status
+                'game_id' => $gameId
             ]);
             return $this->response->setJSON(['success' => true]);
         } catch (\Exception $e) {

@@ -164,15 +164,7 @@ $this->section('content');
             </div>
 
             <!-- Statut -->
-            <div class="form-group">
-                <label for="wishlist_status">Statut :</label>
-                <select name="status" id="wishlist_status">
-                    <option value="">Sélectionnez un statut</option>
-                    <option value="souhaité">Souhaité</option>
-                    <option value="acheté">Acheté</option>
-                    <option value="joué">Joué</option>
-                </select>
-            </div>
+            <!-- Champ statut supprimé du formulaire calendrier -->
 
             <button type="submit">Ajouter à ma wishlist</button>
         </form>

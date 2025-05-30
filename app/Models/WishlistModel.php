@@ -7,7 +7,7 @@ class WishlistModel extends Model
 {
     protected $table = 'wishlist';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['user_id', 'game_id', 'status'];
+    protected $allowedFields = ['user_id', 'game_id'];
     protected $useTimestamps = false;
     protected $createdField = '';
     protected $updatedField = '';
@@ -16,8 +16,7 @@ class WishlistModel extends Model
 
     protected $validationRules = [
         'user_id' => 'required|numeric',
-        'game_id' => 'required|numeric',
-        'status' => 'required|in_list[souhaité,acheté,joué]'
+        'game_id' => 'required|numeric'
     ];
 
     public function getWishlistByUser($userId)

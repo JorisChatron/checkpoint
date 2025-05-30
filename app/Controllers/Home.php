@@ -62,7 +62,7 @@ class Home extends BaseController
         // Nombre de jeux terminés
         $finished = $db->table('game_stats')->where('user_id', $userId)->where('status', 'termine')->countAllResults();
         // Nombre de jeux dans la wishlist
-        $expected = $db->table('wishlist')->where('user_id', $userId)->where('status', 'souhaité')->countAllResults();
+        $wishlistCount = $db->table('wishlist')->where('user_id', $userId)->countAllResults();
         // Nombre de jeux complétés à 100%
         $completed = $db->table('game_stats')->where('user_id', $userId)->where('status', 'complete')->countAllResults();
         // Temps de jeu total
@@ -75,7 +75,7 @@ class Home extends BaseController
             'owned' => $owned,          // Jeux possédés
             'finished' => $finished,    // Jeux terminés
             'playtime' => $playtimeStr, // Temps de jeu total
-            'expected' => $expected,    // Jeux souhaités
+            'wishlist' => $wishlistCount,    // Jeux dans la wishlist
             'completed' => $completed   // Jeux complétés à 100%
         ];
 

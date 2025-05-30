@@ -15,12 +15,6 @@ $this->section('content');
             <option value="<?= esc($p['platform']) ?>" <?= ($selectedPlatform === $p['platform']) ? 'selected' : '' ?>><?= esc($p['platform']) ?></option>
         <?php endforeach; ?>
     </select>
-    <select name="status" onchange="this.form.submit()">
-        <option value="" <?= ($selectedStatus === null || $selectedStatus === '') ? 'selected' : '' ?>>Statut</option>
-        <?php foreach ($statuses as $s): ?>
-            <option value="<?= esc($s['status']) ?>" <?= ($selectedStatus === $s['status']) ? 'selected' : '' ?>><?= esc($s['status']) ?></option>
-        <?php endforeach; ?>
-    </select>
     <select name="genre" onchange="this.form.submit()">
         <option value="" <?= ($selectedGenre === null || $selectedGenre === '') ? 'selected' : '' ?>>Genre</option>
         <?php foreach ($genres as $g): ?>
@@ -56,10 +50,6 @@ $this->section('content');
                     <div class="card-detail">
                         <strong>Genre</strong>
                         <?= esc(!empty($game['category']) ? $game['category'] : 'Inconnu') ?>
-                    </div>
-                    <div class="card-detail">
-                        <strong>Statut</strong>
-                        <?= esc(!empty($game['status']) ? $game['status'] : 'Inconnu') ?>
                     </div>
                 </div>
             </div>
@@ -136,17 +126,6 @@ $this->section('content');
                          class="hidden">
                     <span>Aperçu de la jaquette</span>
                 </div>
-            </div>
-
-            <!-- Statut -->
-            <div class="form-group">
-                <label for="status">Statut :</label>
-                <select name="status" id="status" required>
-                    <option value="">Sélectionnez un statut</option>
-                    <option value="souhaité">Souhaité</option>
-                    <option value="acheté">Acheté</option>
-                    <option value="joué">Joué</option>
-                </select>
             </div>
 
             <button type="submit">Ajouter à ma wishlist</button>

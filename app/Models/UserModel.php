@@ -34,15 +34,12 @@ class UserModel extends Model
         $nbFinished = $db->table('game_stats')->where('user_id', $userId)->where('status', 'termine')->countAllResults();
         // Nombre de jeux complétés (status = 'complete')
         $nbCompleted = $db->table('game_stats')->where('user_id', $userId)->where('status', 'complete')->countAllResults();
-        // Nombre de jeux attendus (wishlist.status = 'souhaité')
-        $nbExpected = $db->table('wishlist')->where('user_id', $userId)->where('status', 'souhaité')->countAllResults();
         return [
             'nbGames' => $nbGames,
             'nbWishlist' => $nbWishlist,
             'totalPlayTime' => $playtimeStr,
             'nbFinished' => $nbFinished,
-            'nbCompleted' => $nbCompleted,
-            'nbExpected' => $nbExpected
+            'nbCompleted' => $nbCompleted
         ];
     }
 }
