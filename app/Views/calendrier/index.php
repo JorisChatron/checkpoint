@@ -176,7 +176,7 @@ $this->section('content');
     <div class="modal-content">
         <button class="modal-close" id="closeAddGameModal">&times;</button>
         <h2>Ajouter un jeu</h2>
-        <form id="addGameForm">
+        <form id="addGameCalendarForm">
             <div class="form-group">
                 <label for="addGame_searchGame">Recherchez votre jeu :</label>
                 <input type="text" id="addGame_searchGame" name="searchGame" placeholder="Commencez à taper le nom du jeu..." required autocomplete="off">
@@ -571,7 +571,7 @@ function openAddGameModalFromRawg(game) {
 }
 
 // Gestion du formulaire d'ajout à Mes Jeux (AJAX JSON, sécurisé)
-const addGameForm = document.getElementById('addGameForm');
+const addGameForm = document.getElementById('addGameCalendarForm');
 if (addGameForm) {
     let isSubmitting = false;
     addGameForm.addEventListener('submit', function(e) {
