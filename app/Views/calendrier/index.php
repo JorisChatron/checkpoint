@@ -171,6 +171,64 @@ $this->section('content');
     </div>
 </div>
 
+<!-- Modal d'ajout à la collection Mes Jeux (copié de mes-jeux/index.php) -->
+<div id="addGameModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeAddGameModal">&times;</button>
+        <h2>Ajouter un jeu</h2>
+        <form id="addGameForm">
+            <div class="form-group">
+                <label for="addGame_searchGame">Recherchez votre jeu :</label>
+                <input type="text" id="addGame_searchGame" name="searchGame" placeholder="Commencez à taper le nom du jeu..." required autocomplete="off">
+                <ul id="addGame_suggestions" class="suggestions-list"></ul>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="addGame_platform">Plateforme :</label>
+                    <input type="text" id="addGame_platform" name="platform" placeholder="Plateforme" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="addGame_releaseYear">Année de sortie :</label>
+                    <input type="text" id="addGame_releaseYear" name="releaseYear" placeholder="Année" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="addGame_genre">Genre :</label>
+                <input type="text" id="addGame_genre" name="genre" placeholder="Genre" readonly>
+            </div>
+            <div class="form-group">
+                <label for="addGame_cover">Jaquette :</label>
+                <input type="text" id="addGame_cover" name="cover" placeholder="URL de la jaquette" readonly>
+                <div class="form-preview cover-preview-container hidden" id="addGame_coverPreviewContainer">
+                    <img id="addGame_coverPreview" src="" alt="Aperçu de la jaquette" class="hidden">
+                    <span>Aperçu de la jaquette</span>
+                </div>
+            </div>
+            <div class="form-row-status">
+                <div class="form-group">
+                    <label for="addGame_status">Statut :</label>
+                    <select name="status" id="addGame_status" class="form-control" required>
+                        <option value="">Choisir un statut</option>
+                        <option value="en cours">En cours</option>
+                        <option value="termine">Terminé</option>
+                        <option value="complete">Complété</option>
+                        <option value="abandonne">Abandonné</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="addGame_playtime">Temps de jeu :</label>
+                    <input type="text" name="playtime" id="addGame_playtime" class="form-control" placeholder="Temps de jeu (en h)">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="addGame_notes">Notes :</label>
+                <textarea id="addGame_notes" name="notes" placeholder="Notes"></textarea>
+            </div>
+            <button type="submit">Ajouter le jeu</button>
+        </form>
+    </div>
+</div>
+
 <!-- Flatpickr CSS/JS placés en haut pour garantir le chargement -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -244,14 +302,12 @@ function openGameModal(gameId) {
                     btn.onclick = function() {
                         modal.classList.remove('active');
                         const wishlistModal = document.getElementById('addWishlistModal');
-                        // Remplit les champs du formulaire avec fallback
                         document.getElementById('rawg_game_id').value = game.id;
                         document.getElementById('game_name').value = game.name || 'Jeu sans nom';
                         document.getElementById('wishlist_platform').value = (game.platforms && game.platforms.length && game.platforms[0].platform && game.platforms[0].platform.name) ? game.platforms[0].platform.name : 'Inconnue';
                         document.getElementById('wishlist_releaseYear').value = game.released ? game.released.split('-')[0] : '';
                         document.getElementById('wishlist_genre').value = (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '';
                         document.getElementById('wishlist_cover').value = game.background_image || '';
-                        // Affiche l'aperçu de la jaquette
                         const coverPreview = document.getElementById('wishlistCoverPreview');
                         if (game.background_image) {
                             coverPreview.src = game.background_image;
@@ -262,50 +318,11 @@ function openGameModal(gameId) {
                         wishlistModal.classList.add('active');
                     }
                 }
-                // Handler pour le bouton "Ajouter à mes jeux"
+                // Handler pour le bouton "Ajouter à mes jeux" (corrigé)
                 var btnMyGames = document.getElementById('addToMyGamesBtn');
                 if(btnMyGames) {
-                    btnMyGames.onclick = async function() {
-                        // Extraction robuste du nom et de la plateforme
-                        let platform = 'Inconnue';
-                        if (game.platforms && Array.isArray(game.platforms) && game.platforms.length > 0) {
-                            const plat = game.platforms[0];
-                            if (plat && plat.platform && plat.platform.name) {
-                                platform = plat.platform.name;
-                            } else if (plat && plat.name) {
-                                platform = plat.name;
-                            }
-                        }
-                        const searchGame = game.name && game.name.trim() ? game.name : 'Jeu sans nom';
-                        const payload = {
-                            searchGame: searchGame,
-                            platform: platform,
-                            releaseYear: game.released ? game.released.split('-')[0] : '',
-                            genre: (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '',
-                            cover: game.background_image || '',
-                            status: 'en cours',
-                            playtime: 0,
-                            notes: ''
-                        };
-                        console.log('Payload ajout à mes jeux:', payload);
-                        try {
-                            const response = await fetch('/checkpoint/public/mes-jeux/add', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-Requested-With': 'XMLHttpRequest'
-                                },
-                                body: JSON.stringify(payload)
-                            });
-                            const data = await response.json();
-                            if (data.success) {
-                                showToast('success', 'Ajouté à votre collection !');
-                            } else {
-                                showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
-                            }
-                        } catch (e) {
-                            showToast('error', 'Erreur lors de l\'ajout');
-                        }
+                    btnMyGames.onclick = function() {
+                        openAddGameModalFromRawg(game);
                         modal.classList.remove('active');
                     }
                 }
@@ -505,6 +522,83 @@ if (addWishlistForm) {
         .catch(error => {
             console.error(error);
             showToast('error', 'Erreur lors de l\'ajout à la wishlist');
+        });
+    });
+}
+
+// Gestion du modal d'ajout à Mes Jeux depuis le calendrier
+const addGameModal = document.getElementById('addGameModal');
+const closeAddGameModalBtn = document.getElementById('closeAddGameModal');
+if (closeAddGameModalBtn) {
+    closeAddGameModalBtn.addEventListener('click', () => {
+        addGameModal.classList.remove('active');
+    });
+}
+if (addGameModal) {
+    addGameModal.addEventListener('click', (event) => {
+        if (event.target === addGameModal) {
+            addGameModal.classList.remove('active');
+        }
+    });
+}
+// Pré-remplissage et ouverture du modal au clic sur 'Ajouter à mes jeux'
+function openAddGameModalFromRawg(game) {
+    document.getElementById('addGame_searchGame').value = game.name || 'Jeu sans nom';
+    let platform = 'Inconnue';
+    if (game.platforms && Array.isArray(game.platforms) && game.platforms.length > 0) {
+        const plat = game.platforms[0];
+        if (plat && plat.platform && plat.platform.name) {
+            platform = plat.platform.name;
+        } else if (plat && plat.name) {
+            platform = plat.name;
+        }
+    }
+    document.getElementById('addGame_platform').value = platform;
+    document.getElementById('addGame_releaseYear').value = game.released ? game.released.split('-')[0] : '';
+    document.getElementById('addGame_genre').value = (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '';
+    document.getElementById('addGame_cover').value = game.background_image || '';
+    const coverPreview = document.getElementById('addGame_coverPreview');
+    if (game.background_image) {
+        coverPreview.src = game.background_image;
+        coverPreview.classList.remove('hidden');
+    } else {
+        coverPreview.classList.add('hidden');
+    }
+    document.getElementById('addGame_status').value = '';
+    document.getElementById('addGame_playtime').value = '';
+    document.getElementById('addGame_notes').value = '';
+    addGameModal.classList.add('active');
+}
+
+// Gestion du formulaire d'ajout à Mes Jeux (AJAX JSON)
+const addGameForm = document.getElementById('addGameForm');
+if (addGameForm) {
+    addGameForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(addGameForm);
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+        fetch('/checkpoint/public/mes-jeux/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(jsonData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('success', 'Jeu ajouté à votre collection !');
+                addGameModal.classList.remove('active');
+            } else {
+                showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+            }
+        })
+        .catch(error => {
+            showToast('error', 'Erreur lors de l\'ajout');
         });
     });
 }
