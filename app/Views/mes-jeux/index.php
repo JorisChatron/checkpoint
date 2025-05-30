@@ -42,6 +42,7 @@
                     </span>
                     </div>
                 <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">&times;</button>
+                <button type="button" class="btn-action edit" title="Modifier" data-id="<?= $game['id'] ?>" data-status="<?= esc($game['status']) ?>" data-playtime="<?= esc($game['play_time']) ?>" data-notes="<?= esc($game['notes']) ?>" data-name="<?= esc($game['name']) ?>">✏️</button>
                 <div class="card-cover-container" style="height:100%;">
                     <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="card-cover">
                 </div>
@@ -131,6 +132,45 @@
     </div>
 </div>
 
+<!-- Modal modification jeu -->
+<div id="editGameModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeEditModal">&times;</button>
+        <h2>Modifier le jeu</h2>
+        <form id="editGameForm">
+            <input type="hidden" id="editGameId" name="gameId">
+            
+            <div class="form-group">
+                <label for="editGameName">Nom du jeu :</label>
+                <input type="text" id="editGameName" name="gameName" readonly style="background: rgba(31,27,46,0.5); color: #BB86FC;">
+            </div>
+
+            <div class="form-group">
+                <label for="editStatus">Statut :</label>
+                <select name="status" id="editStatus" class="form-control" required>
+                    <option value="">Choisir un statut</option>
+                    <option value="en cours">En cours</option>
+                    <option value="termine">Terminé</option>
+                    <option value="complete">Complété</option>
+                    <option value="abandonne">Abandonné</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="editPlaytime">Temps de jeu :</label>
+                <input type="text" name="playtime" id="editPlaytime" class="form-control" placeholder="Temps de jeu (en h)">
+            </div>
+
+            <div class="form-group">
+                <label for="editNotes">Notes :</label>
+                <textarea id="editNotes" name="notes" placeholder="Notes"></textarea>
+            </div>
+
+            <button type="submit">Modifier le jeu</button>
+        </form>
+    </div>
+</div>
+
 <script>
 document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
     card.addEventListener('click', function(e) {
@@ -158,6 +198,79 @@ document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
         document.getElementById('gameViewModal').classList.add('active');
     });
 });
+
+// Gestion des boutons modifier
+document.querySelectorAll('.btn-action.edit').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Récupération des données depuis les attributs data-*
+        const gameId = this.getAttribute('data-id');
+        const gameName = this.getAttribute('data-name');
+        const status = this.getAttribute('data-status');
+        const playtime = this.getAttribute('data-playtime');
+        const notes = this.getAttribute('data-notes');
+        
+        // Remplissage du modal
+        document.getElementById('editGameId').value = gameId;
+        document.getElementById('editGameName').value = gameName;
+        document.getElementById('editStatus').value = status || '';
+        document.getElementById('editPlaytime').value = playtime || '';
+        document.getElementById('editNotes').value = notes || '';
+        
+        // Ouverture du modal
+        document.getElementById('editGameModal').classList.add('active');
+    });
+});
+
+// Fermeture du modal de modification
+document.getElementById('closeEditModal').addEventListener('click', function() {
+    document.getElementById('editGameModal').classList.remove('active');
+});
+
+// Fermeture du modal en cliquant à l'extérieur
+window.addEventListener('click', function(e) {
+    const editModal = document.getElementById('editGameModal');
+    if (e.target === editModal) editModal.classList.remove('active');
+});
+
+// Gestion du formulaire de modification
+document.getElementById('editGameForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const gameId = document.getElementById('editGameId').value;
+    
+    const jsonData = {};
+    formData.forEach((value, key) => {
+        jsonData[key] = value;
+    });
+    
+    fetch(`/checkpoint/public/mes-jeux/edit/${gameId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(jsonData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            showToast('success', 'Jeu modifié avec succès !');
+            document.getElementById('editGameModal').classList.remove('active');
+            setTimeout(() => location.reload(), 1200);
+        } else {
+            showToast('error', data.error || 'Erreur lors de la modification');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        showToast('error', 'Erreur lors de la modification');
+    });
+});
+
 document.getElementById('closeGameViewModal').addEventListener('click', function() {
     document.getElementById('gameViewModal').classList.remove('active');
 });

@@ -1622,7 +1622,39 @@ textarea:hover {
     box-shadow: none;
 }
 
+.carousel-card .btn-action.edit {
+    left: 58%;
+    right: auto;
+    top: 80%;
+    transform: translateY(-50%);
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    border-radius: 50%;
+    background: rgba(31, 27, 46, 0.4) !important;
+    color: var(--text-color) !important;
+    border: 2px solid var(--accent-color) !important;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, background 0.2s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: none;
+}
+
 .carousel-card:hover .card-front .btn-action.delete {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.carousel-card:hover .card-front .btn-action.edit {
     opacity: 1 !important;
     pointer-events: auto !important;
 }
@@ -1632,9 +1664,20 @@ textarea:hover {
     pointer-events: none !important;
 }
 
+.carousel-card.flipped .btn-action.edit {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
 .carousel-card .btn-action.delete:hover {
     background: rgba(127, 57, 251, 0.7) !important;
     color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+}
+
+.carousel-card .btn-action.edit:hover {
+    background: rgba(0, 229, 255, 0.7) !important;
+    color: var(--background-darker) !important;
     border-color: var(--accent-color) !important;
 }
 

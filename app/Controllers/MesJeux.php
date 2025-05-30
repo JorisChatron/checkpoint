@@ -173,4 +173,44 @@ class MesJeux extends BaseController
 
         return $this->response->setJSON(['success' => (bool)$deleted]);
     }
+
+    /**
+     * Modifie les données d'un jeu dans la collection de l'utilisateur
+     * 
+     * @param int $gameStatsId ID des statistiques du jeu à modifier
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
+    public function edit($gameStatsId)
+    {
+        // Vérification de la connexion de l'utilisateur
+        $userId = session()->get('user_id');
+        if (!$userId) {
+            return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
+        }
+
+        // Récupération des données du formulaire
+        $data = $this->request->getJSON(true) ?: $this->request->getPost();
+
+        // Validation des données
+        if (!isset($data['status'])) {
+            return $this->response->setJSON(['success' => false, 'error' => 'Statut requis']);
+        }
+
+        // Préparation des données à mettre à jour
+        $updateData = [
+            'status' => $data['status'],
+            'play_time' => $data['playtime'] ?? 0,
+            'notes' => $data['notes'] ?? '',
+        ];
+
+        // Mise à jour des statistiques du jeu
+        $gameStatsModel = new GameStatsModel();
+        $updated = $gameStatsModel
+            ->where('id', $gameStatsId)
+            ->where('user_id', $userId)  // Sécurité : vérifie que le jeu appartient à l'utilisateur
+            ->set($updateData)
+            ->update();
+
+        return $this->response->setJSON(['success' => (bool)$updated]);
+    }
 }
