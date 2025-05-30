@@ -103,7 +103,7 @@ class MesJeux extends BaseController
         $gameStatsModel = new GameStatsModel();
 
         // Récupération des données du formulaire
-        $data = $this->request->getPost();
+        $data = $this->request->getJSON(true) ?: $this->request->getPost();
 
         // Extraction des données nécessaires
         $gameName = $data['searchGame'] ?? null;     // Nom du jeu

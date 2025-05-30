@@ -233,6 +233,7 @@ function openGameModal(gameId) {
                 <a href="${game.website || '#'}" target="_blank" style="color:#00E5FF;text-decoration:underline;">Site officiel</a>
                 <br><br>
                 <button id="addToWishlistBtn" style="margin-top:1rem;padding:0.7rem 2.2rem;background:#7F39FB;color:#fff;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à la wishlist</button>
+                <button id="addToMyGamesBtn" style="margin-top:1rem;margin-left:1rem;padding:0.7rem 2.2rem;background:#00E5FF;color:#1E1E2F;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à mes jeux</button>
                 <div id="wishlistMsg" style="margin-top:1rem;font-size:1rem;"></div>
             `;
             
@@ -241,20 +242,15 @@ function openGameModal(gameId) {
                 var btn = document.getElementById('addToWishlistBtn');
                 if(btn) {
                     btn.onclick = function() {
-                        // Ferme le modal de détails du jeu
                         modal.classList.remove('active');
-                        
-                        // Ouvre le modal d'ajout à la wishlist
                         const wishlistModal = document.getElementById('addWishlistModal');
-                        
-                        // Remplit les champs du formulaire avec les données du jeu
+                        // Remplit les champs du formulaire avec fallback
                         document.getElementById('rawg_game_id').value = game.id;
-                        document.getElementById('game_name').value = game.name;
-                        document.getElementById('wishlist_platform').value = game.platforms && game.platforms.length ? game.platforms[0].platform.name : '';
+                        document.getElementById('game_name').value = game.name || 'Jeu sans nom';
+                        document.getElementById('wishlist_platform').value = (game.platforms && game.platforms.length && game.platforms[0].platform && game.platforms[0].platform.name) ? game.platforms[0].platform.name : 'Inconnue';
                         document.getElementById('wishlist_releaseYear').value = game.released ? game.released.split('-')[0] : '';
-                        document.getElementById('wishlist_genre').value = game.genres && game.genres.length ? game.genres.map(g => g.name).join(', ') : '';
+                        document.getElementById('wishlist_genre').value = (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '';
                         document.getElementById('wishlist_cover').value = game.background_image || '';
-                        
                         // Affiche l'aperçu de la jaquette
                         const coverPreview = document.getElementById('wishlistCoverPreview');
                         if (game.background_image) {
@@ -263,12 +259,54 @@ function openGameModal(gameId) {
                         } else {
                             coverPreview.style.display = 'none';
                         }
-                        
-                        // Sélection par défaut du statut "souhaité"
-                        document.getElementById('wishlist_status').value = 'souhaité';
-                        
-                        // Ouvre le modal
                         wishlistModal.classList.add('active');
+                    }
+                }
+                // Handler pour le bouton "Ajouter à mes jeux"
+                var btnMyGames = document.getElementById('addToMyGamesBtn');
+                if(btnMyGames) {
+                    btnMyGames.onclick = async function() {
+                        // Extraction robuste du nom et de la plateforme
+                        let platform = 'Inconnue';
+                        if (game.platforms && Array.isArray(game.platforms) && game.platforms.length > 0) {
+                            const plat = game.platforms[0];
+                            if (plat && plat.platform && plat.platform.name) {
+                                platform = plat.platform.name;
+                            } else if (plat && plat.name) {
+                                platform = plat.name;
+                            }
+                        }
+                        const searchGame = game.name && game.name.trim() ? game.name : 'Jeu sans nom';
+                        const payload = {
+                            searchGame: searchGame,
+                            platform: platform,
+                            releaseYear: game.released ? game.released.split('-')[0] : '',
+                            genre: (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '',
+                            cover: game.background_image || '',
+                            status: 'en cours',
+                            playtime: 0,
+                            notes: ''
+                        };
+                        console.log('Payload ajout à mes jeux:', payload);
+                        try {
+                            const response = await fetch('/checkpoint/public/mes-jeux/add', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: JSON.stringify(payload)
+                            });
+                            const data = await response.json();
+                            if (data.success) {
+                                showToast('success', 'Ajouté à votre collection !');
+                            } else {
+                                showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+                            }
+                        } catch (e) {
+                            showToast('error', 'Erreur lors de l\'ajout');
+                        }
+                        modal.classList.remove('active');
                     }
                 }
             }, 100);
