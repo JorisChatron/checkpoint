@@ -570,11 +570,14 @@ function openAddGameModalFromRawg(game) {
     addGameModal.classList.add('active');
 }
 
-// Gestion du formulaire d'ajout à Mes Jeux (AJAX JSON)
+// Gestion du formulaire d'ajout à Mes Jeux (AJAX JSON, sécurisé)
 const addGameForm = document.getElementById('addGameForm');
 if (addGameForm) {
+    let isSubmitting = false;
     addGameForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        if (isSubmitting) return; // Empêche la double soumission
+        isSubmitting = true;
         const formData = new FormData(addGameForm);
         const jsonData = {};
         formData.forEach((value, key) => {
@@ -596,9 +599,11 @@ if (addGameForm) {
             } else {
                 showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
             }
+            isSubmitting = false;
         })
         .catch(error => {
             showToast('error', 'Erreur lors de l\'ajout');
+            isSubmitting = false;
         });
     });
 }
