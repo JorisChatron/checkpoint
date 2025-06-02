@@ -72,7 +72,7 @@
                             <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;margin-right:10px;">
                         <?php else: ?>
                             <div class="game-cover-placeholder size-small" style="width:40px;height:40px;border-radius:6px;margin-right:10px;">
-                                <div class="placeholder-title"><?= esc($game['name']) ?></div>
+                                <div class="placeholder-title">?</div>
                             </div>
                         <?php endif; ?>
                         <label for="game<?= $game['id'] ?>" style="cursor:pointer;">
