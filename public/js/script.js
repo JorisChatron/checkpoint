@@ -183,35 +183,29 @@ function initForms() {
         const endpoint = isWishlist ? '/checkpoint/public/wishlist/add' : '/checkpoint/public/mes-jeux/add';
 
         try {
-            let response;
-            if (isWishlist) {
-                response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({
-                        game_id: formData.get('game_id'),
-                        searchGame: formData.get('searchGame'),
-                        platform: formData.get('platform'),
-                        releaseYear: formData.get('releaseYear'),
-                        genre: formData.get('genre'),
-                        cover: formData.get('cover'),
-                        developer: formData.get('developer'),
-                        publisher: formData.get('publisher'),
-                        status: formData.get('status')
-                    })
-                });
-            } else {
-                response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
-                });
-            }
+            // Conversion des données FormData en JSON pour les deux cas
+            const jsonData = {
+                game_id: formData.get('game_id'),
+                searchGame: formData.get('searchGame'),
+                platform: formData.get('platform'),
+                releaseYear: formData.get('releaseYear'),
+                genre: formData.get('genre'),
+                cover: formData.get('cover'),
+                developer: formData.get('developer'),
+                publisher: formData.get('publisher'),
+                status: formData.get('status'),
+                playtime: formData.get('playtime'),
+                notes: formData.get('notes')
+            };
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(jsonData)
+            });
             
             const data = await response.json();
             

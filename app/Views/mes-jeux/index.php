@@ -70,6 +70,9 @@
         <button class="modal-close" id="closeModal">&times;</button>
         <h2>Ajouter un jeu</h2>
         <form id="addGameForm">
+            <input type="hidden" id="game_id" name="game_id">
+            <input type="hidden" id="developer" name="developer">
+            <input type="hidden" id="publisher" name="publisher">
             <div class="form-group">
                 <label for="searchGame">Recherchez votre jeu :</label>
                 <input type="text" id="searchGame" name="searchGame" placeholder="Commencez à taper le nom du jeu..." required autocomplete="off">
