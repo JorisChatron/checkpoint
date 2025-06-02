@@ -1889,3 +1889,21 @@ textarea:hover {
     }
 }
 
+/* CSS pour les boutons d'action des cartes de jeux (mes-jeux) */
+.game-card:hover .btn-action {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.game-card .btn-action.delete:hover {
+    background: rgba(127, 57, 251, 0.7) !important;
+    color: #00E5FF !important;
+    border-color: #00E5FF !important;
+}
+
+.game-card .btn-action.edit:hover {
+    background: rgba(0, 229, 255, 0.7) !important;
+    color: #1F1B2E !important;
+    border-color: #00E5FF !important;
+}
+

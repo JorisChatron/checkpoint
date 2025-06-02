@@ -34,35 +34,15 @@
 <?php if (!empty($games)): ?>
 <div class="dashboard-row">
     <?php foreach ($games as $game): ?>
-        <div class="game-card carousel-card">
-                <div class="card-front">
-                <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
-                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
-                        <?= esc($game['name']) ?>
-                    </span>
-                    </div>
-                <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">&times;</button>
-                <button type="button" class="btn-action edit" title="Modifier" data-id="<?= $game['id'] ?>" data-status="<?= esc($game['status']) ?>" data-playtime="<?= esc($game['play_time']) ?>" data-notes="<?= esc($game['notes']) ?>" data-name="<?= esc($game['name']) ?>">✏️</button>
-                <div class="card-cover-container" style="height:100%;">
-                    <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" class="card-cover">
-                </div>
-                </div>
-                <div class="card-back">
-                <div style="padding: 1rem; color: #E0F7FA; width: 100%;">
-                    <strong>Plateforme :</strong> <?= esc($game['platform']) ?><br>
-                    <strong>Année :</strong> <?= esc($game['release_date']) ?><br>
-                    <strong>Genre :</strong> <?= esc($game['category']) ?><br>
-                    <?php if (!empty($game['developer'])): ?>
-                    <strong>Développeur :</strong> <?= esc($game['developer']) ?><br>
-                    <?php endif; ?>
-                    <?php if (!empty($game['publisher'])): ?>
-                    <strong>Éditeur :</strong> <?= esc($game['publisher']) ?><br>
-                    <?php endif; ?>
-                    <strong>Statut :</strong> <?= esc($game['status']) ?><br>
-                    <strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h<br>
-                    <strong>Notes :</strong> <?= esc($game['notes']) ?>
-                </div>
+        <div class="game-card carousel-card" style="cursor: pointer;" data-game='<?= json_encode($game) ?>'>
+            <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
+                <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
+                    <?= esc($game['name']) ?>
+                </span>
             </div>
+            <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>" style="position:absolute;left:50%;top:75%;transform:translate(-60px, -50%);width:32px;height:32px;border-radius:50%;background:rgba(31,27,46,0.4);color:#BB86FC;border:2px solid #7F39FB;z-index:10;display:flex;align-items:center;justify-content:center;font-size:1.3rem;opacity:0;pointer-events:none;transition:opacity 0.2s, background 0.2s;">&times;</button>
+            <button type="button" class="btn-action edit" title="Modifier" data-id="<?= $game['id'] ?>" data-status="<?= esc($game['status']) ?>" data-playtime="<?= esc($game['play_time']) ?>" data-notes="<?= esc($game['notes']) ?>" data-name="<?= esc($game['name']) ?>" style="position:absolute;left:50%;top:75%;transform:translate(28px, -50%);width:32px;height:32px;border-radius:50%;background:rgba(31,27,46,0.4);color:#BB86FC;border:2px solid #00E5FF;z-index:10;display:flex;align-items:center;justify-content:center;font-size:1.1rem;opacity:0;pointer-events:none;transition:opacity 0.2s, background 0.2s;">✏️</button>
+            <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>" alt="Jaquette" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
         </div>
     <?php endforeach; ?>
 </div>
@@ -183,33 +163,26 @@
 <script>
 document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
     card.addEventListener('click', function(e) {
-        // Empêche le clic sur le bouton supprimer d'ouvrir le modal
+        // Empêche le clic sur les boutons d'action d'ouvrir le modal
         if (e.target.classList.contains('btn-action')) return;
 
-        const name = this.querySelector('.card-front span').textContent.trim();
-        const cover = this.querySelector('.card-cover').getAttribute('src');
-        const backDiv = this.querySelector('.card-back > div');
-        const platform = backDiv ? backDiv.innerHTML.match(/Plateforme :<\/strong> ([^<]*)<br>/)?.[1] : '';
-        const release = backDiv ? backDiv.innerHTML.match(/Année :<\/strong> ([^<]*)<br>/)?.[1] : '';
-        const genre = backDiv ? backDiv.innerHTML.match(/Genre :<\/strong> ([^<]*)<br>/)?.[1] : '';
-        const developer = backDiv ? backDiv.innerHTML.match(/Développeur :<\/strong> ([^<]*)<br>/)?.[1] : '';
-        const publisher = backDiv ? backDiv.innerHTML.match(/Éditeur :<\/strong> ([^<]*)<br>/)?.[1] : '';
-        const status = backDiv ? backDiv.innerHTML.match(/Statut :<\/strong> ([^<]*)<br>/)?.[1] : '';
-        const playtime = backDiv ? backDiv.innerHTML.match(/Temps de jeu :<\/strong> ([^<]*) h<br>/)?.[1] : '';
-        const notes = backDiv ? backDiv.innerHTML.match(/Notes :<\/strong> ([^<]*)$/)?.[1] : '';
-
+        // Récupération des données du jeu depuis l'attribut data-game
+        const gameData = JSON.parse(this.getAttribute('data-game'));
+        
         let html = '';
-        html += cover ? `<img src="${cover}" alt="${name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
-        html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${name}</h2>`;
-        html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${platform || 'Inconnue'}<br>Année : ${release || 'Inconnue'}<br>Genre : ${genre || 'Inconnu'}</div>`;
-        if (developer && developer.trim() !== '') {
-            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : ${developer}</div>`;
+        html += gameData.cover ? `<img src="${gameData.cover}" alt="${gameData.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
+        html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${gameData.name}</h2>`;
+        html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${gameData.platform || 'Inconnue'}<br>Année : ${gameData.release_date || 'Inconnue'}<br>Genre : ${gameData.category || 'Inconnu'}</div>`;
+        
+        if (gameData.developer && gameData.developer.trim() !== '') {
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : ${gameData.developer}</div>`;
         }
-        if (publisher && publisher.trim() !== '') {
-            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Éditeur : ${publisher}</div>`;
+        if (gameData.publisher && gameData.publisher.trim() !== '') {
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Éditeur : ${gameData.publisher}</div>`;
         }
-        html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;\">Statut : ${status || 'Inconnu'}<br>Temps de jeu : ${playtime || '0'} h</div>`;
-        html += `<div style=\"color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;\"><b>Notes :</b> ${notes || '<i>Aucune note</i>'}</div>`;
+        
+        html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;\">Statut : ${gameData.status || 'Inconnu'}<br>Temps de jeu : ${gameData.play_time || '0'} h</div>`;
+        html += `<div style=\"color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;\"><b>Notes :</b> ${gameData.notes || '<i>Aucune note</i>'}</div>`;
 
         document.getElementById('gameViewModalBody').innerHTML = html;
         document.getElementById('gameViewModal').classList.add('active');

@@ -262,17 +262,6 @@ function initCards() {
             }
         });
     });
-
-    // Gestion du retournement des cartes
-    document.querySelectorAll('.carousel-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            if (e.target.closest('button')) return;
-            document.querySelectorAll('.carousel-card.flipped').forEach(c => {
-                if (c !== card) c.classList.remove('flipped');
-            });
-            card.classList.toggle('flipped');
-        });
-    });
 }
 
 function checkEmptyContainer(isWishlist) {
