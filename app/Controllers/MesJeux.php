@@ -111,6 +111,9 @@ class MesJeux extends BaseController
         $releaseYear = $data['releaseYear'] ?? null; // Année de sortie
         $genre = $data['genre'] ?? null;            // Genre
         $cover = $data['cover'] ?? null;            // Image de couverture
+        $developer = $data['developer'] ?? null;    // Développeur
+        $publisher = $data['publisher'] ?? null;    // Éditeur
+        $rawgId = $data['rawg_id'] ?? null;         // ID RAWG si disponible
 
         // Validation des données requises
         if (!$gameName || !$platform) {
@@ -132,6 +135,9 @@ class MesJeux extends BaseController
                 'release_date' => $releaseYear ? $releaseYear . '-01-01' : null,
                 'category' => $genre,
                 'cover' => $cover,
+                'developer' => $developer,
+                'publisher' => $publisher,
+                'rawg_id' => $rawgId
             ], true);
         } else {
             $gameId = $game['id'];

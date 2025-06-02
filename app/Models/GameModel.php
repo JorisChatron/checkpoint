@@ -6,5 +6,5 @@ use CodeIgniter\Model;
 class GameModel extends Model
 {
     protected $table = 'games';
-    protected $allowedFields = ['name', 'platform', 'release_date', 'category', 'cover', 'developer'];
+    protected $allowedFields = ['name', 'platform', 'release_date', 'category', 'cover', 'developer', 'publisher', 'rawg_id'];
 }

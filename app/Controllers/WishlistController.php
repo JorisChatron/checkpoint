@@ -41,7 +41,7 @@ class WishlistController extends BaseController
 
         // Construction de la requête avec jointure
         $builder = $this->wishlistModel
-            ->select('wishlist.*, games.name, games.platform, games.release_date, games.category, games.cover')
+            ->select('wishlist.*, games.name, games.platform, games.release_date, games.category, games.cover, games.developer, games.publisher')
             ->join('games', 'games.id = wishlist.game_id')
             ->where('wishlist.user_id', $userId);
 
@@ -130,7 +130,10 @@ class WishlistController extends BaseController
             'platform' => $data['platform'] ?? 'Inconnue',
             'release_date' => isset($data['releaseYear']) ? $data['releaseYear'] . '-01-01' : null,
             'category' => $data['genre'] ?? 'Inconnu',
-            'cover' => $data['cover'] ?? null
+            'cover' => $data['cover'] ?? null,
+            'developer' => $data['developer'] ?? null,
+            'publisher' => $data['publisher'] ?? null,
+            'rawg_id' => $data['rawg_id'] ?? null
         ];
 
         // Vérifie si le jeu existe déjà
@@ -164,12 +167,31 @@ class WishlistController extends BaseController
 
             // Création du jeu avec les données RAWG
             $game = json_decode($response, true);
+            
+            // Récupération des développeurs
+            $developers = '';
+            if (isset($game['developers']) && is_array($game['developers']) && count($game['developers']) > 0) {
+                $developers = implode(', ', array_map(function($dev) {
+                    return $dev['name'] ?? '';
+                }, $game['developers']));
+            }
+            
+            // Récupération des éditeurs
+            $publishers = '';
+            if (isset($game['publishers']) && is_array($game['publishers']) && count($game['publishers']) > 0) {
+                $publishers = implode(', ', array_map(function($pub) {
+                    return $pub['name'] ?? '';
+                }, $game['publishers']));
+            }
+            
             return $this->gameModel->insert([
                 'name' => $game['name'] ?? ('Jeu ID: ' . $rawgId),
                 'platform' => $game['platforms'][0]['platform']['name'] ?? 'Inconnue',
                 'release_date' => $game['released'] ?? null,
                 'category' => $game['genres'][0]['name'] ?? 'Inconnu',
                 'cover' => $game['background_image'] ?? null,
+                'developer' => $developers ?: null,
+                'publisher' => $publishers ?: null,
                 'rawg_id' => $rawgId
             ], true);
         } catch (\Exception $e) {

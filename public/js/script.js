@@ -77,32 +77,56 @@ function initGameSearch() {
     const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
     let searchTimeout;
 
-    const updateGameFields = (game) => {
-        const fields = {
-            'searchGame': game.name,
-            'platform': game.platforms?.[0]?.platform?.name || '',
-            'releaseYear': game.released?.split('-')[0] || '',
-            'genre': game.genres?.map(g => g.name).join(', ') || '',
-            'cover': game.background_image || '',
-            'game_id': game.id || ''
-        };
+    const updateGameFields = async (game) => {
+        // Faire un appel API pour récupérer les détails complets du jeu
+        try {
+            const detailResponse = await fetch(`https://api.rawg.io/api/games/${game.id}?key=${API_KEY}`);
+            const gameDetails = await detailResponse.json();
+            
+            const fields = {
+                'searchGame': gameDetails.name || game.name,
+                'platform': gameDetails.platforms?.[0]?.platform?.name || game.platforms?.[0]?.platform?.name || '',
+                'releaseYear': (gameDetails.released || game.released)?.split('-')[0] || '',
+                'genre': gameDetails.genres?.map(g => g.name).join(', ') || game.genres?.map(g => g.name).join(', ') || '',
+                'cover': gameDetails.background_image || game.background_image || '',
+                'game_id': gameDetails.id || game.id || '',
+                'developer': gameDetails.developers?.map(d => d.name).join(', ') || '',
+                'publisher': gameDetails.publishers?.map(p => p.name).join(', ') || ''
+            };
 
-        Object.entries(fields).forEach(([id, value]) => {
-            const element = document.getElementById(id);
-            if (element) element.value = value;
-        });
+            Object.entries(fields).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.value = value;
+            });
 
-        const preview = document.getElementById('coverPreview');
-        const container = document.getElementById('coverPreviewContainer');
-        if (preview && container) {
-            if (game.background_image) {
-                preview.src = game.background_image;
-                preview.classList.remove('hidden');
-                container.classList.remove('hidden');
-            } else {
-                preview.classList.add('hidden');
-                container.classList.add('hidden');
+            const preview = document.getElementById('coverPreview');
+            const container = document.getElementById('coverPreviewContainer');
+            if (preview && container) {
+                if (gameDetails.background_image || game.background_image) {
+                    preview.src = gameDetails.background_image || game.background_image;
+                    preview.classList.remove('hidden');
+                    container.classList.remove('hidden');
+                } else {
+                    preview.classList.add('hidden');
+                    container.classList.add('hidden');
+                }
             }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des détails:', error);
+            // Fallback avec les données de base
+            const fields = {
+                'searchGame': game.name,
+                'platform': game.platforms?.[0]?.platform?.name || '',
+                'releaseYear': game.released?.split('-')[0] || '',
+                'genre': game.genres?.map(g => g.name).join(', ') || '',
+                'cover': game.background_image || '',
+                'game_id': game.id || ''
+            };
+
+            Object.entries(fields).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.value = value;
+            });
         }
     };
 
@@ -125,8 +149,8 @@ function initGameSearch() {
                     data.results.forEach(game => {
                         const li = document.createElement('li');
                         li.textContent = game.name;
-                        li.addEventListener('click', () => {
-                            updateGameFields(game);
+                        li.addEventListener('click', async () => {
+                            await updateGameFields(game);
                             suggestionsList.innerHTML = '';
                         });
                         suggestionsList.appendChild(li);
@@ -174,6 +198,8 @@ function initForms() {
                         releaseYear: formData.get('releaseYear'),
                         genre: formData.get('genre'),
                         cover: formData.get('cover'),
+                        developer: formData.get('developer'),
+                        publisher: formData.get('publisher'),
                         status: formData.get('status')
                     })
                 });
@@ -486,7 +512,8 @@ async function addGameToCollectionRawg(game, wishlist) {
         cover: game.background_image,
         status: wishlist ? 'souhaité' : 'en cours',
         rawg_id: game.id,
-        developer: game.developers && game.developers.length ? game.developers.map(d=>d.name).join(', ') : ''
+        developer: game.developers && game.developers.length ? game.developers.map(d=>d.name).join(', ') : '',
+        publisher: game.publishers && game.publishers.length ? game.publishers.map(p=>p.name).join(', ') : ''
     };
     try {
         const response = await fetch(url, {

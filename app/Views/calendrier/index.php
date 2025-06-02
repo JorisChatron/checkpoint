@@ -133,6 +133,8 @@ $this->section('content');
             
             <!-- Informations du jeu -->
             <input type="hidden" id="rawg_game_id" name="game_id">
+            <input type="hidden" id="wishlist_developer" name="developer">
+            <input type="hidden" id="wishlist_publisher" name="publisher">
             <div class="form-group">
                 <label for="game_name">Nom du jeu :</label>
                 <input type="text" id="game_name" name="searchGame" readonly>
@@ -303,6 +305,8 @@ function openGameModal(gameId) {
                         modal.classList.remove('active');
                         const wishlistModal = document.getElementById('addWishlistModal');
                         document.getElementById('rawg_game_id').value = game.id;
+                        document.getElementById('wishlist_developer').value = (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '';
+                        document.getElementById('wishlist_publisher').value = (game.publishers && game.publishers.length) ? game.publishers.map(p => p.name).join(', ') : '';
                         document.getElementById('game_name').value = game.name || 'Jeu sans nom';
                         document.getElementById('wishlist_platform').value = (game.platforms && game.platforms.length && game.platforms[0].platform && game.platforms[0].platform.name) ? game.platforms[0].platform.name : 'Inconnue';
                         document.getElementById('wishlist_releaseYear').value = game.released ? game.released.split('-')[0] : '';

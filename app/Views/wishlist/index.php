@@ -51,6 +51,18 @@ $this->section('content');
                         <strong>Genre</strong>
                         <?= esc(!empty($game['category']) ? $game['category'] : 'Inconnu') ?>
                     </div>
+                    <?php if (!empty($game['developer'])): ?>
+                    <div class="card-detail">
+                        <strong>Développeur</strong>
+                        <?= esc($game['developer']) ?>
+                    </div>
+                    <?php endif; ?>
+                    <?php if (!empty($game['publisher'])): ?>
+                    <div class="card-detail">
+                        <strong>Éditeur</strong>
+                        <?= esc($game['publisher']) ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -68,6 +80,8 @@ $this->section('content');
         <form id="addGameForm" action="/checkpoint/public/wishlist/add" method="POST">
             <?= csrf_field() ?>
             <input type="hidden" id="game_id" name="game_id">
+            <input type="hidden" id="developer" name="developer">
+            <input type="hidden" id="publisher" name="publisher">
             
             <!-- Recherche de jeu -->
             <div class="form-group">
@@ -194,6 +208,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('genre').value = game.category;
         document.getElementById('cover').value = game.cover;
         document.getElementById('game_id').value = game.id;
+        document.getElementById('developer').value = game.developer || '';
+        document.getElementById('publisher').value = game.publisher || '';
         
         const coverPreview = document.getElementById('coverPreview');
         if (game.cover) {
