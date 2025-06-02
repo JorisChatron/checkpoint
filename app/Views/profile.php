@@ -226,15 +226,46 @@
             });
         }
 
-        // Limite à 5 cases cochées
-        const checkboxes = document.querySelectorAll('.top5-checkbox');
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', () => {
-                const checked = document.querySelectorAll('.top5-checkbox:checked');
-                if(checked.length > 5) {
-                    cb.checked = false;
-                    showToast('error', 'Vous ne pouvez choisir que 5 jeux.');
+        // Ajout JS pour afficher la position de sélection du top 5
+        let clickOrder = []; // Tableau pour garder l'ordre chronologique des clics
+        
+        function updateTop5Positions() {
+            // Nettoyer toutes les positions
+            document.querySelectorAll('.top5-position').forEach(span => span.textContent = '');
+            
+            // Afficher les positions selon l'ordre chronologique des clics
+            clickOrder.forEach((gameId, idx) => {
+                const checkbox = document.querySelector(`input[value="${gameId}"]`);
+                if (checkbox && checkbox.checked) {
+                    const label = checkbox.parentElement.querySelector('.top5-position');
+                    if(label) label.textContent = `#${idx+1}`;
                 }
+            });
+        }
+        
+        document.querySelectorAll('.top5-checkbox').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const gameId = this.value;
+                
+                if (this.checked) {
+                    // Vérifier si on n'a pas déjà 5 jeux sélectionnés
+                    const checkedCount = document.querySelectorAll('.top5-checkbox:checked').length;
+                    if (checkedCount > 5) {
+                        this.checked = false;
+                        showToast('error', 'Vous ne pouvez choisir que 5 jeux.');
+                        return;
+                    }
+                    
+                    // Ajouter le jeu à l'ordre chronologique s'il n'y est pas déjà
+                    if (!clickOrder.includes(gameId)) {
+                        clickOrder.push(gameId);
+                    }
+                } else {
+                    // Retirer le jeu de l'ordre chronologique
+                    clickOrder = clickOrder.filter(id => id !== gameId);
+                }
+                
+                updateTop5Positions();
             });
         });
 
@@ -242,18 +273,20 @@
         if(top5Form) {
             top5Form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const checked = Array.from(document.querySelectorAll('.top5-checkbox:checked')).map(cb => cb.value);
-                if(checked.length !== 5) {
+                
+                if(clickOrder.length !== 5) {
                     showToast('error', 'Veuillez sélectionner exactement 5 jeux.');
                     return;
                 }
+                
+                // Utiliser l'ordre chronologique des clics
                 fetch('/checkpoint/public/profile/setTop5', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: JSON.stringify({ top5: checked })
+                    body: JSON.stringify({ top5: clickOrder })
                 })
                 .then(res => res.json())
                 .then(data => {
@@ -267,19 +300,6 @@
                 .catch(() => showToast('error', 'Erreur lors de la requête.'));
             });
         }
-
-        // Ajout JS pour afficher la position de sélection du top 5
-        function updateTop5Positions() {
-            const checked = Array.from(document.querySelectorAll('.top5-checkbox:checked'));
-            document.querySelectorAll('.top5-position').forEach(span => span.textContent = '');
-            checked.forEach((cb, idx) => {
-                const label = cb.parentElement.querySelector('.top5-position');
-                if(label) label.textContent = `#${idx+1}`;
-            });
-        }
-        document.querySelectorAll('.top5-checkbox').forEach(cb => {
-            cb.addEventListener('change', updateTop5Positions);
-        });
 
         document.getElementById('showAdultCheckbox').addEventListener('change', function() {
             fetch('<?= base_url('profile/toggleAdult') ?>', {
