@@ -27,40 +27,39 @@ $this->section('content');
 <div class="wishlist-carousel">
     <?php foreach ($wishlist as $game): ?>
         <div class="wishlist-card">
-            <div style="width:100%;display:flex;justify-content:center;align-items:center;margin-top:1.2rem;">
-                <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>"
-                     alt="<?= esc($game['name']) ?>"
-                     class="card-cover"
-                     style="width:180px;height:180px;object-fit:cover;border-radius:12px;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;background:#1E1E2F;display:block;">
-            </div>
+            <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>"
+                 alt="<?= esc($game['name']) ?>"
+                 class="card-cover">
+            
             <div class="card-actions">
                 <button type="button" class="btn-action delete" data-id="<?= $game['id'] ?>" title="Supprimer">&times;</button>
             </div>
-            <div class="card-info" style="margin-top:1.2rem;">
-                <h3 class="card-title" style="text-align:center;"><?= esc($game['name']) ?></h3>
+            
+            <div class="card-info">
+                <h3 class="card-title"><?= esc($game['name']) ?></h3>
                 <div class="card-details">
                     <div class="card-detail">
                         <strong>Plateforme</strong>
-                        <?= esc(!empty($game['platform']) ? $game['platform'] : 'Inconnue') ?>
+                        <span><?= esc(!empty($game['platform']) ? $game['platform'] : 'Inconnue') ?></span>
                     </div>
                     <div class="card-detail">
                         <strong>Année</strong>
-                        <?= esc(!empty($game['release_date']) ? $game['release_date'] : 'Inconnue') ?>
+                        <span><?= esc(!empty($game['release_date']) ? date('Y', strtotime($game['release_date'])) : 'Inconnue') ?></span>
                     </div>
                     <div class="card-detail">
                         <strong>Genre</strong>
-                        <?= esc(!empty($game['category']) ? $game['category'] : 'Inconnu') ?>
+                        <span><?= esc(!empty($game['category']) ? $game['category'] : 'Inconnu') ?></span>
                     </div>
                     <?php if (!empty($game['developer'])): ?>
                     <div class="card-detail">
                         <strong>Développeur</strong>
-                        <?= esc($game['developer']) ?>
+                        <span><?= esc($game['developer']) ?></span>
                     </div>
                     <?php endif; ?>
                     <?php if (!empty($game['publisher'])): ?>
                     <div class="card-detail">
                         <strong>Éditeur</strong>
-                        <?= esc($game['publisher']) ?>
+                        <span><?= esc($game['publisher']) ?></span>
                     </div>
                     <?php endif; ?>
                 </div>

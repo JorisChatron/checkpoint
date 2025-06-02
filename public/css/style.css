@@ -1192,9 +1192,11 @@ form button:active {
     border-radius: 15px;
     overflow: hidden;
     transition: all 0.3s ease;
-    height: 400px;
+    height: 480px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     animation: cardFadeIn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    flex-direction: column;
 }
 
 .wishlist-card:hover {
@@ -1206,39 +1208,82 @@ form button:active {
 
 .wishlist-card .card-cover {
     width: 100%;
-    height: 70%;
+    height: 200px;
     object-fit: cover;
     border-bottom: 2px solid var(--primary-color);
+    flex-shrink: 0;
 }
 
 .wishlist-card .card-info {
-    padding: 1rem;
+    padding: 0.8rem;
     background: var(--background-darker);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .wishlist-card .card-title {
     color: var(--text-color);
-    font-size: 1.2rem;
-    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    margin: 0 0 0.6rem 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex-shrink: 0;
+    text-align: center;
 }
 
 .wishlist-card .card-details {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 220px;
+    padding-right: 0.3rem;
 }
 
 .wishlist-card .card-detail {
     color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
 }
 
 .wishlist-card .card-detail strong {
     color: var(--accent-color);
-    margin-right: 0.3rem;
+    margin-bottom: 0.1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wishlist-card .card-detail span {
+    color: var(--secondary-color);
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+/* Style pour la scrollbar dans les détails */
+.wishlist-card .card-details::-webkit-scrollbar {
+    width: 4px;
+}
+
+.wishlist-card .card-details::-webkit-scrollbar-track {
+    background: rgba(127, 57, 251, 0.1);
+    border-radius: 2px;
+}
+
+.wishlist-card .card-details::-webkit-scrollbar-thumb {
+    background: rgba(127, 57, 251, 0.5);
+    border-radius: 2px;
+}
+
+.wishlist-card .card-details::-webkit-scrollbar-thumb:hover {
+    background: rgba(127, 57, 251, 0.8);
 }
 
 .wishlist-card .card-actions {
@@ -1287,7 +1332,15 @@ form button:active {
     }
     
     .wishlist-card {
-        height: 350px;
+        height: 420px;
+    }
+    
+    .wishlist-card .card-cover {
+        height: 180px;
+    }
+    
+    .wishlist-card .card-details {
+        max-height: 180px;
     }
     
     .wishlist-card .card-actions {
