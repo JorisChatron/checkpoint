@@ -94,11 +94,37 @@ function initGameSearch() {
                 'publisher': gameDetails.publishers?.map(p => p.name).join(', ') || ''
             };
 
+            // Remplir les champs cachés
             Object.entries(fields).forEach(([id, value]) => {
                 const element = document.getElementById(id);
                 if (element) element.value = value;
             });
 
+            // Gérer l'aperçu du jeu sélectionné
+            const gamePreview = document.getElementById('gamePreview');
+            const selectedGameCover = document.getElementById('selectedGameCover');
+            const selectedGameName = document.getElementById('selectedGameName');
+            const selectedGameDetails = document.getElementById('selectedGameDetails');
+
+            if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
+                // Afficher l'aperçu
+                gamePreview.style.display = 'block';
+                
+                // Jaquette
+                selectedGameCover.src = fields.cover || '/public/images/default-cover.png';
+                
+                // Nom du jeu
+                selectedGameName.textContent = fields.searchGame;
+                
+                // Détails (plateforme, année, genre)
+                const details = [];
+                if (fields.platform) details.push(fields.platform);
+                if (fields.releaseYear) details.push(fields.releaseYear);
+                if (fields.genre) details.push(fields.genre);
+                selectedGameDetails.textContent = details.join(' • ');
+            }
+
+            // Gestion de l'ancien système d'aperçu (pour compatibilité)
             const preview = document.getElementById('coverPreview');
             const container = document.getElementById('coverPreviewContainer');
             if (preview && container) {
@@ -127,6 +153,24 @@ function initGameSearch() {
                 const element = document.getElementById(id);
                 if (element) element.value = value;
             });
+
+            // Fallback pour l'aperçu aussi
+            const gamePreview = document.getElementById('gamePreview');
+            const selectedGameCover = document.getElementById('selectedGameCover');
+            const selectedGameName = document.getElementById('selectedGameName');
+            const selectedGameDetails = document.getElementById('selectedGameDetails');
+
+            if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
+                gamePreview.style.display = 'block';
+                selectedGameCover.src = fields.cover || '/public/images/default-cover.png';
+                selectedGameName.textContent = fields.searchGame;
+                
+                const details = [];
+                if (fields.platform) details.push(fields.platform);
+                if (fields.releaseYear) details.push(fields.releaseYear);
+                if (fields.genre) details.push(fields.genre);
+                selectedGameDetails.textContent = details.join(' • ');
+            }
         }
     };
 

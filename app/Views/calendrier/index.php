@@ -179,33 +179,37 @@ $this->section('content');
         <button class="modal-close" id="closeAddGameModal">&times;</button>
         <h2>Ajouter un jeu</h2>
         <form id="addGameCalendarForm">
+            <!-- Champs cachés pour les informations automatiques -->
+            <input type="hidden" id="addGame_game_id" name="game_id">
+            <input type="hidden" id="addGame_platform" name="platform">
+            <input type="hidden" id="addGame_releaseYear" name="releaseYear">
+            <input type="hidden" id="addGame_genre" name="genre">
+            <input type="hidden" id="addGame_cover" name="cover">
+            <input type="hidden" id="addGame_developer" name="developer">
+            <input type="hidden" id="addGame_publisher" name="publisher">
+            
+            <!-- Recherche de jeu - VISIBLE -->
             <div class="form-group">
                 <label for="addGame_searchGame">Recherchez votre jeu :</label>
                 <input type="text" id="addGame_searchGame" name="searchGame" placeholder="Commencez à taper le nom du jeu..." required autocomplete="off">
                 <ul id="addGame_suggestions" class="suggestions-list"></ul>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="addGame_platform">Plateforme :</label>
-                    <input type="text" id="addGame_platform" name="platform" placeholder="Plateforme" required readonly>
-                </div>
-                <div class="form-group">
-                    <label for="addGame_releaseYear">Année de sortie :</label>
-                    <input type="text" id="addGame_releaseYear" name="releaseYear" placeholder="Année" readonly>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="addGame_genre">Genre :</label>
-                <input type="text" id="addGame_genre" name="genre" placeholder="Genre" readonly>
-            </div>
-            <div class="form-group">
-                <label for="addGame_cover">Jaquette :</label>
-                <input type="text" id="addGame_cover" name="cover" placeholder="URL de la jaquette" readonly>
-                <div class="form-preview cover-preview-container hidden" id="addGame_coverPreviewContainer">
-                    <img id="addGame_coverPreview" src="" alt="Aperçu de la jaquette" class="hidden">
-                    <span>Aperçu de la jaquette</span>
+
+            <!-- Aperçu du jeu sélectionné -->
+            <div class="form-group" id="addGame_gamePreview" style="display: none;">
+                <div style="background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <img id="addGame_selectedGameCover" 
+                         src="" 
+                         alt="Jaquette" 
+                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--secondary-color);">
+                    <div>
+                        <div id="addGame_selectedGameName" style="color: var(--secondary-color); font-weight: bold; margin-bottom: 0.3rem;"></div>
+                        <div id="addGame_selectedGameDetails" style="color: var(--text-color); font-size: 0.9rem;"></div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Champs visibles pour l'utilisateur -->
             <div class="form-row-status">
                 <div class="form-group">
                     <label for="addGame_status">Statut :</label>
@@ -224,7 +228,7 @@ $this->section('content');
             </div>
             <div class="form-group">
                 <label for="addGame_notes">Notes :</label>
-                <textarea id="addGame_notes" name="notes" placeholder="Notes"></textarea>
+                <textarea id="addGame_notes" name="notes" placeholder="Ajoutez vos notes sur ce jeu..."></textarea>
             </div>
             <button type="submit">Ajouter le jeu</button>
         </form>
@@ -547,7 +551,9 @@ if (addGameModal) {
 }
 // Pré-remplissage et ouverture du modal au clic sur 'Ajouter à mes jeux'
 function openAddGameModalFromRawg(game) {
+    // Remplir les champs cachés
     document.getElementById('addGame_searchGame').value = game.name || 'Jeu sans nom';
+    
     let platform = 'Inconnue';
     if (game.platforms && Array.isArray(game.platforms) && game.platforms.length > 0) {
         const plat = game.platforms[0];
@@ -561,16 +567,48 @@ function openAddGameModalFromRawg(game) {
     document.getElementById('addGame_releaseYear').value = game.released ? game.released.split('-')[0] : '';
     document.getElementById('addGame_genre').value = (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '';
     document.getElementById('addGame_cover').value = game.background_image || '';
-    const coverPreview = document.getElementById('addGame_coverPreview');
-    if (game.background_image) {
-        coverPreview.src = game.background_image;
-        coverPreview.classList.remove('hidden');
-    } else {
-        coverPreview.classList.add('hidden');
+    
+    // Gérer l'aperçu du jeu sélectionné
+    const gamePreview = document.getElementById('addGame_gamePreview');
+    const selectedGameCover = document.getElementById('addGame_selectedGameCover');
+    const selectedGameName = document.getElementById('addGame_selectedGameName');
+    const selectedGameDetails = document.getElementById('addGame_selectedGameDetails');
+
+    if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
+        // Afficher l'aperçu
+        gamePreview.style.display = 'block';
+        
+        // Jaquette
+        selectedGameCover.src = game.background_image || '/public/images/default-cover.png';
+        
+        // Nom du jeu
+        selectedGameName.textContent = game.name || 'Jeu sans nom';
+        
+        // Détails (plateforme, année, genre)
+        const details = [];
+        if (platform) details.push(platform);
+        if (game.released) details.push(game.released.split('-')[0]);
+        if (game.genres && game.genres.length) details.push(game.genres.map(g => g.name).join(', '));
+        selectedGameDetails.textContent = details.join(' • ');
     }
+
+    // Gestion de l'ancien système d'aperçu (pour compatibilité)
+    const coverPreview = document.getElementById('addGame_coverPreview');
+    if (coverPreview) {
+        if (game.background_image) {
+            coverPreview.src = game.background_image;
+            coverPreview.classList.remove('hidden');
+        } else {
+            coverPreview.classList.add('hidden');
+        }
+    }
+    
+    // Réinitialiser les champs utilisateur
     document.getElementById('addGame_status').value = '';
     document.getElementById('addGame_playtime').value = '';
     document.getElementById('addGame_notes').value = '';
+    
+    // Ouvrir le modal
     addGameModal.classList.add('active');
 }
 
@@ -611,6 +649,144 @@ if (addGameForm) {
         });
     });
 }
+
+// Gestion de la recherche dans le modal "Ajouter un jeu" du calendrier
+function initCalendarGameSearch() {
+    const searchInput = document.getElementById('addGame_searchGame');
+    const suggestionsList = document.getElementById('addGame_suggestions');
+    if (!searchInput || !suggestionsList) return;
+
+    const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
+    let searchTimeout;
+
+    const updateGameFields = async (game) => {
+        try {
+            // Appel API pour récupérer les détails complets
+            const detailResponse = await fetch(`https://api.rawg.io/api/games/${game.id}?key=${API_KEY}`);
+            const gameDetails = await detailResponse.json();
+            
+            const fields = {
+                'addGame_searchGame': gameDetails.name || game.name,
+                'addGame_platform': gameDetails.platforms?.[0]?.platform?.name || game.platforms?.[0]?.platform?.name || '',
+                'addGame_releaseYear': (gameDetails.released || game.released)?.split('-')[0] || '',
+                'addGame_genre': gameDetails.genres?.map(g => g.name).join(', ') || game.genres?.map(g => g.name).join(', ') || '',
+                'addGame_cover': gameDetails.background_image || game.background_image || '',
+                'addGame_game_id': gameDetails.id || game.id || '',
+                'addGame_developer': gameDetails.developers?.map(d => d.name).join(', ') || '',
+                'addGame_publisher': gameDetails.publishers?.map(p => p.name).join(', ') || ''
+            };
+
+            // Remplir les champs cachés
+            Object.entries(fields).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.value = value;
+            });
+
+            // Gérer l'aperçu du jeu sélectionné
+            const gamePreview = document.getElementById('addGame_gamePreview');
+            const selectedGameCover = document.getElementById('addGame_selectedGameCover');
+            const selectedGameName = document.getElementById('addGame_selectedGameName');
+            const selectedGameDetails = document.getElementById('addGame_selectedGameDetails');
+
+            if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
+                // Afficher l'aperçu
+                gamePreview.style.display = 'block';
+                
+                // Jaquette
+                selectedGameCover.src = fields.addGame_cover || '/public/images/default-cover.png';
+                
+                // Nom du jeu
+                selectedGameName.textContent = fields.addGame_searchGame;
+                
+                // Détails (plateforme, année, genre)
+                const details = [];
+                if (fields.addGame_platform) details.push(fields.addGame_platform);
+                if (fields.addGame_releaseYear) details.push(fields.addGame_releaseYear);
+                if (fields.addGame_genre) details.push(fields.addGame_genre);
+                selectedGameDetails.textContent = details.join(' • ');
+            }
+
+        } catch (error) {
+            console.error('Erreur lors de la récupération des détails:', error);
+            // Fallback avec les données de base
+            const fields = {
+                'addGame_searchGame': game.name,
+                'addGame_platform': game.platforms?.[0]?.platform?.name || '',
+                'addGame_releaseYear': game.released?.split('-')[0] || '',
+                'addGame_genre': game.genres?.map(g => g.name).join(', ') || '',
+                'addGame_cover': game.background_image || '',
+                'addGame_game_id': game.id || ''
+            };
+
+            Object.entries(fields).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.value = value;
+            });
+
+            // Fallback pour l'aperçu
+            const gamePreview = document.getElementById('addGame_gamePreview');
+            const selectedGameCover = document.getElementById('addGame_selectedGameCover');
+            const selectedGameName = document.getElementById('addGame_selectedGameName');
+            const selectedGameDetails = document.getElementById('addGame_selectedGameDetails');
+
+            if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
+                gamePreview.style.display = 'block';
+                selectedGameCover.src = fields.addGame_cover || '/public/images/default-cover.png';
+                selectedGameName.textContent = fields.addGame_searchGame;
+                
+                const details = [];
+                if (fields.addGame_platform) details.push(fields.addGame_platform);
+                if (fields.addGame_releaseYear) details.push(fields.addGame_releaseYear);
+                if (fields.addGame_genre) details.push(fields.addGame_genre);
+                selectedGameDetails.textContent = details.join(' • ');
+            }
+        }
+    };
+
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            suggestionsList.innerHTML = '';
+            return;
+        }
+
+        searchTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}&search=${query}`);
+                const data = await response.json();
+                
+                suggestionsList.innerHTML = '';
+                if (data.results?.length) {
+                    data.results.forEach(game => {
+                        const li = document.createElement('li');
+                        li.textContent = game.name;
+                        li.addEventListener('click', async () => {
+                            await updateGameFields(game);
+                            suggestionsList.innerHTML = '';
+                        });
+                        suggestionsList.appendChild(li);
+                    });
+                } else {
+                    suggestionsList.innerHTML = '<li>Aucun résultat trouvé</li>';
+                }
+            } catch (error) {
+                console.error('Erreur recherche:', error);
+                suggestionsList.innerHTML = '<li>Erreur lors de la recherche</li>';
+            }
+        }, 300);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+            suggestionsList.innerHTML = '';
+        }
+    });
+}
+
+// Initialiser la recherche dans le modal calendrier
+initCalendarGameSearch();
 
 </script>
 <?php $this->endSection(); ?> 

@@ -56,36 +56,37 @@
         <button class="modal-close" id="closeModal">&times;</button>
         <h2>Ajouter un jeu</h2>
         <form id="addGameForm">
+            <!-- Champs cachés pour les informations automatiques -->
             <input type="hidden" id="game_id" name="game_id">
+            <input type="hidden" id="platform" name="platform">
+            <input type="hidden" id="releaseYear" name="releaseYear">
+            <input type="hidden" id="genre" name="genre">
+            <input type="hidden" id="cover" name="cover">
             <input type="hidden" id="developer" name="developer">
             <input type="hidden" id="publisher" name="publisher">
+            
+            <!-- Recherche de jeu - VISIBLE -->
             <div class="form-group">
                 <label for="searchGame">Recherchez votre jeu :</label>
                 <input type="text" id="searchGame" name="searchGame" placeholder="Commencez à taper le nom du jeu..." required autocomplete="off">
                 <ul id="suggestions" class="suggestions-list"></ul>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="platform">Plateforme :</label>
-                    <input type="text" id="platform" name="platform" placeholder="Plateforme" required readonly>
-                </div>
-                <div class="form-group">
-                    <label for="releaseYear">Année de sortie :</label>
-                    <input type="text" id="releaseYear" name="releaseYear" placeholder="Année" readonly>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="genre">Genre :</label>
-                <input type="text" id="genre" name="genre" placeholder="Genre" readonly>
-            </div>
-            <div class="form-group">
-                    <label for="cover">Jaquette :</label>
-                    <input type="text" id="cover" name="cover" placeholder="URL de la jaquette" readonly>
-                <div class="form-preview cover-preview-container hidden" id="coverPreviewContainer">
-                    <img id="coverPreview" src="" alt="Aperçu de la jaquette" class="hidden">
-                    <span>Aperçu de la jaquette</span>
+
+            <!-- Aperçu du jeu sélectionné -->
+            <div class="form-group" id="gamePreview" style="display: none;">
+                <div style="background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <img id="selectedGameCover" 
+                         src="" 
+                         alt="Jaquette" 
+                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--secondary-color);">
+                    <div>
+                        <div id="selectedGameName" style="color: var(--secondary-color); font-weight: bold; margin-bottom: 0.3rem;"></div>
+                        <div id="selectedGameDetails" style="color: var(--text-color); font-size: 0.9rem;"></div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Champs visibles pour l'utilisateur -->
             <div class="form-row-status">
                 <div class="form-group">
                     <label for="status">Statut :</label>
@@ -104,7 +105,7 @@
             </div>
             <div class="form-group">
                 <label for="notes">Notes :</label>
-                <textarea id="notes" name="notes" placeholder="Notes"></textarea>
+                <textarea id="notes" name="notes" placeholder="Ajoutez vos notes sur ce jeu..."></textarea>
             </div>
             <button type="submit">Ajouter le jeu</button>
         </form>
