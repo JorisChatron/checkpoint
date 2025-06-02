@@ -34,7 +34,7 @@
 <?php if (!empty($games)): ?>
 <div class="dashboard-row">
     <?php foreach ($games as $game): ?>
-        <div class="game-card carousel-card" style="cursor: pointer;" data-game='<?= json_encode($game) ?>'>
+        <div class="game-card carousel-card" style="cursor: pointer;" data-game='<?= htmlspecialchars(json_encode($game, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') ?>'>
             <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
                 <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
                     <?= esc($game['name']) ?>
@@ -171,14 +171,49 @@
 <script>
 document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
     card.addEventListener('click', function(e) {
+        console.log('Click detected on:', e.target);
+        console.log('Target classes:', e.target.classList);
+        console.log('Closest btn-action:', e.target.closest('.btn-action'));
+        console.log('Has btn-action class:', e.target.classList.contains('btn-action'));
+        
         // Empêche le clic sur les boutons d'action d'ouvrir le modal
-        if (e.target.classList.contains('btn-action')) return;
+        // Vérifie si l'élément cliqué ou un de ses parents est un bouton d'action
+        if (e.target.classList.contains('btn-action') || e.target.closest('.btn-action')) {
+            console.log('Click blocked: button action detected');
+            return;
+        }
+
+        console.log('Processing click for modal...');
 
         // Récupération des données du jeu depuis l'attribut data-game
-        const gameData = JSON.parse(this.getAttribute('data-game'));
+        const gameDataString = this.getAttribute('data-game');
+        console.log('Raw data-game string:', gameDataString);
+        
+        let gameData;
+        try {
+            gameData = JSON.parse(gameDataString);
+        } catch (error) {
+            console.error('JSON parse error:', error);
+            console.error('Problematic string:', gameDataString);
+            return;
+        }
+        
+        console.log('Game data:', gameData);
         
         let html = '';
-        html += gameData.cover ? `<img src="${gameData.cover}" alt="${gameData.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
+        
+        // Gestion de la jaquette ou du placeholder dans le modal
+        if (gameData.cover) {
+            html += `<img src="${gameData.cover}" alt="${gameData.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">`;
+        } else {
+            html += `
+                <div style="width:220px;height:220px;margin:0 auto 1.2rem auto;background:linear-gradient(45deg, #1F1B2E, #2A1B3D);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0.5rem;box-sizing:border-box;text-align:center;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;">
+                    <div style="color:#9B5DE5;font-size:1.2rem;font-weight:bold;margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);letter-spacing:1px;line-height:1.2;">${gameData.name}</div>
+                    <div style="color:#BB86FC;font-size:0.9rem;opacity:0.8;max-width:85%;line-height:1.3;text-align:center;">Aucune jaquette</div>
+                </div>
+            `;
+        }
+        
         html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${gameData.name}</h2>`;
         html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${gameData.platform || 'Inconnue'}<br>Année : ${gameData.release_date || 'Inconnue'}<br>Genre : ${gameData.category || 'Inconnu'}</div>`;
         
@@ -192,8 +227,10 @@ document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
         html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;\">Statut : ${gameData.status || 'Inconnu'}<br>Temps de jeu : ${gameData.play_time || '0'} h</div>`;
         html += `<div style=\"color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;\"><b>Notes :</b> ${gameData.notes || '<i>Aucune note</i>'}</div>`;
 
+        console.log('Opening modal with HTML:', html);
         document.getElementById('gameViewModalBody').innerHTML = html;
         document.getElementById('gameViewModal').classList.add('active');
+        console.log('Modal should be open now');
     });
 });
 
