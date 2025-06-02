@@ -54,10 +54,17 @@ $this->section('content');
                 data-notes="<?= esc($game['notes'] ?? '') ?>"
             >
                 <?php
-                    $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
+                    $cover = !empty($game['cover']) ? $game['cover'] : '';
                     $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
                 ?>
-                <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                <?php if (!empty($cover)): ?>
+                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                <?php else: ?>
+                    <div class="game-cover-placeholder size-large" style="width:100%; height:100%; border-radius:10px;">
+                        <div class="placeholder-title"><?= esc($game['name']) ?></div>
+                        <div class="placeholder-text">Aucune jaquette</div>
+                    </div>
+                <?php endif; ?>
                 <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
                     <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
                         <?= esc($game['name']) ?>
@@ -81,10 +88,17 @@ $this->section('content');
                 data-notes="<?= esc($game['notes'] ?? '') ?>"
             >
                 <?php
-                    $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
+                    $cover = !empty($game['cover']) ? $game['cover'] : '';
                     $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
                 ?>
-                <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                <?php if (!empty($cover)): ?>
+                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                <?php else: ?>
+                    <div class="game-cover-placeholder size-large" style="width:100%; height:100%; border-radius:10px;">
+                        <div class="placeholder-title">#<?= $idx+1 ?> <?= esc($game['name']) ?></div>
+                        <div class="placeholder-text">Aucune jaquette</div>
+                    </div>
+                <?php endif; ?>
                 <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
                     <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
                         #<?= $idx+1 ?> <?= esc($game['name']) ?>

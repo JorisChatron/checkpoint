@@ -30,11 +30,18 @@
     <?php if (!empty($top5)): ?>
         <?php foreach ($top5 as $game): ?>
             <?php
-                $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
+                $cover = !empty($game['cover']) ? $game['cover'] : '';
                 $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
             ?>
             <div class="game-card" style="position:relative; padding:0;">
-                <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                <?php if (!empty($cover)): ?>
+                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                <?php else: ?>
+                    <div class="game-cover-placeholder size-large" style="width:100%; height:100%; border-radius:10px;">
+                        <div class="placeholder-title">#<?= esc($game['position']) ?> <?= esc($game['name']) ?></div>
+                        <div class="placeholder-text">Aucune jaquette</div>
+                    </div>
+                <?php endif; ?>
                 <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
                     <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
                         #<?= esc($game['position']) ?> <?= esc($game['name']) ?>
@@ -56,12 +63,18 @@
             <div style="max-height:320px;overflow-y:auto;">
                 <?php foreach ($allGames as $game): ?>
                     <?php
-                        $cover = !empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png';
+                        $cover = !empty($game['cover']) ? $game['cover'] : '';
                         $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
                     ?>
                     <div style="display:flex;align-items:center;margin-bottom:0.7rem;">
                         <input type="checkbox" name="top5[]" value="<?= $game['id'] ?>" id="game<?= $game['id'] ?>" class="top5-checkbox" style="margin-right:10px;">
-                        <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;margin-right:10px;">
+                        <?php if (!empty($cover)): ?>
+                            <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;margin-right:10px;">
+                        <?php else: ?>
+                            <div class="game-cover-placeholder size-small" style="width:40px;height:40px;border-radius:6px;margin-right:10px;">
+                                <div class="placeholder-title"><?= esc($game['name']) ?></div>
+                            </div>
+                        <?php endif; ?>
                         <label for="game<?= $game['id'] ?>" style="cursor:pointer;">
                             <span class="top5-position" style="font-weight:bold;color:#00E5FF;margin-right:7px;"></span>
                             <?= esc($game['name']) ?> <span style="color:#BB86FC;font-size:0.95em;">[<?= esc($game['platform']) ?>]</span>

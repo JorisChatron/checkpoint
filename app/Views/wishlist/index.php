@@ -27,9 +27,16 @@ $this->section('content');
 <div class="wishlist-carousel">
     <?php foreach ($wishlist as $game): ?>
         <div class="wishlist-card">
-            <img src="<?= esc(!empty($game['cover']) ? $game['cover'] : '/public/images/default-cover.png') ?>"
-                 alt="<?= esc($game['name']) ?>"
-                 class="card-cover">
+            <?php if (!empty($game['cover'])): ?>
+                <img src="<?= esc($game['cover']) ?>"
+                     alt="<?= esc($game['name']) ?>"
+                     class="card-cover">
+            <?php else: ?>
+                <div class="card-cover game-cover-placeholder size-medium">
+                    <div class="placeholder-title"><?= esc($game['name']) ?></div>
+                    <div class="placeholder-text">Aucune jaquette</div>
+                </div>
+            <?php endif; ?>
             
             <div class="card-actions">
                 <button type="button" class="btn-action delete" data-id="<?= $game['id'] ?>" title="Supprimer">&times;</button>

@@ -487,11 +487,33 @@ function openAddGameModalFromRawg(game) {
         // Afficher l'aperçu
         gamePreview.style.display = 'block';
         
-        // Jaquette
-        selectedGameCover.src = game.background_image || '/public/images/default-cover.png';
+        // Jaquette - utiliser le placeholder si pas d'image
+        if (fields.addGame_cover) {
+            selectedGameCover.src = fields.addGame_cover;
+            selectedGameCover.style.display = 'block';
+            // Cacher le placeholder s'il existe
+            const placeholder = gamePreview.querySelector('.game-cover-placeholder');
+            if (placeholder) placeholder.style.display = 'none';
+        } else {
+            selectedGameCover.style.display = 'none';
+            // Afficher le placeholder
+            let placeholder = gamePreview.querySelector('.game-cover-placeholder');
+            if (!placeholder) {
+                placeholder = document.createElement('div');
+                placeholder.className = 'game-cover-placeholder size-small';
+                placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
+                placeholder.innerHTML = `
+                    <div class="placeholder-title">${fields.addGame_searchGame}</div>
+                `;
+                selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
+            } else {
+                placeholder.style.display = 'flex';
+                placeholder.querySelector('.placeholder-title').textContent = fields.addGame_searchGame;
+            }
+        }
         
         // Nom du jeu
-        selectedGameName.textContent = game.name || 'Jeu sans nom';
+        selectedGameName.textContent = fields.addGame_searchGame;
         
         // Détails (plateforme, année, genre)
         const details = [];
@@ -601,8 +623,30 @@ function initCalendarGameSearch() {
                 // Afficher l'aperçu
                 gamePreview.style.display = 'block';
                 
-                // Jaquette
-                selectedGameCover.src = fields.addGame_cover || '/public/images/default-cover.png';
+                // Jaquette - utiliser le placeholder si pas d'image
+                if (fields.addGame_cover) {
+                    selectedGameCover.src = fields.addGame_cover;
+                    selectedGameCover.style.display = 'block';
+                    // Cacher le placeholder s'il existe
+                    const placeholder = gamePreview.querySelector('.game-cover-placeholder');
+                    if (placeholder) placeholder.style.display = 'none';
+                } else {
+                    selectedGameCover.style.display = 'none';
+                    // Afficher le placeholder
+                    let placeholder = gamePreview.querySelector('.game-cover-placeholder');
+                    if (!placeholder) {
+                        placeholder = document.createElement('div');
+                        placeholder.className = 'game-cover-placeholder size-small';
+                        placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
+                        placeholder.innerHTML = `
+                            <div class="placeholder-title">${fields.addGame_searchGame}</div>
+                        `;
+                        selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
+                    } else {
+                        placeholder.style.display = 'flex';
+                        placeholder.querySelector('.placeholder-title').textContent = fields.addGame_searchGame;
+                    }
+                }
                 
                 // Nom du jeu
                 selectedGameName.textContent = fields.addGame_searchGame;
