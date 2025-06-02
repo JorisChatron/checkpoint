@@ -251,4 +251,80 @@ class WishlistController extends BaseController
             return $this->response->setJSON(['success' => false, 'error' => 'Une erreur est survenue']);
         }
     }
+
+    /**
+     * Transfère un jeu de la wishlist vers la collection "Mes Jeux"
+     * 
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
+    public function transfer()
+    {
+        try {
+            // Vérification de la connexion
+            $userId = session()->get('user_id');
+            if (!$userId) {
+                return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
+            }
+
+            // Récupération des données
+            $data = $this->request->getJSON(true) ?: $this->request->getPost();
+            
+            // Validation des données requises
+            if (!isset($data['wishlist_id']) || !isset($data['status'])) {
+                return $this->response->setJSON(['success' => false, 'error' => 'Données manquantes']);
+            }
+
+            $wishlistId = $data['wishlist_id'];
+            
+            // Vérification que l'entrée wishlist appartient à l'utilisateur
+            $wishlistEntry = $this->wishlistModel->where(['id' => $wishlistId, 'user_id' => $userId])->first();
+            if (!$wishlistEntry) {
+                return $this->response->setJSON(['success' => false, 'error' => 'Jeu non trouvé dans votre wishlist']);
+            }
+
+            $gameId = $wishlistEntry['game_id'];
+
+            // Vérification que le jeu n'est pas déjà dans la collection
+            $gameStatsModel = new \App\Models\GameStatsModel();
+            if ($gameStatsModel->where(['user_id' => $userId, 'game_id' => $gameId])->first()) {
+                return $this->response->setJSON(['success' => false, 'error' => 'Ce jeu est déjà dans votre collection']);
+            }
+
+            // Début d'une transaction pour assurer la cohérence
+            $db = \Config\Database::connect();
+            $db->transBegin();
+
+            try {
+                // 1. Ajout à la collection "Mes Jeux"
+                $gameStatsModel->insert([
+                    'user_id' => $userId,
+                    'game_id' => $gameId,
+                    'play_time' => $data['playtime'] ?? 0,
+                    'status' => $data['status'],
+                    'notes' => $data['notes'] ?? null,
+                    'progress' => 0
+                ]);
+
+                // 2. Suppression de la wishlist
+                $this->wishlistModel->where(['id' => $wishlistId, 'user_id' => $userId])->delete();
+
+                // Validation de la transaction
+                $db->transCommit();
+
+                return $this->response->setJSON(['success' => true, 'message' => 'Jeu transféré avec succès']);
+
+            } catch (\Exception $e) {
+                // Annulation de la transaction en cas d'erreur
+                $db->transRollback();
+                throw $e;
+            }
+
+        } catch (\Exception $e) {
+            log_message('error', 'Erreur dans transfer(): ' . $e->getMessage());
+            return $this->response->setJSON([
+                'success' => false, 
+                'error' => 'Une erreur est survenue lors du transfert'
+            ]);
+        }
+    }
 }

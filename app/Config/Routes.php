@@ -22,6 +22,7 @@ $routes->post('mes-jeux/edit/(:num)', 'MesJeux::edit/$1');
 $routes->post('mes-jeux/delete/(:num)', 'MesJeux::delete/$1');
 $routes->post('wishlist/add', 'WishlistController::add');
 $routes->post('wishlist/delete/(:num)', 'WishlistController::delete/$1');
+$routes->post('wishlist/transfer', 'WishlistController::transfer');
 $routes->post('profile/setTop5', 'UserController::setTop5');
 $routes->get('calendrier', 'Calendrier::index');
 $routes->get('calendrier/(:num)/(:num)', 'Calendrier::index/$1/$2');

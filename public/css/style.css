@@ -1325,6 +1325,28 @@ form button:active {
     border-color: #FF6F61;
 }
 
+.wishlist-card .btn-action.transfer {
+    background: var(--background-darker);
+    border: 2px solid #00E5FF;
+    color: #00E5FF;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.wishlist-card .btn-action.transfer:hover {
+    background: #00E5FF;
+    color: var(--background-darker);
+    transform: scale(1.1);
+}
+
 @media (max-width: 768px) {
     .wishlist-carousel {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
