@@ -123,56 +123,6 @@ $this->section('content');
     </div>
 </section>
 
-<!-- Modal d'ajout à la wishlist -->
-<div id="addWishlistModal" class="modal">
-    <div class="modal-content">
-        <button class="modal-close" id="closeWishlistModal">&times;</button>
-        <h2>Ajouter à ma wishlist</h2>
-        <form id="addWishlistForm">
-            <?= csrf_field() ?>
-            
-            <!-- Informations du jeu -->
-            <input type="hidden" id="rawg_game_id" name="game_id">
-            <input type="hidden" id="wishlist_developer" name="developer">
-            <input type="hidden" id="wishlist_publisher" name="publisher">
-            <div class="form-group">
-                <label for="game_name">Nom du jeu :</label>
-                <input type="text" id="game_name" name="searchGame" readonly>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="wishlist_platform">Plateforme :</label>
-                    <input type="text" id="wishlist_platform" name="platform" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="wishlist_releaseYear">Année de sortie :</label>
-                    <input type="text" id="wishlist_releaseYear" name="releaseYear" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="wishlist_genre">Genre :</label>
-                <input type="text" id="wishlist_genre" name="genre" readonly>
-            </div>
-
-            <!-- Aperçu de la jaquette -->
-            <div class="form-group">
-                <label for="wishlist_cover">Jaquette :</label>
-                <input type="text" id="wishlist_cover" name="cover" readonly>
-                <div class="form-preview" id="wishlistCoverContainer">
-                    <img id="wishlistCoverPreview" src="" alt="Aperçu de la jaquette" style="max-width:200px;margin-top:1rem;border-radius:10px;">
-                </div>
-            </div>
-
-            <!-- Statut -->
-            <!-- Champ statut supprimé du formulaire calendrier -->
-
-            <button type="submit">Ajouter à ma wishlist</button>
-        </form>
-    </div>
-</div>
-
 <!-- Modal d'ajout à la collection Mes Jeux (copié de mes-jeux/index.php) -->
 <div id="addGameModal" class="modal">
     <div class="modal-content">
@@ -307,23 +257,46 @@ function openGameModal(gameId) {
                 if(btn) {
                     btn.onclick = function() {
                         modal.classList.remove('active');
-                        const wishlistModal = document.getElementById('addWishlistModal');
-                        document.getElementById('rawg_game_id').value = game.id;
-                        document.getElementById('wishlist_developer').value = (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '';
-                        document.getElementById('wishlist_publisher').value = (game.publishers && game.publishers.length) ? game.publishers.map(p => p.name).join(', ') : '';
-                        document.getElementById('game_name').value = game.name || 'Jeu sans nom';
-                        document.getElementById('wishlist_platform').value = (game.platforms && game.platforms.length && game.platforms[0].platform && game.platforms[0].platform.name) ? game.platforms[0].platform.name : 'Inconnue';
-                        document.getElementById('wishlist_releaseYear').value = game.released ? game.released.split('-')[0] : '';
-                        document.getElementById('wishlist_genre').value = (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '';
-                        document.getElementById('wishlist_cover').value = game.background_image || '';
-                        const coverPreview = document.getElementById('wishlistCoverPreview');
-                        if (game.background_image) {
-                            coverPreview.src = game.background_image;
-                            coverPreview.style.display = 'block';
-                        } else {
-                            coverPreview.style.display = 'none';
-                        }
-                        wishlistModal.classList.add('active');
+                        
+                        // Ajout direct à la wishlist sans modal
+                        const gameData = {
+                            game_id: game.id,
+                            searchGame: game.name || 'Jeu sans nom',
+                            platform: (game.platforms && game.platforms.length && game.platforms[0].platform && game.platforms[0].platform.name) ? game.platforms[0].platform.name : 'Inconnue',
+                            releaseYear: game.released ? game.released.split('-')[0] : '',
+                            genre: (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '',
+                            cover: game.background_image || '',
+                            developer: (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '',
+                            publisher: (game.publishers && game.publishers.length) ? game.publishers.map(p => p.name).join(', ') : ''
+                        };
+
+                        // Ajout du token CSRF s'il existe
+                        const csrfName = document.querySelector('meta[name="X-CSRF-TOKEN"]')?.getAttribute('content') || 'csrf_test_name';
+                        const csrfToken = document.querySelector(`input[name="${csrfName}"]`)?.value || '';
+                        gameData[csrfName] = csrfToken;
+
+                        // Envoi direct de la requête
+                        fetch('/checkpoint/public/wishlist/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: JSON.stringify(gameData)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
+                            } else {
+                                showToast('error', data.error || data.message || 'Une erreur est survenue');
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            showToast('error', 'Erreur lors de l\'ajout à la wishlist');
+                        });
                     }
                 }
                 // Handler pour le bouton "Ajouter à mes jeux" (corrigé)
@@ -467,70 +440,6 @@ if (modal) {
         if (event.target === modal) {
             modal.classList.remove('active');
         }
-    });
-}
-
-// Gestion du modal d'ajout à la wishlist
-const wishlistModal = document.getElementById('addWishlistModal');
-const closeWishlistModalBtn = document.getElementById('closeWishlistModal');
-
-if (closeWishlistModalBtn) {
-    closeWishlistModalBtn.addEventListener('click', () => {
-        wishlistModal.classList.remove('active');
-    });
-}
-
-if (wishlistModal) {
-    wishlistModal.addEventListener('click', (event) => {
-        if (event.target === wishlistModal) {
-            wishlistModal.classList.remove('active');
-        }
-    });
-}
-
-// Gestion du formulaire d'ajout à la wishlist
-const addWishlistForm = document.getElementById('addWishlistForm');
-if (addWishlistForm) {
-    addWishlistForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Création de l'objet FormData
-        const formData = new FormData(addWishlistForm);
-        
-        // Conversion en objet JSON
-        const jsonData = {};
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
-        
-        // Ajout du token CSRF s'il existe
-        const csrfName = document.querySelector('meta[name="X-CSRF-TOKEN"]')?.getAttribute('content') || 'csrf_test_name';
-        const csrfToken = document.querySelector(`input[name="${csrfName}"]`)?.value || '';
-        jsonData[csrfName] = csrfToken;
-        
-        // Envoi de la requête
-        fetch('/checkpoint/public/wishlist/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify(jsonData)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
-                wishlistModal.classList.remove('active');
-            } else {
-                showToast('error', data.error || data.message || 'Une erreur est survenue');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            showToast('error', 'Erreur lors de l\'ajout à la wishlist');
-        });
     });
 }
 
