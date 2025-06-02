@@ -52,6 +52,12 @@
                     <strong>Plateforme :</strong> <?= esc($game['platform']) ?><br>
                     <strong>Année :</strong> <?= esc($game['release_date']) ?><br>
                     <strong>Genre :</strong> <?= esc($game['category']) ?><br>
+                    <?php if (!empty($game['developer'])): ?>
+                    <strong>Développeur :</strong> <?= esc($game['developer']) ?><br>
+                    <?php endif; ?>
+                    <?php if (!empty($game['publisher'])): ?>
+                    <strong>Éditeur :</strong> <?= esc($game['publisher']) ?><br>
+                    <?php endif; ?>
                     <strong>Statut :</strong> <?= esc($game['status']) ?><br>
                     <strong>Temps de jeu :</strong> <?= esc($game['play_time']) ?> h<br>
                     <strong>Notes :</strong> <?= esc($game['notes']) ?>
@@ -186,6 +192,8 @@ document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
         const platform = backDiv ? backDiv.innerHTML.match(/Plateforme :<\/strong> ([^<]*)<br>/)?.[1] : '';
         const release = backDiv ? backDiv.innerHTML.match(/Année :<\/strong> ([^<]*)<br>/)?.[1] : '';
         const genre = backDiv ? backDiv.innerHTML.match(/Genre :<\/strong> ([^<]*)<br>/)?.[1] : '';
+        const developer = backDiv ? backDiv.innerHTML.match(/Développeur :<\/strong> ([^<]*)<br>/)?.[1] : '';
+        const publisher = backDiv ? backDiv.innerHTML.match(/Éditeur :<\/strong> ([^<]*)<br>/)?.[1] : '';
         const status = backDiv ? backDiv.innerHTML.match(/Statut :<\/strong> ([^<]*)<br>/)?.[1] : '';
         const playtime = backDiv ? backDiv.innerHTML.match(/Temps de jeu :<\/strong> ([^<]*) h<br>/)?.[1] : '';
         const notes = backDiv ? backDiv.innerHTML.match(/Notes :<\/strong> ([^<]*)$/)?.[1] : '';
@@ -194,6 +202,12 @@ document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
         html += cover ? `<img src="${cover}" alt="${name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
         html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${name}</h2>`;
         html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${platform || 'Inconnue'}<br>Année : ${release || 'Inconnue'}<br>Genre : ${genre || 'Inconnu'}</div>`;
+        if (developer && developer.trim() !== '') {
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Développeur : ${developer}</div>`;
+        }
+        if (publisher && publisher.trim() !== '') {
+            html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Éditeur : ${publisher}</div>`;
+        }
         html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;\">Statut : ${status || 'Inconnu'}<br>Temps de jeu : ${playtime || '0'} h</div>`;
         html += `<div style=\"color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;\"><b>Notes :</b> ${notes || '<i>Aucune note</i>'}</div>`;
 

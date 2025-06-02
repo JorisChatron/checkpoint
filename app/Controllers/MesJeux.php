@@ -30,7 +30,7 @@ class MesJeux extends BaseController
 
         // Construction de la requête de base avec jointure
         $builder = $gameStatsModel
-            ->select('game_stats.*, games.name, games.platform, games.release_date, games.category, games.cover')
+            ->select('game_stats.*, games.name, games.platform, games.release_date, games.category, games.cover, games.developer, games.publisher')
             ->join('games', 'games.id = game_stats.game_id')
             ->where('game_stats.user_id', $userId);
 
