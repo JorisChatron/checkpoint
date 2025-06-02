@@ -488,8 +488,8 @@ function openAddGameModalFromRawg(game) {
         gamePreview.style.display = 'block';
         
         // Jaquette - utiliser le placeholder si pas d'image
-        if (fields.addGame_cover) {
-            selectedGameCover.src = fields.addGame_cover;
+        if (game.background_image) {
+            selectedGameCover.src = game.background_image;
             selectedGameCover.style.display = 'block';
             // Cacher le placeholder s'il existe
             const placeholder = gamePreview.querySelector('.game-cover-placeholder');
@@ -503,17 +503,17 @@ function openAddGameModalFromRawg(game) {
                 placeholder.className = 'game-cover-placeholder size-small';
                 placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
                 placeholder.innerHTML = `
-                    <div class="placeholder-title">${fields.addGame_searchGame}</div>
+                    <div class="placeholder-title">${game.name || 'Jeu sans nom'}</div>
                 `;
                 selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
             } else {
                 placeholder.style.display = 'flex';
-                placeholder.querySelector('.placeholder-title').textContent = fields.addGame_searchGame;
+                placeholder.querySelector('.placeholder-title').textContent = game.name || 'Jeu sans nom';
             }
         }
         
         // Nom du jeu
-        selectedGameName.textContent = fields.addGame_searchGame;
+        selectedGameName.textContent = game.name || 'Jeu sans nom';
         
         // Détails (plateforme, année, genre)
         const details = [];

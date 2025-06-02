@@ -363,11 +363,36 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('transfer_publisher').value = publisher || '';
             
             // Affichage de l'aperçu du jeu
+            const gamePreview = document.getElementById('transfer_gamePreview');
             const selectedGameCover = document.getElementById('transfer_selectedGameCover');
             const selectedGameName = document.getElementById('transfer_selectedGameName');
             const selectedGameDetails = document.getElementById('transfer_selectedGameDetails');
             
-            selectedGameCover.src = cover || '/public/images/default-cover.png';
+            // Jaquette - utiliser le placeholder si pas d'image
+            if (cover) {
+                selectedGameCover.src = cover;
+                selectedGameCover.style.display = 'block';
+                // Cacher le placeholder s'il existe
+                const placeholder = gamePreview.querySelector('.game-cover-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+            } else {
+                selectedGameCover.style.display = 'none';
+                // Afficher le placeholder
+                let placeholder = gamePreview.querySelector('.game-cover-placeholder');
+                if (!placeholder) {
+                    placeholder = document.createElement('div');
+                    placeholder.className = 'game-cover-placeholder size-small';
+                    placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
+                    placeholder.innerHTML = `
+                        <div class="placeholder-title">${gameName}</div>
+                    `;
+                    selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
+                } else {
+                    placeholder.style.display = 'flex';
+                    placeholder.querySelector('.placeholder-title').textContent = gameName;
+                }
+            }
+            
             selectedGameName.textContent = gameName;
             
             // Détails (plateforme, année, genre)
