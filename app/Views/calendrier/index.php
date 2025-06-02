@@ -11,20 +11,67 @@ $this->section('content');
             $weekStr = $year . '-W' . str_pad($week, 2, '0', STR_PAD_LEFT);
             $startDate = new DateTime($start);
             $endDate = new DateTime($end);
+            
+            // Calcul de la semaine précédente avec gestion des changements d'année
+            $prevWeek = $week - 1;
+            $prevYear = $year;
+            if ($prevWeek < 1) {
+                $prevYear = $year - 1;
+                // Calculer le nombre de semaines dans l'année précédente
+                $tempDate = new DateTime($prevYear . '-12-31');
+                $prevWeek = (int)$tempDate->format('W');
+                // Correction pour le cas où le 31 décembre fait partie de la semaine 1 de l'année suivante
+                if ($prevWeek == 1) {
+                    $tempDate->modify('-7 days');
+                    $prevWeek = (int)$tempDate->format('W');
+                }
+            }
+            
+            // Calcul de la semaine suivante avec gestion des changements d'année
+            $nextWeek = $week + 1;
+            $nextYear = $year;
+            // Calculer le nombre de semaines dans l'année courante
+            $tempDate = new DateTime($year . '-12-31');
+            $maxWeeksInCurrentYear = (int)$tempDate->format('W');
+            // Correction pour le cas où le 31 décembre fait partie de la semaine 1 de l'année suivante
+            if ($maxWeeksInCurrentYear == 1) {
+                $tempDate->modify('-7 days');
+                $maxWeeksInCurrentYear = (int)$tempDate->format('W');
+            }
+            
+            if ($nextWeek > $maxWeeksInCurrentYear) {
+                $nextWeek = 1;
+                $nextYear = $year + 1;
+            }
         ?>
         <div style="display:inline-flex;align-items:center;gap:1rem;background:rgba(31,27,46,0.92);padding:1rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;">
+            <!-- Bouton semaine précédente -->
+            <a href="<?= base_url('calendrier/'.$prevYear.'/'.$prevWeek) ?>" 
+               class="home-btn" 
+               style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#7F39FB,#9B5DE5);color:#fff;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
+               title="Semaine précédente"
+               onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #7F39FB44';"
+               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #7F39FB22';">
+                &#8249;
+            </a>
+            
             <button id="openWeekPicker" class="home-btn" style="width:auto;font-size:1.1rem;padding:0.7rem 2.2rem;">Choisir une semaine</button>
             <input type="text" id="hiddenWeekInput" style="display:none;">
             <span style="color:#BB86FC;font-size:1.1rem;">|</span>
             <span style="color:#E0F7FA;font-size:1.1rem;">
                 Du <b><?= $startDate->format('d/m/Y') ?></b> au <b><?= $endDate->format('d/m/Y') ?></b>
             </span>
+            
+            <!-- Bouton semaine suivante -->
+            <a href="<?= base_url('calendrier/'.$nextYear.'/'.$nextWeek) ?>" 
+               class="home-btn" 
+               style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#00E5FF,#BB86FC);color:#1E1E2F;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
+               title="Semaine suivante"
+               onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #00E5FF44';"
+               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #00E5FF22';">
+                &#8250;
+            </a>
         </div>
-    </div>
-    <div style="text-align:center;margin-bottom:2rem;">
-        <span style="color:#BB86FC;font-size:1.2rem;vertical-align:middle;">
-            Du <b><?= date('d/m/Y', strtotime($start)) ?></b> au <b><?= date('d/m/Y', strtotime($end)) ?></b>
-        </span>
     </div>
     <?php if (!empty($error)): ?>
         <div class="text-danger" style="text-align:center;">Erreur : <?= esc($error) ?></div>
