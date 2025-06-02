@@ -92,28 +92,76 @@ class MesJeux extends BaseController
      */
     public function add()
     {
-        // Vérification de la connexion de l'utilisateur
-        $userId = session()->get('user_id');
-        if (!$userId) {
-            return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
+        try {
+            // Vérification de la connexion de l'utilisateur
+            $userId = session()->get('user_id');
+            if (!$userId) {
+                return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
+            }
+
+            // Récupération des données du formulaire
+            $data = $this->request->getJSON(true) ?: $this->request->getPost();
+
+            // Priorité à l'ID RAWG même si on a searchGame (cas du calendrier)
+            if (isset($data['game_id']) && is_numeric($data['game_id'])) {
+                return $this->handleRawgGame($userId, $data);  // Jeu depuis RAWG
+            }
+
+            return $this->handleFormGame($userId, $data);      // Jeu depuis formulaire
+
+        } catch (\Exception $e) {
+            log_message('error', 'Exception dans add(): ' . $e->getMessage());
+            return $this->response->setJSON([
+                'success' => false, 
+                'error' => 'Une erreur est survenue. Veuillez réessayer.'
+            ]);
+        }
+    }
+
+    /**
+     * Gère l'ajout d'un jeu depuis l'API RAWG
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param array $data Données du jeu
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
+    protected function handleRawgGame($userId, $data)
+    {
+        $gameModel = new GameModel();
+        $rawgId = $data['game_id'];
+        
+        // Vérifie si le jeu existe déjà dans la base
+        $game = $gameModel->where('rawg_id', $rawgId)->first();
+
+        if (!$game) {
+            $gameId = $this->createGameFromRawg($rawgId);  // Création depuis RAWG
+        } else {
+            $gameId = $game['id'];  // Utilisation du jeu existant
         }
 
-        // Initialisation des modèles
+        return $this->addToGameStats($userId, $gameId, $data);
+    }
+
+    /**
+     * Gère l'ajout d'un jeu depuis le formulaire manuel
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param array $data Données du formulaire
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
+    protected function handleFormGame($userId, $data)
+    {
         $gameModel = new GameModel();
-        $gameStatsModel = new GameStatsModel();
-
-        // Récupération des données du formulaire
-        $data = $this->request->getJSON(true) ?: $this->request->getPost();
-
+        
         // Extraction des données nécessaires
-        $gameName = $data['searchGame'] ?? null;     // Nom du jeu
-        $platform = $data['platform'] ?? null;       // Plateforme
-        $releaseYear = $data['releaseYear'] ?? null; // Année de sortie
-        $genre = $data['genre'] ?? null;            // Genre
-        $cover = $data['cover'] ?? null;            // Image de couverture
-        $developer = $data['developer'] ?? null;    // Développeur
-        $publisher = $data['publisher'] ?? null;    // Éditeur
-        $rawgId = $data['rawg_id'] ?? null;         // ID RAWG si disponible
+        $gameName = $data['searchGame'] ?? null;
+        $platform = $data['platform'] ?? null;
+        $releaseYear = $data['releaseYear'] ?? null;
+        $genre = $data['genre'] ?? null;
+        $cover = $data['cover'] ?? null;
+        $developer = $data['developer'] ?? null;
+        $publisher = $data['publisher'] ?? null;
+        $rawgId = $data['rawg_id'] ?? null;
 
         // Validation des données requises
         if (!$gameName || !$platform) {
@@ -143,17 +191,105 @@ class MesJeux extends BaseController
             $gameId = $game['id'];
         }
 
-        // Ajout des statistiques du jeu pour l'utilisateur
-        $gameStatsModel->insert([
-            'user_id' => $userId,
-            'game_id' => $gameId,
-            'play_time' => $data['playtime'] ?? 0,    // Temps de jeu
-            'status' => $data['status'] ?? null,      // Statut du jeu
-            'notes' => $data['notes'] ?? null,        // Notes personnelles
-            'progress' => 0,                          // Progression initiale
-        ]);
+        return $this->addToGameStats($userId, $gameId, $data);
+    }
 
-        return $this->response->setJSON(['success' => true]);
+    /**
+     * Crée un nouveau jeu à partir des données RAWG
+     * 
+     * @param int $rawgId ID du jeu dans l'API RAWG
+     * @return int ID du jeu créé
+     */
+    protected function createGameFromRawg($rawgId)
+    {
+        $gameModel = new GameModel();
+        
+        try {
+            // Appel à l'API RAWG
+            $apiKey = 'ff6f7941c211456c8806541638fdfaff';
+            $response = @file_get_contents("https://api.rawg.io/api/games/{$rawgId}?key={$apiKey}");
+            
+            // Si l'appel échoue, crée une entrée minimale
+            if (!$response) {
+                return $gameModel->insert([
+                    'name' => 'Jeu ID: ' . $rawgId,
+                    'platform' => 'Inconnue',
+                    'rawg_id' => $rawgId
+                ], true);
+            }
+
+            // Création du jeu avec les données RAWG
+            $game = json_decode($response, true);
+            
+            // Récupération des développeurs
+            $developers = '';
+            if (isset($game['developers']) && is_array($game['developers']) && count($game['developers']) > 0) {
+                $developers = implode(', ', array_map(function($dev) {
+                    return $dev['name'] ?? '';
+                }, $game['developers']));
+            }
+            
+            // Récupération des éditeurs
+            $publishers = '';
+            if (isset($game['publishers']) && is_array($game['publishers']) && count($game['publishers']) > 0) {
+                $publishers = implode(', ', array_map(function($pub) {
+                    return $pub['name'] ?? '';
+                }, $game['publishers']));
+            }
+            
+            return $gameModel->insert([
+                'name' => $game['name'] ?? ('Jeu ID: ' . $rawgId),
+                'platform' => $game['platforms'][0]['platform']['name'] ?? 'Inconnue',
+                'release_date' => $game['released'] ?? null,
+                'category' => $game['genres'][0]['name'] ?? 'Inconnu',
+                'cover' => $game['background_image'] ?? null,
+                'developer' => $developers ?: null,
+                'publisher' => $publishers ?: null,
+                'rawg_id' => $rawgId
+            ], true);
+        } catch (\Exception $e) {
+            // En cas d'erreur, crée une entrée minimale
+            log_message('error', 'Erreur RAWG: ' . $e->getMessage());
+            return $gameModel->insert([
+                'name' => 'Jeu ID: ' . $rawgId,
+                'platform' => 'Inconnue',
+                'rawg_id' => $rawgId
+            ], true);
+        }
+    }
+
+    /**
+     * Ajoute un jeu aux statistiques de l'utilisateur
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param int $gameId ID du jeu
+     * @param array $data Données du formulaire
+     * @return \CodeIgniter\HTTP\Response Réponse JSON
+     */
+    protected function addToGameStats($userId, $gameId, $data)
+    {
+        $gameStatsModel = new GameStatsModel();
+        
+        // Vérification si le jeu est déjà dans la collection
+        if ($gameStatsModel->where(['user_id' => $userId, 'game_id' => $gameId])->first()) {
+            return $this->response->setJSON(['success' => false, 'error' => 'Ce jeu est déjà dans votre collection']);
+        }
+
+        try {
+            // Ajout des statistiques du jeu pour l'utilisateur
+            $gameStatsModel->insert([
+                'user_id' => $userId,
+                'game_id' => $gameId,
+                'play_time' => $data['playtime'] ?? 0,
+                'status' => $data['status'] ?? null,
+                'notes' => $data['notes'] ?? null,
+                'progress' => 0,
+            ]);
+
+            return $this->response->setJSON(['success' => true]);
+        } catch (\Exception $e) {
+            return $this->response->setJSON(['success' => false, 'error' => 'Erreur lors de l\'ajout à la collection']);
+        }
     }
 
     /**

@@ -171,23 +171,14 @@
 <script>
 document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
     card.addEventListener('click', function(e) {
-        console.log('Click detected on:', e.target);
-        console.log('Target classes:', e.target.classList);
-        console.log('Closest btn-action:', e.target.closest('.btn-action'));
-        console.log('Has btn-action class:', e.target.classList.contains('btn-action'));
-        
         // Empêche le clic sur les boutons d'action d'ouvrir le modal
         // Vérifie si l'élément cliqué ou un de ses parents est un bouton d'action
         if (e.target.classList.contains('btn-action') || e.target.closest('.btn-action')) {
-            console.log('Click blocked: button action detected');
             return;
         }
 
-        console.log('Processing click for modal...');
-
         // Récupération des données du jeu depuis l'attribut data-game
         const gameDataString = this.getAttribute('data-game');
-        console.log('Raw data-game string:', gameDataString);
         
         let gameData;
         try {
@@ -197,8 +188,6 @@ document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
             console.error('Problematic string:', gameDataString);
             return;
         }
-        
-        console.log('Game data:', gameData);
         
         let html = '';
         
@@ -227,10 +216,8 @@ document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
         html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;\">Statut : ${gameData.status || 'Inconnu'}<br>Temps de jeu : ${gameData.play_time || '0'} h</div>`;
         html += `<div style=\"color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;\"><b>Notes :</b> ${gameData.notes || '<i>Aucune note</i>'}</div>`;
 
-        console.log('Opening modal with HTML:', html);
         document.getElementById('gameViewModalBody').innerHTML = html;
         document.getElementById('gameViewModal').classList.add('active');
-        console.log('Modal should be open now');
     });
 });
 
