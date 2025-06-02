@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 02 juin 2025 à 12:21
+-- Généré le : lun. 02 juin 2025 à 12:49
 -- Version du serveur : 8.0.42-0ubuntu0.24.04.1
 -- Version de PHP : 8.3.6
 
@@ -39,18 +39,6 @@ CREATE TABLE `games` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `rawg_id` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `games`
---
-
-INSERT INTO `games` (`id`, `name`, `platform`, `release_date`, `category`, `developer`, `publisher`, `cover`, `created_at`, `rawg_id`) VALUES
-(62, 'Death Stranding 2: On The Beach', 'PlayStation 5', '2025-06-26', 'Action', 'Kojima Productions', NULL, 'https://media.rawg.io/media/games/b85/b85bc300d42588af66fb516b7563f74f.jpg', '2025-06-02 12:03:52', NULL),
-(63, 'Death Stranding 2: On The Beach', 'PlayStation 5', '2025-06-26', 'Action', 'Kojima Productions', NULL, 'https://media.rawg.io/media/games/b85/b85bc300d42588af66fb516b7563f74f.jpg', '2025-06-02 12:05:10', NULL),
-(64, 'Death Stranding 2: On The Beach', 'PlayStation 5', '2025-06-26', 'Action', 'Kojima Productions', NULL, 'https://media.rawg.io/media/games/b85/b85bc300d42588af66fb516b7563f74f.jpg', '2025-06-02 12:06:30', NULL),
-(65, 'Death Stranding 2: On The Beach', 'PlayStation 5', '2025-06-26', 'Action', 'Kojima Productions', NULL, 'https://media.rawg.io/media/games/b85/b85bc300d42588af66fb516b7563f74f.jpg', '2025-06-02 12:07:45', NULL),
-(66, 'Death Stranding 2: On The Beach', 'PlayStation 5', '2025-06-26', 'Action', 'Kojima Productions', NULL, 'https://media.rawg.io/media/games/b85/b85bc300d42588af66fb516b7563f74f.jpg', '2025-06-02 12:19:10', NULL),
-(67, 'Death Stranding 2: On The Beach', 'PlayStation 5', '2025-06-26', 'Action', 'Kojima Productions', NULL, 'https://media.rawg.io/media/games/b85/b85bc300d42588af66fb516b7563f74f.jpg', '2025-06-02 12:20:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -174,7 +162,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT pour la table `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT pour la table `game_stats`
@@ -198,7 +186,7 @@ ALTER TABLE `user_top_games`
 -- AUTO_INCREMENT pour la table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Contraintes pour les tables déchargées
