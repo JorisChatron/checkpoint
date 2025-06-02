@@ -64,8 +64,8 @@ $this->section('content');
                         <span><?= esc(!empty($game['platform']) ? $game['platform'] : 'Inconnue') ?></span>
                     </div>
                     <div class="card-detail">
-                        <strong>Année</strong>
-                        <span><?= esc(!empty($game['release_date']) ? date('Y', strtotime($game['release_date'])) : 'Inconnue') ?></span>
+                        <strong>Sortie</strong>
+                        <span><?= esc(!empty($game['release_date']) ? date('d/m/Y', strtotime($game['release_date'])) : 'Date inconnue') ?></span>
                     </div>
                     <div class="card-detail">
                         <strong>Genre</strong>

@@ -77,8 +77,8 @@ class WishlistController extends BaseController
             // Récupération des données (JSON ou POST)
             $data = $this->request->getJSON(true) ?: $this->request->getPost();
             
-            // Traitement différent selon la source du jeu
-            if (isset($data['game_id']) && !isset($data['searchGame'])) {
+            // Priorité à l'ID RAWG même si on a searchGame (cas du calendrier)
+            if (isset($data['game_id']) && is_numeric($data['game_id'])) {
                 return $this->handleRawgGame($userId, $data);  // Jeu depuis RAWG
             }
 
