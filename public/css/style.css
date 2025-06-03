@@ -61,11 +61,14 @@ header {
     gap: 1.5rem;
 }
 
+/* Structure en 3 colonnes équilibrées */
 .navbar-section.navbar-links {
-    flex: 0 0 auto;
+    flex: 1 1 0;
     display: flex;
     align-items: center;
     gap: 1.2rem;
+    justify-content: flex-start;
+    min-width: 0;
 }
 
 .logo-container {
@@ -73,17 +76,29 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Section droite : recherche + burger */
+.navbar-right-section {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    min-width: 0;
 }
 
 .navbar-search {
-    flex: 1 1 0;
+    flex: 0 0 auto;
     max-width: 340px;
     min-width: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 40px;
-    margin: 0 1.5rem;
     position: relative;
 }
 
@@ -254,9 +269,28 @@ header {
         display: flex;
     }
 
+    .navbar-flex {
+        gap: 0.75rem;
+        position: relative;
+    }
+
+    /* En mobile, on revient à une structure classique */
+    .navbar-section.navbar-links {
+        flex: 0 0 auto;
+        justify-content: flex-start;
+    }
+
     .logo-container {
+        position: static;
+        transform: none;
         flex: 0 0 auto;
         order: 1;
+    }
+
+    .navbar-right-section {
+        flex: 1 1 0;
+        order: 2;
+        justify-content: flex-end;
     }
 
     .navbar-search {
@@ -264,16 +298,16 @@ header {
         min-width: 120px;
         max-width: 200px;
         margin: 0 0.75rem;
-        order: 2;
+    }
+
+    .navbar-search input[type="text"] {
+        font-size: 0.9rem;
+        padding: 0.35rem 1rem;
+        height: 36px;
     }
 
     .burger-menu {
         flex: 0 0 auto;
-        order: 3;
-    }
-
-    .navbar-flex {
-        gap: 0.75rem;
     }
 
     .burger {
