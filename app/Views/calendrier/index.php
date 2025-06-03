@@ -238,71 +238,110 @@ $this->section('content');
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/weekSelect/weekSelect.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/weekSelect/weekSelect.css">
 <script>
-// Gestion du sélecteur de semaine
-function updateWeek(weekStr) {
-    if(weekStr) {
-        const [year, week] = weekStr.split('-W');
-        window.location.href = `/checkpoint/public/calendrier/${year}/${week}`;
+// Variables globales
+const IS_USER_LOGGED_IN = <?= session()->get('user_id') ? 'true' : 'false' ?>;
+const BASE_URL = '<?= base_url() ?>';
+
+// Fonction pour vérifier la connexion et rediriger si nécessaire
+function checkAuthAndRedirect(action = 'effectuer cette action') {
+    if (!IS_USER_LOGGED_IN) {
+        showToast('info', `Vous devez être connecté pour ${action}`);
+        setTimeout(() => {
+            window.location.href = BASE_URL + 'login';
+        }, 1500);
+        return false;
     }
+    return true;
 }
 
-// Gestion du sélecteur de page
-var pageSelector = document.getElementById('pageSelector');
-if (pageSelector) {
-    pageSelector.addEventListener('change', function() {
-        const selectedPage = this.value;
-        window.location.href = `<?= base_url('calendrier/'.$year.'/'.$week.'/page/') ?>${selectedPage}`;
-    });
+// Toast notifications
+function showToast(type, message) {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.style.cssText = 'position:fixed;top:30px;right:30px;z-index:9999;display:flex;flex-direction:column;gap:1rem;pointer-events:none;';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.style.cssText = `
+        min-width:220px;max-width:350px;background:var(--primary-color);color:#fff;border-radius:12px;
+        box-shadow:0 4px 16px #7F39FB55;padding:1.1rem 1.5rem;font-family:'Orbitron',sans-serif;
+        font-size:1.05rem;font-weight:500;letter-spacing:0.5px;margin-bottom:0.5rem;
+        opacity:0;transform:translateY(-20px) scale(0.98);
+        animation:toastIn 0.5s cubic-bezier(0.23,1,0.32,1) forwards;pointer-events:auto;
+        display:flex;align-items:center;gap:0.7rem;
+    `;
+    
+    if (type === 'success') {
+        toast.style.background = 'linear-gradient(90deg, #7F39FB 80%, #00E5FF 100%)';
+    } else if (type === 'error') {
+        toast.style.background = 'linear-gradient(90deg, #7F39FB 80%, #FF6F61 100%)';
+    } else if (type === 'info') {
+        toast.style.background = 'linear-gradient(90deg, #7F39FB 80%, #9B5DE5 100%)';
+    }
+    
+    toast.innerHTML = message;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-20px) scale(0.98)';
+        setTimeout(() => container.removeChild(toast), 400);
+    }, 2600);
 }
 
-// Modal détails jeu RAWG
-const modal = document.getElementById('gameModal');
-const modalBody = document.getElementById('gameModalBody');
-const closeModalBtn = document.getElementById('closeGameModal');
+// Gestion du changement de page
+document.getElementById('pageSelector')?.addEventListener('change', function() {
+    const selectedPage = this.value;
+    const currentUrl = window.location.pathname;
+    const basePath = currentUrl.replace(/\/page\/\d+$/, '');
+    window.location.href = basePath + '/page/' + selectedPage;
+});
 
+// Fonction pour ouvrir le modal de détails du jeu
 function openGameModal(gameId) {
-    modal.classList.add('active');
+    const modal = document.getElementById('gameModal');
+    const modalBody = document.getElementById('gameModalBody');
+    const closeModalBtn = document.getElementById('closeGameModal');
+    
     modalBody.innerHTML = '<span style="color:#BB86FC;">Chargement...</span>';
+    modal.classList.add('active');
+    
     fetch(`https://api.rawg.io/api/games/${gameId}?key=ff6f7941c211456c8806541638fdfaff`)
         .then(res => res.json())
         .then(game => {
-            const desc = game.description_raw ? game.description_raw : '<i>Aucune description disponible.</i>';
-            let coverHtml = '';
-            if (game.background_image) {
-                coverHtml = `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">`;
-            } else {
-                coverHtml = `
-                    <div style="width:220px;height:220px;margin:0 auto 1.2rem auto;background:linear-gradient(45deg, #1F1B2E, #2A1B3D);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0.5rem;box-sizing:border-box;text-align:center;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;">
-                        <div style="color:#9B5DE5;font-size:1rem;font-weight:bold;margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);letter-spacing:1px;line-height:1.2;">${game.name}</div>
-                        <div style="color:#BB86FC;font-size:0.85rem;opacity:0.8;max-width:85%;line-height:1.3;text-align:center;">Jaquette non disponible sur RAWG.io</div>
-                    </div>
-                `;
-            }
             modalBody.innerHTML = `
-                ${coverHtml}
-                <h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>
-                <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">Sortie : ${game.released ? (new Date(game.released)).toLocaleDateString('fr-FR') : 'Date inconnue'}</div>
-                <div id="game-desc" style="color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;max-height:120px;overflow:auto;">
-                    ${desc}
+                <h2 style="color:#9B5DE5;margin-bottom:1rem;">${game.name}</h2>
+                ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:100%;max-width:400px;height:200px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.5rem;">` : ''}
+                <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:1.2rem;">
+                    <strong>Plateformes :</strong> ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnues'}<br>
+                    <strong>Date de sortie :</strong> ${game.released || 'Inconnue'}<br>
+                    <strong>Genres :</strong> ${game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : 'Inconnus'}<br>
+                    <strong>Développeur :</strong> ${game.developers && game.developers.length ? game.developers.map(d=>d.name).join(', ') : 'Inconnu'}<br>
+                    <strong>Éditeur :</strong> ${game.publishers && game.publishers.length ? game.publishers.map(p=>p.name).join(', ') : 'Inconnu'}
                 </div>
-                <div style="color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;">
-                    <b>Développeur(s) :</b> ${game.developers && game.developers.length ? game.developers.map(d=>d.name).join(', ') : 'Inconnu'}<br>
-                    <b>Éditeur(s) :</b> ${game.publishers && game.publishers.length ? game.publishers.map(d=>d.name).join(', ') : 'Inconnu'}<br>
-                    <b>Plateformes :</b> ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnu'}<br>
-                    <b>Genres :</b> ${game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : 'Inconnu'}
+                <div style="color:#E0F7FA;font-size:1rem;margin-bottom:1.5rem;max-height:120px;overflow:auto;">
+                    ${game.description_raw || '<i>Aucune description disponible.</i>'}
                 </div>
-                <a href="${game.website || '#'}" target="_blank" style="color:#00E5FF;text-decoration:underline;">Site officiel</a>
                 <br><br>
                 <button id="addToWishlistBtn" style="margin-top:1rem;padding:0.7rem 2.2rem;background:#7F39FB;color:#fff;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à la wishlist</button>
                 <button id="addToMyGamesBtn" style="margin-top:1rem;margin-left:1rem;padding:0.7rem 2.2rem;background:#00E5FF;color:#1E1E2F;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à mes jeux</button>
                 <div id="wishlistMsg" style="margin-top:1rem;font-size:1rem;"></div>
             `;
             
-            // Ajout du handler pour le bouton wishlist
+            // Ajout du handler pour le bouton wishlist avec vérification de connexion
             setTimeout(function() {
                 var btn = document.getElementById('addToWishlistBtn');
                 if(btn) {
                     btn.onclick = function() {
+                        // Vérifier si l'utilisateur est connecté
+                        if (!checkAuthAndRedirect('ajouter un jeu à votre wishlist')) {
+                            return;
+                        }
+                        
                         modal.classList.remove('active');
                         
                         // Ajout direct à la wishlist sans modal
@@ -337,7 +376,15 @@ function openGameModal(gameId) {
                             if (data.success) {
                                 showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
                             } else {
-                                showToast('error', data.error || data.message || 'Une erreur est survenue');
+                                // Si l'erreur indique que l'utilisateur n'est pas connecté, rediriger
+                                if (data.error && data.error.includes('non connecté')) {
+                                    showToast('info', 'Vous devez être connecté pour ajouter un jeu à votre wishlist');
+                                    setTimeout(() => {
+                                        window.location.href = BASE_URL + 'login';
+                                    }, 1500);
+                                } else {
+                                    showToast('error', data.error || data.message || 'Une erreur est survenue');
+                                }
                             }
                         })
                         .catch(error => {
@@ -346,10 +393,15 @@ function openGameModal(gameId) {
                         });
                     }
                 }
-                // Handler pour le bouton "Ajouter à mes jeux" (corrigé)
+                // Handler pour le bouton "Ajouter à mes jeux" avec vérification de connexion
                 var btnMyGames = document.getElementById('addToMyGamesBtn');
                 if(btnMyGames) {
                     btnMyGames.onclick = function() {
+                        // Vérifier si l'utilisateur est connecté
+                        if (!checkAuthAndRedirect('ajouter un jeu à votre collection')) {
+                            return;
+                        }
+                        
                         openAddGameModalFromRawg(game);
                         modal.classList.remove('active');
                     }
@@ -507,6 +559,11 @@ if (addGameModal) {
 }
 // Pré-remplissage et ouverture du modal au clic sur 'Ajouter à mes jeux'
 function openAddGameModalFromRawg(game) {
+    // Vérifier d'abord si l'utilisateur est connecté
+    if (!checkAuthAndRedirect('ajouter un jeu à votre collection')) {
+        return;
+    }
+
     // Remplir les champs cachés
     document.getElementById('addGame_searchGame').value = game.name || 'Jeu sans nom';
     document.getElementById('addGame_game_id').value = game.id || '';
@@ -599,6 +656,12 @@ if (addGameForm) {
     let isSubmitting = false;
     addGameForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        
+        // Vérifier si l'utilisateur est connecté avant de soumettre
+        if (!checkAuthAndRedirect('ajouter un jeu à votre collection')) {
+            return;
+        }
+        
         if (isSubmitting) return; // Empêche la double soumission
         isSubmitting = true;
         const formData = new FormData(addGameForm);
@@ -620,7 +683,15 @@ if (addGameForm) {
                 showToast('success', 'Jeu ajouté à votre collection !');
                 addGameModal.classList.remove('active');
             } else {
-                showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+                // Si l'erreur indique que l'utilisateur n'est pas connecté, rediriger
+                if (data.error && data.error.includes('non connecté')) {
+                    showToast('info', 'Vous devez être connecté pour ajouter un jeu à votre collection');
+                    setTimeout(() => {
+                        window.location.href = BASE_URL + 'login';
+                    }, 1500);
+                } else {
+                    showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+                }
             }
             isSubmitting = false;
         })
