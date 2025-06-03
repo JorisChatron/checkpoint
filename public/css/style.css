@@ -291,6 +291,8 @@ header {
         flex: 1 1 0;
         order: 2;
         justify-content: flex-end;
+        /* Inverser l'ordre des éléments en mobile */
+        flex-direction: row-reverse;
     }
 
     .navbar-search {
@@ -298,6 +300,8 @@ header {
         min-width: 120px;
         max-width: 200px;
         margin: 0 0.75rem;
+        /* Maintenir l'ordre normal du texte dans la barre de recherche */
+        direction: ltr;
     }
 
     .navbar-search input[type="text"] {
@@ -308,6 +312,8 @@ header {
 
     .burger-menu {
         flex: 0 0 auto;
+        /* S'assurer que le burger reste à sa position */
+        order: 0;
     }
 
     .burger {
