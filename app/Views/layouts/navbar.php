@@ -1,8 +1,8 @@
 <?php helper('url'); ?>
 <header>
     <nav class="navbar">
-        <!-- Bloc flex principal -->
-        <div class="navbar-flex" style="display:flex;align-items:center;width:100%;position:relative;">
+        <!-- Structure desktop (originale) -->
+        <div class="navbar-flex">
             <!-- Section gauche : liens principaux (desktop seulement) -->
             <div class="navbar-section navbar-links navbar-desktop-only">
                 <a href="<?= base_url() ?>">Accueil</a>
@@ -13,7 +13,7 @@
                 <a href="<?= base_url('calendrier') ?>">Calendrier</a>
             </div>
 
-            <!-- Section centre : logo (centré absolument) -->
+            <!-- Logo centré (desktop) / à gauche (mobile) -->
             <div class="logo-container">
                 <a href="<?= base_url() ?>">
                     <img src="<?= base_url('images/logo.png') ?>" alt="Logo" class="logo">
@@ -22,7 +22,7 @@
 
             <!-- Section droite : barre de recherche + menu burger -->
             <div class="navbar-right-section">
-                <!-- Barre de recherche jeux -->
+                <!-- Barre de recherche -->
                 <form class="navbar-search" id="navbarGameSearchForm" autocomplete="off">
                     <input type="text" id="navbarGameSearchInput" placeholder="Rechercher un jeu...">
                     <ul id="navbarGameSuggestions" class="navbar-suggestions"></ul>
@@ -33,14 +33,16 @@
                     <button class="burger" id="burger-button">
                         <img src="<?= base_url(session()->get('profile_picture') ?? 'images/burger-icon.png') ?>" alt="Menu" class="burger-icon">
                     </button>
-                    <div class="dropdown hidden" id="burger-dropdown">
+                    <div class="dropdown" id="burger-dropdown">
                         <ul>
+                            <!-- Liens mobile uniquement dans le dropdown -->
                             <li class="navbar-mobile-only"><a href="<?= base_url() ?>">Accueil</a></li>
                             <?php if (session()->get('user_id')) : ?>
                                 <li class="navbar-mobile-only"><a href="<?= base_url('mes-jeux') ?>">Mes Jeux</a></li>
                                 <li class="navbar-mobile-only"><a href="<?= base_url('wishlist') ?>">Wishlist</a></li>
                             <?php endif; ?>
                             <li class="navbar-mobile-only"><a href="<?= base_url('calendrier') ?>">Calendrier</a></li>
+                            <!-- Liens communs (profil, connexion, etc.) -->
                             <?php if (session()->get('user_id')) : ?>
                                 <li><a href="<?= base_url('profile') ?>">Profil</a></li>
                                 <li><a href="<?= site_url('logout') ?>">Déconnexion</a></li>

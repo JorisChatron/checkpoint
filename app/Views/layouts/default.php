@@ -7,14 +7,6 @@
     <link rel="icon" type="image/png" href="<?= base_url('images/icon.png') ?>" sizes="32x32">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-    <script defer>
-        document.addEventListener('DOMContentLoaded', () => {
-            const burger = document.querySelector('.burger');
-            burger?.addEventListener('click', () => {
-                document.querySelector('header')?.classList.toggle('active');
-            });
-        });
-    </script>
 </head>
 <body>
     <?= $this->include('layouts/navbar') ?>

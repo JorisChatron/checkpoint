@@ -1,6 +1,8 @@
 console.log('Script.js chargé');
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM chargé, initialisation...');
+    
     // Gestion du menu burger
     initBurgerMenu();
     
@@ -21,16 +23,96 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initBurgerMenu() {
+    console.log('Initialisation du burger menu...');
     const burger = document.querySelector('.burger');
     const dropdown = document.getElementById('burger-dropdown');
-    if (!burger || !dropdown) return;
+    
+    console.log('Burger:', burger);
+    console.log('Dropdown:', dropdown);
+    
+    if (!burger || !dropdown) {
+        console.log('Burger ou dropdown non trouvé');
+        return;
+    }
 
-    burger.addEventListener('click', () => dropdown.classList.toggle('active'));
+    // S'assurer que le dropdown est fermé au départ et forcer l'état
+    dropdown.classList.remove('active');
+    dropdown.style.opacity = '0';
+    dropdown.style.visibility = 'hidden';
+    dropdown.style.pointerEvents = 'none';
+    dropdown.style.transform = 'translateY(-10px)';
+    console.log('Dropdown forcé fermé au démarrage');
+    
+    // Fonction pour fermer le dropdown
+    const closeDropdown = () => {
+        dropdown.classList.remove('active');
+        // Force les styles pour assurer la fermeture
+        dropdown.style.opacity = '0';
+        dropdown.style.visibility = 'hidden';
+        dropdown.style.pointerEvents = 'none';
+        dropdown.style.transform = 'translateY(-10px)';
+        console.log('Dropdown fermé avec styles forcés');
+    };
+    
+    // Fonction pour ouvrir le dropdown
+    const openDropdown = () => {
+        dropdown.classList.add('active');
+        // Force les styles pour assurer l'ouverture
+        dropdown.style.opacity = '1';
+        dropdown.style.visibility = 'visible';
+        dropdown.style.pointerEvents = 'auto';
+        dropdown.style.transform = 'translateY(0)';
+        console.log('Dropdown ouvert avec styles forcés');
+    };
+    
+    // Fonction pour basculer le dropdown
+    const toggleDropdown = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isActive = dropdown.classList.contains('active');
+        console.log('Toggle dropdown, actuellement ouvert:', isActive);
+        
+        if (isActive) {
+            closeDropdown();
+        } else {
+            openDropdown();
+        }
+    };
+    
+    // Event listener sur le burger
+    burger.addEventListener('click', toggleDropdown);
+    console.log('Event listener ajouté sur burger');
+    
+    // Fermer le menu si on clique en dehors
     document.addEventListener('click', (e) => {
+        // Vérifier si le clic est à l'extérieur du burger et du dropdown
         if (!burger.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.classList.remove('active');
+            if (dropdown.classList.contains('active')) {
+                console.log('Clic en dehors détecté, fermeture dropdown');
+                closeDropdown();
+            }
         }
     });
+    
+    // Fermer le menu quand on clique sur un lien
+    const dropdownLinks = dropdown.querySelectorAll('a');
+    dropdownLinks.forEach((link, index) => {
+        link.addEventListener('click', (e) => {
+            console.log(`Clic sur lien ${index + 1}, fermeture dropdown`);
+            closeDropdown();
+        });
+    });
+    
+    // Fermer avec la touche Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dropdown.classList.contains('active')) {
+            console.log('Touche Escape pressée, fermeture dropdown');
+            closeDropdown();
+        }
+    });
+    
+    console.log('Burger menu initialisé avec succès');
 }
 
 function initModal() {

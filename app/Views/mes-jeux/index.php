@@ -40,8 +40,18 @@
                     <?= esc($game['name']) ?>
                 </span>
             </div>
-            <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>" style="position:absolute;left:50%;top:75%;transform:translate(-60px, -50%);width:32px;height:32px;border-radius:50%;background:rgba(31,27,46,0.4);color:#BB86FC;border:2px solid #7F39FB;z-index:10;display:flex;align-items:center;justify-content:center;font-size:1.3rem;opacity:0;pointer-events:none;transition:opacity 0.2s, background 0.2s;">&times;</button>
-            <button type="button" class="btn-action edit" title="Modifier" data-id="<?= $game['id'] ?>" data-status="<?= esc($game['status']) ?>" data-playtime="<?= esc($game['play_time']) ?>" data-notes="<?= esc($game['notes']) ?>" data-name="<?= esc($game['name']) ?>" style="position:absolute;left:50%;top:75%;transform:translate(28px, -50%);width:32px;height:32px;border-radius:50%;background:rgba(31,27,46,0.4);color:#BB86FC;border:2px solid #00E5FF;z-index:10;display:flex;align-items:center;justify-content:center;font-size:1.1rem;opacity:0;pointer-events:none;transition:opacity 0.2s, background 0.2s;">✏️</button>
+            
+            <!-- Nouveaux boutons dans le style wishlist -->
+            <div class="card-actions">
+                <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">&times;</button>
+                <button type="button" class="btn-action edit" title="Modifier" 
+                        data-id="<?= $game['id'] ?>" 
+                        data-status="<?= esc($game['status']) ?>" 
+                        data-playtime="<?= esc($game['play_time']) ?>" 
+                        data-notes="<?= esc($game['notes']) ?>" 
+                        data-name="<?= esc($game['name']) ?>">⋯</button>
+            </div>
+            
             <?php if (!empty($game['cover'])): ?>
                 <img src="<?= esc($game['cover']) ?>" alt="<?= esc($game['name']) ?>" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
             <?php else: ?>
