@@ -1095,7 +1095,7 @@ input[type="button"]:hover {
     margin: 1rem 0;
 }
 
-.calendar-search-input {
+input[type="text"].calendar-search-input {
     padding: 0.7rem;
     background: rgba(31, 27, 46, 0.92);
     color: #E0F7FA;
@@ -1103,7 +1103,7 @@ input[type="button"]:hover {
     border-radius: 8px;
     width: 300px;
     max-width: 100%;
-    min-width: 200px;
+    min-width: 180px;
     outline: none;
 }
 
@@ -1314,8 +1314,9 @@ main {
         margin: 0 0.5rem;
     }
     
-    .calendar-search-input {
-        width: 100%;
+    input[type="text"].calendar-search-input {
+        width: 280px;
+        max-width: 90%;
         min-width: unset;
         font-size: 0.9rem;
     }
@@ -1469,7 +1470,9 @@ main {
         padding: 0.8rem 0.5rem;
     }
     
-    .calendar-search-input {
+    input[type="text"].calendar-search-input {
+        width: 250px;
+        max-width: 85%;
         font-size: 0.85rem;
         padding: 0.6rem;
     }
