@@ -509,6 +509,7 @@ if (addGameModal) {
 function openAddGameModalFromRawg(game) {
     // Remplir les champs cachés
     document.getElementById('addGame_searchGame').value = game.name || 'Jeu sans nom';
+    document.getElementById('addGame_game_id').value = game.id || '';
     
     let platform = 'Inconnue';
     if (game.platforms && Array.isArray(game.platforms) && game.platforms.length > 0) {
@@ -523,6 +524,8 @@ function openAddGameModalFromRawg(game) {
     document.getElementById('addGame_releaseYear').value = game.released ? game.released.split('-')[0] : '';
     document.getElementById('addGame_genre').value = (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '';
     document.getElementById('addGame_cover').value = game.background_image || '';
+    document.getElementById('addGame_developer').value = (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '';
+    document.getElementById('addGame_publisher').value = (game.publishers && game.publishers.length) ? game.publishers.map(p => p.name).join(', ') : '';
     
     // Gérer l'aperçu du jeu sélectionné
     const gamePreview = document.getElementById('addGame_gamePreview');
