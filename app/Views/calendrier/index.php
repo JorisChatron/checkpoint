@@ -44,33 +44,39 @@ $this->section('content');
                 $nextYear = $year + 1;
             }
         ?>
-        <div style="display:inline-flex;align-items:center;gap:1rem;background:rgba(31,27,46,0.92);padding:1rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;">
-            <!-- Bouton semaine précédente -->
-            <a href="<?= base_url('calendrier/'.$prevYear.'/'.$prevWeek) ?>" 
-               class="home-btn" 
-               style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#7F39FB,#9B5DE5);color:#fff;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
-               title="Semaine précédente"
-               onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #7F39FB44';"
-               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #7F39FB22';">
-                &#8249;
-            </a>
+        <div class="week-selector-container">
+            <!-- Ligne de navigation de semaine -->
+            <div class="week-navigation">
+                <!-- Bouton semaine précédente -->
+                <a href="<?= base_url('calendrier/'.$prevYear.'/'.$prevWeek) ?>" 
+                   class="home-btn week-nav-btn" 
+                   style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#7F39FB,#9B5DE5);color:#fff;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
+                   title="Semaine précédente"
+                   onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #7F39FB44';"
+                   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #7F39FB22';">
+                    &#8249;
+                </a>
+                
+                <button id="openWeekPicker" class="home-btn week-picker-btn" style="width:auto;font-size:1.1rem;padding:0.7rem 2.2rem;">Choisir une semaine</button>
+                <input type="text" id="hiddenWeekInput" style="display:none;">
+                
+                <span class="week-separator" style="color:#BB86FC;font-size:1.1rem;">|</span>
+                
+                <!-- Bouton semaine suivante -->
+                <a href="<?= base_url('calendrier/'.$nextYear.'/'.$nextWeek) ?>" 
+                   class="home-btn week-nav-btn" 
+                   style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#00E5FF,#BB86FC);color:#1E1E2F;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
+                   title="Semaine suivante"
+                   onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #00E5FF44';"
+                   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #00E5FF22';">
+                    &#8250;
+                </a>
+            </div>
             
-            <button id="openWeekPicker" class="home-btn" style="width:auto;font-size:1.1rem;padding:0.7rem 2.2rem;">Choisir une semaine</button>
-            <input type="text" id="hiddenWeekInput" style="display:none;">
-            <span style="color:#BB86FC;font-size:1.1rem;">|</span>
-            <span style="color:#E0F7FA;font-size:1.1rem;">
+            <!-- Texte de la période -->
+            <span class="week-period-text" style="color:#E0F7FA;font-size:1.1rem;">
                 Du <b><?= $startDate->format('d/m/Y') ?></b> au <b><?= $endDate->format('d/m/Y') ?></b>
             </span>
-            
-            <!-- Bouton semaine suivante -->
-            <a href="<?= base_url('calendrier/'.$nextYear.'/'.$nextWeek) ?>" 
-               class="home-btn" 
-               style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#00E5FF,#BB86FC);color:#1E1E2F;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
-               title="Semaine suivante"
-               onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #00E5FF44';"
-               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #00E5FF22';">
-                &#8250;
-            </a>
         </div>
     </div>
     <?php if (!empty($error)): ?>
@@ -90,8 +96,8 @@ $this->section('content');
     asort($allGenres);
     ?>
     <div style="text-align:center;margin-bottom:1.5rem;">
-        <div style="display:inline-flex;align-items:center;gap:1rem;background:rgba(31,27,46,0.92);padding:1rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;">
-            <input type="text" id="searchGame" placeholder="Rechercher un jeu..." style="padding:0.7rem;background:rgba(31,27,46,0.92);color:#E0F7FA;border:1px solid #7F39FB;border-radius:8px;width:300px;">
+        <div class="calendar-search-container">
+            <input type="text" id="searchGame" placeholder="Rechercher un jeu..." class="calendar-search-input">
             <button id="clearSearch" class="home-btn" style="width:auto;font-size:0.98rem;padding:0.7rem 1.2rem;">Effacer</button>
         </div>
     </div>
