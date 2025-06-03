@@ -8,8 +8,8 @@
     <img id="preview" src="<?= base_url($user['profile_picture']) ?>" alt="Photo de profil" class="profile-picture" style="max-width: 100px; max-height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1.2rem;">
     <form action="<?= base_url('profile/upload') ?>" method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:320px;margin:0 auto;">
         <div class="file-upload" style="width:100%;margin-bottom:0.7rem;">
-            <label for="profile_picture" class="custom-file-label" style="width:100%;box-sizing:border-box;">Choisir un fichier</label>
-            <input type="file" id="profile_picture" name="profile_picture" class="custom-file-input" accept="image/*" style="width:100%;">
+            <input type="file" id="profile_picture" name="profile_picture" class="custom-file-input" accept="image/*">
+            <label for="profile_picture" class="custom-file-label">Choisir un fichier</label>
         </div>
         <button type="submit" style="width:100%;box-sizing:border-box;">Mettre à jour</button>
     </form>
@@ -129,17 +129,26 @@
 
         fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
+            const label = document.querySelector('.custom-file-label');
+            
             if (file) {
                 if (file.size > 5 * 1024 * 1024) { // 5MB max
                     showToast('error', 'La taille du fichier ne doit pas dépasser 5MB');
                     fileInput.value = '';
+                    label.textContent = 'Choisir un fichier';
                     return;
                 }
+                
+                // Mettre à jour le texte du bouton avec le nom du fichier
+                label.textContent = file.name.length > 20 ? file.name.substring(0, 17) + '...' : file.name;
+                
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     preview.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
+            } else {
+                label.textContent = 'Choisir un fichier';
             }
         });
 

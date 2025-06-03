@@ -1542,4 +1542,51 @@ main {
         font-size: 0.9rem;
         width: 200px;
     }
+}
+
+/* ==========================================================================
+   UPLOAD DE FICHIERS - STYLE UNIFORME
+   ========================================================================== */
+.file-upload {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-file-input {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.custom-file-label {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 12px #7F39FB33;
+}
+
+.custom-file-label:hover {
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px #00E5FF55;
+}
+
+.custom-file-input:focus + .custom-file-label {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 } 
