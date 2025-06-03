@@ -124,6 +124,7 @@ header {
     position: relative;
     min-width: 200px;
     max-width: 300px;
+    margin-right: 4rem;
 }
 
 .navbar-search input[type="text"] {
