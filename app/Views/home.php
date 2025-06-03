@@ -113,7 +113,7 @@ $this->section('content');
         <div class="stat-card">Jeux possédés : <span><?= esc($stats['owned'] ?? 0) ?></span></div>
         <div class="stat-card">Jeux terminés : <span><?= esc($stats['finished'] ?? 0) ?></span></div>
         <div class="stat-card">Temps de jeu global : <span><?= esc($stats['playtime'] ?? '0h') ?></span></div>
-        <div class="stat-card">Jeux attendus : <span><?= esc($stats['expected'] ?? 0) ?></span></div>
+        <div class="stat-card">Jeux souhaités : <span><?= esc($stats['wishlist'] ?? 0) ?></span></div>
         <div class="stat-card">Jeux complétés : <span><?= esc($stats['completed'] ?? 0) ?></span></div>
     </div>
 </section>

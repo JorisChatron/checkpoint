@@ -20,7 +20,7 @@
     <div class="stat-card">Jeux possédés : <span><?= esc($stats['nbGames'] ?? 0) ?></span></div>
     <div class="stat-card">Jeux terminés : <span><?= esc($stats['nbFinished'] ?? 0) ?></span></div>
     <div class="stat-card">Temps de jeu global : <span><?= esc($stats['totalPlayTime'] ?? '0h') ?></span></div>
-    <div class="stat-card">Jeux attendus : <span><?= esc($stats['nbExpected'] ?? 0) ?></span></div>
+    <div class="stat-card">Jeux souhaités : <span><?= esc($stats['nbWishlist'] ?? 0) ?></span></div>
     <div class="stat-card">Jeux complétés : <span><?= esc($stats['nbCompleted'] ?? 0) ?></span></div>
 </div>
 
