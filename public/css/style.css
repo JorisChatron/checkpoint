@@ -1186,6 +1186,36 @@ main {
    RESPONSIVE DESIGN
    ========================================================================== */
 
+/* iPad spécifique (Pro 11", Air, standard) - 800px à 1200px */
+@media (min-width: 800px) and (max-width: 1200px) {
+    /* Logo plus petit sur iPad */
+    .logo {
+        max-width: 100px !important;
+    }
+    
+    /* Police plus petite dans la navbar et espacement réduit */
+    .navbar-section.navbar-links {
+        gap: 0.8rem !important; /* Réduire l'espacement entre les liens */
+    }
+    
+    .navbar-links a {
+        font-size: 0.85rem !important;
+    }
+    
+    /* Barre de recherche plus compacte - FORCÉ */
+    .navbar-search {
+        min-width: 200px !important;
+        max-width: 200px !important;
+        margin-right: 0.5rem !important;
+    }
+    
+    .navbar-search input[type="text"] {
+        font-size: 0.75rem !important;
+        height: 32px !important;
+        padding: 0.2rem 0.6rem !important;
+    }
+}
+
 /* Tablettes grandes (1024px et moins) */
 @media (max-width: 1024px) {
     .navbar {
