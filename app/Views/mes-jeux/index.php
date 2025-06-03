@@ -89,7 +89,7 @@
                     <div>
                         <div id="selectedGameName" style="color: var(--secondary-color); font-weight: bold; margin-bottom: 0.3rem;"></div>
                         <div id="selectedGameDetails" style="color: var(--text-color); font-size: 0.9rem;"></div>
-                    </div>
+                </div>
                 </div>
             </div>
 

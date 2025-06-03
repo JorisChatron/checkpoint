@@ -255,9 +255,25 @@ header {
     }
 
     .logo-container {
-        position: static;
-        transform: none;
-        margin: 1rem auto;
+        flex: 0 0 auto;
+        order: 1;
+    }
+
+    .navbar-search {
+        flex: 1 1 0;
+        min-width: 120px;
+        max-width: 200px;
+        margin: 0 0.75rem;
+        order: 2;
+    }
+
+    .burger-menu {
+        flex: 0 0 auto;
+        order: 3;
+    }
+
+    .navbar-flex {
+        gap: 0.75rem;
     }
 
     .burger {
@@ -1961,6 +1977,22 @@ textarea:hover {
         min-width: 120px;
         max-width: 100%;
         margin: 0.5rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-search {
+        flex: 1 1 0;
+        min-width: 120px;
+        max-width: 200px;
+        margin: 0 0.75rem;
+        order: 2;
+    }
+
+    .navbar-search input[type="text"] {
+        font-size: 0.9rem;
+        padding: 0.35rem 1rem;
+        height: 36px;
     }
 }
 

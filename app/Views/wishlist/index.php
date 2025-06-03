@@ -35,7 +35,7 @@ $this->section('content');
                 <div class="card-cover game-cover-placeholder size-medium">
                     <div class="placeholder-title"><?= esc($game['name']) ?></div>
                     <div class="placeholder-text">Aucune jaquette</div>
-                </div>
+            </div>
             <?php endif; ?>
             
             <div class="card-actions">

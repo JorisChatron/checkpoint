@@ -93,11 +93,11 @@ class MesJeux extends BaseController
     public function add()
     {
         try {
-            // Vérification de la connexion de l'utilisateur
-            $userId = session()->get('user_id');
-            if (!$userId) {
-                return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
-            }
+        // Vérification de la connexion de l'utilisateur
+        $userId = session()->get('user_id');
+        if (!$userId) {
+            return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
+        }
 
             // Récupération des données du formulaire
             $data = $this->request->getJSON(true) ?: $this->request->getPost();
@@ -152,7 +152,7 @@ class MesJeux extends BaseController
     protected function handleFormGame($userId, $data)
     {
         $gameModel = new GameModel();
-        
+
         // Extraction des données nécessaires
         $gameName = $data['searchGame'] ?? null;
         $platform = $data['platform'] ?? null;
@@ -276,17 +276,17 @@ class MesJeux extends BaseController
         }
 
         try {
-            // Ajout des statistiques du jeu pour l'utilisateur
-            $gameStatsModel->insert([
-                'user_id' => $userId,
-                'game_id' => $gameId,
+        // Ajout des statistiques du jeu pour l'utilisateur
+        $gameStatsModel->insert([
+            'user_id' => $userId,
+            'game_id' => $gameId,
                 'play_time' => $data['playtime'] ?? 0,
                 'status' => $data['status'] ?? null,
                 'notes' => $data['notes'] ?? null,
                 'progress' => 0,
-            ]);
+        ]);
 
-            return $this->response->setJSON(['success' => true]);
+        return $this->response->setJSON(['success' => true]);
         } catch (\Exception $e) {
             return $this->response->setJSON(['success' => false, 'error' => 'Erreur lors de l\'ajout à la collection']);
         }

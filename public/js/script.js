@@ -389,22 +389,19 @@ window.showToast = function(type, message) {
 
 // === Recherche de jeux dans la navbar (desktop & mobile) ===
 function initNavbarGameSearch() {
-    // Desktop
+    // Une seule barre de recherche maintenant
     const input = document.getElementById('navbarGameSearchInput');
     const suggestions = document.getElementById('navbarGameSuggestions');
-    // Mobile
-    const inputMobile = document.getElementById('navbarGameSearchInputMobile');
-    const suggestionsMobile = document.getElementById('navbarGameSuggestionsMobile');
 
-    function setupSearch(inputEl, suggestionsEl) {
-        if (!inputEl || !suggestionsEl) return;
+    if (!input || !suggestions) return;
+
         let timeout;
-        inputEl.addEventListener('input', function() {
+    input.addEventListener('input', function() {
             clearTimeout(timeout);
             const q = this.value.trim();
             if (q.length < 2) {
-                suggestionsEl.style.display = 'none';
-                suggestionsEl.innerHTML = '';
+            suggestions.style.display = 'none';
+            suggestions.innerHTML = '';
                 return;
             }
             timeout = setTimeout(async () => {
@@ -413,7 +410,7 @@ function initNavbarGameSearch() {
                     const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
                     const rawgRes = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}&search=${encodeURIComponent(q)}`);
                     const rawgData = await rawgRes.json();
-                    suggestionsEl.innerHTML = '';
+                suggestions.innerHTML = '';
                     if (rawgData.results && rawgData.results.length) {
                         rawgData.results.slice(0, 8).forEach(game => {
                             const li = document.createElement('li');
@@ -423,30 +420,28 @@ function initNavbarGameSearch() {
                             li.style.color = '#00E5FF';
                             li.addEventListener('click', () => {
                                 showRawgGameModal(game);
-                                suggestionsEl.style.display = 'none';
-                                suggestionsEl.innerHTML = '';
-                                inputEl.value = '';
-                            });
-                            suggestionsEl.appendChild(li);
+                            suggestions.style.display = 'none';
+                            suggestions.innerHTML = '';
+                            input.value = '';
+                        });
+                        suggestions.appendChild(li);
                         });
                     } else {
-                        suggestionsEl.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Aucun résultat</li>';
-                    }
-                    suggestionsEl.style.display = 'block';
-                } catch (e) {
-                    suggestionsEl.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Erreur</li>';
-                    suggestionsEl.style.display = 'block';
+                    suggestions.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Aucun résultat</li>';
+                }
+                suggestions.style.display = 'block';
+            } catch (e) {
+                suggestions.innerHTML = '<li style="color:#BB86FC;padding:0.5rem;">Erreur</li>';
+                suggestions.style.display = 'block';
                 }
             }, 250);
         });
+    
         document.addEventListener('click', (e) => {
-            if (!inputEl.contains(e.target) && !suggestionsEl.contains(e.target)) {
-                suggestionsEl.style.display = 'none';
+        if (!input.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.style.display = 'none';
             }
         });
-    }
-    setupSearch(input, suggestions);
-    setupSearch(inputMobile, suggestionsMobile);
 }
 
 function showNavbarGameModal(game) {
@@ -579,34 +574,34 @@ async function addGameToCollection(game, wishlist) {
         // Pour "mes jeux", on devrait ouvrir un modal mais comme les données ne sont pas dans le format RAWG,
         // on fait un ajout direct pour simplifier
         const gameData = {
-            game_id: game.id,
-            searchGame: game.name,
-            platform: game.platform,
-            releaseYear: (game.release_date||'').split('-')[0] || '',
-            genre: game.category,
-            cover: game.cover,
+        game_id: game.id,
+        searchGame: game.name,
+        platform: game.platform,
+        releaseYear: (game.release_date||'').split('-')[0] || '',
+        genre: game.category,
+        cover: game.cover,
             status: 'en cours'
-        };
+    };
         
-        try {
+    try {
             const response = await fetch(window.CP_BASE_URL + 'mes-jeux/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
                 body: JSON.stringify(gameData)
-            });
-            const data = await response.json();
-            if (data.success) {
+        });
+        const data = await response.json();
+        if (data.success) {
                 showToast('success', 'Jeu ajouté à votre collection !');
                 // Fermer le modal navbar
                 document.getElementById('navbarGameModal').classList.remove('active');
-            } else {
-                showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
-            }
-        } catch (e) {
-            showToast('error', 'Erreur lors de l\'ajout');
+        } else {
+            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+        }
+    } catch (e) {
+        showToast('error', 'Erreur lors de l\'ajout');
         }
     }
 }
@@ -627,15 +622,15 @@ async function addGameToCollectionRawg(rawg, wishlist) {
 
         try {
             const response = await fetch(window.CP_BASE_URL + 'wishlist/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
                 body: JSON.stringify(gameData)
-            });
-            const data = await response.json();
-            if (data.success) {
+        });
+        const data = await response.json();
+        if (data.success) {
                 showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
                 // Fermer le modal navbar
                 document.getElementById('navbarGameModal').classList.remove('active');
@@ -753,12 +748,12 @@ function openAddGameModalFromNavbar(rawg) {
                 if (data.success) {
                     showToast('success', 'Jeu ajouté à votre collection !');
                     modal.classList.remove('active');
-                } else {
-                    showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
-                }
+        } else {
+            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+        }
             })
             .catch(error => {
-                showToast('error', 'Erreur lors de l\'ajout');
+        showToast('error', 'Erreur lors de l\'ajout');
             });
         });
     }
