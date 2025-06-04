@@ -950,6 +950,29 @@ input[type="button"]:hover {
     gap: 1.2rem;
 }
 
+/* Style pour la checkbox "Remember me" */
+.remember-me-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.remember-me-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.remember-me-container:hover {
+    color: var(--secondary-color);
+}
+
 .auth-link {
     margin-top: 1.5rem;
     text-align: center;

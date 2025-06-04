@@ -12,6 +12,35 @@ use CodeIgniter\Controller;
 class Auth extends Controller
 {
     /**
+     * Définit le cookie "remember me"
+     */
+    private function setRememberCookie($token)
+    {
+        $response = service('response');
+        $response->setCookie([
+            'name' => 'remember_token',
+            'value' => $token,
+            'expire' => 30 * 24 * 60 * 60, // 30 jours
+            'httponly' => true, // Empêche l'accès via JavaScript
+            'secure' => false, // Mettre à true en production HTTPS
+            'samesite' => 'Lax'
+        ]);
+    }
+
+    /**
+     * Supprime le cookie "remember me"
+     */
+    private function clearRememberCookie()
+    {
+        $response = service('response');
+        $response->setCookie([
+            'name' => 'remember_token',
+            'value' => '',
+            'expire' => -1
+        ]);
+    }
+
+    /**
      * Affiche le formulaire d'inscription
      * @return string Vue du formulaire d'inscription
      */
@@ -105,6 +134,12 @@ class Auth extends Controller
                 'profile_picture' => $user['profile_picture'] ?? 'images/burger-icon.png', // Image par défaut si non définie
             ]);
 
+            // Gestion du "Se souvenir de moi"
+            if ($this->request->getPost('remember_me')) {
+                $token = $userModel->setRememberToken($user['id']);
+                $this->setRememberCookie($token);
+            }
+
             return redirect()->to('/'); // Redirection vers la page d'accueil
         } else {
             // Affichage des erreurs de connexion
@@ -122,6 +157,17 @@ class Auth extends Controller
      */
     public function logout()
     {
+        $userId = session()->get('user_id');
+        
+        // Supprimer le token remember me si l'utilisateur était connecté
+        if ($userId) {
+            $userModel = new UserModel();
+            $userModel->clearRememberToken($userId);
+        }
+        
+        // Supprimer le cookie
+        $this->clearRememberCookie();
+        
         session()->destroy(); // Destruction de la session
         return redirect()->to('/login'); // Redirection vers la page de connexion
     }

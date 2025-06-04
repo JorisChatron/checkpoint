@@ -24,6 +24,11 @@
             <?php endif; ?>
         </div>
 
+        <label class="remember-me-container">
+            <input type="checkbox" name="remember_me" id="remember_me" value="1">
+            Se souvenir de moi
+        </label>
+
         <?php if (isset($error)) : ?>
             <div class="text-danger" style="margin-bottom:1rem; text-align:center; font-weight:bold;"><?= $error ?></div>
         <?php endif; ?>

@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'rememberme'    => \App\Filters\RememberMeFilter::class,
     ];
 
     /**
@@ -69,6 +70,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            'rememberme', // Vérification automatique des cookies "Se souvenir de moi"
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
