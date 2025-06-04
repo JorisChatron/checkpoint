@@ -56,8 +56,10 @@ Checkpoint est une application de gestion de bibliothèque de jeux personnelle q
 - **Framework** : CodeIgniter 4
 - **Langage** : PHP 8.1+
 - **Base de données** : MySQL/MariaDB
-- **Frontend** : HTML5, CSS3, JavaScript, Bootstrap
+- **Frontend** : HTML5, CSS3 personnalisé, JavaScript Vanilla
+- **Design** : CSS Grid, Flexbox, Variables CSS
 - **API externe** : RAWG Video Games Database API
+- **Typographie** : Google Fonts (Orbitron)
 
 ## 📦 Installation
 
