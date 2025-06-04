@@ -117,31 +117,29 @@ $this->section('content');
             </div>
         </div>
     </form>
-    <div class="dashboard-row calendar-games-grid" style="grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.5rem; justify-items: center;">
+    <div class="dashboard-row calendar-games-grid">
         <?php if (empty($games)): ?>
             <p style="color:#9B5DE5;text-align:center;width:100%;grid-column: 1 / -1;">Aucune sortie prévue pour cette semaine.</p>
         <?php else: ?>
             <?php foreach ($games as $game): ?>
                 <div class="game-card calendrier-card" 
-                     data-game-id="<?= esc($game['id']) ?>"
-                     style="width:210px;height:320px;flex-direction:column;justify-content:flex-start;align-items:center;overflow:hidden;cursor:pointer;">
+                     data-game-id="<?= esc($game['id']) ?>">
                     <?php if (!empty($game['background_image'])): ?>
                         <img src="<?= esc($game['background_image']) ?>" 
-                             alt="<?= esc($game['name']) ?>" 
-                             style="width:100%;height:180px;object-fit:cover;border-radius:10px 10px 0 0;">
+                             alt="<?= esc($game['name']) ?>">
                     <?php else: ?>
-                        <div class="default-game-cover" style="height:180px;border-radius:10px 10px 0 0;">
+                        <div class="default-game-cover">
                             <div class="game-title"><?= esc($game['name']) ?></div>
                             <div class="no-cover-text">Jaquette indisponible</div>
                         </div>
                     <?php endif; ?>
-                    <div style="padding:1rem 0.7rem 0.5rem 0.7rem;width:100%;text-align:center;">
-                        <span style="display:block;font-weight:bold;color:#9B5DE5;font-size:1.08rem;text-shadow:0 2px 8px #000;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    <div class="calendar-text-container">
+                        <div class="game-name">
                             <?= esc($game['name']) ?>
-                        </span>
-                        <span style="color:#BB86FC;font-size:1rem;display:block;margin-top:0.7rem;">
+                        </div>
+                        <div class="release-date">
                             Sortie : <?= !empty($game['released']) ? date('d/m/Y', strtotime($game['released'])) : 'Date inconnue' ?>
-                        </span>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
