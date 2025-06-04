@@ -383,7 +383,6 @@ header {
     transform: translateY(-2px);
 }
 
-
 /* Animation d'apparition */
 @keyframes cardFadeIn {
     0% {
@@ -396,9 +395,8 @@ header {
     }
 }
 
-/* ==========================================================================
-   WISHLIST
-   ========================================================================== */
+/* =================== Wishlist =================== */
+
 .wishlist-carousel {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -494,9 +492,7 @@ header {
     font-family: 'Orbitron', sans-serif;
 }
 
-/* ==========================================================================
-   BOUTONS D'ACTION SUR CARTES
-   ========================================================================== */
+/* ===================Boutons sur les cartes =================== */
 .btn-action {
     background: var(--background-darker);
     border: 2px solid var(--primary-color);
@@ -622,9 +618,7 @@ header {
     /* PAS de changement pour le dropdown - il doit rester contrôlé par JavaScript */
 }
 
-/* ==========================================================================
-   FILTRES
-   ========================================================================== */
+/* =================== Filtres =================== */
 .filters-bar {
     display: flex;
     gap: 1.2rem;
@@ -657,9 +651,7 @@ header {
     box-shadow: 0 0 8px #7F39FB55;
 }
 
-/* ==========================================================================
-   FORMULAIRES ET INPUTS
-   ========================================================================== */
+/* =================== Formulaires / Inputs =================== */
 form {
     display: flex;
     flex-direction: column;
@@ -747,9 +739,7 @@ input[type="button"]:hover {
     transform: scale(1.05);
 }
 
-/* ==========================================================================
-   MODALES
-   ========================================================================== */
+/* =================== Modales =================== */
 .modal {
     position: fixed;
     top: 0;
@@ -830,7 +820,7 @@ input[type="button"]:hover {
     min-width: 0;
 }
 
-/* Suggestions dans modales */
+/* =================== Suggestions dans modales =================== */
 .suggestions-list {
     position: absolute;
     width: 100%;
@@ -860,7 +850,7 @@ input[type="button"]:hover {
     color: var(--accent-color);
 }
 
-/* Aperçu de jaquette */
+/* =================== Aperçu de jaquette =================== */
 .form-preview {
     margin-top: 1rem;
     text-align: center;
@@ -879,7 +869,7 @@ input[type="button"]:hover {
     display: none !important;
 }
 
-/* Placeholder pour jaquettes */
+/* =================== Placeholder pour jaquettes =================== */
 .default-game-cover,
 .game-cover-placeholder {
     background: linear-gradient(45deg, #1F1B2E, #2A1B3D);
@@ -914,9 +904,7 @@ input[type="button"]:hover {
     font-size: 0.8rem;
 }
 
-/* ==========================================================================
-   AUTH
-   ========================================================================== */
+/* =================== Auth =================== */
 .auth-section {
     max-width: 420px;
     margin: 3.5rem auto 2.5rem auto;
@@ -941,7 +929,7 @@ input[type="button"]:hover {
     gap: 1.2rem;
 }
 
-/* Style pour la checkbox "Remember me" */
+/* =================== Style pour la checkbox "Remember me" =================== */
 .remember-me-container {
     display: flex;
     align-items: center;
@@ -981,9 +969,7 @@ input[type="button"]:hover {
     color: var(--accent-color);
 }
 
-/* ==========================================================================
-   TOAST NOTIFICATIONS
-   ========================================================================== */
+/* =================== Toast Notifications =================== */
 #toast-container {
     position: fixed;
     top: 30px;
@@ -1031,9 +1017,7 @@ input[type="button"]:hover {
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ==========================================================================
-   BOUTONS HOME
-   ========================================================================== */
+/* =================== Boutons Home =================== */
 .home-btn {
     display: inline-block;
     width: 260px;
@@ -1072,9 +1056,7 @@ input[type="button"]:hover {
     margin: 2.5rem 0 1.5rem 0;
 }
 
-/* ==========================================================================
-   CALENDRIER
-   ========================================================================== */
+/* =================== Calendrier =================== */
 /* Grille spécifique pour le calendrier - taille fixe */
 .calendar-games-grid {
     display: grid !important;
@@ -1183,9 +1165,7 @@ input[type="button"]:hover {
     font-size: 0.7rem;
 }
 
-/* ==========================================================================
-   LAYOUTS PRINCIPAUX
-   ========================================================================== */
+/* =================== Layouts principaux =================== */
 main {
     max-width: 1200px;
     margin: 2rem auto;
@@ -1199,9 +1179,7 @@ main {
     margin-bottom: 2rem;
 }
 
-/* ==========================================================================
-   SCROLLBARS
-   ========================================================================== */
+/* =================== Scrollbars =================== */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -1222,9 +1200,7 @@ main {
     background: var(--secondary-color);
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN
-   ========================================================================== */
+/* =================== Responsive Design =================== */
 
 /* iPad spécifique (Pro 11", Air, standard) - 800px à 1200px */
 @media (min-width: 800px) and (max-width: 1200px) {
@@ -1614,9 +1590,7 @@ main {
     }
 }
 
-/* ==========================================================================
-   UPLOAD DE FICHIERS - STYLE UNIFORME
-   ========================================================================== */
+/* =================== Upload de fichiers =================== */
 .file-upload {
     position: relative;
     display: inline-block;
