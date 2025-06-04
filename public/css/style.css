@@ -1,8 +1,6 @@
-/* ==========================================================================
-   GAMING LIBRARY - CSS MODERNE ET RESPONSIVE
-   ========================================================================== */
+/* =================== Gaming Library - CSS Moderne et Responsive =================== */
 
-/* Variables CSS globales */
+/* =================== Variables CSS globales =================== */
 :root {
     --primary-color: #7F39FB;
     --secondary-color: #BB86FC;
@@ -14,7 +12,7 @@
     --transition-speed: 0.3s;
 }
 
-/* Reset et base */
+/* =================== Reset et base =================== */
 * {
     box-sizing: border-box;
 }
@@ -43,9 +41,7 @@ p {
     display: none !important;
 }
 
-/* ==========================================================================
-   NAVIGATION RESPONSIVE - DESKTOP ORIGINAL + MOBILE ADAPTÉ
-   ========================================================================== */
+/* =================== Navigation =================== */
 header {
     display: flex;
     justify-content: center;
@@ -76,7 +72,7 @@ header {
     position: relative;
 }
 
-/* DESKTOP : Navigation gauche (originale) */
+/* =================== Navigation gauche =================== */
 .navbar-section.navbar-links {
     display: flex;
     align-items: center;
@@ -95,7 +91,7 @@ header {
     color: var(--accent-color);
 }
 
-/* DESKTOP : Logo centré parfaitement (original) */
+/* =================== Logo centré =================== */
 .logo-container {
     position: absolute;
     left: 50%;
@@ -108,7 +104,7 @@ header {
     height: auto;
 }
 
-/* DESKTOP : Section droite (originale) */
+/* =================== Section droite =================== */
 .navbar-right-section {
     display: flex;
     align-items: center;
@@ -117,7 +113,7 @@ header {
     justify-content: flex-end;
 }
 
-/* Barre de recherche optimisée */
+/* =================== Barre de recherche =================== */
 .navbar-search {
     display: flex;
     align-items: center;
@@ -146,7 +142,7 @@ header {
     box-shadow: 0 4px 16px #00E5FF33;
 }
 
-/* Suggestions */
+/* =================== Suggestions =================== */
 .navbar-suggestions {
     position: absolute;
     top: 110%;
@@ -177,7 +173,7 @@ header {
     color: #00E5FF;
 }
 
-/* Menu burger et dropdown */
+/* =================== Menu burger et dropdown =================== */
 .burger-menu {
     display: flex;
     align-items: center;
@@ -210,7 +206,7 @@ header {
     transform: scale(1.1);
 }
 
-/* Dropdown menu avec support complet */
+/* =================== Dropdown menu =================== */
 .dropdown {
     position: absolute;
     top: calc(100% + 8px);
@@ -269,7 +265,7 @@ header {
     border-radius: 0 0 10px 10px;
 }
 
-/* Affichage desktop/mobile */
+/* =================== Affichage desktop/mobile =================== */
 .navbar-desktop-only {
     display: flex !important;
 }
@@ -278,9 +274,7 @@ header {
     display: none !important;
 }
 
-/* ==========================================================================
-   DASHBOARD RESPONSIVE
-   ========================================================================== */
+/* =================== Dashboard Responsive =================== */
 .dashboard-home {
     max-width: 1100px;
     margin: 2rem auto;
@@ -297,7 +291,7 @@ header {
     letter-spacing: 1px;
 }
 
-/* Grille intelligente pour les cartes de jeux */
+/* =================== Grille intelligente pour les cartes de jeux =================== */
 .dashboard-row {
     display: grid;
     gap: 1.5rem;
@@ -305,7 +299,7 @@ header {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-/* Cartes plus grandes en mode desktop (pas iPad/mobile) */
+/* =================== Cartes plus grandes en mode desktop (pas iPad/mobile) =================== */
 @media (min-width: 1201px) {
     .dashboard-row {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* +25% de 200px */
@@ -351,7 +345,7 @@ header {
     border-radius: 10px;
 }
 
-/* Statistiques avec grille adaptive */
+/* =================== Statistiques avec grille adaptive =================== */
 .dashboard-stats {
     display: grid;
     gap: 1.5rem;
@@ -383,7 +377,7 @@ header {
     transform: translateY(-2px);
 }
 
-/* Animation d'apparition */
+/* =================== Animation d'apparition =================== */
 @keyframes cardFadeIn {
     0% {
         opacity: 0;
@@ -513,7 +507,7 @@ header {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Style unifié pour les boutons dans toutes les cartes */
+/* =================== Style unifié pour les boutons dans toutes les cartes =================== */
 .wishlist-card .card-actions,
 .game-card .card-actions,
 .carousel-card .card-actions {
@@ -547,7 +541,7 @@ header {
     font-size: 1.2rem !important;
 }
 
-/* Affichage des boutons au hover */
+/* =================== Affichage des boutons au hover =================== */
 .wishlist-card:hover .btn-action,
 .game-card:hover .btn-action,
 .wishlist-card:hover .card-actions .btn-action,
@@ -597,7 +591,7 @@ header {
     box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4) !important;
 }
 
-/* Toujours afficher les boutons sur les écrans tactiles */
+/* =================== Toujours afficher les boutons sur les écrans tactiles =================== */
 @media (hover: none) and (pointer: coarse) {
     .btn-action,
     .wishlist-card .card-actions {
@@ -1057,7 +1051,7 @@ input[type="button"]:hover {
 }
 
 /* =================== Calendrier =================== */
-/* Grille spécifique pour le calendrier - taille fixe */
+/* =================== Grille spécifique pour le calendrier - taille fixe =================== */
 .calendar-games-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, 200px) !important;
@@ -1066,7 +1060,7 @@ input[type="button"]:hover {
     margin-bottom: 2rem;
 }
 
-/* Desktop - cartes plus grandes comme dashboard-row */
+/* =================== Desktop - cartes plus grandes comme dashboard-row =================== */
 @media (min-width: 1201px) {
     .calendar-games-grid {
         grid-template-columns: repeat(auto-fill, 250px) !important;
@@ -1103,7 +1097,7 @@ input[type="button"]:hover {
     border-color: var(--secondary-color);
 }
 
-/* Ajustement des images dans les cartes calendrier */
+/* =================== Ajustement des images dans les cartes calendrier =================== */
 .calendrier-card img {
     width: 100%;
     height: 60%; /* Laisse 40% pour le texte */
@@ -1111,7 +1105,7 @@ input[type="button"]:hover {
     border-radius: 10px 10px 0 0;
 }
 
-/* Ajustement du container de texte */
+/* =================== Ajustement du container de texte =================== */
 .calendrier-card .calendar-text-container {
     padding: 0.5rem;
     width: 100%;
@@ -1123,7 +1117,7 @@ input[type="button"]:hover {
     gap: 0.3rem;
 }
 
-/* Nom du jeu - plus lisible */
+/* =================== Nom du jeu - plus lisible =================== */
 .calendrier-card .game-name {
     font-weight: bold;
     color: #9B5DE5;
@@ -1136,7 +1130,7 @@ input[type="button"]:hover {
     line-height: 1.2;
 }
 
-/* Date de sortie - plus visible */
+/* =================== Date de sortie - plus visible =================== */
 .calendrier-card .release-date {
     color: #BB86FC;
     font-size: 0.85rem;
@@ -1144,7 +1138,7 @@ input[type="button"]:hover {
     line-height: 1.1;
 }
 
-/* Ajustement pour les placeholder */
+/* =================== Ajustement pour les placeholder =================== */
 .calendrier-card .default-game-cover {
     height: 60%;
     border-radius: 10px 10px 0 0;
@@ -1202,9 +1196,9 @@ main {
 
 /* =================== Responsive Design =================== */
 
-/* iPad spécifique (Pro 11", Air, standard) - 800px à 1200px */
+/* =================== iPad spécifique (Pro 11", Air, standard) - 800px à 1200px =================== */
 @media (min-width: 800px) and (max-width: 1200px) {
-    /* Logo plus petit sur iPad */
+    /* =================== Logo plus petit sur iPad =================== */
     .logo {
         max-width: 100px !important;
     }
