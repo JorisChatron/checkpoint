@@ -637,13 +637,18 @@ function initSearchAndFilters() {
         let visibleCount = 0;
         
         cards.forEach((card, index) => {
-            const titleSpan = card.querySelector('span[style*="font-weight:bold"]');
-            if (!titleSpan) {
-                console.warn(`Carte ${index}: titleSpan non trouvé`);
+            // Chercher le nom du jeu dans .card-name ou dans .placeholder-title (pour les jeux sans image)
+            let titleElement = card.querySelector('.card-name');
+            if (!titleElement) {
+                titleElement = card.querySelector('.placeholder-title');
+            }
+            
+            if (!titleElement) {
+                console.warn(`Carte ${index}: Nom du jeu non trouvé`);
                 return;
             }
             
-            const gameName = titleSpan.textContent.toLowerCase().trim();
+            const gameName = titleElement.textContent.toLowerCase().trim();
             const genres = (card.dataset.genres || '').split(',');
             const checkedGenres = Array.from(document.querySelectorAll('.genre-checkbox:checked')).map(cb => cb.value);
             
