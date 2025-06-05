@@ -58,14 +58,13 @@
     </nav>
 </header>
 
-<!-- Modal aperçu jeu global (navbar) -->
-<div id="navbarGameModal" class="modal">
-    <div class="modal-content" id="navbarGameModalContent" style="max-width:600px;position:relative;">
-        <button class="modal-close" id="closeNavbarGameModal">&times;</button>
-        <div id="navbarGameModalBody" style="min-height:200px;text-align:center;">
+<!-- Modal détails jeu (identique au calendrier) -->
+<div id="gameModal" class="modal">
+    <div class="modal-content" id="gameModalContent" style="max-width:600px;position:relative;">
+        <button class="modal-close" id="closeGameModal">&times;</button>
+        <div id="gameModalBody" style="min-height:200px;text-align:center;">
             <span style="color:#BB86FC;">Chargement...</span>
         </div>
-        <div id="navbarGameModalActions" style="margin-top:1.5rem;text-align:center;display:none;"></div>
     </div>
 </div>
 
