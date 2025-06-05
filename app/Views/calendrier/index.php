@@ -249,55 +249,20 @@ $this->section('content');
 const IS_USER_LOGGED_IN = <?= session()->get('user_id') ? 'true' : 'false' ?>;
 const BASE_URL = '<?= base_url() ?>';
 
+// Fonction utilitaire pour extraire l'année d'une date
+function extractYear(dateString) {
+    return dateString ? dateString.split('-')[0] : '';
+}
+
 // Fonction pour vérifier la connexion et rediriger si nécessaire
 function checkAuthAndRedirect(action = 'effectuer cette action') {
     if (!IS_USER_LOGGED_IN) {
-        showToast('info', `Vous devez être connecté pour ${action}`);
         setTimeout(() => {
             window.location.href = BASE_URL + 'login';
-        }, 1500);
+        }, 500);
         return false;
     }
     return true;
-}
-
-// Toast notifications
-function showToast(type, message) {
-    let container = document.getElementById('toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'toast-container';
-        container.style.cssText = 'position:fixed;top:30px;right:30px;z-index:9999;display:flex;flex-direction:column;gap:1rem;pointer-events:none;';
-        document.body.appendChild(container);
-    }
-
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.style.cssText = `
-        min-width:220px;max-width:350px;background:var(--primary-color);color:#fff;border-radius:12px;
-        box-shadow:0 4px 16px #7F39FB55;padding:1.1rem 1.5rem;font-family:'Orbitron',sans-serif;
-        font-size:1.05rem;font-weight:500;letter-spacing:0.5px;margin-bottom:0.5rem;
-        opacity:0;transform:translateY(-20px) scale(0.98);
-        animation:toastIn 0.5s cubic-bezier(0.23,1,0.32,1) forwards;pointer-events:auto;
-        display:flex;align-items:center;gap:0.7rem;
-    `;
-    
-    if (type === 'success') {
-        toast.style.background = 'linear-gradient(90deg, #7F39FB 80%, #00E5FF 100%)';
-    } else if (type === 'error') {
-        toast.style.background = 'linear-gradient(90deg, #7F39FB 80%, #FF6F61 100%)';
-    } else if (type === 'info') {
-        toast.style.background = 'linear-gradient(90deg, #7F39FB 80%, #9B5DE5 100%)';
-    }
-    
-    toast.innerHTML = message;
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-20px) scale(0.98)';
-        setTimeout(() => container.removeChild(toast), 400);
-    }, 2600);
 }
 
 // Attendre que le DOM soit complètement chargé
@@ -401,7 +366,7 @@ function initGameDetailsModal() {
                                 game_id: game.id,
                                 searchGame: game.name || 'Jeu sans nom',
                                 platform: (game.platforms && game.platforms.length && game.platforms[0].platform && game.platforms[0].platform.name) ? game.platforms[0].platform.name : 'Inconnue',
-                                releaseYear: game.released ? game.released.split('-')[0] : '',
+                                releaseYear: extractYear(game.released),
                                 genre: (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '',
                                 cover: game.background_image || '',
                                 developer: (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '',
@@ -419,21 +384,19 @@ function initGameDetailsModal() {
                             .then(res => res.json())
                             .then(data => {
                                 if (data.success) {
-                                    showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
+                                    // Succès silencieux
                                 } else {
                                     if (data.error && data.error.includes('non connecté')) {
-                                        showToast('info', 'Vous devez être connecté pour ajouter un jeu à votre wishlist');
                                         setTimeout(() => {
                                             window.location.href = BASE_URL + 'login';
-                                        }, 1500);
+                                        }, 500);
                                     } else {
-                                        showToast('error', data.error || data.message || 'Une erreur est survenue');
+                                        console.error(data.error || data.message || 'Une erreur est survenue');
                                     }
                                 }
                             })
                             .catch(error => {
                                 console.error(error);
-                                showToast('error', 'Erreur lors de l\'ajout à la wishlist');
                             });
                         }
                     }
@@ -502,7 +465,7 @@ function initAddGameModal() {
             'addGame_searchGame': game.name || 'Jeu sans nom',
             'addGame_game_id': game.id || '',
             'addGame_platform': '',
-            'addGame_releaseYear': game.released ? game.released.split('-')[0] : '',
+            'addGame_releaseYear': extractYear(game.released),
             'addGame_genre': (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '',
             'addGame_cover': game.background_image || '',
             'addGame_developer': (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '',
@@ -565,7 +528,7 @@ function initAddGameModal() {
             
             const details = [];
             if (platform) details.push(platform);
-            if (game.released) details.push(game.released.split('-')[0]);
+            if (game.released) details.push(extractYear(game.released));
             if (game.genres && game.genres.length) details.push(game.genres.map(g => g.name).join(', '));
             selectedGameDetails.textContent = details.join(' • ');
         }
@@ -626,22 +589,21 @@ function initAddGameModal() {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showToast('success', 'Jeu ajouté à votre collection !');
                     addGameModal.classList.remove('active');
+                    setTimeout(() => location.reload(), 300);
                 } else {
                     if (data.error && data.error.includes('non connecté')) {
-                        showToast('info', 'Vous devez être connecté pour ajouter un jeu à votre collection');
                         setTimeout(() => {
                             window.location.href = BASE_URL + 'login';
-                        }, 1500);
+                        }, 500);
                     } else {
-                        showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+                        console.error(data.error || data.message || 'Erreur lors de l\'ajout');
                     }
                 }
                 isSubmitting = false;
             })
             .catch(error => {
-                showToast('error', 'Erreur lors de l\'ajout');
+                console.error('Erreur lors de l\'ajout');
                 isSubmitting = false;
             });
         });
@@ -771,7 +733,7 @@ function initWeekPicker() {
         const openWeekPickerBtn = document.getElementById('openWeekPicker');
         if (openWeekPickerBtn) {
             openWeekPickerBtn.addEventListener('click', function() {
-                showToast('error', 'Le sélecteur de semaine n\'est pas disponible. Flatpickr non chargé.');
+                console.error('Le sélecteur de semaine n\'est pas disponible. Flatpickr non chargé.');
             });
         }
         return;
@@ -818,11 +780,11 @@ function initWeekPicker() {
                         console.log('✓ Sélecteur de semaine ouvert');
                     } else {
                         console.error('✗ flatpickr instance non trouvée');
-                        showToast('error', 'Le calendrier ne peut pas s\'ouvrir (flatpickr non initialisé).');
+                        console.error('Le calendrier ne peut pas s\'ouvrir (flatpickr non initialisé).');
                     }
                 } catch (error) {
                     console.error('Erreur lors de l\'ouverture:', error);
-                    showToast('error', 'Erreur lors de l\'ouverture du sélecteur de semaine.');
+                    console.error('Erreur lors de l\'ouverture du sélecteur de semaine.');
                 }
             });
             console.log('✓ Bouton sélecteur de semaine configuré');
@@ -837,7 +799,7 @@ function initWeekPicker() {
         const openWeekPickerBtn = document.getElementById('openWeekPicker');
         if (openWeekPickerBtn) {
             openWeekPickerBtn.addEventListener('click', function() {
-                showToast('error', 'Erreur lors de l\'initialisation du sélecteur de semaine.');
+                console.error('Erreur lors de l\'initialisation du sélecteur de semaine.');
             });
         }
     }
@@ -874,7 +836,7 @@ function initCalendarGameSearch() {
             const fields = {
                 'addGame_searchGame': gameDetails.name || game.name,
                 'addGame_platform': gameDetails.platforms?.[0]?.platform?.name || game.platforms?.[0]?.platform?.name || '',
-                'addGame_releaseYear': (gameDetails.released || game.released)?.split('-')[0] || '',
+                'addGame_releaseYear': extractYear(gameDetails.released || game.released),
                 'addGame_genre': gameDetails.genres?.map(g => g.name).join(', ') || game.genres?.map(g => g.name).join(', ') || '',
                 'addGame_cover': gameDetails.background_image || game.background_image || '',
                 'addGame_game_id': gameDetails.id || game.id || '',

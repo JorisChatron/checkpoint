@@ -116,14 +116,13 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showToast('success', 'Photo de profil mise à jour avec succès !');
-                    setTimeout(() => location.reload(), 1200);
+                    setTimeout(() => location.reload(), 300);
                 } else {
-                    showToast('error', data.error || 'Erreur lors de la mise à jour de la photo');
+                    console.error(data.error || 'Erreur lors de la mise à jour de la photo');
                 }
             })
             .catch(error => {
-                showToast('error', 'Erreur lors de l\'envoi de la photo');
+                console.error('Erreur lors de l\'envoi de la photo');
             });
         });
 
@@ -133,7 +132,7 @@
             
             if (file) {
                 if (file.size > 5 * 1024 * 1024) { // 5MB max
-                    showToast('error', 'La taille du fichier ne doit pas dépasser 5MB');
+                    console.error('La taille du fichier ne doit pas dépasser 5MB');
                     fileInput.value = '';
                     label.textContent = 'Choisir un fichier';
                     return;
@@ -205,15 +204,15 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showToast('success', 'Top 5 mis à jour avec succès !');
+                    // Succès silencieux
                 } else {
-                    showToast('error', 'Erreur lors de la mise à jour du top 5');
-                    setTimeout(() => location.reload(), 1200); // Recharge en cas d'erreur
+                    console.error('Erreur lors de la mise à jour du top 5');
+                    setTimeout(() => location.reload(), 300); // Recharge en cas d'erreur
                 }
             })
             .catch(error => {
-                showToast('error', 'Erreur lors de la sauvegarde du top 5');
-                setTimeout(() => location.reload(), 1200);
+                console.error('Erreur lors de la sauvegarde du top 5');
+                setTimeout(() => location.reload(), 300);
             });
         }
 
@@ -261,7 +260,7 @@
                     const checkedCount = document.querySelectorAll('.top5-checkbox:checked').length;
                     if (checkedCount > 5) {
                         this.checked = false;
-                        showToast('error', 'Vous ne pouvez choisir que 5 jeux.');
+                        console.error('Vous ne pouvez choisir que 5 jeux.');
                         return;
                     }
                     
@@ -284,7 +283,7 @@
                 e.preventDefault();
                 
                 if(clickOrder.length !== 5) {
-                    showToast('error', 'Veuillez sélectionner exactement 5 jeux.');
+                    console.error('Veuillez sélectionner exactement 5 jeux.');
                     return;
                 }
                 
@@ -300,13 +299,12 @@
                 .then(res => res.json())
                 .then(data => {
                     if(data.success) {
-                        showToast('success', 'Top 5 mis à jour !');
-                        setTimeout(() => location.reload(), 1200);
+                        setTimeout(() => location.reload(), 300);
                     } else {
-                        showToast('error', data.error || 'Erreur lors de la mise à jour du top 5');
+                        console.error(data.error || 'Erreur lors de la mise à jour du top 5');
                     }
                 })
-                .catch(() => showToast('error', 'Erreur lors de la requête.'));
+                .catch(() => console.error('Erreur lors de la requête.'));
             });
         }
 
@@ -319,13 +317,12 @@
             .then(res => res.json())
             .then(data => {
                 if(data.success) {
-                    showToast('success', 'Préférence enregistrée.');
-                    setTimeout(() => location.reload(), 800);
+                    setTimeout(() => location.reload(), 300);
                 } else {
-                    showToast('error', 'Erreur lors de la sauvegarde de la préférence.');
+                    console.error('Erreur lors de la sauvegarde de la préférence.');
                 }
             })
-            .catch(() => showToast('error', 'Erreur réseau.'));
+            .catch(() => console.error('Erreur réseau.'));
         });
     });
 </script>

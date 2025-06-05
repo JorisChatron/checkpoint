@@ -14,7 +14,9 @@
     <main>
         <?= $this->renderSection('content') ?>
     </main>
-    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; top: 30px; right: 30px; z-index: 9999;"></div>
+    <script>
+        window.CP_BASE_URL = '<?= base_url() ?>';
+    </script>
     <script src="<?= base_url('js/script.js') ?>" defer></script>
 </body>
 </html>

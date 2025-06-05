@@ -1,5 +1,10 @@
 console.log('Script.js chargé');
 
+// Fonction utilitaire pour extraire l'année d'une date
+function extractYear(dateString) {
+    return dateString ? dateString.split('-')[0] : '';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM chargé, initialisation...');
     
@@ -129,7 +134,7 @@ function initGameSearch() {
             const fields = {
                 'searchGame': gameDetails.name || game.name,
                 'platform': gameDetails.platforms?.[0]?.platform?.name || game.platforms?.[0]?.platform?.name || '',
-                'releaseYear': (gameDetails.released || game.released)?.split('-')[0] || '',
+                'releaseYear': extractYear(gameDetails.released || game.released),
                 'genre': gameDetails.genres?.map(g => g.name).join(', ') || game.genres?.map(g => g.name).join(', ') || '',
                 'cover': gameDetails.background_image || game.background_image || '',
                 'game_id': gameDetails.id || game.id || '',
@@ -188,27 +193,13 @@ function initGameSearch() {
                 if (fields.genre) details.push(fields.genre);
                 selectedGameDetails.textContent = details.join(' • ');
             }
-
-            // Gestion de l'ancien système d'aperçu (pour compatibilité)
-            const preview = document.getElementById('coverPreview');
-            const container = document.getElementById('coverPreviewContainer');
-            if (preview && container) {
-                if (gameDetails.background_image || game.background_image) {
-                    preview.src = gameDetails.background_image || game.background_image;
-                    preview.classList.remove('hidden');
-                    container.classList.remove('hidden');
-                } else {
-                    preview.classList.add('hidden');
-                    container.classList.add('hidden');
-                }
-            }
         } catch (error) {
             console.error('Erreur lors de la récupération des détails:', error);
             // Fallback avec les données de base
             const fields = {
                 'searchGame': game.name,
                 'platform': game.platforms?.[0]?.platform?.name || '',
-                'releaseYear': game.released?.split('-')[0] || '',
+                'releaseYear': extractYear(game.released),
                 'genre': game.genres?.map(g => g.name).join(', ') || '',
                 'cover': game.background_image || '',
                 'game_id': game.id || ''
@@ -344,14 +335,12 @@ function initForms() {
             const data = await response.json();
             
             if (data.success) {
-                showToast('success', 'Jeu ajouté avec succès !');
-                setTimeout(() => location.reload(), 1200);
+                setTimeout(() => location.reload(), 300);
             } else {
-                showToast('error', data.error || data.message || 'Une erreur est survenue');
+                console.error(data.error || data.message || 'Une erreur est survenue');
             }
         } catch (error) {
             console.error('Erreur:', error);
-            showToast('error', 'Erreur lors de l\'envoi du formulaire');
         }
     });
 }
@@ -365,7 +354,7 @@ function initCards() {
 
             const gameId = button.getAttribute('data-id');
             if (!gameId) {
-                showToast('error', 'ID du jeu non trouvé');
+                console.error('ID du jeu non trouvé');
                 return;
             }
 
@@ -385,50 +374,30 @@ function initCards() {
                     const card = button.closest('.game-card-universal');
                     if (card) {
                         card.remove();
-                        checkEmptyContainer(isWishlist);
+                        checkEmptyPage();
                     }
-                    showToast('success', 'Jeu supprimé avec succès !');
                 } else {
-                    showToast('error', data.error || 'Une erreur est survenue lors de la suppression');
+                    console.error(data.error || 'Une erreur est survenue lors de la suppression');
                 }
             } catch (error) {
-                showToast('error', 'Une erreur est survenue lors de la suppression');
+                console.error('Une erreur est survenue lors de la suppression');
             }
         });
     });
 }
 
-function checkEmptyContainer(isWishlist) {
+// Fonction unifiée pour vérifier si la page est vide
+function checkEmptyPage() {
     const container = document.querySelector('.dashboard-row');
     const cards = document.querySelectorAll('.game-card-universal');
     
     if (container && cards.length === 0) {
-        container.innerHTML = `<p class="${isWishlist ? 'wishlist' : 'games'}-empty-message">
-            ${isWishlist ? 'Votre wishlist est vide.' : 'Vous n\'avez aucun jeu.'}
-        </p>`;
+        const isWishlist = window.location.pathname.includes('wishlist');
+        const messageClass = isWishlist ? 'wishlist-empty-message' : 'games-empty-message';
+        const messageText = isWishlist ? 'Votre wishlist est vide.' : 'Vous n\'avez aucun jeu.';
+        container.innerHTML = `<p class="${messageClass}">${messageText}</p>`;
     }
 }
-
-window.showToast = function(type, message) {
-    const container = document.getElementById('toast-container');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.setAttribute('role', 'alert');
-    toast.setAttribute('aria-live', 'assertive');
-    toast.setAttribute('tabindex', '0');
-    toast.innerHTML = message;
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-20px) scale(0.98)';
-        setTimeout(() => container.removeChild(toast), 400);
-    }, 2600);
-    
-    toast.focus();
-};
 
 // === Recherche de jeux dans la navbar (desktop & mobile) ===
 function initNavbarGameSearch() {
@@ -487,70 +456,6 @@ function initNavbarGameSearch() {
         });
 }
 
-// Fonction pour ouvrir le modal de détails depuis un jeu de la DB
-function openGameModalFromDb(game) {
-    const modal = document.getElementById('gameModal');
-    const gameModalBody = document.getElementById('gameModalBody');
-    
-    if (!modal || !gameModalBody) return;
-    
-    // Fermer les suggestions
-    document.getElementById('navbarGameSuggestions').style.display = 'none';
-    
-    // Affichage des infos du jeu
-    let html = '';
-    html += game.cover ? `<img src="${game.cover}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : `
-        <div style="width:220px;height:220px;margin:0 auto 1.2rem auto;background:linear-gradient(45deg, #1F1B2E, #2A1B3D);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0.5rem;box-sizing:border-box;text-align:center;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;">
-            <div style="color:#9B5DE5;font-size:1.2rem;font-weight:bold;margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);letter-spacing:1px;line-height:1.2;">${game.name}</div>
-            <div style="color:#BB86FC;font-size:0.9rem;opacity:0.8;max-width:85%;line-height:1.3;text-align:center;">Aucune jaquette</div>
-        </div>
-    `;
-    html += `<h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>`;
-    html += `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">Plateforme : ${game.platform || 'Inconnue'}<br>Année : ${(game.release_date||'').split('-')[0] || 'Inconnue'}<br>Genre : ${game.category || 'Inconnu'}</div>`;
-    
-    // Si rawg_id présent, enrichir avec RAWG
-    if (game.rawg_id) {
-        fetch(`https://api.rawg.io/api/games/${game.rawg_id}?key=ff6f7941c211456c8806541638fdfaff`)
-            .then(res => res.json())
-            .then(rawg => {
-                const devs = rawg.developers && rawg.developers.length ? rawg.developers.map(d=>d.name).join(', ') : 'Inconnu';
-                html += `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">Développeur : ${devs}</div>`;
-                html += `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:1.2rem;">Éditeur : ${rawg.publishers && rawg.publishers.length ? rawg.publishers.map(p=>p.name).join(', ') : 'Inconnu'}</div>`;
-                if (rawg.description_raw) {
-                    html += `<div style="color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;max-height:120px;overflow:auto;">${rawg.description_raw}</div>`;
-                }
-                html += `
-                    <div style="margin-top:1.5rem;text-align:center;">
-                        <button onclick="addToMyGamesFromRawg(${JSON.stringify(rawg).replace(/"/g, '&quot;')})" class="home-btn" style="margin:0 0.5rem 0.5rem 0;">Ajouter à mes jeux</button>
-                        <button onclick="addToWishlistFromGame(${JSON.stringify(game).replace(/"/g, '&quot;')})" class="home-btn" style="background:linear-gradient(90deg,#00E5FF 80%,#9B5DE5 100%);color:#1E1E2F;border-color:#00E5FF;">Ajouter à la wishlist</button>
-                    </div>
-                `;
-                gameModalBody.innerHTML = html;
-            })
-            .catch(() => {
-                html += `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:1.2rem;">Développeur : Inconnu</div>`;
-                html += `
-                    <div style="margin-top:1.5rem;text-align:center;">
-                        <button onclick="addToMyGamesFromGame(${JSON.stringify(game).replace(/"/g, '&quot;')})" class="home-btn" style="margin:0 0.5rem 0.5rem 0;">Ajouter à mes jeux</button>
-                        <button onclick="addToWishlistFromGame(${JSON.stringify(game).replace(/"/g, '&quot;')})" class="home-btn" style="background:linear-gradient(90deg,#00E5FF 80%,#9B5DE5 100%);color:#1E1E2F;border-color:#00E5FF;">Ajouter à la wishlist</button>
-                    </div>
-                `;
-                gameModalBody.innerHTML = html;
-            });
-    } else {
-        html += `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:1.2rem;">Développeur : Inconnu</div>`;
-        html += `
-            <div style="margin-top:1.5rem;text-align:center;">
-                <button onclick="addToMyGamesFromGame(${JSON.stringify(game).replace(/"/g, '&quot;')})" class="home-btn" style="margin:0 0.5rem 0.5rem 0;">Ajouter à mes jeux</button>
-                <button onclick="addToWishlistFromGame(${JSON.stringify(game).replace(/"/g, '&quot;')})" class="home-btn" style="background:linear-gradient(90deg,#00E5FF 80%,#9B5DE5 100%);color:#1E1E2F;border-color:#00E5FF;">Ajouter à la wishlist</button>
-            </div>
-        `;
-        gameModalBody.innerHTML = html;
-    }
-    
-    modal.classList.add('active');
-}
-
 // Fonction unifiée pour ouvrir le modal de détails (identique au calendrier)
 function openGameModal(gameId) {
     const gameModal = document.getElementById('gameModal');
@@ -577,7 +482,7 @@ function openGameModal(gameId) {
                 <h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>
                 <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">
                     Plateforme : ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnue'}<br>
-                    Année : ${(game.released||'').split('-')[0] || 'Inconnue'}<br>
+                    Année : ${extractYear(game.released) || 'Inconnue'}<br>
                     Genre : ${game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : 'Inconnu'}
                 </div>
                 <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">
@@ -604,7 +509,7 @@ async function addToMyGamesFromRawg(rawg) {
         game_id: rawg.id,
         searchGame: rawg.name || 'Jeu sans nom',
         platform: (rawg.platforms && rawg.platforms.length && rawg.platforms[0].platform && rawg.platforms[0].platform.name) ? rawg.platforms[0].platform.name : 'Inconnue',
-        releaseYear: rawg.released ? rawg.released.split('-')[0] : '',
+        releaseYear: extractYear(rawg.released),
         genre: (rawg.genres && rawg.genres.length) ? rawg.genres.map(g => g.name).join(', ') : '',
         cover: rawg.background_image || '',
         developer: (rawg.developers && rawg.developers.length) ? rawg.developers.map(d => d.name).join(', ') : '',
@@ -623,17 +528,16 @@ async function addToMyGamesFromRawg(rawg) {
         });
         const data = await response.json();
         if (data.success) {
-            showToast('success', 'Jeu ajouté à votre collection !');
             document.getElementById('gameModal').classList.remove('active');
             // Recharger la page si on est sur la page mes-jeux pour voir le nouveau jeu
             if (window.location.pathname.includes('mes-jeux')) {
-                setTimeout(() => location.reload(), 1200);
+                setTimeout(() => location.reload(), 300);
             }
         } else {
-            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+            console.error(data.error || data.message || 'Erreur lors de l\'ajout');
         }
     } catch (e) {
-        showToast('error', 'Erreur lors de l\'ajout');
+        console.error('Erreur lors de l\'ajout');
     }
 }
 
@@ -643,7 +547,7 @@ async function addToWishlistFromRawg(rawg) {
         game_id: rawg.id,
         searchGame: rawg.name || 'Jeu sans nom',
         platform: (rawg.platforms && rawg.platforms.length && rawg.platforms[0].platform && rawg.platforms[0].platform.name) ? rawg.platforms[0].platform.name : 'Inconnue',
-        releaseYear: rawg.released ? rawg.released.split('-')[0] : '',
+        releaseYear: extractYear(rawg.released),
         genre: (rawg.genres && rawg.genres.length) ? rawg.genres.map(g => g.name).join(', ') : '',
         cover: rawg.background_image || '',
         developer: (rawg.developers && rawg.developers.length) ? rawg.developers.map(d => d.name).join(', ') : '',
@@ -661,18 +565,16 @@ async function addToWishlistFromRawg(rawg) {
         });
         const data = await response.json();
         if (data.success) {
-            showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
             document.getElementById('gameModal').classList.remove('active');
             // Recharger la page si on est sur la page wishlist pour voir le nouveau jeu
             if (window.location.pathname.includes('wishlist')) {
-                setTimeout(() => location.reload(), 1200);
+                setTimeout(() => location.reload(), 300);
             }
         } else {
-            showToast('error', data.error || data.message || 'Une erreur est survenue');
+            console.error(data.error || data.message || 'Une erreur est survenue');
         }
     } catch (error) {
         console.error(error);
-        showToast('error', 'Erreur lors de l\'ajout à la wishlist');
     }
 }
 
@@ -682,7 +584,7 @@ async function addToWishlistFromGame(game) {
         game_id: game.id,
         searchGame: game.name,
         platform: game.platform,
-        releaseYear: (game.release_date||'').split('-')[0] || '',
+        releaseYear: extractYear(game.release_date),
         genre: game.category,
         cover: game.cover
     };
@@ -698,17 +600,16 @@ async function addToWishlistFromGame(game) {
         });
         const data = await response.json();
         if (data.success) {
-            showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
             document.getElementById('gameModal').classList.remove('active');
             // Recharger la page si on est sur la page wishlist pour voir le nouveau jeu
             if (window.location.pathname.includes('wishlist')) {
-                setTimeout(() => location.reload(), 1200);
+                setTimeout(() => location.reload(), 300);
             }
         } else {
-            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+            console.error(data.error || data.message || 'Erreur lors de l\'ajout');
         }
     } catch (e) {
-        showToast('error', 'Erreur lors de l\'ajout à la wishlist');
+        console.error('Erreur lors de l\'ajout à la wishlist');
     }
 }
 
@@ -718,7 +619,7 @@ async function addToMyGamesFromGame(game) {
         game_id: game.id,
         searchGame: game.name,
         platform: game.platform,
-        releaseYear: (game.release_date||'').split('-')[0] || '',
+        releaseYear: extractYear(game.release_date),
         genre: game.category,
         cover: game.cover,
         status: 'en cours'
@@ -735,22 +636,18 @@ async function addToMyGamesFromGame(game) {
         });
         const data = await response.json();
         if (data.success) {
-            showToast('success', 'Jeu ajouté à votre collection !');
             document.getElementById('gameModal').classList.remove('active');
             // Recharger la page si on est sur la page mes-jeux pour voir le nouveau jeu
             if (window.location.pathname.includes('mes-jeux')) {
-                setTimeout(() => location.reload(), 1200);
+                setTimeout(() => location.reload(), 300);
             }
         } else {
-            showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
+            console.error(data.error || data.message || 'Erreur lors de l\'ajout');
         }
     } catch (e) {
-        showToast('error', 'Erreur lors de l\'ajout');
+        console.error('Erreur lors de l\'ajout');
     }
 }
-
-// Initialisation de la recherche navbar
-initNavbarGameSearch();
 
 // Initialisation des modals unifiés pour la navbar
 document.addEventListener('DOMContentLoaded', function() {

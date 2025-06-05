@@ -228,16 +228,14 @@ document.getElementById('editGameForm').addEventListener('submit', function(e) {
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            showToast('success', 'Jeu modifié avec succès !');
             document.getElementById('editGameModal').classList.remove('active');
-            setTimeout(() => location.reload(), 1200);
+            setTimeout(() => location.reload(), 300);
         } else {
-            showToast('error', data.error || 'Erreur lors de la modification');
+            console.error(data.error || 'Erreur lors de la modification');
         }
     })
     .catch(error => {
         console.error('Erreur:', error);
-        showToast('error', 'Erreur lors de la modification');
     });
 });
 

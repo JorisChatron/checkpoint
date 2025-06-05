@@ -42,7 +42,18 @@ $this->section('content');
             <!-- Boutons d'action -->
             <div class="card-actions">
                 <button type="button" class="btn-action delete" title="Supprimer de la wishlist" data-id="<?= $game['id'] ?>">✕</button>
-                <button type="button" class="btn-action transfer" title="Déplacer vers Mes Jeux" data-id="<?= $game['id'] ?>">➤</button>
+                <button type="button" 
+                        class="btn-action transfer" 
+                        title="Déplacer vers Mes Jeux" 
+                        data-id="<?= $game['id'] ?>"
+                        data-name="<?= esc($game['name']) ?>"
+                        data-platform="<?= esc($game['platform'] ?? '') ?>"
+                        data-year="<?= esc($game['release_date'] ?? '') ?>"
+                        data-genre="<?= esc($game['category'] ?? '') ?>"
+                        data-cover="<?= esc($game['cover'] ?? '') ?>"
+                        data-developer="<?= esc($game['developer'] ?? '') ?>"
+                        data-publisher="<?= esc($game['publisher'] ?? '') ?>"
+                        data-game-id="<?= esc($game['game_id'] ?? '') ?>">➤</button>
             </div>
             
             <!-- Détails simples comme le calendrier : nom + date de sortie -->
@@ -61,33 +72,33 @@ $this->section('content');
     <p class="wishlist-empty-message">Votre wishlist est vide.</p>
 <?php endif; ?>
 
-<!-- Modal de transfert vers "Mes Jeux" -->
-<div id="transferGameModal" class="modal">
+<!-- Modal d'ajout à la collection Mes Jeux (identique au calendrier) -->
+<div id="addGameModal" class="modal">
     <div class="modal-content">
-        <button class="modal-close" id="closeTransferModal">&times;</button>
-        <h2>Basculer vers mes jeux</h2>
-        <form id="transferGameForm">
-            <!-- Champs cachés pour les informations du jeu -->
-            <input type="hidden" id="transfer_game_id" name="game_id">
-            <input type="hidden" id="transfer_wishlist_id" name="wishlist_id">
-            <input type="hidden" id="transfer_searchGame" name="searchGame">
-            <input type="hidden" id="transfer_platform" name="platform">
-            <input type="hidden" id="transfer_releaseYear" name="releaseYear">
-            <input type="hidden" id="transfer_genre" name="genre">
-            <input type="hidden" id="transfer_cover" name="cover">
-            <input type="hidden" id="transfer_developer" name="developer">
-            <input type="hidden" id="transfer_publisher" name="publisher">
+        <button class="modal-close" id="closeAddGameModal">&times;</button>
+        <h2>Ajouter un jeu</h2>
+        <form id="addGameWishlistForm">
+            <!-- Champs cachés pour les informations automatiques -->
+            <input type="hidden" id="addGame_game_id" name="game_id">
+            <input type="hidden" id="addGame_platform" name="platform">
+            <input type="hidden" id="addGame_releaseYear" name="releaseYear">
+            <input type="hidden" id="addGame_genre" name="genre">
+            <input type="hidden" id="addGame_cover" name="cover">
+            <input type="hidden" id="addGame_developer" name="developer">
+            <input type="hidden" id="addGame_publisher" name="publisher">
+            <input type="hidden" id="addGame_searchGame" name="searchGame">
+            <input type="hidden" id="wishlist_item_id" name="wishlist_id">
             
-            <!-- Aperçu du jeu à transférer -->
-            <div class="form-group" id="transfer_gamePreview">
+            <!-- Aperçu du jeu sélectionné -->
+            <div class="form-group" id="addGame_gamePreview" style="display: none;">
                 <div style="background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                    <img id="transfer_selectedGameCover" 
+                    <img id="addGame_selectedGameCover" 
                          src="" 
                          alt="Jaquette" 
                          style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--secondary-color);">
                     <div>
-                        <div id="transfer_selectedGameName" style="color: var(--secondary-color); font-weight: bold; margin-bottom: 0.3rem;"></div>
-                        <div id="transfer_selectedGameDetails" style="color: var(--text-color); font-size: 0.9rem;"></div>
+                        <div id="addGame_selectedGameName" style="color: var(--secondary-color); font-weight: bold; margin-bottom: 0.3rem;"></div>
+                        <div id="addGame_selectedGameDetails" style="color: var(--text-color); font-size: 0.9rem;"></div>
                     </div>
                 </div>
             </div>
@@ -95,8 +106,8 @@ $this->section('content');
             <!-- Champs visibles pour l'utilisateur -->
             <div class="form-row-status">
                 <div class="form-group">
-                    <label for="transfer_status">Statut :</label>
-                    <select name="status" id="transfer_status" class="form-control" required>
+                    <label for="addGame_status">Statut :</label>
+                    <select name="status" id="addGame_status" class="form-control" required>
                         <option value="">Choisir un statut</option>
                         <option value="en cours">En cours</option>
                         <option value="termine">Terminé</option>
@@ -105,15 +116,15 @@ $this->section('content');
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="transfer_playtime">Temps de jeu :</label>
-                    <input type="text" name="playtime" id="transfer_playtime" class="form-control" placeholder="Temps de jeu (en h)">
+                    <label for="addGame_playtime">Temps de jeu :</label>
+                    <input type="text" name="playtime" id="addGame_playtime" class="form-control" placeholder="Temps de jeu (en h)">
                 </div>
             </div>
             <div class="form-group">
-                <label for="transfer_notes">Notes :</label>
-                <textarea id="transfer_notes" name="notes" placeholder="Ajoutez vos notes sur ce jeu..."></textarea>
+                <label for="addGame_notes">Notes :</label>
+                <textarea id="addGame_notes" name="notes" placeholder="Ajoutez vos notes sur ce jeu..."></textarea>
             </div>
-            <button type="submit">Basculer vers mes jeux</button>
+            <button type="submit">Ajouter à mes jeux</button>
         </form>
     </div>
 </div>
@@ -129,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const gameId = button.getAttribute('data-id');
             if (!gameId) {
-                showToast('error', 'ID du jeu non trouvé');
+                console.error('ID du jeu non trouvé');
                 return;
             }
 
@@ -144,14 +155,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     const card = button.closest('.game-card-universal');
                     if (card) {
                         card.remove();
-                        checkEmptyWishlist();
+                        checkEmptyPage();
                     }
-                    showToast('success', 'Jeu supprimé de votre wishlist !');
                 } else {
-                    showToast('error', data.error || 'Une erreur est survenue lors de la suppression');
+                    console.error(data.error || 'Une erreur est survenue lors de la suppression');
                 }
             } catch (error) {
-                showToast('error', 'Une erreur est survenue lors de la suppression');
+                console.error('Une erreur est survenue lors de la suppression');
             }
         });
     });
@@ -174,21 +184,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const gameId = this.getAttribute('data-game-id');
             
             // Remplissage des champs cachés
-            document.getElementById('transfer_wishlist_id').value = wishlistId;
-            document.getElementById('transfer_game_id').value = gameId || '';
-            document.getElementById('transfer_searchGame').value = gameName;
-            document.getElementById('transfer_platform').value = platform || '';
-            document.getElementById('transfer_releaseYear').value = year ? new Date(year).getFullYear() : '';
-            document.getElementById('transfer_genre').value = genre || '';
-            document.getElementById('transfer_cover').value = cover || '';
-            document.getElementById('transfer_developer').value = developer || '';
-            document.getElementById('transfer_publisher').value = publisher || '';
+            document.getElementById('addGame_game_id').value = gameId || '';
+            document.getElementById('addGame_platform').value = platform || '';
+            document.getElementById('addGame_releaseYear').value = year ? year.split('-')[0] : '';
+            document.getElementById('addGame_genre').value = genre || '';
+            document.getElementById('addGame_cover').value = cover || '';
+            document.getElementById('addGame_developer').value = developer || '';
+            document.getElementById('addGame_publisher').value = publisher || '';
+            document.getElementById('addGame_searchGame').value = gameName;
+            document.getElementById('wishlist_item_id').value = wishlistId;
             
             // Affichage de l'aperçu du jeu
-            const gamePreview = document.getElementById('transfer_gamePreview');
-            const selectedGameCover = document.getElementById('transfer_selectedGameCover');
-            const selectedGameName = document.getElementById('transfer_selectedGameName');
-            const selectedGameDetails = document.getElementById('transfer_selectedGameDetails');
+            const gamePreview = document.getElementById('addGame_gamePreview');
+            const selectedGameCover = document.getElementById('addGame_selectedGameCover');
+            const selectedGameName = document.getElementById('addGame_selectedGameName');
+            const selectedGameDetails = document.getElementById('addGame_selectedGameDetails');
+            
+            // Afficher l'aperçu
+            gamePreview.style.display = 'block';
             
             // Jaquette - utiliser le placeholder si pas d'image
             if (cover) {
@@ -220,37 +233,37 @@ document.addEventListener('DOMContentLoaded', function() {
             // Détails (plateforme, année, genre)
             const details = [];
             if (platform) details.push(platform);
-            if (year) details.push(new Date(year).getFullYear());
+            if (year) details.push(year.split('-')[0]);
             if (genre) details.push(genre);
             selectedGameDetails.textContent = details.join(' • ');
             
             // Réinitialiser les champs du formulaire
-            document.getElementById('transfer_status').value = '';
-            document.getElementById('transfer_playtime').value = '';
-            document.getElementById('transfer_notes').value = '';
+            document.getElementById('addGame_status').value = '';
+            document.getElementById('addGame_playtime').value = '';
+            document.getElementById('addGame_notes').value = '';
             
-            // Ouvrir le modal de transfert
-            document.getElementById('transferGameModal').classList.add('active');
+            // Ouvrir le modal d'ajout
+            document.getElementById('addGameModal').classList.add('active');
         });
     });
 
-    // Fermeture du modal de transfert
-    document.getElementById('closeTransferModal').addEventListener('click', function() {
-        document.getElementById('transferGameModal').classList.remove('active');
+    // Fermeture du modal d'ajout
+    document.getElementById('closeAddGameModal').addEventListener('click', function() {
+        document.getElementById('addGameModal').classList.remove('active');
     });
 
-    // Fermeture du modal de transfert en cliquant à l'extérieur
+    // Fermeture du modal d'ajout en cliquant à l'extérieur
     window.addEventListener('click', function(e) {
-        const transferModal = document.getElementById('transferGameModal');
-        if (e.target === transferModal) transferModal.classList.remove('active');
+        const addGameModal = document.getElementById('addGameModal');
+        if (e.target === addGameModal) addGameModal.classList.remove('active');
     });
 
-    // Gestion du formulaire de transfert
-    document.getElementById('transferGameForm').addEventListener('submit', function(e) {
+    // Gestion du formulaire d'ajout
+    document.getElementById('addGameWishlistForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
-        const wishlistId = document.getElementById('transfer_wishlist_id').value;
+        const wishlistId = document.getElementById('wishlist_item_id').value;
         
         const jsonData = {};
         formData.forEach((value, key) => {
@@ -271,8 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                showToast('success', 'Jeu transféré vers votre collection !');
-                document.getElementById('transferGameModal').classList.remove('active');
+                document.getElementById('addGameModal').classList.remove('active');
                 
                 // Supprimer la carte de la wishlist
                 const transferBtn = document.querySelector(`[data-id="${wishlistId}"].transfer`);
@@ -280,16 +292,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     const card = transferBtn.closest('.game-card-universal');
                     if (card) {
                         card.remove();
-                        checkEmptyWishlist();
+                        checkEmptyPage();
                     }
                 }
+                
+                // Recharger la page après un court délai
+                setTimeout(() => location.reload(), 300);
             } else {
-                showToast('error', data.error || 'Erreur lors du transfert');
+                console.error(data.error || 'Erreur lors de l\'ajout');
             }
         })
         .catch(error => {
             console.error('Erreur:', error);
-            showToast('error', 'Erreur lors du transfert');
         });
     });
 
@@ -315,15 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         }
     });
-
-    function checkEmptyWishlist() {
-        const container = document.querySelector('.dashboard-row');
-        const cards = document.querySelectorAll('.game-card-universal');
-        
-        if (container && cards.length === 0) {
-            container.innerHTML = '<p class="wishlist-empty-message">Votre wishlist est vide.</p>';
-        }
-    }
 });
 </script>
 
