@@ -131,7 +131,7 @@ $this->section('content');
                     <?php else: ?>
                         <div class="game-cover-placeholder">
                             <div class="placeholder-title"><?= esc($game['name']) ?></div>
-                            <div class="placeholder-text">Jaquette indisponible</div>
+                            <div class="placeholder-text">Aucune jaquette</div>
                         </div>
                     <?php endif; ?>
                     
@@ -249,11 +249,6 @@ $this->section('content');
 const IS_USER_LOGGED_IN = <?= session()->get('user_id') ? 'true' : 'false' ?>;
 const BASE_URL = '<?= base_url() ?>';
 
-// Fonction utilitaire pour extraire l'année d'une date
-function extractYear(dateString) {
-    return dateString ? dateString.split('-')[0] : '';
-}
-
 // Fonction pour vérifier la connexion et rediriger si nécessaire
 function checkAuthAndRedirect(action = 'effectuer cette action') {
     if (!IS_USER_LOGGED_IN) {
@@ -326,12 +321,7 @@ function initGameDetailsModal() {
             .then(res => res.json())
             .then(game => {
                 gameModalBody.innerHTML = `
-                    ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : `
-                        <div style="width:220px;height:220px;margin:0 auto 1.2rem auto;background:linear-gradient(45deg, #1F1B2E, #2A1B3D);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0.5rem;box-sizing:border-box;text-align:center;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;">
-                            <div style="color:#9B5DE5;font-size:1.2rem;font-weight:bold;margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);letter-spacing:1px;line-height:1.2;">${game.name}</div>
-                            <div style="color:#BB86FC;font-size:0.9rem;opacity:0.8;max-width:85%;line-height:1.3;text-align:center;">Aucune jaquette</div>
-                        </div>
-                    `}
+                    ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : createInlineCoverPlaceholder(game.name)}
                     <h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>
                     <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">
                         Plateforme : ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnues'}<br>
@@ -503,9 +493,8 @@ function initAddGameModal() {
         if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
             gamePreview.style.display = 'block';
             
-            // Jaquette - utiliser le placeholder si pas d'image
-            if (game.background_image) {
-                selectedGameCover.src = game.background_image;
+            if (elements.addGame_cover) {
+                selectedGameCover.src = elements.addGame_cover;
                 selectedGameCover.style.display = 'block';
                 const placeholder = gamePreview.querySelector('.game-cover-placeholder');
                 if (placeholder) placeholder.style.display = 'none';
@@ -513,23 +502,21 @@ function initAddGameModal() {
                 selectedGameCover.style.display = 'none';
                 let placeholder = gamePreview.querySelector('.game-cover-placeholder');
                 if (!placeholder) {
-                    placeholder = document.createElement('div');
-                    placeholder.className = 'game-cover-placeholder size-small';
-                    placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
-                    placeholder.innerHTML = `<div class="placeholder-title">${game.name || 'Jeu sans nom'}</div>`;
+                    // Créer le placeholder en utilisant la fonction utilitaire
+                    placeholder = createSmallCoverPlaceholder(elements.addGame_searchGame);
                     selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
                 } else {
                     placeholder.style.display = 'flex';
-                    placeholder.querySelector('.placeholder-title').textContent = game.name || 'Jeu sans nom';
+                    placeholder.querySelector('.placeholder-title').textContent = elements.addGame_searchGame;
                 }
             }
             
-            selectedGameName.textContent = game.name || 'Jeu sans nom';
+            selectedGameName.textContent = elements.addGame_searchGame;
             
             const details = [];
             if (platform) details.push(platform);
-            if (game.released) details.push(extractYear(game.released));
-            if (game.genres && game.genres.length) details.push(game.genres.map(g => g.name).join(', '));
+            if (elements.addGame_releaseYear) details.push(elements.addGame_releaseYear);
+            if (elements.addGame_genre) details.push(elements.addGame_genre);
             selectedGameDetails.textContent = details.join(' • ');
         }
         
@@ -872,10 +859,8 @@ function initCalendarGameSearch() {
                     selectedGameCover.style.display = 'none';
                     let placeholder = gamePreview.querySelector('.game-cover-placeholder');
                     if (!placeholder) {
-                        placeholder = document.createElement('div');
-                        placeholder.className = 'game-cover-placeholder size-small';
-                        placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
-                        placeholder.innerHTML = `<div class="placeholder-title">${fields.addGame_searchGame}</div>`;
+                        // Créer le placeholder en utilisant la fonction utilitaire
+                        placeholder = createSmallCoverPlaceholder(fields.addGame_searchGame);
                         selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
                     } else {
                         placeholder.style.display = 'flex';

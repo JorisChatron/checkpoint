@@ -1,8 +1,3 @@
-// Fonction utilitaire pour extraire l'année d'une date
-function extractYear(dateString) {
-    return dateString ? dateString.split('-')[0] : '';
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     // Gestion du menu burger
     initBurgerMenu();
@@ -271,12 +266,7 @@ function openGameModal(gameId) {
         .then(res => res.json())
         .then(game => {
             gameModalBody.innerHTML = `
-                ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : `
-                    <div style="width:220px;height:220px;margin:0 auto 1.2rem auto;background:linear-gradient(45deg, #1F1B2E, #2A1B3D);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0.5rem;box-sizing:border-box;text-align:center;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;">
-                        <div style="color:#9B5DE5;font-size:1.2rem;font-weight:bold;margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);letter-spacing:1px;line-height:1.2;">${game.name}</div>
-                        <div style="color:#BB86FC;font-size:0.9rem;opacity:0.8;max-width:85%;line-height:1.3;text-align:center;">Aucune jaquette</div>
-                    </div>
-                `}
+                ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : createInlineCoverPlaceholder(game.name)}
                 <h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>
                 <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">
                     Plateforme : ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnue'}<br>
