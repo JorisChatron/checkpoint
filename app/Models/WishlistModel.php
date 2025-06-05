@@ -19,14 +19,6 @@ class WishlistModel extends Model
         'game_id' => 'required|numeric'
     ];
 
-    public function getWishlistByUser($userId)
-    {
-        return $this->select('wishlist.*, games.name, games.platform')
-                    ->join('games', 'games.id = wishlist.game_id')
-                    ->where('wishlist.user_id', $userId)
-                    ->findAll();
-    }
-
     public function getDistinctValues($field, $userId)
     {
         return $this->select("games.{$field}")

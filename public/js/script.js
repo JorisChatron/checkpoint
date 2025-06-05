@@ -1,18 +1,11 @@
-console.log('Script.js chargé');
-
 // Fonction utilitaire pour extraire l'année d'une date
 function extractYear(dateString) {
     return dateString ? dateString.split('-')[0] : '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM chargé, initialisation...');
-    
     // Gestion du menu burger
     initBurgerMenu();
-    
-    // Gestion de la recherche de jeux
-    initGameSearch();
     
     // Gestion des formulaires
     initForms();
@@ -25,15 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initBurgerMenu() {
-    console.log('Initialisation du burger menu...');
     const burger = document.querySelector('.burger');
     const dropdown = document.getElementById('burger-dropdown');
     
-    console.log('Burger:', burger);
-    console.log('Dropdown:', dropdown);
-    
     if (!burger || !dropdown) {
-        console.log('Burger ou dropdown non trouvé');
         return;
     }
 
@@ -43,7 +31,6 @@ function initBurgerMenu() {
     dropdown.style.visibility = 'hidden';
     dropdown.style.pointerEvents = 'none';
     dropdown.style.transform = 'translateY(-10px)';
-    console.log('Dropdown forcé fermé au démarrage');
     
     // Fonction pour fermer le dropdown
     const closeDropdown = () => {
@@ -53,7 +40,6 @@ function initBurgerMenu() {
         dropdown.style.visibility = 'hidden';
         dropdown.style.pointerEvents = 'none';
         dropdown.style.transform = 'translateY(-10px)';
-        console.log('Dropdown fermé avec styles forcés');
     };
     
     // Fonction pour ouvrir le dropdown
@@ -64,7 +50,6 @@ function initBurgerMenu() {
         dropdown.style.visibility = 'visible';
         dropdown.style.pointerEvents = 'auto';
         dropdown.style.transform = 'translateY(0)';
-        console.log('Dropdown ouvert avec styles forcés');
     };
     
     // Fonction pour basculer le dropdown
@@ -73,7 +58,6 @@ function initBurgerMenu() {
         e.stopPropagation();
         
         const isActive = dropdown.classList.contains('active');
-        console.log('Toggle dropdown, actuellement ouvert:', isActive);
         
         if (isActive) {
             closeDropdown();
@@ -84,14 +68,12 @@ function initBurgerMenu() {
     
     // Event listener sur le burger
     burger.addEventListener('click', toggleDropdown);
-    console.log('Event listener ajouté sur burger');
     
     // Fermer le menu si on clique en dehors
     document.addEventListener('click', (e) => {
         // Vérifier si le clic est à l'extérieur du burger et du dropdown
         if (!burger.contains(e.target) && !dropdown.contains(e.target)) {
             if (dropdown.classList.contains('active')) {
-                console.log('Clic en dehors détecté, fermeture dropdown');
                 closeDropdown();
             }
         }
@@ -99,9 +81,8 @@ function initBurgerMenu() {
     
     // Fermer le menu quand on clique sur un lien
     const dropdownLinks = dropdown.querySelectorAll('a');
-    dropdownLinks.forEach((link, index) => {
-        link.addEventListener('click', (e) => {
-            console.log(`Clic sur lien ${index + 1}, fermeture dropdown`);
+    dropdownLinks.forEach((link) => {
+        link.addEventListener('click', () => {
             closeDropdown();
         });
     });
@@ -109,190 +90,7 @@ function initBurgerMenu() {
     // Fermer avec la touche Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && dropdown.classList.contains('active')) {
-            console.log('Touche Escape pressée, fermeture dropdown');
             closeDropdown();
-        }
-    });
-    
-    console.log('Burger menu initialisé avec succès');
-}
-
-function initGameSearch() {
-    const searchInput = document.getElementById('searchGame');
-    const suggestionsList = document.getElementById('suggestions');
-    if (!searchInput || !suggestionsList) return;
-
-    const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
-    let searchTimeout;
-
-    const updateGameFields = async (game) => {
-        // Faire un appel API pour récupérer les détails complets du jeu
-        try {
-            const detailResponse = await fetch(`https://api.rawg.io/api/games/${game.id}?key=${API_KEY}`);
-            const gameDetails = await detailResponse.json();
-            
-            const fields = {
-                'searchGame': gameDetails.name || game.name,
-                'platform': gameDetails.platforms?.[0]?.platform?.name || game.platforms?.[0]?.platform?.name || '',
-                'releaseYear': extractYear(gameDetails.released || game.released),
-                'genre': gameDetails.genres?.map(g => g.name).join(', ') || game.genres?.map(g => g.name).join(', ') || '',
-                'cover': gameDetails.background_image || game.background_image || '',
-                'game_id': gameDetails.id || game.id || '',
-                'developer': gameDetails.developers?.map(d => d.name).join(', ') || '',
-                'publisher': gameDetails.publishers?.map(p => p.name).join(', ') || ''
-            };
-
-            // Remplir les champs cachés
-            Object.entries(fields).forEach(([id, value]) => {
-                const element = document.getElementById(id);
-                if (element) element.value = value;
-            });
-
-            // Gérer l'aperçu du jeu sélectionné
-            const gamePreview = document.getElementById('gamePreview');
-            const selectedGameCover = document.getElementById('selectedGameCover');
-            const selectedGameName = document.getElementById('selectedGameName');
-            const selectedGameDetails = document.getElementById('selectedGameDetails');
-
-            if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
-                // Afficher l'aperçu
-                gamePreview.style.display = 'block';
-                
-                // Jaquette - utiliser le placeholder si pas d'image
-                if (fields.cover) {
-                    selectedGameCover.src = fields.cover;
-                    selectedGameCover.style.display = 'block';
-                    // Cacher le placeholder s'il existe
-                    const placeholder = gamePreview.querySelector('.game-cover-placeholder');
-                    if (placeholder) placeholder.style.display = 'none';
-                } else {
-                    selectedGameCover.style.display = 'none';
-                    // Afficher le placeholder
-                    let placeholder = gamePreview.querySelector('.game-cover-placeholder');
-                    if (!placeholder) {
-                        placeholder = document.createElement('div');
-                        placeholder.className = 'game-cover-placeholder size-small';
-                        placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
-                        placeholder.innerHTML = `
-                            <div class="placeholder-title">${fields.searchGame}</div>
-                        `;
-                        selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
-                    } else {
-                        placeholder.style.display = 'flex';
-                        placeholder.querySelector('.placeholder-title').textContent = fields.searchGame;
-                    }
-                }
-                
-                // Nom du jeu
-                selectedGameName.textContent = fields.searchGame;
-                
-                // Détails (plateforme, année, genre)
-                const details = [];
-                if (fields.platform) details.push(fields.platform);
-                if (fields.releaseYear) details.push(fields.releaseYear);
-                if (fields.genre) details.push(fields.genre);
-                selectedGameDetails.textContent = details.join(' • ');
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération des détails:', error);
-            // Fallback avec les données de base
-            const fields = {
-                'searchGame': game.name,
-                'platform': game.platforms?.[0]?.platform?.name || '',
-                'releaseYear': extractYear(game.released),
-                'genre': game.genres?.map(g => g.name).join(', ') || '',
-                'cover': game.background_image || '',
-                'game_id': game.id || ''
-            };
-
-            Object.entries(fields).forEach(([id, value]) => {
-                const element = document.getElementById(id);
-                if (element) element.value = value;
-            });
-
-            // Fallback pour l'aperçu aussi
-            const gamePreview = document.getElementById('gamePreview');
-            const selectedGameCover = document.getElementById('selectedGameCover');
-            const selectedGameName = document.getElementById('selectedGameName');
-            const selectedGameDetails = document.getElementById('selectedGameDetails');
-
-            if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
-                gamePreview.style.display = 'block';
-                
-                // Jaquette - utiliser le placeholder si pas d'image
-                if (fields.cover) {
-                    selectedGameCover.src = fields.cover;
-                    selectedGameCover.style.display = 'block';
-                    // Cacher le placeholder s'il existe
-                    const placeholder = gamePreview.querySelector('.game-cover-placeholder');
-                    if (placeholder) placeholder.style.display = 'none';
-                } else {
-                    selectedGameCover.style.display = 'none';
-                    // Afficher le placeholder
-                    let placeholder = gamePreview.querySelector('.game-cover-placeholder');
-                    if (!placeholder) {
-                        placeholder = document.createElement('div');
-                        placeholder.className = 'game-cover-placeholder size-small';
-                        placeholder.style.cssText = 'width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--secondary-color); margin-right: 1rem;';
-                        placeholder.innerHTML = `
-                            <div class="placeholder-title">${fields.searchGame}</div>
-                        `;
-                        selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
-                    } else {
-                        placeholder.style.display = 'flex';
-                        placeholder.querySelector('.placeholder-title').textContent = fields.searchGame;
-                    }
-                }
-                
-                selectedGameName.textContent = fields.searchGame;
-                
-                const details = [];
-                if (fields.platform) details.push(fields.platform);
-                if (fields.releaseYear) details.push(fields.releaseYear);
-                if (fields.genre) details.push(fields.genre);
-                selectedGameDetails.textContent = details.join(' • ');
-            }
-        }
-    };
-
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        const query = e.target.value.trim();
-        
-        if (query.length < 2) {
-            suggestionsList.innerHTML = '';
-            return;
-        }
-
-        searchTimeout = setTimeout(async () => {
-            try {
-                const response = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}&search=${query}`);
-                const data = await response.json();
-                
-                suggestionsList.innerHTML = '';
-                if (data.results?.length) {
-                    data.results.forEach(game => {
-                        const li = document.createElement('li');
-                        li.textContent = game.name;
-                        li.addEventListener('click', async () => {
-                            await updateGameFields(game);
-                            suggestionsList.innerHTML = '';
-                        });
-                        suggestionsList.appendChild(li);
-                    });
-                } else {
-                    suggestionsList.innerHTML = '<li>Aucun résultat trouvé</li>';
-                }
-            } catch (error) {
-                console.error('Erreur recherche:', error);
-                suggestionsList.innerHTML = '<li>Erreur lors de la recherche</li>';
-            }
-        }, 300);
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
-            suggestionsList.innerHTML = '';
         }
     });
 }
@@ -575,77 +373,6 @@ async function addToWishlistFromRawg(rawg) {
         }
     } catch (error) {
         console.error(error);
-    }
-}
-
-// Fonction pour ajouter à la wishlist depuis un jeu de la DB
-async function addToWishlistFromGame(game) {
-    const gameData = {
-        game_id: game.id,
-        searchGame: game.name,
-        platform: game.platform,
-        releaseYear: extractYear(game.release_date),
-        genre: game.category,
-        cover: game.cover
-    };
-    
-    try {
-        const response = await fetch(window.CP_BASE_URL + 'wishlist/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify(gameData)
-        });
-        const data = await response.json();
-        if (data.success) {
-            document.getElementById('gameModal').classList.remove('active');
-            // Recharger la page si on est sur la page wishlist pour voir le nouveau jeu
-            if (window.location.pathname.includes('wishlist')) {
-                setTimeout(() => location.reload(), 300);
-            }
-        } else {
-            console.error(data.error || data.message || 'Erreur lors de l\'ajout');
-        }
-    } catch (e) {
-        console.error('Erreur lors de l\'ajout à la wishlist');
-    }
-}
-
-// Fonction pour ajouter directement à mes jeux depuis un jeu de la DB
-async function addToMyGamesFromGame(game) {
-    const gameData = {
-        game_id: game.id,
-        searchGame: game.name,
-        platform: game.platform,
-        releaseYear: extractYear(game.release_date),
-        genre: game.category,
-        cover: game.cover,
-        status: 'en cours'
-    };
-    
-    try {
-        const response = await fetch(window.CP_BASE_URL + 'mes-jeux/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify(gameData)
-        });
-        const data = await response.json();
-        if (data.success) {
-            document.getElementById('gameModal').classList.remove('active');
-            // Recharger la page si on est sur la page mes-jeux pour voir le nouveau jeu
-            if (window.location.pathname.includes('mes-jeux')) {
-                setTimeout(() => location.reload(), 300);
-            }
-        } else {
-            console.error(data.error || data.message || 'Erreur lors de l\'ajout');
-        }
-    } catch (e) {
-        console.error('Erreur lors de l\'ajout');
     }
 }
 

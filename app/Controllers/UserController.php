@@ -92,40 +92,6 @@ class UserController extends BaseController
     }
 
     /**
-     * Gère l'inscription d'un nouvel utilisateur
-     * Valide les données et crée le compte
-     * 
-     * @return mixed Vue avec erreurs ou redirection
-     */
-    public function register()
-    {
-        $validation = \Config\Services::validation();
-
-        $validation->setRules([
-            'username' => 'required|min_length[3]',
-            'email'    => 'required|valid_email',
-            'password' => 'required|min_length[6]'
-        ]);
-
-        if (! $validation->withRequest($this->request)->run()) {
-            return view('auth/register', [
-                'validation' => $validation
-            ]);
-        }
-
-        $userModel = new UserModel();
-
-        $userModel->save([
-            'username' => $this->request->getPost('username'),
-            'email'    => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'profile_picture' => 'images/burger-icon.png', // Change l'image par défaut
-        ]);
-
-        return redirect()->to('/'); // Redirige vers la page d'accueil
-    }
-
-    /**
      * Met à jour l'ordre des jeux dans le top 5 de l'utilisateur
      * 
      * @return \CodeIgniter\HTTP\Response Réponse JSON

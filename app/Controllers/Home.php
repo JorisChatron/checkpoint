@@ -2,9 +2,7 @@
 // Définition de l'espace de noms pour ce contrôleur
 namespace App\Controllers;
 
-// Import des modèles et classes nécessaires
-use App\Models\GameModel;        // Modèle pour la gestion des jeux
-use App\Models\GameStatsModel;   // Modèle pour les statistiques des jeux
+// Import des classes nécessaires
 use CodeIgniter\Database\BaseConnection;  // Classe pour la connexion à la base de données
 
 /**

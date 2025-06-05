@@ -10,6 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('profile', 'UserController::profile');
 $routes->post('profile/upload', 'UserController::upload');
+$routes->post('profile/updateTop5', 'UserController::updateTop5');
 $routes->get('wishlist', 'WishlistController::index');
 $routes->get('register', 'Auth::showRegisterForm');
 $routes->post('register', 'Auth::register');

@@ -390,7 +390,8 @@ header {
 }
 
 /* =================== Message vide pour les listes =================== */
-.wishlist-empty-message {
+.wishlist-empty-message,
+.games-empty-message {
     text-align: center;
     color: var(--secondary-color);
     background: var(--background-darker);
