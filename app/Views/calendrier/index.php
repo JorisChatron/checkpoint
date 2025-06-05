@@ -117,7 +117,7 @@ $this->section('content');
             </div>
         </div>
     </form>
-    <div class="dashboard-row calendar-games-grid">
+    <div class="dashboard-row">
         <?php if (empty($games)): ?>
             <p style="color:#9B5DE5;text-align:center;width:100%;grid-column: 1 / -1;">Aucune sortie prévue pour cette semaine.</p>
         <?php else: ?>
@@ -361,19 +361,23 @@ function initGameDetailsModal() {
             .then(res => res.json())
             .then(game => {
                 gameModalBody.innerHTML = `
-                    <h2 style="color:#9B5DE5;margin-bottom:1rem;">${game.name}</h2>
-                    ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:100%;max-width:400px;height:200px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.5rem;">` : ''}
-                    <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:1.2rem;">
-                        <strong>Plateformes :</strong> ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnues'}<br>
-                        <strong>Date de sortie :</strong> ${game.released || 'Inconnue'}<br>
-                        <strong>Genres :</strong> ${game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : 'Inconnus'}<br>
-                        <strong>Développeur :</strong> ${game.developers && game.developers.length ? game.developers.map(d=>d.name).join(', ') : 'Inconnu'}<br>
-                        <strong>Éditeur :</strong> ${game.publishers && game.publishers.length ? game.publishers.map(p=>p.name).join(', ') : 'Inconnu'}
+                    ${game.background_image ? `<img src="${game.background_image}" alt="${game.name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : `
+                        <div style="width:220px;height:220px;margin:0 auto 1.2rem auto;background:linear-gradient(45deg, #1F1B2E, #2A1B3D);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0.5rem;box-sizing:border-box;text-align:center;border:2px solid #7F39FB;box-shadow:0 2px 8px #7F39FB44;">
+                            <div style="color:#9B5DE5;font-size:1.2rem;font-weight:bold;margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);letter-spacing:1px;line-height:1.2;">${game.name}</div>
+                            <div style="color:#BB86FC;font-size:0.9rem;opacity:0.8;max-width:85%;line-height:1.3;text-align:center;">Aucune jaquette</div>
+                        </div>
+                    `}
+                    <h2 style="color:#9B5DE5;margin-bottom:0.7rem;">${game.name}</h2>
+                    <div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">
+                        Plateforme : ${game.platforms && game.platforms.length ? game.platforms.map(p=>p.platform.name).join(', ') : 'Inconnues'}<br>
+                        Année : ${game.released || 'Inconnue'}<br>
+                        Genre : ${game.genres && game.genres.length ? game.genres.map(g=>g.name).join(', ') : 'Inconnus'}
                     </div>
+                    ${game.developers && game.developers.length ? `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">Développeur : ${game.developers.map(d=>d.name).join(', ')}</div>` : ''}
+                    ${game.publishers && game.publishers.length ? `<div style="color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;">Éditeur : ${game.publishers.map(p=>p.name).join(', ')}</div>` : ''}
                     <div style="color:#E0F7FA;font-size:1rem;margin-bottom:1.5rem;max-height:120px;overflow:auto;">
                         ${game.description_raw || '<i>Aucune description disponible.</i>'}
                     </div>
-                    <br><br>
                     <button id="addToWishlistBtn" style="margin-top:1rem;padding:0.7rem 2.2rem;background:#7F39FB;color:#fff;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à la wishlist</button>
                     <button id="addToMyGamesBtn" style="margin-top:1rem;margin-left:1rem;padding:0.7rem 2.2rem;background:#00E5FF;color:#1E1E2F;border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;">Ajouter à mes jeux</button>
                     <div id="wishlistMsg" style="margin-top:1rem;font-size:1rem;"></div>

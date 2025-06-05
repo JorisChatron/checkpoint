@@ -4,6 +4,7 @@ $this->extend('layouts/default');
 $this->section('content');
 ?>
 
+<section class="dashboard-home">
 <h2>Ma Wishlist</h2>
 <button id="openModal" class="btn btn-primary">Ajouter un jeu</button>
 
@@ -24,7 +25,7 @@ $this->section('content');
 </form>
 
 <?php if (!empty($wishlist)): ?>
-<div class="wishlist-carousel">
+<div class="dashboard-row">
     <?php foreach ($wishlist as $game): ?>
         <div class="game-card-universal">
             <?php if (!empty($game['cover'])): ?>
@@ -191,6 +192,7 @@ $this->section('content');
         </form>
     </div>
 </div>
+</section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -440,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function checkEmptyWishlist() {
-        const container = document.querySelector('.wishlist-carousel');
+        const container = document.querySelector('.dashboard-row');
         const cards = document.querySelectorAll('.game-card-universal');
         
         if (container && cards.length === 0) {

@@ -1,6 +1,7 @@
 <?php $this->extend('layouts/default'); ?>
 <?php $this->section('content'); ?>
 
+<section class="dashboard-home">
 <h2>Mes Jeux</h2>
 <button id="openModal" class="btn btn-primary">Ajouter un jeu</button>
 
@@ -311,4 +312,5 @@ window.addEventListener('click', function(e) {
 });
 </script>
 
+</section>
 <?php $this->endSection(); ?>

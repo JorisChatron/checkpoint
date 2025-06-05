@@ -404,6 +404,215 @@ header {
     font-family: 'Orbitron', sans-serif;
 }
 
+/* =================== Wishlist =================== */
+
+.wishlist-carousel {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    margin: 2rem 0;
+}
+
+.wishlist-card {
+    position: relative;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 480px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: cardFadeIn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.wishlist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(127, 57, 251, 0.3);
+    border-color: var(--secondary-color);
+}
+
+.wishlist-card .card-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid var(--primary-color);
+    flex-shrink: 0;
+}
+
+.wishlist-card .card-info {
+    padding: 0.8rem;
+    background: var(--background-darker);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.wishlist-card .card-title {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    margin: 0 0 0.6rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.wishlist-card .card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 220px;
+    padding-right: 0.3rem;
+}
+
+.wishlist-card .card-detail {
+    color: var(--secondary-color);
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+}
+
+.wishlist-card .card-detail strong {
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 0.1rem;
+}
+
+/* ===================Boutons sur les cartes =================== */
+.btn-action {
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    font-size: 1.2rem;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* =================== Style unifié pour les boutons dans toutes les cartes =================== */
+.wishlist-card .card-actions,
+.game-card .card-actions,
+.carousel-card .card-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 15;
+}
+
+.wishlist-card .card-actions .btn-action,
+.game-card .card-actions .btn-action,
+.carousel-card .card-actions .btn-action,
+.game-card .btn-action,
+.carousel-card .btn-action {
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    /* Réinitialiser les styles inline pour "mes jeux" */
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 35px !important;
+    height: 35px !important;
+    background: var(--background-darker) !important;
+    border: 2px solid var(--primary-color) !important;
+    color: var(--text-color) !important;
+    border-radius: 50% !important;
+    font-size: 1.2rem !important;
+}
+
+/* =================== Affichage des boutons au hover =================== */
+.wishlist-card:hover .btn-action,
+.game-card:hover .btn-action,
+.wishlist-card:hover .card-actions .btn-action,
+.game-card:hover .card-actions .btn-action,
+.carousel-card:hover .btn-action,
+.carousel-card:hover .card-actions .btn-action {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.btn-action:hover {
+    background: var(--primary-color) !important;
+    color: var(--accent-color) !important;
+    transform: scale(1.1) !important;
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 4px 15px rgba(127, 57, 251, 0.4) !important;
+}
+
+.btn-action.delete:hover {
+    background: #FF6F61 !important;
+    border-color: #FF6F61 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(255, 111, 97, 0.4) !important;
+}
+
+.btn-action.transfer {
+    border-color: #00E5FF !important;
+    color: #00E5FF !important;
+}
+
+.btn-action.transfer:hover {
+    background: #00E5FF !important;
+    color: var(--background-darker) !important;
+    border-color: #00E5FF !important;
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4) !important;
+}
+
+.btn-action.edit {
+    border-color: #00E5FF !important;
+    color: #00E5FF !important;
+}
+
+.btn-action.edit:hover {
+    background: #00E5FF !important;
+    color: var(--background-darker) !important;
+    border-color: #00E5FF !important;
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4) !important;
+}
+
+/* =================== Toujours afficher les boutons sur les écrans tactiles =================== */
+@media (hover: none) and (pointer: coarse) {
+    .btn-action,
+    .wishlist-card .card-actions {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    
+    button,
+    .home-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .navbar-search input[type="text"] {
+        min-height: 40px;
+    }
+    
+    /* PAS de changement pour le dropdown - il doit rester contrôlé par JavaScript */
+}
+
 /* =================== Filtres =================== */
 .filters-bar {
     display: flex;
@@ -656,11 +865,53 @@ input[type="button"]:hover {
 }
 
 /* =================== Placeholder pour jaquettes =================== */
+.default-game-cover,
+.game-cover-placeholder {
+    background: linear-gradient(45deg, #1F1B2E, #2A1B3D);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    text-align: center;
+    border: 2px solid #7F39FB;
+    box-shadow: 0 2px 8px #7F39FB44;
+    width: 100%;
+    height: 100%;
+}
+
+.default-game-cover .game-title,
+.game-cover-placeholder .placeholder-title {
+    color: #9B5DE5;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.5px;
     line-height: 1.2;
 }
 
+.default-game-cover .no-cover-text,
+.game-cover-placeholder .placeholder-text {
+    color: #BB86FC;
+    opacity: 0.8;
+    line-height: 1.3;
+    font-size: 0.8rem;
+}
+
+/* =================== Auth =================== */
+.auth-section {
+    max-width: 420px;
+    margin: 3.5rem auto 2.5rem auto;
+    background: var(--background-darker);
+    border-radius: 18px;
+    box-shadow: 0 0 20px #7F39FB33;
+    padding: 2.5rem 2rem 2rem 2rem;
+}
+
+.auth-title {
+    color: var(--secondary-color);
+    font-size: 2rem;
     margin-bottom: 2rem;
     font-family: 'Orbitron', sans-serif;
     text-align: center;
@@ -799,6 +1050,119 @@ input[type="button"]:hover {
     gap: 1.2rem;
     margin: 2.5rem 0 1.5rem 0;
 }
+
+/* =================== Calendrier =================== */
+/* =================== Grille spécifique pour le calendrier - taille fixe =================== */
+.calendar-games-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, 200px) !important;
+    gap: 1.5rem !important;
+    justify-content: center !important;
+    margin-bottom: 2rem;
+}
+
+/* =================== Desktop - cartes plus grandes comme dashboard-row =================== */
+@media (min-width: 1201px) {
+    .calendar-games-grid {
+        grid-template-columns: repeat(auto-fill, 250px) !important;
+        gap: 2rem !important;
+    }
+    
+    .calendrier-card {
+        height: 200px !important; /* Augmentation significative pour plus de texte */
+    }
+}
+
+.calendrier-card {
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    height: 160px; /* Réduction de la hauteur pour mobile */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: cardFadeIn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    width: 100%; /* Utilise la largeur de la grille */
+    max-width: none; /* Retire la largeur fixe */
+}
+
+.calendrier-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(127, 57, 251, 0.3);
+    border-color: var(--secondary-color);
+}
+
+/* =================== Ajustement des images dans les cartes calendrier =================== */
+.calendrier-card img {
+    width: 100%;
+    height: 60%; /* Laisse 40% pour le texte */
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+/* =================== Ajustement du container de texte =================== */
+.calendrier-card .calendar-text-container {
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+    height: 40%; /* Utilise les 40% restants */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+/* =================== Nom du jeu - plus lisible =================== */
+.calendrier-card .game-name {
+    font-weight: bold;
+    color: #9B5DE5;
+    font-size: 0.95rem;
+    text-shadow: 0 2px 8px #000;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+/* =================== Date de sortie - plus visible =================== */
+.calendrier-card .release-date {
+    color: #BB86FC;
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+    line-height: 1.1;
+}
+
+/* =================== Ajustement pour les placeholder =================== */
+.calendrier-card .default-game-cover {
+    height: 60%;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.calendrier-card .default-game-cover .game-title {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+}
+
+.calendrier-card .default-game-cover .no-cover-text {
+    font-size: 0.7rem;
+}
+
+/* =================== Layouts principaux =================== */
+main {
+    max-width: 1200px;
     margin: 2rem auto;
     background-color: var(--background-darker);
     padding: 2rem;
@@ -1020,6 +1384,21 @@ input[type="button"]:hover {
     }
     
     /* Cartes mobile */
+    .wishlist-carousel {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+    
+    .wishlist-card {
+        height: 420px;
+    }
+    
+    .wishlist-card .card-cover {
+        height: 180px;
+    }
+    
+    .wishlist-card .card-actions {
+        opacity: 1;
     }
     
     /* Modales mobile */
@@ -1313,6 +1692,7 @@ input[type="text"].calendar-search-input {
 }
 
 /* =================== SYSTÈME DE CARTES UNIFIÉ =================== */
+/* Carte de jeu universelle - remplace .game-card, .wishlist-card, .calendrier-card */
 .game-card-universal {
     background: var(--background-dark);
     border: 2px solid var(--primary-color);
