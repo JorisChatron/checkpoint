@@ -34,32 +34,31 @@
 <?php if (!empty($games)): ?>
 <div class="dashboard-row">
     <?php foreach ($games as $game): ?>
-        <div class="game-card carousel-card" style="cursor: pointer;" data-game='<?= htmlspecialchars(json_encode($game, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') ?>'>
-            <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
-                <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
-                    <?= esc($game['name']) ?>
-                </span>
+        <div class="game-card-universal" data-game='<?= htmlspecialchars(json_encode($game, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') ?>'>
+            <?php if (!empty($game['cover'])): ?>
+                <img src="<?= esc($game['cover']) ?>" alt="<?= esc($game['name']) ?>" class="card-image">
+            <?php else: ?>
+                <div class="game-cover-placeholder">
+                    <div class="placeholder-title"><?= esc($game['name']) ?></div>
+                    <div class="placeholder-text">Aucune jaquette</div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Overlay titre -->
+            <div class="card-title-overlay">
+                <span><?= esc($game['name']) ?></span>
             </div>
             
-            <!-- Nouveaux boutons dans le style wishlist -->
+            <!-- Boutons d'action -->
             <div class="card-actions">
-                <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">&times;</button>
+                <button type="button" class="btn-action delete" title="Supprimer" data-id="<?= $game['id'] ?>">✕</button>
                 <button type="button" class="btn-action edit" title="Modifier" 
                         data-id="<?= $game['id'] ?>" 
                         data-status="<?= esc($game['status']) ?>" 
                         data-playtime="<?= esc($game['play_time']) ?>" 
                         data-notes="<?= esc($game['notes']) ?>" 
-                        data-name="<?= esc($game['name']) ?>">⋯</button>
+                        data-name="<?= esc($game['name']) ?>">✎</button>
             </div>
-            
-            <?php if (!empty($game['cover'])): ?>
-                <img src="<?= esc($game['cover']) ?>" alt="<?= esc($game['name']) ?>" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
-            <?php else: ?>
-                <div class="game-cover-placeholder size-large" style="width:100%;height:100%;border-radius:12px;">
-                    <div class="placeholder-title"><?= esc($game['name']) ?></div>
-                    <div class="placeholder-text">Aucune jaquette</div>
-                </div>
-            <?php endif; ?>
         </div>
     <?php endforeach; ?>
 </div>
@@ -179,7 +178,7 @@
 </div>
 
 <script>
-document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
+document.querySelectorAll('.dashboard-row .game-card-universal').forEach(card => {
     card.addEventListener('click', function(e) {
         // Empêche le clic sur les boutons d'action d'ouvrir le modal
         // Vérifie si l'élément cliqué ou un de ses parents est un bouton d'action

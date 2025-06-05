@@ -122,22 +122,25 @@ $this->section('content');
             <p style="color:#9B5DE5;text-align:center;width:100%;grid-column: 1 / -1;">Aucune sortie prévue pour cette semaine.</p>
         <?php else: ?>
             <?php foreach ($games as $game): ?>
-                <div class="game-card calendrier-card" 
+                <div class="game-card-universal" 
                      data-game-id="<?= esc($game['id']) ?>">
                     <?php if (!empty($game['background_image'])): ?>
                         <img src="<?= esc($game['background_image']) ?>" 
-                             alt="<?= esc($game['name']) ?>">
+                             alt="<?= esc($game['name']) ?>"
+                             class="card-image">
                     <?php else: ?>
-                        <div class="default-game-cover">
-                            <div class="game-title"><?= esc($game['name']) ?></div>
-                            <div class="no-cover-text">Jaquette indisponible</div>
+                        <div class="game-cover-placeholder">
+                            <div class="placeholder-title"><?= esc($game['name']) ?></div>
+                            <div class="placeholder-text">Jaquette indisponible</div>
                         </div>
                     <?php endif; ?>
-                    <div class="calendar-text-container">
-                        <div class="game-name">
+                    
+                    <!-- Info overlay en bas avec date de sortie -->
+                    <div class="card-info-overlay">
+                        <div class="card-name">
                             <?= esc($game['name']) ?>
                         </div>
-                        <div class="release-date">
+                        <div class="card-date">
                             Sortie : <?= !empty($game['released']) ? date('d/m/Y', strtotime($game['released'])) : 'Date inconnue' ?>
                         </div>
                     </div>
@@ -459,7 +462,7 @@ function initGameDetailsModal() {
     });
     
     // Attacher les event listeners aux cartes de jeux
-    document.querySelectorAll('.calendrier-card').forEach(card => {
+    document.querySelectorAll('.game-card-universal').forEach(card => {
         card.addEventListener('click', function() {
             const gameId = this.dataset.gameId;
             if (gameId) {
@@ -653,7 +656,7 @@ function initSearchAndFilters() {
     // A. Recherche de jeux dans le calendrier
     const searchInput = document.getElementById('searchGame');
     const clearSearchBtn = document.getElementById('clearSearch');
-    const cards = document.querySelectorAll('.calendrier-card');
+    const cards = document.querySelectorAll('.game-card-universal');
     
     console.log('Éléments de recherche trouvés:', {
         searchInput: !!searchInput,
@@ -742,7 +745,7 @@ function initSearchAndFilters() {
     
     // C. Ajout des genres sur chaque carte pour le filtrage
     <?php foreach ($games as $game): ?>
-        const card_<?= $game['id'] ?> = document.querySelector('.calendrier-card[data-game-id="<?= $game['id'] ?>"]');
+        const card_<?= $game['id'] ?> = document.querySelector('.game-card-universal[data-game-id="<?= $game['id'] ?>"]');
         if (card_<?= $game['id'] ?>) {
             card_<?= $game['id'] ?>.dataset.genres = "<?= isset($game['genres']) ? implode(',', array_map(function($g){return $g['slug'];}, $game['genres'])) : '' ?>";
         }

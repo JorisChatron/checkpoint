@@ -26,63 +26,31 @@ $this->section('content');
 <?php if (!empty($wishlist)): ?>
 <div class="wishlist-carousel">
     <?php foreach ($wishlist as $game): ?>
-        <div class="wishlist-card">
+        <div class="game-card-universal">
             <?php if (!empty($game['cover'])): ?>
                 <img src="<?= esc($game['cover']) ?>"
                      alt="<?= esc($game['name']) ?>"
-                     class="card-cover">
+                     class="card-image">
             <?php else: ?>
-                <div class="card-cover game-cover-placeholder size-medium">
+                <div class="game-cover-placeholder">
                     <div class="placeholder-title"><?= esc($game['name']) ?></div>
                     <div class="placeholder-text">Aucune jaquette</div>
-            </div>
+                </div>
             <?php endif; ?>
             
+            <!-- Boutons d'action -->
             <div class="card-actions">
-                <button type="button" class="btn-action delete" data-id="<?= $game['id'] ?>" title="Supprimer">&times;</button>
-                <button type="button" 
-                        class="btn-action transfer" 
-                        data-id="<?= $game['id'] ?>"
-                        data-name="<?= esc($game['name']) ?>"
-                        data-platform="<?= esc($game['platform']) ?>"
-                        data-year="<?= esc($game['release_date']) ?>"
-                        data-genre="<?= esc($game['category']) ?>"
-                        data-cover="<?= esc($game['cover']) ?>"
-                        data-developer="<?= esc($game['developer']) ?>"
-                        data-publisher="<?= esc($game['publisher']) ?>"
-                        data-game-id="<?= esc($game['game_id']) ?>"
-                        title="Basculer vers mes jeux">
-                    ➤
-                </button>
+                <button type="button" class="btn-action delete" title="Supprimer de la wishlist" data-id="<?= $game['id'] ?>">✕</button>
+                <button type="button" class="btn-action transfer" title="Déplacer vers Mes Jeux" data-id="<?= $game['id'] ?>">➤</button>
             </div>
             
-            <div class="card-info">
-                <h3 class="card-title"><?= esc($game['name']) ?></h3>
-                <div class="card-details">
-                    <div class="card-detail">
-                        <strong>Plateforme</strong>
-                        <span><?= esc(!empty($game['platform']) ? $game['platform'] : 'Inconnue') ?></span>
-                    </div>
-                    <div class="card-detail">
-                        <strong>Sortie</strong>
-                        <span><?= esc(!empty($game['release_date']) ? date('d/m/Y', strtotime($game['release_date'])) : 'Date inconnue') ?></span>
-                    </div>
-                    <div class="card-detail">
-                        <strong>Genre</strong>
-                        <span><?= esc(!empty($game['category']) ? $game['category'] : 'Inconnu') ?></span>
-                    </div>
-                    <?php if (!empty($game['developer'])): ?>
-                    <div class="card-detail">
-                        <strong>Développeur</strong>
-                        <span><?= esc($game['developer']) ?></span>
-                    </div>
-                    <?php endif; ?>
-                    <?php if (!empty($game['publisher'])): ?>
-                    <div class="card-detail">
-                        <strong>Éditeur</strong>
-                        <span><?= esc($game['publisher']) ?></span>
-                    </div>
-                    <?php endif; ?>
+            <!-- Détails simples comme le calendrier : nom + date de sortie -->
+            <div class="card-info-overlay">
+                <div class="card-name">
+                    <?= esc($game['name']) ?>
+                </div>
+                <div class="card-date">
+                    Sortie : <?= esc(!empty($game['release_date']) ? date('d/m/Y', strtotime($game['release_date'])) : 'Date inconnue') ?>
                 </div>
             </div>
         </div>
@@ -319,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (data.success) {
-                    const card = button.closest('.wishlist-card');
+                    const card = button.closest('.game-card-universal');
                     if (card) {
                         card.remove();
                         checkEmptyWishlist();
@@ -455,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Supprimer la carte de la wishlist
                 const transferBtn = document.querySelector(`[data-id="${wishlistId}"].transfer`);
                 if (transferBtn) {
-                    const card = transferBtn.closest('.wishlist-card');
+                    const card = transferBtn.closest('.game-card-universal');
                     if (card) {
                         card.remove();
                         checkEmptyWishlist();
@@ -473,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkEmptyWishlist() {
         const container = document.querySelector('.wishlist-carousel');
-        const cards = document.querySelectorAll('.wishlist-card');
+        const cards = document.querySelectorAll('.game-card-universal');
         
         if (container && cards.length === 0) {
             container.innerHTML = '<p class="wishlist-empty-message">Votre wishlist est vide.</p>';

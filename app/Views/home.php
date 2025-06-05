@@ -43,7 +43,7 @@ $this->section('content');
     <h2>Derniers jeux ajoutés</h2>
     <div class="dashboard-row" id="last-played-games">
         <?php foreach (($lastPlayedGames ?? []) as $game): ?>
-            <div class="game-card" style="position:relative; padding:0;"
+            <div class="game-card-universal" 
                 data-name="<?= esc($game['name']) ?>"
                 data-cover="<?= !empty($game['cover']) ? esc((strpos($game['cover'], 'http') === 0 ? $game['cover'] : base_url($game['cover']))): base_url('/public/images/default-cover.png') ?>"
                 data-platform="<?= esc($game['platform'] ?? '') ?>"
@@ -58,17 +58,17 @@ $this->section('content');
                     $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
                 ?>
                 <?php if (!empty($cover)): ?>
-                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" class="card-image">
                 <?php else: ?>
-                    <div class="game-cover-placeholder size-large" style="width:100%; height:100%; border-radius:10px;">
+                    <div class="game-cover-placeholder">
                         <div class="placeholder-title"><?= esc($game['name']) ?></div>
                         <div class="placeholder-text">Aucune jaquette</div>
                     </div>
                 <?php endif; ?>
-                <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
-                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
-                        <?= esc($game['name']) ?>
-                    </span>
+                
+                <!-- Overlay titre -->
+                <div class="card-title-overlay">
+                    <span><?= esc($game['name']) ?></span>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -77,7 +77,7 @@ $this->section('content');
     <h2>Mon top 5</h2>
     <div class="dashboard-row" id="top5-games">
         <?php foreach (($top5 ?? []) as $idx => $game): ?>
-            <div class="game-card" style="position:relative; padding:0;"
+            <div class="game-card-universal" 
                 data-name="<?= esc($game['name']) ?>"
                 data-cover="<?= !empty($game['cover']) ? esc((strpos($game['cover'], 'http') === 0 ? $game['cover'] : base_url($game['cover']))): base_url('/public/images/default-cover.png') ?>"
                 data-platform="<?= esc($game['platform'] ?? '') ?>"
@@ -92,17 +92,17 @@ $this->section('content');
                     $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
                 ?>
                 <?php if (!empty($cover)): ?>
-                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" class="card-image">
                 <?php else: ?>
-                    <div class="game-cover-placeholder size-large" style="width:100%; height:100%; border-radius:10px;">
+                    <div class="game-cover-placeholder">
                         <div class="placeholder-title">#<?= $idx+1 ?> <?= esc($game['name']) ?></div>
                         <div class="placeholder-text">Aucune jaquette</div>
                     </div>
                 <?php endif; ?>
-                <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
-                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
-                        #<?= $idx+1 ?> <?= esc($game['name']) ?>
-                    </span>
+                
+                <!-- Overlay titre avec numéro -->
+                <div class="card-title-overlay">
+                    <span>#<?= $idx+1 ?> <?= esc($game['name']) ?></span>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -129,7 +129,7 @@ $this->section('content');
     </div>
 </div>
 <script>
-document.querySelectorAll('.dashboard-row .game-card').forEach(card => {
+document.querySelectorAll('.dashboard-row .game-card-universal').forEach(card => {
     card.addEventListener('click', function(e) {
         // Empêche le clic sur le bouton supprimer d'ouvrir le modal (sécurité, même si pas présent ici)
         if (e.target.classList.contains('btn-action')) return;

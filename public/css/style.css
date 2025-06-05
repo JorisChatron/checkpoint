@@ -1688,4 +1688,214 @@ input[type="text"].calendar-search-input {
     width: 100%;
     margin-top: 0.5rem;
     flex-wrap: wrap;
-} 
+}
+
+/* =================== SYSTÈME DE CARTES UNIFIÉ =================== */
+/* Carte de jeu universelle - remplace .game-card, .wishlist-card, .calendrier-card */
+.game-card-universal {
+    background: var(--background-dark);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    width: 200px;
+    height: 280px;
+    overflow: hidden;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    cursor: pointer;
+}
+
+.game-card-universal:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(127, 57, 251, 0.3);
+}
+
+/* Image de la carte */
+.game-card-universal .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+/* Placeholder pour jeux sans image */
+.game-card-universal .game-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--background-darker), var(--background-dark));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px solid var(--primary-color);
+}
+
+.game-cover-placeholder .placeholder-title {
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.game-cover-placeholder .placeholder-text {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Overlay titre (pour accueil, mes-jeux) */
+.game-card-universal .card-title-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+}
+
+.game-card-universal .card-title-overlay span {
+    display: block;
+    padding: 0.5rem 0 0.2rem 0;
+    font-weight: bold;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    text-shadow: 0 2px 8px #000;
+    letter-spacing: 1px;
+    background: rgba(31, 27, 46, 0.7);
+    border-radius: 12px 12px 0 0;
+}
+
+/* Overlay info bas (pour calendrier) */
+.game-card-universal .card-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(31, 27, 46, 0.9);
+    padding: 0.8rem;
+    border-radius: 0 0 10px 10px;
+    z-index: 2;
+}
+
+.game-card-universal .card-name {
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+}
+
+.game-card-universal .card-date {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Boutons d'action (pour mes-jeux, wishlist) */
+.game-card-universal .card-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+
+.game-card-universal:hover .card-actions {
+    opacity: 1;
+}
+
+.game-card-universal .btn-action {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    /* SURCHARGE les règles anciennes */
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+}
+
+.game-card-universal .btn-action.delete {
+    background: linear-gradient(45deg, #ff4757, #ff3742);
+}
+
+.game-card-universal .btn-action.edit {
+    background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+}
+
+.game-card-universal .btn-action.transfer {
+    background: linear-gradient(45deg, #2ed573, #1dd1a1);
+}
+
+.game-card-universal .btn-action:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Détails étendus (pour wishlist) */
+.game-card-universal .card-details-extended {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(31, 27, 46, 0.95);
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+    z-index: 2;
+    max-height: 40%;
+    overflow-y: auto;
+}
+
+.game-card-universal .card-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.game-card-universal .card-detail strong {
+    color: var(--secondary-color);
+    min-width: 60px;
+}
+
+.game-card-universal .card-detail span {
+    color: var(--text-color);
+    text-align: right;
+    flex: 1;
+}
+
+/* Variantes de taille */
+.game-card-universal.size-small {
+    width: 150px;
+    height: 210px;
+}
+
+.game-card-universal.size-medium {
+    width: 180px;
+    height: 250px;
+}
+
+.game-card-universal.size-large {
+    width: 220px;
+    height: 300px;
+}
+
+/* =================== COMPATIBILITÉ AVEC L'EXISTANT =================== */
+/* On garde les anciennes classes pour la compatibilité, mais elles héritent du nouveau système */ 
