@@ -382,7 +382,7 @@ function initCards() {
                 const data = await response.json();
 
                 if (data.success) {
-                    const card = button.closest('.wishlist-card, .carousel-card');
+                    const card = button.closest('.game-card-universal');
                     if (card) {
                         card.remove();
                         checkEmptyContainer(isWishlist);
@@ -399,8 +399,8 @@ function initCards() {
 }
 
 function checkEmptyContainer(isWishlist) {
-    const container = document.querySelector(isWishlist ? '.wishlist-carousel' : '.games-carousel');
-    const cards = document.querySelectorAll(isWishlist ? '.wishlist-card' : '.carousel-card');
+    const container = document.querySelector('.dashboard-row');
+    const cards = document.querySelectorAll('.game-card-universal');
     
     if (container && cards.length === 0) {
         container.innerHTML = `<p class="${isWishlist ? 'wishlist' : 'games'}-empty-message">
@@ -625,6 +625,10 @@ async function addToMyGamesFromRawg(rawg) {
         if (data.success) {
             showToast('success', 'Jeu ajouté à votre collection !');
             document.getElementById('gameModal').classList.remove('active');
+            // Recharger la page si on est sur la page mes-jeux pour voir le nouveau jeu
+            if (window.location.pathname.includes('mes-jeux')) {
+                setTimeout(() => location.reload(), 1200);
+            }
         } else {
             showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
         }
@@ -659,6 +663,10 @@ async function addToWishlistFromRawg(rawg) {
         if (data.success) {
             showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
             document.getElementById('gameModal').classList.remove('active');
+            // Recharger la page si on est sur la page wishlist pour voir le nouveau jeu
+            if (window.location.pathname.includes('wishlist')) {
+                setTimeout(() => location.reload(), 1200);
+            }
         } else {
             showToast('error', data.error || data.message || 'Une erreur est survenue');
         }
@@ -692,6 +700,10 @@ async function addToWishlistFromGame(game) {
         if (data.success) {
             showToast('success', 'Jeu ajouté à votre wishlist avec succès !');
             document.getElementById('gameModal').classList.remove('active');
+            // Recharger la page si on est sur la page wishlist pour voir le nouveau jeu
+            if (window.location.pathname.includes('wishlist')) {
+                setTimeout(() => location.reload(), 1200);
+            }
         } else {
             showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
         }
@@ -725,6 +737,10 @@ async function addToMyGamesFromGame(game) {
         if (data.success) {
             showToast('success', 'Jeu ajouté à votre collection !');
             document.getElementById('gameModal').classList.remove('active');
+            // Recharger la page si on est sur la page mes-jeux pour voir le nouveau jeu
+            if (window.location.pathname.includes('mes-jeux')) {
+                setTimeout(() => location.reload(), 1200);
+            }
         } else {
             showToast('error', data.error || data.message || 'Erreur lors de l\'ajout');
         }
