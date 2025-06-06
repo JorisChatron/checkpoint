@@ -17,7 +17,6 @@
     <script>
         window.CP_BASE_URL = '<?= base_url() ?>';
     </script>
-    <script src="<?= base_url('js/game-utils.js') ?>" defer></script>
     <script src="<?= base_url('js/script.js') ?>" defer></script>
 </body>
 </html>

@@ -33,19 +33,17 @@
                 $cover = !empty($game['cover']) ? $game['cover'] : '';
                 $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
             ?>
-            <div class="game-card" style="position:relative; padding:0;">
+            <div class="game-card-universal" data-id="<?= $game['id'] ?>" draggable="true">
                 <?php if (!empty($cover)): ?>
-                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:100%; height:100%; object-fit:cover; border-radius:10px; display:block;">
+                    <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" class="card-image">
                 <?php else: ?>
-                    <div class="game-cover-placeholder size-large" style="width:100%; height:100%; border-radius:10px;">
+                    <div class="game-cover-placeholder">
                         <div class="placeholder-title">#<?= esc($game['position']) ?> <?= esc($game['name']) ?></div>
                         <div class="placeholder-text">Aucune jaquette</div>
                     </div>
                 <?php endif; ?>
-                <div style="position:absolute;top:0;left:0;width:100%;z-index:2;text-align:center;">
-                    <span style="display:block;padding:0.5rem 0 0.2rem 0;font-weight:bold;color:#9B5DE5;font-size:1.1rem;text-shadow:0 2px 8px #000;letter-spacing:1px;background:rgba(31,27,46,0.7);border-radius:12px 12px 0 0;">
-                        #<?= esc($game['position']) ?> <?= esc($game['name']) ?>
-                    </span>
+                <div class="card-title-overlay">
+                    <span>#<?= esc($game['position']) ?> <?= esc($game['name']) ?></span>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -71,7 +69,7 @@
                         <?php if (!empty($cover)): ?>
                             <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;margin-right:10px;">
                         <?php else: ?>
-                            <div class="game-cover-placeholder size-small" style="width:40px;height:40px;border-radius:6px;margin-right:10px;">
+                            <div class="game-cover-placeholder" style="width:40px;height:40px;border-radius:6px;margin-right:10px;">
                                 <div class="placeholder-title">?</div>
                             </div>
                         <?php endif; ?>
@@ -100,153 +98,130 @@
 <!-- JavaScript pour la preview -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Utilisation des utilitaires globaux pour les requêtes API
+        async function apiCall(url, method = 'POST', data = null) {
+            const options = { method, headers: { 'X-Requested-With': 'XMLHttpRequest' } };
+            if (data) {
+                if (data instanceof FormData) {
+                    options.body = data;
+                } else {
+                    options.headers['Content-Type'] = 'application/json';
+                    options.body = JSON.stringify(data);
+                }
+            }
+            const response = await fetch(url, options);
+            return await response.json();
+        }
+
+        // Gestion upload photo optimisée
         const fileInput = document.getElementById('profile_picture');
         const preview = document.getElementById('preview');
         const uploadForm = document.querySelector('form[action*="profile/upload"]');
 
-        // Gestion de l'upload de photo
-        uploadForm.addEventListener('submit', function(e) {
+        uploadForm?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData(this);
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setTimeout(() => location.reload(), 300);
-                } else {
-                    console.error(data.error || 'Erreur lors de la mise à jour de la photo');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de l\'envoi de la photo');
-            });
+            try {
+                const result = await apiCall(e.target.action, 'POST', new FormData(e.target));
+                if (result.success) setTimeout(() => location.reload(), 300);
+                else showError(result.error || 'Erreur lors de la mise à jour');
+            } catch (error) {
+                showError('Erreur réseau');
+            }
         });
 
-        fileInput.addEventListener('change', (event) => {
+        fileInput?.addEventListener('change', (event) => {
             const file = event.target.files[0];
             const label = document.querySelector('.custom-file-label');
             
             if (file) {
-                if (file.size > 5 * 1024 * 1024) { // 5MB max
-                    console.error('La taille du fichier ne doit pas dépasser 5MB');
+                if (file.size > 5 * 1024 * 1024) {
+                    showError('Fichier trop volumineux (max 5MB)');
                     fileInput.value = '';
                     label.textContent = 'Choisir un fichier';
                     return;
                 }
-                
-                // Mettre à jour le texte du bouton avec le nom du fichier
                 label.textContent = file.name.length > 20 ? file.name.substring(0, 17) + '...' : file.name;
-                
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    preview.src = e.target.result;
-                };
+                reader.onload = (e) => preview.src = e.target.result;
                 reader.readAsDataURL(file);
             } else {
                 label.textContent = 'Choisir un fichier';
             }
         });
 
-        // Drag & drop pour le top 5
+        // Drag & drop pour le top 5 optimisé
         const top5 = document.getElementById('top5-profile');
-        let dragged;
-        let hasChanged = false;
+        let dragged, hasChanged = false;
 
-        if (top5) {
-            top5.querySelectorAll('.game-card').forEach(card => {
-                card.addEventListener('dragstart', (e) => {
-                    dragged = card;
-                    card.style.opacity = '0.5';
-                });
-                
-                card.addEventListener('dragend', (e) => {
-                    card.style.opacity = '';
-                    if (hasChanged) {
-                        saveTop5Order();
-                        hasChanged = false;
-                    }
-                });
-                
-                card.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                });
-                
-                card.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    if (dragged && dragged !== card) {
-                        if (Array.from(top5.children).indexOf(dragged) < Array.from(top5.children).indexOf(card)) {
-                            card.after(dragged);
-                        } else {
-                            card.before(dragged);
-                        }
-                        hasChanged = true;
-                    }
-                });
+        top5?.querySelectorAll('.game-card-universal').forEach(card => {
+            card.addEventListener('dragstart', (e) => {
+                dragged = card;
+                card.style.opacity = '0.5';
             });
-        }
-
-        // Sauvegarde l'ordre du top 5
-        function saveTop5Order() {
-            const order = Array.from(top5.querySelectorAll('.game-card')).map(card => card.dataset.id);
             
-            fetch('/checkpoint/public/profile/updateTop5', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: 'order[]=' + order.join('&order[]=')
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    // Succès silencieux
-                } else {
-                    console.error('Erreur lors de la mise à jour du top 5');
-                    setTimeout(() => location.reload(), 300); // Recharge en cas d'erreur
+            card.addEventListener('dragend', (e) => {
+                card.style.opacity = '';
+                if (hasChanged) {
+                    saveTop5Order();
+                    hasChanged = false;
                 }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la sauvegarde du top 5');
+            });
+            
+            card.addEventListener('dragover', (e) => e.preventDefault());
+            
+            card.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (dragged && dragged !== card) {
+                    const cards = Array.from(top5.children);
+                    if (cards.indexOf(dragged) < cards.indexOf(card)) {
+                        card.after(dragged);
+                    } else {
+                        card.before(dragged);
+                    }
+                    hasChanged = true;
+                }
+            });
+        });
+
+        async function saveTop5Order() {
+            const order = Array.from(top5.querySelectorAll('.game-card-universal')).map(card => card.dataset.id);
+            try {
+                const result = await fetch('/checkpoint/public/profile/updateTop5', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: 'order[]=' + order.join('&order[]=')
+                });
+                const data = await result.json();
+                if (!data.success) setTimeout(() => location.reload(), 300);
+            } catch (error) {
                 setTimeout(() => location.reload(), 300);
-            });
+            }
         }
 
-        // Modal top 5
-        const openTop5Modal = document.getElementById('openTop5Modal');
-        const closeTop5Modal = document.getElementById('closeTop5Modal');
-        const top5Modal = document.getElementById('top5Modal');
-        const top5Form = document.getElementById('top5Form');
+        // Modal top 5 optimisé
+        const elements = {
+            openBtn: document.getElementById('openTop5Modal'),
+            closeBtn: document.getElementById('closeTop5Modal'),
+            modal: document.getElementById('top5Modal'),
+            form: document.getElementById('top5Form')
+        };
 
-        if(openTop5Modal && closeTop5Modal && top5Modal) {
-            openTop5Modal.addEventListener('click', () => {
-                top5Modal.classList.add('active');
-            });
-            closeTop5Modal.addEventListener('click', () => {
-                top5Modal.classList.remove('active');
-            });
-            window.addEventListener('click', (e) => {
-                if(e.target === top5Modal) top5Modal.classList.remove('active');
-            });
-        }
+        elements.openBtn?.addEventListener('click', () => elements.modal.classList.add('active'));
+        elements.closeBtn?.addEventListener('click', () => elements.modal.classList.remove('active'));
+        window.addEventListener('click', (e) => {
+            if (e.target === elements.modal) elements.modal.classList.remove('active');
+        });
 
-        // Ajout JS pour afficher la position de sélection du top 5
-        let clickOrder = []; // Tableau pour garder l'ordre chronologique des clics
+        // Top 5 selection optimisé
+        let clickOrder = [];
         
         function updateTop5Positions() {
-            // Nettoyer toutes les positions
             document.querySelectorAll('.top5-position').forEach(span => span.textContent = '');
-            
-            // Afficher les positions selon l'ordre chronologique des clics
             clickOrder.forEach((gameId, idx) => {
                 const checkbox = document.querySelector(`input[value="${gameId}"]`);
-                if (checkbox && checkbox.checked) {
+                if (checkbox?.checked) {
                     const label = checkbox.parentElement.querySelector('.top5-position');
-                    if(label) label.textContent = `#${idx+1}`;
+                    if (label) label.textContent = `#${idx+1}`;
                 }
             });
         }
@@ -256,74 +231,56 @@
                 const gameId = this.value;
                 
                 if (this.checked) {
-                    // Vérifier si on n'a pas déjà 5 jeux sélectionnés
-                    const checkedCount = document.querySelectorAll('.top5-checkbox:checked').length;
-                    if (checkedCount > 5) {
+                    if (document.querySelectorAll('.top5-checkbox:checked').length > 5) {
                         this.checked = false;
-                        console.error('Vous ne pouvez choisir que 5 jeux.');
+                        showError('Maximum 5 jeux');
                         return;
                     }
-                    
-                    // Ajouter le jeu à l'ordre chronologique s'il n'y est pas déjà
-                    if (!clickOrder.includes(gameId)) {
-                        clickOrder.push(gameId);
-                    }
+                    if (!clickOrder.includes(gameId)) clickOrder.push(gameId);
                 } else {
-                    // Retirer le jeu de l'ordre chronologique
                     clickOrder = clickOrder.filter(id => id !== gameId);
                 }
-                
                 updateTop5Positions();
             });
         });
 
-        // Soumission du top 5
-        if(top5Form) {
-            top5Form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if(clickOrder.length !== 5) {
-                    console.error('Veuillez sélectionner exactement 5 jeux.');
-                    return;
-                }
-                
-                // Utiliser l'ordre chronologique des clics
-                fetch('/checkpoint/public/profile/setTop5', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({ top5: clickOrder })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.success) {
-                        setTimeout(() => location.reload(), 300);
-                    } else {
-                        console.error(data.error || 'Erreur lors de la mise à jour du top 5');
-                    }
-                })
-                .catch(() => console.error('Erreur lors de la requête.'));
-            });
-        }
-
-        document.getElementById('showAdultCheckbox').addEventListener('change', function() {
-            fetch('<?= base_url('profile/toggleAdult') ?>', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
-                body: 'show_adult=' + (this.checked ? '1' : '0')
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success) {
-                    setTimeout(() => location.reload(), 300);
-                } else {
-                    console.error('Erreur lors de la sauvegarde de la préférence.');
-                }
-            })
-            .catch(() => console.error('Erreur réseau.'));
+        elements.form?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (clickOrder.length !== 5) {
+                showError('Sélectionnez exactement 5 jeux');
+                return;
+            }
+            
+            try {
+                const result = await apiCall('/checkpoint/public/profile/setTop5', 'POST', { top5: clickOrder });
+                if (result.success) setTimeout(() => location.reload(), 300);
+                else showError(result.error || 'Erreur mise à jour top 5');
+            } catch (error) {
+                showError('Erreur réseau');
+            }
         });
+
+        // Préférence adulte optimisée
+        document.getElementById('showAdultCheckbox')?.addEventListener('change', async function() {
+            try {
+                const result = await fetch('<?= base_url('profile/toggleAdult') ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: 'show_adult=' + (this.checked ? '1' : '0')
+                });
+                const data = await result.json();
+                if (data.success) setTimeout(() => location.reload(), 300);
+                else showError('Erreur sauvegarde préférence');
+            } catch (error) {
+                showError('Erreur réseau');
+            }
+        });
+
+        // Fonction utilitaire pour les erreurs
+        function showError(message) {
+            console.error(message);
+            // Possibilité d'ajouter une notification visuelle
+        }
     });
 </script>
 <?= $this->endSection() ?>

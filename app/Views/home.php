@@ -119,7 +119,7 @@ $this->section('content');
 </section>
 <?php endif; ?>
 
-<!-- Modal aperçu jeu Accueil (identique à Mes Jeux) -->
+<!-- Modal aperçu jeu Accueil -->
 <div id="gameViewModal" class="modal">
     <div class="modal-content" id="gameViewModalContent" style="max-width:600px;position:relative;">
         <button class="modal-close" id="closeGameViewModal">&times;</button>
@@ -128,37 +128,6 @@ $this->section('content');
         </div>
     </div>
 </div>
-<script>
-document.querySelectorAll('.dashboard-row .game-card-universal').forEach(card => {
-    card.addEventListener('click', function(e) {
-        // Empêche le clic sur le bouton supprimer d'ouvrir le modal (sécurité, même si pas présent ici)
-        if (e.target.classList.contains('btn-action')) return;
-        const name = this.dataset.name || '';
-        const cover = this.dataset.cover || '';
-        const platform = this.dataset.platform || '';
-        const release = this.dataset.release || '';
-        const genre = this.dataset.genre || '';
-        const status = this.dataset.status || '';
-        const playtime = this.dataset.playtime || '';
-        const notes = this.dataset.notes || '';
-        let html = '';
-        html += cover ? `<img src="${cover}" alt="${name}" style="width:220px;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 2px 12px #7F39FB44;margin-bottom:1.2rem;">` : '';
-        html += `<h2 style=\"color:#9B5DE5;margin-bottom:0.7rem;\">${name}</h2>`;
-        html += `<div style=\"color:#BB86FC;font-size:1.05rem;margin-bottom:0.7rem;\">Plateforme : ${platform || 'Inconnue'}<br>Année : ${release || 'Inconnue'}<br>Genre : ${genre || 'Inconnu'}</div>`;
-        html += `<div style=\"color:#E0F7FA;font-size:1rem;margin-bottom:1.2rem;\">Statut : ${status || 'Inconnu'}<br>Temps de jeu : ${playtime || '0'} h</div>`;
-        html += `<div style=\"color:#BB86FC;font-size:0.98rem;margin-bottom:0.5rem;\"><b>Notes :</b> ${notes || '<i>Aucune note</i>'}</div>`;
-        document.getElementById('gameViewModalBody').innerHTML = html;
-        document.getElementById('gameViewModal').classList.add('active');
-    });
-});
-document.getElementById('closeGameViewModal').addEventListener('click', function() {
-    document.getElementById('gameViewModal').classList.remove('active');
-});
-window.addEventListener('click', function(e) {
-    const modal = document.getElementById('gameViewModal');
-    if (e.target === modal) modal.classList.remove('active');
-});
-</script>
 
 <?php $this->endSection(); ?>
 
