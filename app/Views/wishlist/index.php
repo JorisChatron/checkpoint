@@ -139,10 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!confirm('Êtes-vous sûr de vouloir supprimer ce jeu de votre wishlist ?')) return;
 
             const gameId = button.getAttribute('data-id');
-            if (!gameId) {
-                console.error('ID du jeu non trouvé');
-                return;
-            }
+            if (!gameId) return;
 
             try {
                 const response = await fetch(`/checkpoint/public/wishlist/delete/${gameId}`, {
@@ -157,11 +154,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         card.remove();
                         checkEmptyPage();
                     }
-                } else {
-                    console.error(data.error || 'Une erreur est survenue lors de la suppression');
                 }
             } catch (error) {
-                console.error('Une erreur est survenue lors de la suppression');
+                // Erreur silencieuse
             }
         });
     });
@@ -298,12 +293,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Recharger la page après un court délai
                 setTimeout(() => location.reload(), 300);
-            } else {
-                console.error(data.error || 'Erreur lors de l\'ajout');
             }
         })
         .catch(error => {
-            console.error('Erreur:', error);
+            // Erreur silencieuse
         });
     });
 

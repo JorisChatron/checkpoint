@@ -132,9 +132,7 @@ document.querySelectorAll('.dashboard-row .game-card-universal').forEach(card =>
         try {
             gameData = JSON.parse(gameDataString);
         } catch (error) {
-            console.error('JSON parse error:', error);
-            console.error('Problematic string:', gameDataString);
-            return;
+            return; // Erreur silencieuse
         }
         
         let html = '';
@@ -212,6 +210,7 @@ document.getElementById('editGameForm').addEventListener('submit', function(e) {
         jsonData[key] = value;
     });
     
+    let isSubmitting = true;
     fetch(`/checkpoint/public/mes-jeux/edit/${gameId}`, {
         method: 'POST',
         headers: {
@@ -226,11 +225,13 @@ document.getElementById('editGameForm').addEventListener('submit', function(e) {
             document.getElementById('editGameModal').classList.remove('active');
             setTimeout(() => location.reload(), 300);
         } else {
-            console.error(data.error || 'Erreur lors de la modification');
+            // Gestion d'erreur silencieuse
         }
+        isSubmitting = false;
     })
     .catch(error => {
-        console.error('Erreur:', error);
+        // Erreur silencieuse
+        isSubmitting = false;
     });
 });
 

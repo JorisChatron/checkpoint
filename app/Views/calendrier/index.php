@@ -2,7 +2,6 @@
 $this->extend('layouts/default');
 $this->section('content');
 ?>
-<link rel="stylesheet" href="<?= base_url('css/default-cover.css') ?>">
 
 <section class="dashboard-home" style="max-width:1100px;margin:2.5rem auto 2rem auto;">
     <h1 style="color:#9B5DE5;text-align:center;font-size:2rem;margin-bottom:2.2rem;">Sorties de la semaine</h1>
@@ -284,8 +283,6 @@ function checkAuthAndRedirect(action = 'effectuer cette action') {
 
 // Attendre que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== DÉBUT INITIALISATION CALENDRIER ===');
-    
     // INITIALISATION 1: Gestion du changement de page
     initPageSelector();
     
@@ -300,13 +297,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // INITIALISATION 5: Flatpickr pour sélection de semaine
     initWeekPicker();
-    
-    console.log('=== FIN INITIALISATION CALENDRIER ===');
 });
 
 // FONCTION 1: Gestion du changement de page
 function initPageSelector() {
-    console.log('1. Initialisation du sélecteur de page...');
     const pageSelector = document.getElementById('pageSelector');
     if (pageSelector) {
         pageSelector.addEventListener('change', function() {
@@ -315,27 +309,21 @@ function initPageSelector() {
             const basePath = currentUrl.replace(/\/page\/\d+$/, '');
             window.location.href = basePath + '/page/' + selectedPage;
         });
-        console.log('✓ Sélecteur de page initialisé');
-    } else {
-        console.log('- Pas de sélecteur de page sur cette page');
     }
 }
 
 // FONCTION 2: Modal de détails des jeux
 function initGameDetailsModal() {
-    console.log('2. Initialisation du modal de détails...');
     const gameModal = document.getElementById('gameModal');
     const gameModalBody = document.getElementById('gameModalBody');
     const closeGameModal = document.getElementById('closeGameModal');
     
     if (!gameModal || !gameModalBody) {
-        console.error('✗ Éléments du modal de détails non trouvés');
         return;
     }
     
     // Fonction pour ouvrir le modal de détails du jeu
     window.openGameModal = function(gameId) {
-        console.log('Ouverture modal détails pour jeu:', gameId);
         gameModalBody.innerHTML = '<span style="color:#BB86FC;">Chargement...</span>';
         gameModal.classList.add('active');
         
@@ -367,7 +355,6 @@ function initGameDetailsModal() {
                     
                     if (wishlistBtn) {
                         wishlistBtn.onclick = function() {
-                            console.log('Clic sur bouton wishlist');
                             if (!checkAuthAndRedirect('ajouter un jeu à votre wishlist')) {
                                 return;
                             }
@@ -415,7 +402,6 @@ function initGameDetailsModal() {
                     
                     if (myGamesBtn) {
                         myGamesBtn.onclick = function() {
-                            console.log('Clic sur bouton mes jeux');
                             if (!checkAuthAndRedirect('ajouter un jeu à votre collection')) {
                                 return;
                             }
@@ -449,25 +435,19 @@ function initGameDetailsModal() {
             }
         });
     });
-    
-    console.log('✓ Modal de détails initialisé');
 }
 
 // FONCTION 3: Modal d'ajout à Mes Jeux
 function initAddGameModal() {
-    console.log('3. Initialisation du modal d\'ajout...');
     const addGameModal = document.getElementById('addGameModal');
     const closeAddGameModal = document.getElementById('closeAddGameModal');
     
     if (!addGameModal) {
-        console.error('✗ Modal d\'ajout non trouvé');
         return;
     }
     
     // Fonction pour ouvrir le modal d'ajout depuis les données RAWG
     window.openAddGameModalFromRawg = function(game) {
-        console.log('Ouverture modal ajout pour:', game.name);
-        
         if (!checkAuthAndRedirect('ajouter un jeu à votre collection')) {
             return;
         }
@@ -620,24 +600,14 @@ function initAddGameModal() {
     
     // Initialiser la recherche dans le modal
     initCalendarGameSearch();
-    
-    console.log('✓ Modal d\'ajout initialisé');
 }
 
 // FONCTION 4: Recherche et filtrage  
 function initSearchAndFilters() {
-    console.log('4. Initialisation de la recherche et des filtres...');
-    
     // A. Recherche de jeux dans le calendrier
     const searchInput = document.getElementById('searchGame');
     const clearSearchBtn = document.getElementById('clearSearch');
     const cards = document.querySelectorAll('.game-card-universal');
-    
-    console.log('Éléments de recherche trouvés:', {
-        searchInput: !!searchInput,
-        clearSearchBtn: !!clearSearchBtn,
-        cardsCount: cards.length
-    });
     
     function filterGames() {
         const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
@@ -654,7 +624,6 @@ function initSearchAndFilters() {
             const cardPlatforms = (card.dataset.platforms || '').split(',');
             const cardGenres = (card.dataset.genres || '').split(',');
             
-            // Tests de correspondance
             const matchesSearch = searchTerm === '' || gameName.includes(searchTerm);
             const matchesPlatform = selectedPlatform === '' || cardPlatforms.some(p => p.trim() === selectedPlatform);
             const matchesGenre = selectedGenre === '' || cardGenres.some(g => g.trim() === selectedGenre);
@@ -714,89 +683,46 @@ function initSearchAndFilters() {
     
     // Filtrage initial
     filterGames();
-    
-    console.log('✓ Recherche initialisée');
 }
 
 // FONCTION 5: Flatpickr pour sélection de semaine
 function initWeekPicker() {
-    console.log('5. Initialisation du sélecteur de semaine...');
-    
-    // Vérifier que flatpickr est chargé
     if (typeof flatpickr === 'undefined') {
-        console.error('✗ flatpickr n\'a pas pu être chargé.');
-        const openWeekPickerBtn = document.getElementById('openWeekPicker');
-        if (openWeekPickerBtn) {
-            openWeekPickerBtn.addEventListener('click', function() {
-                console.error('Le sélecteur de semaine n\'est pas disponible. Flatpickr non chargé.');
-            });
-        }
         return;
     }
     
-    // Initialisation de flatpickr
-    try {
-        const hiddenInput = document.getElementById('hiddenWeekInput');
-        if (!hiddenInput) {
-            console.error('✗ Input caché pour flatpickr non trouvé');
-            return;
+    const hiddenInput = document.getElementById('hiddenWeekInput');
+    if (!hiddenInput) {
+        return;
+    }
+    
+    const weekPicker = flatpickr(hiddenInput, {
+        dateFormat: "Y-m-d",
+        defaultDate: "<?= $startDate->format('Y-m-d') ?>",
+        plugins: [new weekSelect({})],
+        onChange: function(selectedDates, dateStr, instance) {
+            if(selectedDates.length) {
+                const date = selectedDates[0];
+                const year = date.getFullYear();
+                const week = getWeekNumber(date);
+                window.location.href = `/checkpoint/public/calendrier/${year}/${week}`;
+            }
+        },
+        disableMobile: true,
+        locale: {
+            firstDayOfWeek: 1
         }
-        
-        const weekPicker = flatpickr(hiddenInput, {
-            dateFormat: "Y-m-d",
-            defaultDate: "<?= $startDate->format('Y-m-d') ?>",
-            plugins: [new weekSelect({})],
-            onChange: function(selectedDates, dateStr, instance) {
-                if(selectedDates.length) {
-                    const date = selectedDates[0];
-                    const year = date.getFullYear();
-                    const week = getWeekNumber(date);
-                    console.log(`Semaine sélectionnée: ${year}-W${week}`);
-                    window.location.href = `/checkpoint/public/calendrier/${year}/${week}`;
-                }
-            },
-            disableMobile: true,
-            locale: {
-                firstDayOfWeek: 1
+    });
+    
+    const openWeekPickerBtn = document.getElementById('openWeekPicker');
+    if (openWeekPickerBtn) {
+        openWeekPickerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const fp = hiddenInput._flatpickr;
+            if(fp) {
+                fp.open();
             }
         });
-        
-        // Event listener pour le bouton d'ouverture
-        const openWeekPickerBtn = document.getElementById('openWeekPicker');
-        if (openWeekPickerBtn) {
-            openWeekPickerBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('Ouverture du sélecteur de semaine...');
-                
-                try {
-                    const fp = hiddenInput._flatpickr;
-                    if(fp) {
-                        fp.open();
-                        console.log('✓ Sélecteur de semaine ouvert');
-                    } else {
-                        console.error('✗ flatpickr instance non trouvée');
-                        console.error('Le calendrier ne peut pas s\'ouvrir (flatpickr non initialisé).');
-                    }
-                } catch (error) {
-                    console.error('Erreur lors de l\'ouverture:', error);
-                    console.error('Erreur lors de l\'ouverture du sélecteur de semaine.');
-                }
-            });
-            console.log('✓ Bouton sélecteur de semaine configuré');
-        } else {
-            console.error('✗ Bouton openWeekPicker non trouvé');
-        }
-        
-        console.log('✓ Flatpickr initialisé avec succès');
-        
-    } catch (error) {
-        console.error('✗ Erreur lors de l\'initialisation de flatpickr:', error);
-        const openWeekPickerBtn = document.getElementById('openWeekPicker');
-        if (openWeekPickerBtn) {
-            openWeekPickerBtn.addEventListener('click', function() {
-                console.error('Erreur lors de l\'initialisation du sélecteur de semaine.');
-            });
-        }
     }
 }
 
@@ -809,14 +735,12 @@ function getWeekNumber(date) {
     return String(Math.ceil((((d - yearStart) / 86400000) + 1)/7)).padStart(2,'0');
 }
 
-// Gestion de la recherche dans le modal "Ajouter un jeu" du calendrier
+// Gestion de la recherche dans le modal "Ajouter un jeu"
 function initCalendarGameSearch() {
-    console.log('Initialisation de la recherche modal...');
     const searchInput = document.getElementById('addGame_searchGame');
     const suggestionsList = document.getElementById('addGame_suggestions');
     
     if (!searchInput || !suggestionsList) {
-        console.warn('Éléments de recherche modal non trouvés');
         return;
     }
 
@@ -862,7 +786,6 @@ function initCalendarGameSearch() {
                     selectedGameCover.style.display = 'none';
                     let placeholder = gamePreview.querySelector('.game-cover-placeholder');
                     if (!placeholder) {
-                        // Créer le placeholder en utilisant la fonction utilitaire
                         placeholder = createSmallCoverPlaceholder(fields.addGame_searchGame);
                         selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
                     } else {
@@ -879,9 +802,8 @@ function initCalendarGameSearch() {
                 if (fields.addGame_genre) details.push(fields.addGame_genre);
                 selectedGameDetails.textContent = details.join(' • ');
             }
-
         } catch (error) {
-            console.error('Erreur lors de la récupération des détails:', error);
+            // Erreur silencieuse
         }
     };
 
@@ -914,7 +836,6 @@ function initCalendarGameSearch() {
                     suggestionsList.innerHTML = '<li>Aucun résultat trouvé</li>';
                 }
             } catch (error) {
-                console.error('Erreur recherche:', error);
                 suggestionsList.innerHTML = '<li>Erreur lors de la recherche</li>';
             }
         }, 300);
@@ -925,8 +846,6 @@ function initCalendarGameSearch() {
             suggestionsList.innerHTML = '';
         }
     });
-    
-    console.log('✓ Recherche modal initialisée');
 }
 </script>
 <?php $this->endSection(); ?> 

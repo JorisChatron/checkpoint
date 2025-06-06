@@ -278,8 +278,7 @@
 
         // Fonction utilitaire pour les erreurs
         function showError(message) {
-            console.error(message);
-            // Possibilité d'ajouter une notification visuelle
+            // Erreur silencieuse - possibilité d'ajouter une notification visuelle
         }
     });
 </script>
