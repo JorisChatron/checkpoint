@@ -82,48 +82,70 @@ $this->section('content');
     <?php if (!empty($error)): ?>
         <div class="text-danger" style="text-align:center;">Erreur : <?= esc($error) ?></div>
     <?php endif; ?>
+    
     <?php
-    // Récupération des genres présents dans les jeux de la semaine
+    // Extraction des plateformes et genres depuis l'API RAWG
+    $allPlatforms = [];
     $allGenres = [];
-    foreach ($games as $g) {
-        if (!empty($g['genres'])) {
-            foreach ($g['genres'] as $genre) {
-                $allGenres[$genre['slug']] = $genre['name'];
+    
+    foreach ($games as $game) {
+        // Plateformes
+        if (!empty($game['platforms'])) {
+            foreach ($game['platforms'] as $platform) {
+                $platformName = $platform['platform']['name'] ?? '';
+                if ($platformName && !in_array($platformName, $allPlatforms)) {
+                    $allPlatforms[] = $platformName;
+                }
+            }
+        }
+        
+        // Genres
+        if (!empty($game['genres'])) {
+            foreach ($game['genres'] as $genre) {
+                $genreName = $genre['name'] ?? '';
+                if ($genreName && !in_array($genreName, $allGenres)) {
+                    $allGenres[] = $genreName;
+                }
             }
         }
     }
-    // On trie les genres par ordre alpha
-    asort($allGenres);
+    
+    // Tri alphabétique
+    sort($allPlatforms);
+    sort($allGenres);
     ?>
+    
+    <!-- Barre de filtres comme dans la wishlist -->
+    <form class="filters-bar" id="calendarFilters">
+        <select name="platform" id="platformFilter">
+            <option value="">Plateforme</option>
+            <?php foreach ($allPlatforms as $platform): ?>
+                <option value="<?= esc($platform) ?>"><?= esc($platform) ?></option>
+            <?php endforeach; ?>
+        </select>
+        <select name="genre" id="genreFilter">
+            <option value="">Genre</option>
+            <?php foreach ($allGenres as $genre): ?>
+                <option value="<?= esc($genre) ?>"><?= esc($genre) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+    
     <div style="text-align:center;margin-bottom:1.5rem;">
         <div class="calendar-search-container">
             <input type="text" id="searchGame" placeholder="Rechercher un jeu..." class="calendar-search-input">
             <button id="clearSearch" class="home-btn" style="width:auto;font-size:0.98rem;padding:0.7rem 1.2rem;">Effacer</button>
         </div>
     </div>
-    <form id="genre-filter-form" style="background:rgba(31,27,46,0.92);padding:1.2rem 1.5rem;border-radius:12px;box-shadow:0 2px 10px #7F39FB22;margin-bottom:2.2rem;max-width:900px;margin-left:auto;margin-right:auto;">
-        <div class="genre-filter-box">
-            <div class="checkbox-list">
-                <?php foreach ($allGenres as $slug => $name): ?>
-                    <label style="color:#BB86FC;font-size:1.05rem;display:flex;align-items:center;gap:0.4em;">
-                        <input type="checkbox" class="genre-checkbox" value="<?= esc($slug) ?>" <?= (stripos($name, 'adult') === false && stripos($name, 'adulte') === false) ? 'checked' : '' ?>>
-                        <?= esc($name) ?>
-                    </label>
-                <?php endforeach; ?>
-            </div>
-            <div class="button-row">
-                <button type="button" id="checkAllGenres" class="home-btn" style="width:auto;font-size:0.98em;padding:0.5em 1.2em;">Tout cocher</button>
-                <button type="button" id="uncheckAllGenres" class="home-btn" style="width:auto;font-size:0.98em;padding:0.5em 1.2em;">Tout décocher</button>
-            </div>
-        </div>
-    </form>
     <div class="dashboard-row">
         <?php if (empty($games)): ?>
             <p style="color:#9B5DE5;text-align:center;width:100%;grid-column: 1 / -1;">Aucune sortie prévue pour cette semaine.</p>
         <?php else: ?>
             <?php foreach ($games as $game): ?>
                 <div class="game-card-universal" 
-                     data-game-id="<?= esc($game['id']) ?>">
+                     data-game-id="<?= esc($game['id']) ?>"
+                     data-platforms="<?= esc(isset($game['platforms']) ? implode(',', array_map(function($p) { return $p['platform']['name']; }, $game['platforms'])) : '') ?>"
+                     data-genres="<?= esc(isset($game['genres']) ? implode(',', array_map(function($g) { return $g['name']; }, $game['genres'])) : '') ?>">
                     <?php if (!empty($game['background_image'])): ?>
                         <img src="<?= esc($game['background_image']) ?>" 
                              alt="<?= esc($game['name']) ?>"
@@ -619,100 +641,81 @@ function initSearchAndFilters() {
     
     function filterGames() {
         const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-        console.log('Filtrage avec terme:', searchTerm);
+        const selectedPlatform = document.getElementById('platformFilter')?.value || '';
+        const selectedGenre = document.getElementById('genreFilter')?.value || '';
         
         let visibleCount = 0;
         
-        cards.forEach((card, index) => {
-            // Chercher le nom du jeu dans .card-name ou dans .placeholder-title (pour les jeux sans image)
-            let titleElement = card.querySelector('.card-name');
-            if (!titleElement) {
-                titleElement = card.querySelector('.placeholder-title');
-            }
-            
-            if (!titleElement) {
-                console.warn(`Carte ${index}: Nom du jeu non trouvé`);
-                return;
-            }
+        cards.forEach(card => {
+            const titleElement = card.querySelector('.card-name') || card.querySelector('.placeholder-title');
+            if (!titleElement) return;
             
             const gameName = titleElement.textContent.toLowerCase().trim();
-            const genres = (card.dataset.genres || '').split(',');
-            const checkedGenres = Array.from(document.querySelectorAll('.genre-checkbox:checked')).map(cb => cb.value);
+            const cardPlatforms = (card.dataset.platforms || '').split(',');
+            const cardGenres = (card.dataset.genres || '').split(',');
             
+            // Tests de correspondance
             const matchesSearch = searchTerm === '' || gameName.includes(searchTerm);
-            const matchesGenres = checkedGenres.length === 0 || genres.some(g => checkedGenres.includes(g));
+            const matchesPlatform = selectedPlatform === '' || cardPlatforms.some(p => p.trim() === selectedPlatform);
+            const matchesGenre = selectedGenre === '' || cardGenres.some(g => g.trim() === selectedGenre);
             
-            const shouldShow = matchesSearch && matchesGenres;
+            const shouldShow = matchesSearch && matchesPlatform && matchesGenre;
             
-            card.style.display = shouldShow ? '' : 'none';
-            
+            card.style.display = shouldShow ? 'block' : 'none';
             if (shouldShow) visibleCount++;
         });
         
-        console.log(`Jeux visibles après filtrage: ${visibleCount}/${cards.length}`);
+        // Message si aucun résultat
+        const dashboard = document.querySelector('.dashboard-row');
+        let noResultMsg = dashboard.querySelector('.no-results-message');
+        
+        if (visibleCount === 0) {
+            if (!noResultMsg) {
+                noResultMsg = document.createElement('p');
+                noResultMsg.className = 'no-results-message';
+                noResultMsg.style.cssText = 'color:#9B5DE5;text-align:center;width:100%;grid-column: 1 / -1;margin:2rem 0;font-size:1.2rem;';
+                noResultMsg.textContent = 'Aucun jeu ne correspond aux filtres sélectionnés.';
+                dashboard.appendChild(noResultMsg);
+            }
+            noResultMsg.style.display = 'block';
+        } else {
+            if (noResultMsg) {
+                noResultMsg.style.display = 'none';
+            }
+        }
     }
     
+    // Event listeners pour la recherche
     if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            console.log('Input event - valeur:', this.value);
-            filterGames();
-        });
-        
-        searchInput.addEventListener('blur', function() {
-            console.log('Blur event - valeur:', this.value);
-            filterGames();
-        });
-    } else {
-        console.error('✗ searchInput non trouvé - ID: searchGame');
+        searchInput.addEventListener('input', filterGames);
+        searchInput.addEventListener('blur', filterGames);
     }
     
     if (clearSearchBtn) {
         clearSearchBtn.addEventListener('click', function() {
-            console.log('Clic sur bouton effacer');
             if (searchInput) {
                 searchInput.value = '';
                 filterGames();
             }
         });
-    } else {
-        console.error('✗ clearSearchBtn non trouvé - ID: clearSearch');
     }
     
-    // B. Filtrage par genre
-    const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
-    const checkAllBtn = document.getElementById('checkAllGenres');
-    const uncheckAllBtn = document.getElementById('uncheckAllGenres');
+    // Event listeners pour les filtres
+    const platformFilter = document.getElementById('platformFilter');
+    const genreFilter = document.getElementById('genreFilter');
     
-    genreCheckboxes.forEach(cb => {
-        cb.addEventListener('change', filterGames);
-    });
-    
-    if (checkAllBtn) {
-        checkAllBtn.addEventListener('click', function() {
-            genreCheckboxes.forEach(cb => { cb.checked = true; });
-            filterGames();
-        });
+    if (platformFilter) {
+        platformFilter.addEventListener('change', filterGames);
     }
     
-    if (uncheckAllBtn) {
-        uncheckAllBtn.addEventListener('click', function() {
-            genreCheckboxes.forEach(cb => { cb.checked = false; });
-            filterGames();
-        });
+    if (genreFilter) {
+        genreFilter.addEventListener('change', filterGames);
     }
-    
-    // C. Ajout des genres sur chaque carte pour le filtrage
-    <?php foreach ($games as $game): ?>
-        const card_<?= $game['id'] ?> = document.querySelector('.game-card-universal[data-game-id="<?= $game['id'] ?>"]');
-        if (card_<?= $game['id'] ?>) {
-            card_<?= $game['id'] ?>.dataset.genres = "<?= isset($game['genres']) ? implode(',', array_map(function($g){return $g['slug'];}, $game['genres'])) : '' ?>";
-        }
-    <?php endforeach; ?>
     
     // Filtrage initial
     filterGames();
     
-    console.log('✓ Recherche et filtres initialisés');
+    console.log('✓ Recherche initialisée');
 }
 
 // FONCTION 5: Flatpickr pour sélection de semaine
