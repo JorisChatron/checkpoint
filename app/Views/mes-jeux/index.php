@@ -224,13 +224,7 @@ document.getElementById('editGameForm').addEventListener('submit', function(e) {
         if (data.success) {
             document.getElementById('editGameModal').classList.remove('active');
             setTimeout(() => location.reload(), 300);
-        } else {
-            // Gestion d'erreur silencieuse
         }
-        isSubmitting = false;
-    })
-    .catch(error => {
-        // Erreur silencieuse
         isSubmitting = false;
     });
 });

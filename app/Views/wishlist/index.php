@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             } catch (error) {
-                // Erreur silencieuse
+                console.log('Erreur lors de la suppression');
             }
         });
     });
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            // Erreur silencieuse
+            console.log('Erreur lors du transfert');
         });
     });
 

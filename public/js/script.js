@@ -79,13 +79,9 @@ class GameLibraryApp {
     }
 
     async searchGames(query, container) {
-        try {
-            const response = await fetch(`https://api.rawg.io/api/games?key=${CONFIG.API_KEY}&search=${encodeURIComponent(query)}&page_size=8`);
-            const data = await response.json();
-            this.displaySuggestions(data.results || [], container);
-        } catch (error) {
-            this.hideSuggestions(container);
-        }
+        const response = await fetch(`https://api.rawg.io/api/games?key=${CONFIG.API_KEY}&search=${encodeURIComponent(query)}&page_size=8`);
+        const data = await response.json();
+        this.displaySuggestions(data.results || [], container);
     }
 
     displaySuggestions(games, container) {
@@ -100,7 +96,7 @@ class GameLibraryApp {
             const platform = game.platforms?.[0]?.platform?.name || 'Plateforme inconnue';
             
             return `
-                <li onclick="window.gameLibrary.openGameModal(${game.id})" style="padding:8px 12px;cursor:pointer;border-bottom:1px solid #2D2742;">
+                <li onclick="openGameModal(${game.id})" style="padding:8px 12px;cursor:pointer;border-bottom:1px solid #2D2742;">
                     <div style="font-weight:bold;color:#9B5DE5;">${game.name}</div>
                     <small style="color:#BB86FC;">${platform} • ${released}</small>
                 </li>
@@ -143,13 +139,9 @@ class GameLibraryApp {
     }
 
     async loadGameDetails(gameId, container) {
-        try {
-            const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${CONFIG.API_KEY}`);
-            const game = await response.json();
-            this.renderGameModal(game, container);
-        } catch (error) {
-            container.innerHTML = '<div style="text-align:center;color:#FF6F61;padding:2rem;">Erreur de chargement</div>';
-        }
+        const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${CONFIG.API_KEY}`);
+        const game = await response.json();
+        this.renderGameModal(game, container);
     }
 
     renderGameModal(game, container) {
@@ -203,6 +195,9 @@ class GameLibraryApp {
         };
 
         this.submitToEndpoint('/checkpoint/public/wishlist/add', gameData);
+        
+        // Fermer le modal après l'ajout
+        document.getElementById('gameModal')?.classList.remove('active');
     }
 
     addToMyGames(game) {
@@ -212,7 +207,11 @@ class GameLibraryApp {
     }
 
     checkAuth() {
-        const isLoggedIn = document.body.dataset.loggedIn === 'true';
+        // Vérification simple : si on a les éléments du menu connecté, on est connecté
+        const profileLink = document.querySelector('a[href*="profile"]');
+        const logoutLink = document.querySelector('a[href*="logout"]');
+        const isLoggedIn = profileLink && logoutLink;
+        
         if (!isLoggedIn) {
             setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
             return false;
@@ -221,22 +220,18 @@ class GameLibraryApp {
     }
 
     async submitToEndpoint(url, data) {
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(data)
-            });
-            
-            const result = await response.json();
-            if (!result.success && result.error?.includes('non connecté')) {
-                setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
-            }
-        } catch (error) {
-            // Erreur silencieuse
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (!result.success && result.error?.includes('non connecté')) {
+            setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
         }
     }
 
@@ -261,42 +256,34 @@ class GameLibraryApp {
         const gameId = button.dataset.id;
         if (!gameId) return;
 
-        try {
-            const currentPath = window.location.pathname;
-            let endpoint = '';
+        const currentPath = window.location.pathname;
+        let endpoint = '';
+        
+        if (currentPath.includes('/mes-jeux')) {
+            endpoint = `/checkpoint/public/mes-jeux/delete/${gameId}`;
+        } else if (currentPath.includes('/wishlist')) {
+            endpoint = `/checkpoint/public/wishlist/delete/${gameId}`;
+        }
+        
+        if (endpoint) {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
             
-            if (currentPath.includes('/mes-jeux')) {
-                endpoint = `/checkpoint/public/mes-jeux/delete/${gameId}`;
-            } else if (currentPath.includes('/wishlist')) {
-                endpoint = `/checkpoint/public/wishlist/delete/${gameId}`;
+            const data = await response.json();
+            if (data.success) {
+                button.closest('.game-card-universal')?.remove();
+                this.checkEmptyPage();
             }
-            
-            if (endpoint) {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                });
-                
-                const data = await response.json();
-                if (data.success) {
-                    button.closest('.game-card-universal')?.remove();
-                    this.checkEmptyPage();
-                }
-            }
-        } catch (error) {
-            // Erreur silencieuse
         }
     }
 
     handleEdit(button) {
         if (!this.checkAuth()) return;
         
-        try {
-            const gameData = JSON.parse(button.dataset.game || '{}');
-            this.openEditModal(gameData);
-        } catch (error) {
-            // Erreur silencieuse
-        }
+        const gameData = JSON.parse(button.dataset.game || '{}');
+        this.openEditModal(gameData);
     }
 
     openEditModal(gameData) {
