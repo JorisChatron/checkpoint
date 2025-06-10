@@ -67,16 +67,6 @@
     <p class="wishlist-empty-message">Vous n'avez pas encore ajouté de jeux.</p>
 <?php endif; ?>
 
-<!-- Modal aperçu jeu Mes Jeux -->
-<div id="gameViewModal" class="modal">
-    <div class="modal-content" id="gameViewModalContent" style="max-width:600px;position:relative;">
-        <button class="modal-close" id="closeGameViewModal">&times;</button>
-        <div id="gameViewModalBody" style="min-height:200px;text-align:center;">
-            <span style="color:#BB86FC;">Chargement...</span>
-        </div>
-    </div>
-</div>
-
 <!-- Modal modification jeu -->
 <div id="editGameModal" class="modal">
     <div class="modal-content">
@@ -116,11 +106,20 @@
     </div>
 </div>
 
+<!-- Modal aperçu jeu Mes Jeux -->
+<div id="gameViewModal" class="modal">
+    <div class="modal-content" id="gameViewModalContent" style="max-width:600px;position:relative;">
+        <button class="modal-close" id="closeGameViewModal">&times;</button>
+        <div id="gameViewModalBody" style="min-height:200px;text-align:center;">
+            <span style="color:#BB86FC;">Chargement...</span>
+        </div>
+    </div>
+</div>
+
 <script>
 document.querySelectorAll('.dashboard-row .game-card-universal').forEach(card => {
     card.addEventListener('click', function(e) {
         // Empêche le clic sur les boutons d'action d'ouvrir le modal
-        // Vérifie si l'élément cliqué ou un de ses parents est un bouton d'action
         if (e.target.classList.contains('btn-action') || e.target.closest('.btn-action')) {
             return;
         }
@@ -168,34 +167,36 @@ document.querySelectorAll('.btn-action.edit').forEach(button => {
         e.preventDefault();
         e.stopPropagation();
         
-        // Récupération des données depuis les attributs data-*
         const gameId = this.getAttribute('data-id');
         const gameName = this.getAttribute('data-name');
         const status = this.getAttribute('data-status');
         const playtime = this.getAttribute('data-playtime');
         const notes = this.getAttribute('data-notes');
         
-        // Remplissage du modal
         document.getElementById('editGameId').value = gameId;
         document.getElementById('editGameName').value = gameName;
         document.getElementById('editStatus').value = status || '';
         document.getElementById('editPlaytime').value = playtime || '';
         document.getElementById('editNotes').value = notes || '';
         
-        // Ouverture du modal
         document.getElementById('editGameModal').classList.add('active');
     });
 });
 
-// Fermeture du modal de modification
+// Fermeture des modaux
 document.getElementById('closeEditModal').addEventListener('click', function() {
     document.getElementById('editGameModal').classList.remove('active');
 });
 
-// Fermeture du modal en cliquant à l'extérieur
+document.getElementById('closeGameViewModal').addEventListener('click', function() {
+    document.getElementById('gameViewModal').classList.remove('active');
+});
+
 window.addEventListener('click', function(e) {
     const editModal = document.getElementById('editGameModal');
+    const viewModal = document.getElementById('gameViewModal');
     if (e.target === editModal) editModal.classList.remove('active');
+    if (e.target === viewModal) viewModal.classList.remove('active');
 });
 
 // Gestion du formulaire de modification
@@ -210,7 +211,6 @@ document.getElementById('editGameForm').addEventListener('submit', function(e) {
         jsonData[key] = value;
     });
     
-    let isSubmitting = true;
     fetch(`/checkpoint/public/mes-jeux/edit/${gameId}`, {
         method: 'POST',
         headers: {
@@ -225,23 +225,13 @@ document.getElementById('editGameForm').addEventListener('submit', function(e) {
             document.getElementById('editGameModal').classList.remove('active');
             setTimeout(() => location.reload(), 300);
         }
-        isSubmitting = false;
     });
-});
-
-document.getElementById('closeGameViewModal').addEventListener('click', function() {
-    document.getElementById('gameViewModal').classList.remove('active');
-});
-window.addEventListener('click', function(e) {
-    const modal = document.getElementById('gameViewModal');
-    if (e.target === modal) modal.classList.remove('active');
 });
 
 // Redirection du bouton "Ajouter un jeu" vers la barre de recherche navbar
 document.getElementById('openModal').addEventListener('click', function(e) {
     e.preventDefault();
     
-    // Focus sur la barre de recherche navbar
     const navbarSearchInput = document.getElementById('navbarGameSearchInput');
     if (navbarSearchInput) {
         navbarSearchInput.focus();
@@ -252,7 +242,7 @@ document.getElementById('openModal').addEventListener('click', function(e) {
             behavior: 'smooth'
         });
         
-        // Optionnel : ajouter un effet visuel pour attirer l'attention
+        // Effet visuel pour attirer l'attention
         navbarSearchInput.style.boxShadow = '0 0 10px #7F39FB';
         setTimeout(() => {
             navbarSearchInput.style.boxShadow = '';

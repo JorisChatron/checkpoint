@@ -735,14 +735,16 @@ input[type="button"]:hover,
 }
 
 .suggestions-list {
-    position: absolute;
-    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    background: var(--background-darker);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
-    background: var(--background-darker);
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-    margin-top: 0.5rem;
+    position: absolute;
+    width: 100%;
     z-index: 1000;
     box-shadow: var(--box-shadow);
 }
@@ -751,11 +753,16 @@ input[type="button"]:hover,
     padding: 0.8rem 1rem;
     color: var(--text-color);
     cursor: pointer;
-    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(127, 57, 251, 0.2);
+    transition: background-color var(--transition-speed);
+}
+
+.suggestions-list li:last-child {
+    border-bottom: none;
 }
 
 .suggestions-list li:hover {
-    background: rgba(127, 57, 251, 0.2);
+    background-color: rgba(127, 57, 251, 0.2);
     color: var(--accent-color);
 }
 

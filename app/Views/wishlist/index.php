@@ -242,17 +242,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Fermeture du modal d'ajout
-    document.getElementById('closeAddGameModal').addEventListener('click', function() {
-        document.getElementById('addGameModal').classList.remove('active');
-    });
-
-    // Fermeture du modal d'ajout en cliquant à l'extérieur
-    window.addEventListener('click', function(e) {
-        const addGameModal = document.getElementById('addGameModal');
-        if (e.target === addGameModal) addGameModal.classList.remove('active');
-    });
-
     // Gestion du formulaire d'ajout
     document.getElementById('addGameWishlistForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -300,6 +289,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Fermeture du modal d'ajout
+    document.getElementById('closeAddGameModal').addEventListener('click', function() {
+        document.getElementById('addGameModal').classList.remove('active');
+    });
+
+    // Fermeture du modal d'ajout en cliquant à l'extérieur
+    window.addEventListener('click', function(e) {
+        const addGameModal = document.getElementById('addGameModal');
+        if (e.target === addGameModal) {
+            addGameModal.classList.remove('active');
+        }
+    });
+
     // Redirection du bouton "Ajouter un jeu" vers la barre de recherche navbar
     document.getElementById('openModal').addEventListener('click', function(e) {
         e.preventDefault();
@@ -322,6 +324,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         }
     });
+
+    // Fonction pour vérifier si la page est vide
+    function checkEmptyPage() {
+        const gameCards = document.querySelectorAll('.game-card-universal');
+        if (gameCards.length === 0) {
+            setTimeout(() => location.reload(), 300);
+        }
+    }
 });
 </script>
 

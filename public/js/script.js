@@ -333,3 +333,97 @@ window.extractYear = (dateString) => {
 
 // Initialisation
 window.gameLibrary = new GameLibraryApp();
+
+// Fonction globale simplifiée pour ouvrir le modal d'ajout de jeu
+window.openAddGameModalFromRawg = function(game) {
+    // Vérifier si on est connecté
+    const profileLink = document.querySelector('a[href*="profile"]');
+    const logoutLink = document.querySelector('a[href*="logout"]');
+    const isLoggedIn = profileLink && logoutLink;
+    
+    if (!isLoggedIn) {
+        setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
+        return;
+    }
+
+    // Utiliser le modal global
+    const globalModal = document.getElementById('globalAddGameModal');
+    if (!globalModal) return;
+
+    // Remplir les champs cachés
+    const fields = {
+        'global_addGame_game_id': game.id || '',
+        'global_addGame_searchGame': game.name || '',
+        'global_addGame_platform': game.platforms?.[0]?.platform?.name || 'Inconnue',
+        'global_addGame_releaseYear': game.released ? new Date(game.released).getFullYear() : '',
+        'global_addGame_genre': game.genres?.map(g => g.name).join(', ') || '',
+        'global_addGame_cover': game.background_image || '',
+        'global_addGame_developer': game.developers?.map(d => d.name).join(', ') || '',
+        'global_addGame_publisher': game.publishers?.map(p => p.name).join(', ') || ''
+    };
+
+    Object.entries(fields).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) element.value = value;
+    });
+
+    // Afficher le nom du jeu
+    const selectedGameName = document.getElementById('global_selectedGameName');
+    if (selectedGameName) {
+        selectedGameName.textContent = game.name || 'Jeu sélectionné';
+    }
+
+    // Réinitialiser les champs utilisateur
+    ['global_addGame_status', 'global_addGame_playtime', 'global_addGame_notes'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.value = '';
+    });
+
+    // Ouvrir le modal
+    globalModal.classList.add('active');
+};
+
+// Gestion du modal global d'ajout
+document.addEventListener('DOMContentLoaded', function() {
+    const globalModal = document.getElementById('globalAddGameModal');
+    const closeBtn = document.getElementById('closeGlobalAddGameModal');
+    const form = document.getElementById('globalAddGameForm');
+    
+    if (!globalModal) return;
+    
+    // Fermer le modal
+    closeBtn?.addEventListener('click', function() {
+        globalModal.classList.remove('active');
+    });
+    
+    globalModal.addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('active');
+    });
+    
+    // Gestion du formulaire
+    form?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+        
+        fetch('/checkpoint/public/mes-jeux/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(jsonData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                globalModal.classList.remove('active');
+                setTimeout(() => location.reload(), 300);
+            }
+        });
+    });
+});
