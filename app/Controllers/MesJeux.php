@@ -184,69 +184,7 @@ class MesJeux extends BaseController
         return $this->addToGameStats($userId, $gameId, $data);
     }
 
-    /**
-     * Crée un nouveau jeu à partir des données RAWG
-     * 
-     * @param int $rawgId ID du jeu dans l'API RAWG
-     * @return int ID du jeu créé
-     */
-    protected function createGameFromRawg($rawgId)
-    {
-        $gameModel = new GameModel();
-        
-        try {
-            // Appel à l'API RAWG
-            $apiKey = 'ff6f7941c211456c8806541638fdfaff';
-            $response = @file_get_contents("https://api.rawg.io/api/games/{$rawgId}?key={$apiKey}");
-            
-            // Si l'appel échoue, crée une entrée minimale
-            if (!$response) {
-                return $gameModel->insert([
-                    'name' => 'Jeu ID: ' . $rawgId,
-                    'platform' => 'Inconnue',
-                    'rawg_id' => $rawgId
-                ], true);
-            }
 
-            // Création du jeu avec les données RAWG
-            $game = json_decode($response, true);
-            
-            // Récupération des développeurs
-            $developers = '';
-            if (isset($game['developers']) && is_array($game['developers']) && count($game['developers']) > 0) {
-                $developers = implode(', ', array_map(function($dev) {
-                    return $dev['name'] ?? '';
-                }, $game['developers']));
-            }
-            
-            // Récupération des éditeurs
-            $publishers = '';
-            if (isset($game['publishers']) && is_array($game['publishers']) && count($game['publishers']) > 0) {
-                $publishers = implode(', ', array_map(function($pub) {
-                    return $pub['name'] ?? '';
-                }, $game['publishers']));
-            }
-            
-            return $gameModel->insert([
-                'name' => $game['name'] ?? ('Jeu ID: ' . $rawgId),
-                'platform' => $game['platforms'][0]['platform']['name'] ?? 'Inconnue',
-                'release_date' => $game['released'] ?? null,
-                'category' => $game['genres'][0]['name'] ?? 'Inconnu',
-                'cover' => $game['background_image'] ?? null,
-                'developer' => $developers ?: null,
-                'publisher' => $publishers ?: null,
-                'rawg_id' => $rawgId
-            ], true);
-        } catch (\Exception $e) {
-            // En cas d'erreur, crée une entrée minimale
-            log_message('error', 'Erreur RAWG: ' . $e->getMessage());
-            return $gameModel->insert([
-                'name' => 'Jeu ID: ' . $rawgId,
-                'platform' => 'Inconnue',
-                'rawg_id' => $rawgId
-            ], true);
-        }
-    }
 
     /**
      * Ajoute un jeu aux statistiques de l'utilisateur
