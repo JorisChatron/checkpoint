@@ -4,7 +4,7 @@
 
 <section class="auth-section">
     <h2 class="auth-title">Connexion</h2>
-
+      
     <form action="<?= site_url('login') ?>" method="post" class="auth-form">
         <?= csrf_field() ?> <!-- Ajout du champ CSRF pour la sécurité -->
 
