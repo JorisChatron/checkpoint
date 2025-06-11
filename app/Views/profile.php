@@ -38,12 +38,14 @@
                     <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" class="card-image">
                 <?php else: ?>
                     <div class="game-cover-placeholder">
-                        <div class="placeholder-title">#<?= esc($game['position']) ?> <?= esc($game['name']) ?></div>
+                        <div class="placeholder-title"><?= esc($game['name']) ?></div>
                         <div class="placeholder-text">Aucune jaquette</div>
                     </div>
                 <?php endif; ?>
-                <div class="card-title-overlay">
-                    <span>#<?= esc($game['position']) ?> <?= esc($game['name']) ?></span>
+                
+                <div class="card-info-overlay">
+                    <div class="card-name"><?= esc($game['name']) ?></div>
+                    <div class="card-date">#<?= $game['position'] ?><?= !empty($game['play_time']) ? ' • ' . $game['play_time'] . 'h' : '' ?></div>
                 </div>
             </div>
         <?php endforeach; ?>
