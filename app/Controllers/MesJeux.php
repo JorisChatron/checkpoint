@@ -127,18 +127,8 @@ class MesJeux extends BaseController
      */
     protected function handleRawgGame($userId, $data)
     {
-        $gameModel = new GameModel();
-        $rawgId = $data['game_id'];
-        
-        // Vérifie si le jeu existe déjà dans la base
-        $game = $gameModel->where('rawg_id', $rawgId)->first();
-
-        if (!$game) {
-            $gameId = $this->createGameFromRawg($rawgId);  // Création depuis RAWG
-        } else {
-            $gameId = $game['id'];  // Utilisation du jeu existant
-        }
-
+        $rawgService = new \App\Services\RawgService();
+        $gameId = $rawgService->getOrCreateGame($data['game_id']);
         return $this->addToGameStats($userId, $gameId, $data);
     }
 
