@@ -45,9 +45,14 @@
                 </div>
             <?php endif; ?>
             
-            <!-- Overlay titre -->
-            <div class="card-title-overlay">
-                <span><?= esc($game['name']) ?></span>
+            <!-- Info overlay en bas avec titre et statut -->
+            <div class="card-info-overlay">
+                <div class="card-name">
+                    <?= esc($game['name']) ?>
+                </div>
+                <div class="card-date">
+                    <?= esc(ucfirst($game['status'])) ?><?= !empty($game['play_time']) ? ' • ' . $game['play_time'] . 'h' : '' ?>
+                </div>
             </div>
             
             <!-- Boutons d'action -->

@@ -162,7 +162,7 @@ $this->section('content');
                             <?= esc($game['name']) ?>
                         </div>
                         <div class="card-date">
-                            Sortie : <?= !empty($game['released']) ? date('d/m/Y', strtotime($game['released'])) : 'Date inconnue' ?>
+                            <?= !empty($game['released']) ? date('d/m/Y', strtotime($game['released'])) : 'Date inconnue' ?>
                         </div>
                     </div>
                 </div>
