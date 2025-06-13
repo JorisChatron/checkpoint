@@ -598,37 +598,58 @@ header {
 }
 
 /* =================== Placeholder unifié =================== */
+/* Style du placeholder affiché quand il n'y a pas d'image de jeu */
 .game-cover-placeholder,
 .default-game-cover {
+    /* Fond dégradé sombre pour le placeholder */
     background: linear-gradient(45deg, #1F1B2E, #2A1B3D);
+    /* Coins arrondis */
     border-radius: 10px;
+    /* Centre le contenu verticalement et horizontalement */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* Espace interne */
     padding: 0.5rem;
+    /* Centre le texte */
     text-align: center;
+    /* Bordure violette */
     border: 2px solid var(--primary-color);
+    /* Ombre violette légère */
     box-shadow: 0 2px 8px rgba(127, 57, 251, 0.27);
+    /* Occupe tout l'espace disponible */
     width: 100%;
     height: 100%;
 }
 
+/* Style du titre dans le placeholder */
 .placeholder-title,
 .game-title {
+    /* Violet clair pour le titre */
     color: #9B5DE5;
+    /* Texte en gras */
     font-weight: bold;
+    /* Espace sous le titre */
     margin-bottom: 0.3rem;
+    /* Ombre du texte pour meilleure lisibilité */
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    /* Espacement des lettres */
     letter-spacing: 0.5px;
+    /* Hauteur de ligne pour la lisibilité */
     line-height: 1.2;
 }
 
+/* Style du texte descriptif dans le placeholder */
 .placeholder-text,
 .no-cover-text {
+    /* Couleur violette claire */
     color: var(--secondary-color);
+    /* Légèrement transparent */
     opacity: 0.8;
+    /* Hauteur de ligne pour la lisibilité */
     line-height: 1.3;
+    /* Taille de texte réduite */
     font-size: 0.8rem;
 }
 
@@ -1021,41 +1042,66 @@ input[type="button"]:hover,
     text-align: center;
 }
 
+/* Style du formulaire d'authentification */
 .auth-form {
+    /* Prend toute la largeur disponible */
     width: 100%;
+    /* Utilise flexbox en colonne */
     display: flex;
     flex-direction: column;
+    /* Espace entre les éléments du formulaire */
     gap: 1.2rem;
 }
 
+/* Conteneur pour l'option "Se souvenir de moi" */
 .remember-me-container {
+    /* Aligne horizontalement la checkbox et le texte */
     display: flex;
     align-items: center;
+    /* Espace entre la checkbox et le texte */
     gap: 0.5rem;
+    /* Change le curseur au survol */
     cursor: pointer;
+    /* Taille du texte légèrement réduite */
     font-size: 0.95rem;
+    /* Couleur du texte */
     color: var(--text-color);
+    /* Espace en bas du conteneur */
     margin-bottom: 1.5rem;
 }
 
+/* Style de la checkbox "Se souvenir de moi" */
 .remember-me-container input[type="checkbox"] {
+    /* Dimensions de la checkbox */
     width: 18px;
     height: 18px;
+    /* Supprime les marges par défaut */
     margin: 0;
+    /* Couleur de la checkbox cochée */
     accent-color: var(--primary-color);
+    /* Change le curseur au survol */
     cursor: pointer;
 }
 
+/* Conteneur des liens d'authentification (Inscription/Connexion) */
 .auth-link {
+    /* Espace au-dessus du conteneur */
     margin-top: 1.5rem;
+    /* Centre le texte */
     text-align: center;
+    /* Couleur du texte */
     color: var(--text-color);
 }
 
+/* Style des liens dans le conteneur d'authentification */
 .auth-link a {
+    /* Couleur violette du lien */
     color: var(--primary-color);
+    /* Ajoute un soulignement */
     text-decoration: underline;
+    /* Texte en gras */
     font-weight: bold;
+    /* Animation douce de la couleur au survol */
     transition: color 0.2s;
 }
 
@@ -1096,18 +1142,31 @@ input[type="button"]:hover,
 }
 
 /* Liste des suggestions de recherche */
+/* Liste des suggestions qui apparaît sous la barre de recherche */
 .suggestions-list {
+    /* Supprime les puces de la liste */
     list-style: none;
+    /* Supprime le padding par défaut */
     padding: 0;
+    /* Ajoute une petite marge en haut seulement */
     margin: 0.5rem 0 0 0;
+    /* Fond sombre pour les suggestions */
     background: var(--background-darker);
+    /* Bordure violette fine */
     border: 1px solid var(--primary-color);
+    /* Coins arrondis */
     border-radius: 8px;
+    /* Hauteur maximale avec défilement */
     max-height: 200px;
+    /* Ajoute une scrollbar si nécessaire */
     overflow-y: auto;
+    /* Position absolue par rapport à la barre de recherche */
     position: absolute;
+    /* Prend toute la largeur du parent */
     width: 100%;
+    /* S'assure que la liste reste au-dessus des autres éléments */
     z-index: 1000;
+    /* Ajoute une ombre pour la profondeur */
     box-shadow: var(--box-shadow);
 }
 
@@ -1285,29 +1344,43 @@ input[type="button"]:hover,
         /* Réduit l'espace entre éléments */
         gap: 0.5rem;
     }
+    /* Ajuste la taille de l'icône du burger menu pour mobile */
     .burger-icon { width: 36px; height: 36px; }
+    /* Définit la largeur et position du menu dropdown */
     .dropdown { width: 220px; right: 0; }
     
+    /* Ajuste les marges et padding du contenu principal */
     .dashboard-home, main { margin: 2rem 0.5rem; padding: 2rem 1.5rem; }
+    /* Change la grille en une seule colonne pour les cartes */
     .dashboard-row,
     .wishlist-carousel,
     .calendar-games-grid { grid-template-columns: 1fr; }
+    /* Ajuste la grille des statistiques en une colonne */
     .dashboard-stats { grid-template-columns: 1fr; gap: 0.8rem; margin: 1rem 0; }
+    /* Réduit le padding et la taille de police des cartes de stats */
     .stat-card { padding: 1rem 1.5rem; font-size: 1rem; }
     
+    /* Réorganise la barre de filtres en colonne */
     .filters-bar { flex-direction: column; gap: 0.7rem; padding: 0.7rem 0.5rem; }
+    /* Ajuste la largeur des sélecteurs de filtres */
     .filters-bar select { width: 100%; min-width: unset; }
+    /* Change la liste de checkbox en une colonne */
     .checkbox-list { grid-template-columns: 1fr; }
     
+    /* Ajuste la hauteur des cartes de jeux pour mobile */
     .game-card-universal,
     .game-card,
     .wishlist-card,
     .calendrier-card { height: 300px; }
     
+    /* Rend les actions toujours visibles sur mobile */
     .game-card-universal .card-actions { opacity: 1; }
     
+    /* Ajuste le padding et la largeur du contenu des modales */
     .modal-content { padding: 1.5rem; width: 95%; }
+    /* Ajuste les marges et padding de la section d'authentification */
     .auth-section { margin: 2rem 0.5rem; padding: 1.5rem 1rem; }
+    /* Réduit la taille du titre d'authentification */
     .auth-title { font-size: 1.5rem; }
 }
 
