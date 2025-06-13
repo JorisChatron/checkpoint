@@ -1,26 +1,40 @@
-/* =================== Gaming Library - CSS Moderne et Optimisé =================== */
-
-/* =================== Variables CSS globales =================== */
+/* ===========================================
+   VARIABLES ET CONFIGURATION GLOBALE
+   =========================================== */
 :root {
-    /* Définit la couleur violette principale du thème */
+    /* Couleurs principales */
     --primary-color: #7F39FB;
-    /* Définit la couleur violet plus clair pour les éléments secondaires */
     --secondary-color: #BB86FC;
-    /* Définit la couleur cyan pour les éléments importants ou interactifs */
     --accent-color: #00E5FF;
-    /* Définit la couleur bleu clair pour le texte général */
     --text-color: #E0F7FA;
-    /* Définit un fond violet foncé semi-transparent */
+    
+    /* Couleurs de fond */
     --background-dark: rgba(31, 27, 46, 0.9);
-    /* Définit un fond encore plus foncé semi-transparent */
     --background-darker: rgba(13, 13, 26, 0.85);
-    /* Définit l'arrondi standard pour tous les coins */
+    
+    /* Couleurs d'action */
+    --error-color: #ff4444;
+    --success-color: #2ed573;
+    --warning-color: #ff3742;
+    
+    /* Dégradés */
+    --gradient-primary: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%);
+    --gradient-hover: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%);
+    --gradient-dark: linear-gradient(145deg, var(--background-dark), var(--background-darker));
+    --gradient-delete: linear-gradient(45deg, var(--error-color), var(--warning-color));
+    --gradient-edit: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+    --gradient-success: linear-gradient(45deg, var(--success-color), var(--success-color));
+
+    /* Ombres spécifiques */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.15);
+    --shadow-primary: 0 2px 8px rgba(127, 57, 251, 0.27);
+    --shadow-accent: 0 4px 16px rgba(0, 229, 255, 0.2);
+    
+    /* Éléments d'interface */
     --border-radius: 12px;
-    /* Définit la durée de toutes les animations */
     --transition-speed: 0.3s;
-    /* Définit l'ombre standard pour les éléments */
     --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    /* Définit l'ombre violette au survol des éléments */
     --box-shadow-hover: 0 8px 25px rgba(127, 57, 251, 0.3);
     
     /* Espacements */
@@ -31,7 +45,9 @@
     --spacing-xl: 2.5rem;
 }
 
-/* =================== Reset et base =================== */
+/* ===========================================
+   RESET ET STYLES DE BASE
+   =========================================== */
 * { 
     /* Applique le modèle de boîte border-box à tous les éléments */
     box-sizing: border-box; 
@@ -57,7 +73,9 @@ p { color: var(--text-color); }
 /* Cache les éléments avec la classe hidden */
 .hidden { display: none !important; }
 
-/* =================== Navigation =================== */
+/* ===========================================
+   NAVIGATION PRINCIPALE
+   =========================================== */
 header {
     /* Centre la barre de navigation */
     display: flex;
@@ -107,7 +125,9 @@ header {
     position: relative;
 }
 
-/* =================== Navigation sections =================== */
+/* ===========================================
+   NAVIGATION SECTIONS
+   =========================================== */
 .navbar-section.navbar-links {
     /* Utilise flexbox pour l'agencement */
     display: flex;
@@ -133,7 +153,9 @@ header {
 /* Change la couleur au survol */
 .navbar-links a:hover { color: var(--accent-color); }
 
-/* =================== Logo centré =================== */
+/* ===========================================
+   LOGO CENTRÉ
+   =========================================== */
 .logo-container {
     /* Position absolue par rapport au parent */
     position: absolute;
@@ -148,7 +170,9 @@ header {
 /* Limite la taille du logo */
 .logo { max-width: 130px; height: auto; }
 
-/* =================== Section droite =================== */
+/* ===========================================
+   SECTION DROITE
+   =========================================== */
 .navbar-right-section {
     /* Utilise flexbox pour l'agencement */
     display: flex;
@@ -162,7 +186,9 @@ header {
     justify-content: flex-end;
 }
 
-/* =================== Barre de recherche =================== */
+/* ===========================================
+   BARRE DE RECHERCHE
+   =========================================== */
 .navbar-search {
     /* Utilise flexbox pour l'agencement */
     display: flex;
@@ -191,7 +217,7 @@ header {
     /* Espacement interne */
     padding: 0.4rem 1.2rem;
     /* Couleur de fond */
-    background: #2D2742;
+    background: var(--background-dark);
     /* Couleur du texte */
     color: var(--text-color);
     /* Style de la bordure */
@@ -209,10 +235,12 @@ header {
     /* Change la couleur de la bordure */
     border: 2px solid var(--accent-color);
     /* Ajoute une ombre colorée */
-    box-shadow: 0 4px 16px rgba(0, 229, 255, 0.2);
+    box-shadow: var(--shadow-accent);
 }
 
-/* =================== Suggestions =================== */
+/* ===========================================
+   SUGGESTIONS
+   =========================================== */
 .navbar-suggestions {
     /* Position absolue par rapport à la barre de recherche */
     position: absolute;
@@ -257,12 +285,14 @@ header {
 /* Style au survol des suggestions */
 .navbar-suggestions li:hover {
     /* Change la couleur de fond */
-    background: #2D2742;
+    background: var(--background-dark);
     /* Change la couleur du texte */
     color: var(--accent-color);
 }
 
-/* =================== Menu burger et dropdown =================== */
+/* ===========================================
+   MENU BURGER ET DROPDOWN
+   =========================================== */
 .burger-menu {
     /* Utilise flexbox */
     display: flex;
@@ -282,7 +312,7 @@ header {
     /* Change le curseur */
     cursor: pointer;
     /* Couleur de l'icône */
-    color: #fff;
+    color: var(--text-color);
     /* Assure que le bouton reste au-dessus */
     z-index: 101;
     /* Supprime le padding */
@@ -310,7 +340,9 @@ header {
 /* Animation au survol de l'icône */
 .burger-icon:hover { transform: scale(1.1); }
 
-/* =================== Dropdown menu =================== */
+/* ===========================================
+   DROPDOWN MENU
+   =========================================== */
 .dropdown {
     /* Position absolue par rapport au burger menu */
     position: absolute;
@@ -380,13 +412,17 @@ header {
 .dropdown ul li:first-child a { border-radius: 10px 10px 0 0; }
 .dropdown ul li:last-child a { border-radius: 0 0 10px 10px; }
 
-/* =================== Affichage desktop/mobile =================== */
+/* ===========================================
+   AFFICHAGE DESKTOP/MOBILE
+   =========================================== */
 /* Force l'affichage en flex pour les éléments desktop */
 .navbar-desktop-only { display: flex !important; }
 /* Cache les éléments mobiles */
 .navbar-mobile-only { display: none !important; }
 
-/* =================== SYSTÈME DE CARTES UNIFIÉ =================== */
+/* ===========================================
+   SYSTÈME DE CARTES UNIFIÉ
+   =========================================== */
 .dashboard-home, main {
     /* Largeur maximale du contenu */
     max-width: 1100px;
@@ -414,7 +450,9 @@ header {
     letter-spacing: 1px;
 }
 
-/* =================== Grille universelle pour toutes les cartes =================== */
+/* ===========================================
+   GRILLE UNIVERSELLE POUR TOUTES LES CARTES
+   =========================================== */
 .dashboard-row,
 .wishlist-carousel,
 .calendar-games-grid {
@@ -430,7 +468,9 @@ header {
     justify-content: center;
 }
 
-/* =================== Carte universelle =================== */
+/* ===========================================
+   CARTE UNIVERSELLE
+   =========================================== */
 .game-card-universal,
 .game-card,
 .wishlist-card,
@@ -493,7 +533,9 @@ header {
     display: none;
 }
 
-/* =================== Overlay info bas de carte =================== */
+/* ===========================================
+   OVERLAY INFO BAS DE CARTE
+   =========================================== */
 .card-info-overlay {
     /* Position absolue en bas de la carte */
     position: absolute;
@@ -524,6 +566,7 @@ header {
     /* Gestion du texte trop long */
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -540,7 +583,9 @@ header {
     text-overflow: ellipsis;
 }
 
-/* =================== Boutons d'action =================== */
+/* ===========================================
+   BOUTONS D'ACTION
+   =========================================== */
 .game-card-universal .card-actions {
     /* Position absolue en haut à droite */
     position: absolute;
@@ -591,11 +636,11 @@ header {
 
 /* Couleurs spécifiques pour chaque type de bouton */
 /* Bouton supprimer en rouge */
-.btn-action.delete { background: linear-gradient(45deg, #ff4757, #ff3742); }
+.btn-action.delete { background: linear-gradient(45deg, var(--error-color), var(--warning-color)); }
 /* Bouton éditer avec les couleurs du thème */
 .btn-action.edit { background: linear-gradient(45deg, var(--accent-color), var(--secondary-color)); }
 /* Bouton transférer en vert */
-.btn-action.transfer { background: linear-gradient(45deg, #2ed573, #1dd1a1); }
+.btn-action.transfer { background: linear-gradient(45deg, var(--success-color), var(--success-color)); }
 
 /* Animation au survol des boutons */
 .btn-action:hover { 
@@ -603,12 +648,14 @@ header {
     transform: scale(1.1); 
 }
 
-/* =================== Placeholder unifié =================== */
+/* ===========================================
+   PLACEHOLDER UNIFIÉ
+   =========================================== */
 /* Style du placeholder affiché quand il n'y a pas d'image de jeu */
 .game-cover-placeholder,
 .default-game-cover {
     /* Fond dégradé sombre pour le placeholder */
-    background: linear-gradient(45deg, #1F1B2E, #2A1B3D);
+    background: var(--gradient-dark);
     /* Coins arrondis */
     border-radius: 10px;
     /* Centre le contenu verticalement et horizontalement */
@@ -623,7 +670,7 @@ header {
     /* Bordure violette */
     border: 2px solid var(--primary-color);
     /* Ombre violette légère */
-    box-shadow: 0 2px 8px rgba(127, 57, 251, 0.27);
+    box-shadow: var(--shadow-primary);
     /* Occupe tout l'espace disponible */
     width: 100%;
     height: 100%;
@@ -633,7 +680,7 @@ header {
 .placeholder-title,
 .game-title {
     /* Violet clair pour le titre */
-    color: #9B5DE5;
+    color: var(--primary-color);
     /* Texte en gras */
     font-weight: bold;
     /* Espace sous le titre */
@@ -659,7 +706,9 @@ header {
     font-size: 0.8rem;
 }
 
-/* =================== Statistiques =================== */
+/* ===========================================
+   STATISTIQUES
+   =========================================== */
 .dashboard-stats {
     /* Crée une grille pour les statistiques */
     display: grid;
@@ -689,7 +738,7 @@ header {
     /* Police spéciale pour le gaming */
     font-family: 'Orbitron', sans-serif;
     /* Légère ombre */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    box-shadow: var(--shadow-sm);
     /* Animation au survol */
     transition: transform 0.2s ease;
 }
@@ -708,7 +757,9 @@ header {
 /* Animation de survol de la carte */
 .stat-card:hover { transform: translateY(-2px); }
 
-/* =================== Messages vides =================== */
+/* ===========================================
+   MESSAGES VIDES
+   =========================================== */
 .wishlist-empty-message,
 .games-empty-message {
     /* Centre le message */
@@ -735,7 +786,9 @@ header {
     font-family: 'Orbitron', sans-serif;
 }
 
-/* =================== Formulaires =================== */
+/* ===========================================
+   FORMULAIRES
+   =========================================== */
 .filters-bar {
     /* Layout en flexbox pour les filtres */
     display: flex;
@@ -839,7 +892,7 @@ label {
 /* Message d'erreur */
 .text-danger {
     /* Rouge pour les erreurs */
-    color: #ff4444;
+    color: var(--error-color, #ff4444);
     /* Police plus petite */
     font-size: 0.9rem;
     /* Espace au-dessus */
@@ -852,13 +905,15 @@ label {
     padding: 6px 12px;
 }
 
-/* =================== Boutons unifiés =================== */
+/* ===========================================
+   BOUTONS UNIFIÉS
+   =========================================== */
 button:not(.burger),
 input[type="submit"],
 input[type="button"],
 .home-btn {
     /* Dégradé de couleur de fond */
-    background: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%);
+    background: var(--gradient-primary);
     /* Couleur du texte */
     color: var(--text-color);
     /* Bordure */
@@ -893,7 +948,7 @@ input[type="submit"]:hover,
 input[type="button"]:hover,
 .home-btn:hover {
     /* Change le dégradé au survol */
-    background: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%);
+    background: var(--gradient-hover);
     /* Change la couleur du texte */
     color: var(--background-darker);
     /* Change la couleur de bordure */
@@ -915,7 +970,9 @@ input[type="button"]:hover,
     margin: 2.5rem 0 1.5rem 0;
 }
 
-/* =================== Modales =================== */
+/* ===========================================
+   MODALES
+   =========================================== */
 .modal {
     /* Couvre tout l'écran */
     position: fixed;
@@ -947,7 +1004,7 @@ input[type="button"]:hover,
 /* Contenu de la modale */
 .modal-content {
     /* Dégradé de fond */
-    background: linear-gradient(145deg, var(--background-dark), var(--background-darker));
+    background: var(--gradient-dark);
     /* Grand espacement interne */
     padding: 2.5rem;
     /* Coins très arrondis */
@@ -1019,7 +1076,9 @@ input[type="button"]:hover,
     transform: rotate(90deg);
 }
 
-/* =================== Authentication =================== */
+/* ===========================================
+   AUTHENTIFICATION
+   =========================================== */
 .auth-section {
     /* Largeur limitée pour le formulaire d'authentification */
     max-width: 420px;
@@ -1113,7 +1172,9 @@ input[type="button"]:hover,
 
 .auth-link a:hover { color: var(--accent-color); }
 
-/* =================== Utilitaires =================== */
+/* ===========================================
+   UTILITAIRES
+   =========================================== */
 /* Conteneurs pour le sélecteur de semaine et la recherche du calendrier */
 .week-selector-container,
 .calendar-search-container {
@@ -1206,7 +1267,9 @@ input[type="button"]:hover,
     color: var(--accent-color);
 }
 
-/* =================== Scrollbars =================== */
+/* ===========================================
+   SCROLLBARS
+   =========================================== */
 /* Définit la largeur de la scrollbar */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 /* Style le fond de la scrollbar */
@@ -1216,7 +1279,9 @@ input[type="button"]:hover,
 /* Style le curseur au survol */
 ::-webkit-scrollbar-thumb:hover { background: var(--secondary-color); }
 
-/* =================== Animations =================== */
+/* ===========================================
+   ANIMATIONS ET TRANSITIONS
+   =========================================== */
 /* Animation d'apparition en fondu des cartes */
 @keyframes cardFadeIn {
     /* État initial : invisible et légèrement décalé vers le bas */
@@ -1225,7 +1290,9 @@ input[type="button"]:hover,
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* =================== Responsive Design - Unifié =================== */
+/* ===========================================
+   RESPONSIVE DESIGN - UNIFIÉ
+   =========================================== */
 /* Grand écran (desktop) */
 @media (min-width: 1201px) {
     /* Styles spécifiques pour les grands écrans */
@@ -1434,7 +1501,9 @@ input[type="button"]:hover,
     .home-btn { font-size: 0.9rem; width: 200px; }
 }
 
-/* =================== Écrans tactiles =================== */
+/* ===========================================
+   ÉCRANS TACTILES
+   =========================================== */
 @media (hover: none) and (pointer: coarse) {
     /* Styles spécifiques pour les appareils tactiles */
     /* Toujours afficher les actions sur appareils tactiles */
@@ -1445,9 +1514,11 @@ input[type="button"]:hover,
     .navbar-search input[type="text"] { min-height: 40px; }
 }
 
-/* =================== Page d'accueil =================== */
+/* ===========================================
+   PAGE D'ACCUEIL
+   =========================================== */
 .welcome-title {
-    color: #9B5DE5;
+    color: var(--primary-color);
     text-align: center;
     font-size: 2.2rem;
     margin-bottom: 2.2rem;
@@ -1457,13 +1528,13 @@ input[type="button"]:hover,
     font-size: 1.15rem;
     text-align: center;
     margin-bottom: 2.5rem;
-    color: #E0F7FA;
+    color: var(--text-color);
 }
 
 .features-list {
     font-size: 1.08rem;
     line-height: 1.7;
-    color: #BB86FC;
+    color: var(--secondary-color);
     margin-bottom: 2.5rem;
     max-width: 600px;
     margin-left: auto;
@@ -1471,7 +1542,7 @@ input[type="button"]:hover,
 }
 
 .features-section h2 {
-    color: #9B5DE5;
+    color: var(--primary-color);
     text-align: center;
     margin: 2.5rem 0 1.2rem 0;
 }
@@ -1481,7 +1552,7 @@ input[type="button"]:hover,
 }
 
 .feature-preview h3 {
-    color: #BB86FC;
+    color: var(--secondary-color);
     text-align: center;
     font-size: 1.3rem;
     margin-bottom: 1.2rem;
@@ -1489,15 +1560,15 @@ input[type="button"]:hover,
 
 .feature-preview img {
     max-width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px #7F39FB44;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     display: block;
     margin: 0 auto 1.5rem auto;
 }
 
 .feature-preview p {
     text-align: center;
-    color: #E0F7FA;
+    color: var(--text-color);
 }
 
 .game-modal-content {
@@ -1522,7 +1593,9 @@ input[type="button"]:hover,
     margin-bottom: 2.2rem;
 }
 
-/* =================== Page Profil =================== */
+/* ===========================================
+   PAGE PROFIL
+   =========================================== */
 .profile-container {
     display: flex;
     flex-direction: column;
