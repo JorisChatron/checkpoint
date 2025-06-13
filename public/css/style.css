@@ -464,10 +464,6 @@ header {
     transform: translateY(-5px);
     /* Renforce l'ombre */
     box-shadow: var(--box-shadow-hover);
-    /* Change la couleur de bordure */
-    border-color: var(--secondary-color);
-    /* Désactive l'animation d'apparition */
-    animation: none;
 }
 
 /* Style des images dans les cartes */
@@ -498,6 +494,8 @@ header {
     left: 0;
     /* Occupe toute la largeur */
     width: 100%;
+    /* Occupe 40% de la hauteur */
+    height: 40%;
     /* Espacement interne */
     padding: 0.8rem;
     /* Fond semi-transparent */
@@ -517,9 +515,10 @@ header {
     /* Espacement en bas */
     margin-bottom: 0.3rem;
     /* Gestion du texte trop long */
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Date dans l'overlay */
