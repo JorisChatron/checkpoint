@@ -22,6 +22,13 @@
     --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     /* Définit l'ombre violette au survol des éléments */
     --box-shadow-hover: 0 8px 25px rgba(127, 57, 251, 0.3);
+    
+    /* Espacements */
+    --spacing-xs: 0.4rem;
+    --spacing-sm: 0.7rem;
+    --spacing-md: 1.2rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 2.5rem;
 }
 
 /* =================== Reset et base =================== */
@@ -1436,4 +1443,239 @@ input[type="button"]:hover,
     button, .home-btn { min-height: 44px; min-width: 44px; }
     /* Augmente la hauteur du champ de recherche pour le tactile */
     .navbar-search input[type="text"] { min-height: 40px; }
+}
+
+/* =================== Page d'accueil =================== */
+.welcome-title {
+    color: #9B5DE5;
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 2.2rem;
+}
+
+.welcome-description {
+    font-size: 1.15rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #E0F7FA;
+}
+
+.features-list {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: #BB86FC;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features-section h2 {
+    color: #9B5DE5;
+    text-align: center;
+    margin: 2.5rem 0 1.2rem 0;
+}
+
+.feature-preview {
+    margin-bottom: 2.5rem;
+}
+
+.feature-preview h3 {
+    color: #BB86FC;
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+}
+
+.feature-preview img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px #7F39FB44;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+}
+
+.feature-preview p {
+    text-align: center;
+    color: #E0F7FA;
+}
+
+.game-modal-content {
+    max-width: 600px;
+    position: relative;
+}
+
+.game-modal-body {
+    min-height: 200px;
+    text-align: center;
+}
+
+.loading-text {
+    color: #BB86FC;
+}
+
+/* Container pour le message de bienvenue personnel */
+.personal-welcome {
+    color: #9B5DE5;
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 2.2rem;
+}
+
+/* =================== Page Profil =================== */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.profile-picture {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: var(--spacing-md);
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-speed) ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.05);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    background: var(--background-dark);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--box-shadow);
+}
+
+.file-upload {
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+}
+
+.profile-section-title {
+    color: var(--secondary-color);
+    margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+}
+
+.top5-modal-content {
+    max-width: 500px;
+    background: var(--background-darker);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+.top5-games-container {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+}
+
+.top5-game-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius);
+    transition: background var(--transition-speed) ease;
+}
+
+.top5-game-item:hover {
+    background: var(--background-dark);
+}
+
+.top5-checkbox {
+    margin-right: var(--spacing-sm);
+}
+
+.top5-game-cover {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) / 2);
+    margin-right: var(--spacing-sm);
+    border: 1px solid var(--primary-color);
+}
+
+.top5-game-cover-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: calc(var(--border-radius) / 2);
+    margin-right: var(--spacing-sm);
+    background: var(--background-dark);
+    border: 1px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+}
+
+.top5-game-label {
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color var(--transition-speed) ease;
+}
+
+.top5-game-label:hover {
+    color: var(--accent-color);
+}
+
+.top5-position {
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-right: var(--spacing-xs);
+}
+
+.top5-platform {
+    color: var(--secondary-color);
+    font-size: 0.95em;
+}
+
+.top5-submit-container {
+    margin-top: var(--spacing-md);
+    text-align: center;
+    padding: var(--spacing-sm);
+    border-top: 1px solid var(--primary-color);
+}
+
+.empty-top5-message {
+    color: var(--primary-color);
+    text-align: center;
+    padding: var(--spacing-md);
+    font-style: italic;
+}
+
+.adult-filter-form {
+    margin-bottom: var(--spacing-lg);
+    max-width: 400px;
+    padding: var(--spacing-sm);
+    background: var(--background-dark);
+    border-radius: var(--border-radius);
+}
+
+.adult-filter-label {
+    color: var(--secondary-color);
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: color var(--transition-speed) ease;
+}
+
+.adult-filter-label:hover {
+    color: var(--accent-color);
 }

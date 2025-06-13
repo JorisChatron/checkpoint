@@ -5,13 +5,13 @@ $this->section('content');
 ?>
 
 <?php if (!session()->get('user_id')): ?>
-<section class="dashboard-home" style="max-width:800px;margin:2.5rem auto 2rem auto;">
-    <h1 style="color:#9B5DE5;text-align:center;font-size:2.2rem;margin-bottom:2.2rem;">Bienvenue sur Checkpoint !</h1>
-    <p style="font-size:1.15rem;text-align:center;margin-bottom:2.5rem;color:#E0F7FA;">
+<section class="dashboard-home">
+    <h1 class="welcome-title">Bienvenue sur Checkpoint !</h1>
+    <p class="welcome-description">
         <strong>Checkpoint</strong> est votre espace personnel pour gérer, suivre et partager votre passion du jeu vidéo.<br>
         Collectionneur, joueur occasionnel ou hardcore gamer&nbsp;: organisez votre univers vidéoludique en toute simplicité&nbsp;!
     </p>
-    <ul style="font-size:1.08rem;line-height:1.7;color:#BB86FC;margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto;">
+    <ul class="features-list">
         <li>📚 Lister tous vos jeux, toutes plateformes confondues</li>
         <li>🎮 Suivre votre progression (statut, temps de jeu, jeux terminés ou complétés)</li>
         <li>⭐ Créer votre Top 5 de jeux favoris</li>
@@ -19,16 +19,18 @@ $this->section('content');
         <li>🔎 Filtrer et rechercher facilement dans votre collection</li>
         <li>📊 Visualiser vos statistiques de joueur</li>
     </ul>
-    <h2 style="color:#9B5DE5;text-align:center;margin:2.5rem 0 1.2rem 0;">Aperçu des fonctionnalités</h2>
-    <div style="margin-bottom:2.5rem;">
-        <h3 style="color:#BB86FC;text-align:center;font-size:1.3rem;margin-bottom:1.2rem;">Votre collection de jeux</h3>
-        <img src="<?= base_url('images/demo-mesjeux.png') ?>" alt="Aperçu Mes Jeux" style="max-width:100%;border-radius:12px;box-shadow:0 4px 24px #7F39FB44;display:block;margin:0 auto 1.5rem auto;">
-        <p style="text-align:center;color:#E0F7FA;">Gérez tous vos jeux, ajoutez-en de nouveaux, suivez votre progression, et classez-les selon vos envies.</p>
-    </div>
-    <div style="margin-bottom:2.5rem;">
-        <h3 style="color:#BB86FC;text-align:center;font-size:1.3rem;margin-bottom:1.2rem;">Votre wishlist</h3>
-        <img src="<?= base_url('images/demo-wishlist.png') ?>" alt="Aperçu Wishlist" style="max-width:100%;border-radius:12px;box-shadow:0 4px 24px #7F39FB44;display:block;margin:0 auto 1.5rem auto;">
-        <p style="text-align:center;color:#E0F7FA;">Gardez une trace des jeux que vous souhaitez acquérir ou découvrir, et ne ratez plus jamais une sortie importante !</p>
+    <div class="features-section">
+        <h2>Aperçu des fonctionnalités</h2>
+        <div class="feature-preview">
+            <h3>Votre collection de jeux</h3>
+            <img src="<?= base_url('images/demo-mesjeux.png') ?>" alt="Aperçu Mes Jeux">
+            <p>Gérez tous vos jeux, ajoutez-en de nouveaux, suivez votre progression, et classez-les selon vos envies.</p>
+        </div>
+        <div class="feature-preview">
+            <h3>Votre wishlist</h3>
+            <img src="<?= base_url('images/demo-wishlist.png') ?>" alt="Aperçu Wishlist">
+            <p>Gardez une trace des jeux que vous souhaitez acquérir ou découvrir, et ne ratez plus jamais une sortie importante !</p>
+        </div>
     </div>
     <div class="home-btns-container">
         <a href="<?= base_url('register') ?>" class="home-btn">Créer un compte</a>
@@ -38,7 +40,7 @@ $this->section('content');
 <?php else: ?>
 <section class="dashboard-home">
     <?php if (isset($username)): ?>
-        <h1 style="color:#9B5DE5;text-align:center;font-size:2.2rem;margin-bottom:2.2rem;">Bienvenue, <?= esc($username) ?> !</h1>
+        <h1 class="personal-welcome">Bienvenue, <?= esc($username) ?> !</h1>
     <?php endif; ?>
     <h2>Derniers jeux ajoutés</h2>
     <div class="dashboard-row" id="last-played-games">
@@ -131,10 +133,10 @@ $this->section('content');
 
 <!-- Modal aperçu jeu Accueil -->
 <div id="gameViewModal" class="modal">
-    <div class="modal-content" id="gameViewModalContent" style="max-width:600px;position:relative;">
+    <div class="modal-content game-modal-content" id="gameViewModalContent">
         <button class="modal-close" id="closeGameViewModal">&times;</button>
-        <div id="gameViewModalBody" style="min-height:200px;text-align:center;">
-            <span style="color:#BB86FC;">Chargement...</span>
+        <div id="gameViewModalBody" class="game-modal-body">
+            <span class="loading-text">Chargement...</span>
         </div>
     </div>
 </div>

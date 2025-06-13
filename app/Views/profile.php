@@ -5,13 +5,13 @@
 
 <div class="profile-container">
     <!-- L'image de profil sera remplacée par la preview -->
-    <img id="preview" src="<?= base_url($user['profile_picture']) ?>" alt="Photo de profil" class="profile-picture" style="max-width: 100px; max-height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1.2rem;">
-    <form action="<?= base_url('profile/upload') ?>" method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:320px;margin:0 auto;">
-        <div class="file-upload" style="width:100%;margin-bottom:0.7rem;">
+    <img id="preview" src="<?= base_url($user['profile_picture']) ?>" alt="Photo de profil" class="profile-picture">
+    <form action="<?= base_url('profile/upload') ?>" method="post" enctype="multipart/form-data" class="profile-form">
+        <div class="file-upload">
             <input type="file" id="profile_picture" name="profile_picture" class="custom-file-input" accept="image/*">
             <label for="profile_picture" class="custom-file-label">Choisir un fichier</label>
         </div>
-        <button type="submit" style="width:100%;box-sizing:border-box;">Mettre à jour</button>
+        <button type="submit" class="full-width">Mettre à jour</button>
     </form>
 </div>
 
@@ -50,39 +50,39 @@
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p style="color:#9B5DE5;">Aucun jeu dans le top 5 pour l'instant.</p>
+        <p class="empty-top5-message">Aucun jeu dans le top 5 pour l'instant.</p>
     <?php endif; ?>
 </div>
 
 <!-- Modal de sélection du top 5 -->
 <div id="top5Modal" class="modal">
-    <div class="modal-content" style="max-width:500px;">
+    <div class="modal-content top5-modal-content">
         <button class="modal-close" id="closeTop5Modal">&times;</button>
         <h2>Choisissez vos 5 jeux favoris</h2>
         <form id="top5Form">
-            <div style="max-height:320px;overflow-y:auto;">
+            <div class="top5-games-container">
                 <?php foreach ($allGames as $game): ?>
                     <?php
                         $cover = !empty($game['cover']) ? $game['cover'] : '';
                         $isExternal = (strpos($cover, 'http://') === 0 || strpos($cover, 'https://') === 0);
                     ?>
-                    <div style="display:flex;align-items:center;margin-bottom:0.7rem;">
-                        <input type="checkbox" name="top5[]" value="<?= $game['id'] ?>" id="game<?= $game['id'] ?>" class="top5-checkbox" style="margin-right:10px;">
+                    <div class="top5-game-item">
+                        <input type="checkbox" name="top5[]" value="<?= $game['id'] ?>" id="game<?= $game['id'] ?>" class="top5-checkbox">
                         <?php if (!empty($cover)): ?>
-                            <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;margin-right:10px;">
+                            <img src="<?= $isExternal ? $cover : base_url($cover) ?>" alt="<?= esc($game['name']) ?>" class="top5-game-cover">
                         <?php else: ?>
-                            <div class="game-cover-placeholder" style="width:40px;height:40px;border-radius:6px;margin-right:10px;">
+                            <div class="top5-game-cover-placeholder">
                                 <div class="placeholder-title">?</div>
                             </div>
                         <?php endif; ?>
-                        <label for="game<?= $game['id'] ?>" style="cursor:pointer;">
-                            <span class="top5-position" style="font-weight:bold;color:#00E5FF;margin-right:7px;"></span>
-                            <?= esc($game['name']) ?> <span style="color:#BB86FC;font-size:0.95em;">[<?= esc($game['platform']) ?>]</span>
+                        <label for="game<?= $game['id'] ?>" class="top5-game-label">
+                            <span class="top5-position"></span>
+                            <?= esc($game['name']) ?> <span class="top5-platform">[<?= esc($game['platform']) ?>]</span>
                         </label>
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div style="margin-top:1.2rem;text-align:center;">
+            <div class="top5-submit-container">
                 <button type="submit" class="btn btn-primary">Valider</button>
             </div>
         </form>
@@ -90,8 +90,8 @@
 </div>
 
 <h3 class="profile-section-title">Préférences</h3>
-<form id="adultFilterForm" style="margin-bottom:2rem;max-width:400px;">
-    <label style="color:#BB86FC;font-size:1.08rem;display:flex;align-items:center;gap:0.7em;">
+<form id="adultFilterForm" class="adult-filter-form">
+    <label class="adult-filter-label">
         <input type="checkbox" id="showAdultCheckbox" name="show_adult" value="1" <?= session()->get('show_adult') ? 'checked' : '' ?>>
         Afficher le contenu adulte (18+)
     </label>
