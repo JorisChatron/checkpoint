@@ -70,18 +70,6 @@ class GameLibraryApp {
     }
 
     /**
-     * Affiche un message à l'utilisateur
-     * @param {string} message - Le message à afficher
-     * @param {string} type - Le type de message ('info' ou 'error')
-     */
-    showMessage(message, type = 'info') {
-        // Gestion silencieuse des messages pour éviter les erreurs console
-        if (type === 'error') {
-            // Les erreurs sont gérées silencieusement
-        }
-    }
-
-    /**
      * Initialise la barre de recherche de la navbar
      * Configure l'autocomplétion et la recherche de jeux
      */

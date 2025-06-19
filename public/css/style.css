@@ -639,8 +639,6 @@ header {
 .btn-action.delete { background: linear-gradient(45deg, var(--error-color), var(--warning-color)); }
 /* Bouton éditer avec les couleurs du thème */
 .btn-action.edit { background: linear-gradient(45deg, var(--accent-color), var(--secondary-color)); }
-/* Bouton transférer en vert */
-.btn-action.transfer { background: linear-gradient(45deg, var(--success-color), var(--success-color)); }
 
 /* Animation au survol des boutons */
 .btn-action:hover { 
@@ -1064,16 +1062,6 @@ input[type="button"]:hover,
     cursor: pointer;
     /* Animation douce */
     transition: all 0.2s ease;
-}
-
-/* Animation au survol du bouton fermer */
-.modal-close:hover {
-    /* Fond violet */
-    background: var(--primary-color);
-    /* X en cyan */
-    color: var(--accent-color);
-    /* Rotation */
-    transform: rotate(90deg);
 }
 
 /* ===========================================
@@ -1571,16 +1559,6 @@ input[type="button"]:hover,
     color: var(--text-color);
 }
 
-.game-modal-content {
-    max-width: 600px;
-    position: relative;
-}
-
-.game-modal-body {
-    min-height: 200px;
-    text-align: center;
-}
-
 .loading-text {
     color: #BB86FC;
 }
@@ -1612,11 +1590,6 @@ input[type="button"]:hover,
     border: 2px solid var(--primary-color);
     box-shadow: var(--box-shadow);
     transition: transform var(--transition-speed) ease;
-}
-
-.profile-picture:hover {
-    transform: scale(1.05);
-    box-shadow: var(--box-shadow-hover);
 }
 
 .profile-form {
@@ -1665,10 +1638,6 @@ input[type="button"]:hover,
     padding: var(--spacing-xs);
     border-radius: var(--border-radius);
     transition: background var(--transition-speed) ease;
-}
-
-.top5-game-item:hover {
-    background: var(--background-dark);
 }
 
 .top5-checkbox {
