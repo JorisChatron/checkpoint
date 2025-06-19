@@ -1,228 +1,1295 @@
+/* Variables CSS principales - on définit ici toutes les couleurs et tailles réutilisables */
 :root {
-    --primary-color: #7F39FB;
-    --secondary-color: #BB86FC;
-    --accent-color: #00E5FF;
-    --text-color: #E0F7FA;
-    --background-dark: rgba(31, 27, 46, 0.9);
-    --background-darker: rgba(13, 13, 26, 0.85);
-    --error-color: #ff4444;
-    --border-radius: 12px;
-    --transition-speed: 0.3s;
-    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    --spacing-md: 1.2rem;
-    --spacing-lg: 2rem;
+    --primary-color: #7F39FB;          /* Couleur principale violette - utilisée pour les bordures et éléments importants */
+    --secondary-color: #BB86FC;        /* Couleur secondaire violette claire - pour les textes et liens */
+    --accent-color: #00E5FF;           /* Couleur d'accent cyan - pour les survols et focus */
+    --text-color: #E0F7FA;             /* Couleur du texte principal - bleu très clair pour contraste sur fond sombre */
+    --background-dark: rgba(31, 27, 46, 0.9);    /* Arrière-plan sombre avec 90% d'opacité - pour les contenants */
+    --background-darker: rgba(13, 13, 26, 0.85); /* Arrière-plan plus sombre avec 85% d'opacité - pour les cartes */
+    --error-color: #ff4444;            /* Couleur d'erreur rouge vif - pour les messages d'erreur */
+    --border-radius: 12px;             /* Rayon de bordure par défaut - arrondit les coins de 12 pixels */
+    --transition-speed: 0.3s;          /* Vitesse de transition - animations de 0.3 secondes */
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Ombre des boîtes - décalage vertical 4px, flou 15px, noir 40% opaque */
+    --spacing-md: 1.2rem;              /* Espacement moyen - correspond à environ 19px */
+    --spacing-lg: 2rem;                /* Grand espacement - correspond à environ 32px */
 }
 
-* { box-sizing: border-box; }
-body { margin: 0; font-family: 'Orbitron', sans-serif; background: url('../images/background.png') center/cover fixed no-repeat; color: var(--text-color); line-height: 1.6; }
-h2 { color: var(--secondary-color); }
-p { color: var(--text-color); }
-.hidden { display: none !important; }
-
-header { display: flex; justify-content: center; background-color: transparent; margin-top: 2rem; z-index: 100; position: relative; }
-
-.navbar { background-color: var(--background-dark); border: 2px solid var(--primary-color); border-radius: var(--border-radius); padding: 0.5rem 2rem; max-width: 1100px; height: 65px; width: 95%; display: flex; align-items: center; position: relative; box-shadow: var(--box-shadow); }
-
-.navbar-flex { display: flex; align-items: center; width: 100%; position: relative; }
-
-.navbar-section.navbar-links { display: flex; align-items: center; gap: 1.2rem; flex: 1; }
-
-.navbar-links a { color: var(--secondary-color); text-decoration: none; transition: color var(--transition-speed); white-space: nowrap; }
-.navbar-links a:hover { color: var(--accent-color); }
-
-.logo-container { position: absolute; left: 50%; transform: translateX(-50%); z-index: 10; }
-.logo { max-width: 130px; height: auto; }
-
-.navbar-right-section { display: flex; align-items: center; gap: 1rem; flex: 1; justify-content: flex-end; }
-
-.navbar-search { display: flex; align-items: center; position: relative; min-width: 200px; max-width: 300px; margin-right: 4rem; }
-
-.navbar-search input[type="text"] { width: 100%; height: 40px; font-size: 1rem; border-radius: 18px; padding: 0.4rem 1.2rem; background: var(--background-dark); color: var(--text-color); border: 1.5px solid var(--primary-color); outline: none; box-shadow: 0 2px 8px rgba(127, 57, 251, 0.13); transition: border 0.2s, box-shadow 0.2s; }
-.navbar-search input[type="text"]:focus { border: 2px solid var(--accent-color); box-shadow: 0 4px 16px rgba(0, 229, 255, 0.2); }
-
-.navbar-suggestions { position: absolute; top: 110%; left: 0; width: 100%; background: #1E1E2F; border-radius: 0 0 12px 12px; z-index: 1000; box-shadow: 0 4px 16px rgba(127, 57, 251, 0.13); list-style: none; margin: 0; padding: 0; max-height: 260px; overflow-y: auto; display: none; }
-
-.navbar-suggestions li { color: var(--secondary-color); padding: 0.7rem 1.2rem; cursor: pointer; transition: background 0.2s; font-size: 1rem; }
-.navbar-suggestions li:hover { background: var(--background-dark); color: var(--accent-color); }
-
-.burger-menu { display: flex; align-items: center; position: relative; }
-
-.burger { font-size: 24px; background: none; border: none; cursor: pointer; color: var(--text-color); z-index: 101; padding: 0; display: flex; align-items: center; justify-content: center; }
-
-.burger-icon { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; transition: transform var(--transition-speed) ease; border: 2px solid var(--secondary-color); }
-.burger-icon:hover { transform: scale(1.1); }
-
-.dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: 12px; box-shadow: var(--box-shadow); z-index: 1000; width: 200px; transform: translateY(-10px); opacity: 0; visibility: hidden; transition: all var(--transition-speed) cubic-bezier(0.23, 1, 0.32, 1); pointer-events: none; }
-.dropdown.active { transform: translateY(0); opacity: 1; visibility: visible; pointer-events: auto; }
-
-.dropdown ul { list-style: none; margin: 0; padding: 8px 0; }
-.dropdown ul li { padding: 0; margin: 0; }
-.dropdown ul li a { display: block; padding: 12px 20px; text-decoration: none; color: var(--secondary-color); font-size: 1rem; transition: all 0.2s ease; border-radius: 0; }
-.dropdown ul li a:hover { background: rgba(127, 57, 251, 0.2); color: var(--accent-color); }
-.dropdown ul li:first-child a { border-radius: 10px 10px 0 0; }
-.dropdown ul li:last-child a { border-radius: 0 0 10px 10px; }
-
-.navbar-desktop-only { display: flex !important; }
-.navbar-mobile-only { display: none !important; }
-
-.dashboard-home, main { max-width: 1100px; margin: 2rem auto; background: var(--background-darker); border-radius: 18px; box-shadow: var(--box-shadow); padding: 2.5rem 2rem; }
-
-.dashboard-home h2 { color: var(--secondary-color); margin: 2rem 0 1rem 0; font-size: 1.5rem; letter-spacing: 1px; }
-
-.dashboard-row, .wishlist-carousel, .calendar-games-grid { display: grid; gap: 0.8rem; margin-bottom: 2rem; grid-template-columns: repeat(auto-fill, minmax(140px, 170px)); justify-content: center; }
-
-.game-card-universal, .game-card, .wishlist-card, .calendrier-card { background: var(--background-darker); border: 2px solid var(--primary-color); border-radius: var(--border-radius); box-shadow: var(--box-shadow); height: 280px; display: flex; flex-direction: column; color: var(--text-color); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; overflow: hidden; position: relative; }
-
-.game-card-universal:hover, .game-card:hover, .wishlist-card:hover, .calendrier-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(127, 57, 251, 0.3); }
-
-.game-card-universal img, .game-card img, .wishlist-card img, .calendrier-card img { width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--border-radius) - 2px); }
-
-.card-info-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent); color: white; padding: 1rem 0.8rem; border-radius: 0 0 calc(var(--border-radius) - 2px) calc(var(--border-radius) - 2px); }
-
-.card-info-overlay .card-name { font-size: 0.85rem; font-weight: bold; margin-bottom: 0.3rem; color: var(--secondary-color); line-height: 1.2; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); }
-
-.card-info-overlay .card-date { font-size: 0.75rem; color: var(--text-color); opacity: 0.9; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6); }
-
-.game-card-universal .card-actions { position: absolute; top: 8px; right: 8px; display: flex; gap: 6px; opacity: 0; transition: opacity 0.3s; }
-.game-card-universal:hover .card-actions { opacity: 1; }
-
-.game-card-universal .btn-action { width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer; color: white; font-size: 0.8rem; transition: transform 0.2s ease; z-index: 10; display: flex; align-items: center; justify-content: center; line-height: 1; }
-
-.btn-action.delete { background: linear-gradient(45deg, var(--error-color), #ff3742); }
-.btn-action.edit { background: linear-gradient(45deg, var(--accent-color), var(--secondary-color)); }
-.btn-action.transfer { background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); }
-.btn-action:hover { transform: scale(1.1); }
-
-.game-cover-placeholder, .default-game-cover { background: linear-gradient(145deg, var(--background-dark), var(--background-darker)); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5rem; text-align: center; border: 2px solid var(--primary-color); box-shadow: 0 2px 8px rgba(127, 57, 251, 0.27); width: 100%; height: 100%; }
-
-.placeholder-title, .game-title { color: var(--primary-color); font-weight: bold; margin-bottom: 0.3rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); letter-spacing: 0.5px; line-height: 1.2; }
-
-.placeholder-text, .no-cover-text { color: var(--secondary-color); opacity: 0.8; line-height: 1.3; font-size: 0.8rem; }
-
-.dashboard-stats { display: grid; gap: 1.5rem; margin-top: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-
-.stat-card { background: var(--background-darker); border: 2px solid var(--primary-color); border-radius: 10px; color: var(--accent-color); font-size: 1.1rem; padding: 1.2rem 2.2rem; text-align: center; font-family: 'Orbitron', sans-serif; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: transform 0.2s ease; }
-
-.stat-card span { color: var(--text-color); font-weight: bold; font-size: 1.2em; display: block; }
-.stat-card:hover { transform: translateY(-2px); }
-
-.wishlist-empty-message, .games-empty-message { text-align: center; color: var(--secondary-color); background: var(--background-darker); border: 2px dashed var(--primary-color); border-radius: 14px; padding: 2.5rem 1.5rem; font-size: 1.3rem; margin: 3rem auto; max-width: 500px; box-shadow: 0 2px 12px rgba(127, 57, 251, 0.13); font-family: 'Orbitron', sans-serif; }
-
-.filters-bar { display: flex; gap: 1.2rem; margin: 2rem 0 2.5rem 0; padding: 1rem 1.5rem; background: var(--background-darker); border-radius: var(--border-radius); box-shadow: 0 2px 10px rgba(0,0,0,0.18); align-items: center; flex-wrap: wrap; }
-
-form { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
-
-.form-group { position: relative; margin-bottom: 2rem; width: 100%; max-width: 400px; }
-
-.form-control, input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea, .filters-bar select { width: 100%; padding: 10px 15px; border: 2px solid var(--secondary-color); border-radius: 8px; font-size: 1rem; font-family: 'Orbitron', sans-serif; color: var(--text-color); background-color: var(--background-darker); transition: all var(--transition-speed) ease; outline: none; }
-
-.form-control:focus, input:focus, select:focus, textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 8px rgba(0, 229, 255, 0.5); }
-
-label { display: block; margin-bottom: 0.5rem; font-size: 1rem; color: var(--secondary-color); width: 100%; }
-
-.text-danger { color: var(--error-color); font-size: 0.9rem; margin-top: 0.5rem; background: var(--background-darker); border-radius: 8px; padding: 6px 12px; }
-
-button:not(.burger), input[type="submit"], input[type="button"], .home-btn { background: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%); color: var(--text-color); border: 2px solid var(--primary-color); border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: all var(--transition-speed) ease; text-transform: uppercase; outline: none; text-decoration: none; display: inline-block; text-align: center; }
-
-button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hover, .home-btn:hover { background: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%); color: var(--background-darker); border-color: var(--accent-color); transform: scale(1.05); }
-
-.home-btns-container { display: flex; gap: 1.5rem; justify-content: center; margin: 2rem 0; flex-wrap: wrap; }
-
-.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); }
-
-.modal.active { display: flex; justify-content: center; align-items: center; }
-
-.modal-content { background: var(--background-darker); padding: 2rem; border-radius: var(--border-radius); width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; border: 2px solid var(--primary-color); box-shadow: var(--box-shadow); position: relative; }
-
-.modal-content h2 { color: var(--primary-color); margin-bottom: 1.5rem; text-align: center; }
-
-.modal-close { position: absolute; top: 15px; right: 20px; color: var(--secondary-color); font-size: 28px; font-weight: bold; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s ease; text-decoration: none; }
-
-.modal-close:hover { color: var(--accent-color); background: rgba(127, 57, 251, 0.2); }
-
-.auth-section { max-width: 400px; margin: 2rem auto; background: var(--background-darker); border-radius: 18px; box-shadow: var(--box-shadow); padding: 2.5rem 2rem; }
-
-.auth-title { color: var(--primary-color); text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem; }
-
-.auth-form { margin-bottom: 1.5rem; }
-
-.remember-me-container { display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; color: var(--secondary-color); }
-
-.remember-me-container input[type="checkbox"] { width: auto; margin: 0; transform: scale(1.2); }
-
-.auth-link { text-align: center; margin-top: 1rem; color: var(--secondary-color); }
-
-.auth-link a { color: var(--secondary-color); text-decoration: none; transition: color var(--transition-speed); }
-
-.auth-link a:hover { color: var(--accent-color); }
-
-.week-selector-container, .week-navigation { display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 1.5rem 0; background: var(--background-darker); padding: 1rem; border-radius: var(--border-radius); border: 2px solid var(--primary-color); }
-
-.checkbox-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin: 1rem 0; }
-
-.suggestions-list { background: var(--background-darker); border: 2px solid var(--primary-color); border-radius: var(--border-radius); max-height: 200px; overflow-y: auto; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; box-shadow: var(--box-shadow); list-style: none; margin: 0; padding: 0; }
-
-.suggestions-list li { padding: 0.7rem 1rem; cursor: pointer; transition: background 0.2s; color: var(--text-color); }
-
-.suggestions-list li:last-child { border-radius: 0 0 calc(var(--border-radius) - 2px) calc(var(--border-radius) - 2px); }
-
-.suggestions-list li:hover { background: rgba(127, 57, 251, 0.2); color: var(--accent-color); }
-
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--background-dark); border-radius: 8px; }
-::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 8px; border: 2px solid var(--background-dark); }
-::-webkit-scrollbar-thumb:hover { background: var(--secondary-color); }
-
-@keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-.welcome-title, .personal-welcome, .welcome-description, .features-list, .features-section h2, .feature-preview, .feature-preview h3, .feature-preview img, .feature-preview p, .loading-text { color: var(--primary-color); text-align: center; font-size: 2.2rem; margin-bottom: 2.2rem; }
-.welcome-description { font-size: 1.15rem; margin-bottom: 2.5rem; color: var(--text-color); }
-.features-list { font-size: 1.08rem; line-height: 1.7; color: var(--secondary-color); margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-.features-section h2 { margin: 2.5rem 0 1.2rem 0; }
-.feature-preview { margin-bottom: 2.5rem; }
-.feature-preview h3 { color: var(--secondary-color); font-size: 1.3rem; margin-bottom: 1.2rem; }
-.feature-preview img { max-width: 100%; border-radius: var(--border-radius); box-shadow: var(--box-shadow); display: block; margin: 0 auto 1.5rem auto; }
-.feature-preview p { color: var(--text-color); }
-.loading-text { color: #BB86FC; }
-
-.profile-container, .profile-form, .adult-filter-form { display: flex; align-items: center; background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: var(--border-radius); padding: var(--spacing-md); margin-bottom: var(--spacing-md); }
-
-.top5-modal-content { max-width: 500px; background: var(--background-darker); border: 2px solid var(--primary-color); border-radius: var(--border-radius); max-height: 80vh; overflow: hidden; }
-
-.top5-games-container { max-height: 400px; overflow-y: auto; padding: 0.7rem; background: var(--background-darker); }
-
-.top5-game-item { display: flex; align-items: center; margin-bottom: 0.7rem; padding: 0.5rem; border-radius: var(--border-radius); transition: background var(--transition-speed) ease; background: rgba(127, 57, 251, 0.05); border: 1px solid rgba(127, 57, 251, 0.2); }
-
-.profile-container, .profile-form { flex-direction: column; }
-
-.profile-picture { max-width: 100px; max-height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: var(--spacing-md); border: 2px solid var(--primary-color); box-shadow: var(--box-shadow); transition: transform var(--transition-speed) ease; }
-.file-upload { width: 100%; margin-bottom: 0.7rem; }
-.profile-section-title { color: var(--secondary-color); margin: var(--spacing-lg) 0 var(--spacing-md) 0; font-size: 1.3rem; letter-spacing: 1px; }
-
-.top5-checkbox { margin-right: 0.7rem; }
-.top5-game-cover, .top5-game-cover-placeholder { width: 40px; height: 40px; border-radius: calc(var(--border-radius) / 2); margin-right: 0.7rem; border: 1px solid var(--primary-color); }
-.top5-game-cover { object-fit: cover; }
-.top5-game-cover-placeholder { background: var(--background-dark); display: flex; align-items: center; justify-content: center; color: var(--secondary-color); }
-.top5-game-label { cursor: pointer; color: var(--text-color); transition: color var(--transition-speed) ease; }
-.top5-game-label:hover { color: var(--accent-color); }
-.top5-position { font-weight: bold; color: var(--accent-color); margin-right: 0.5rem; }
-.top5-platform { color: var(--secondary-color); font-size: 0.95em; }
-.top5-submit-container { margin-top: var(--spacing-md); text-align: center; padding: 0.7rem; border-top: 1px solid var(--primary-color); }
-.empty-top5-message { color: var(--primary-color); text-align: center; padding: var(--spacing-md); font-style: italic; }
-
-.adult-filter-label { color: var(--secondary-color); font-size: 1.08rem; gap: 0.7rem; transition: color var(--transition-speed) ease; }
-.adult-filter-label:hover { color: var(--accent-color); }
-
-@media (min-width: 1201px) { .dashboard-row, .wishlist-carousel, .calendar-games-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 180px)); gap: 1rem; } .game-card-universal, .game-card, .wishlist-card, .calendrier-card { height: 320px; } }
-
-@media (min-width: 800px) and (max-width: 1200px) { .logo { max-width: 100px !important; } .navbar-section.navbar-links { gap: 0.8rem !important; } .navbar-links a { font-size: 0.85rem !important; } .navbar-search { min-width: 200px !important; max-width: 200px !important; margin-right: 0.5rem !important; } .navbar-search input[type="text"] { font-size: 0.75rem !important; height: 32px !important; padding: 0.2rem 0.6rem !important; } }
-
-@media (max-width: 1024px) { .navbar { padding: 0.5rem 1.5rem; width: 90%; } .navbar-search { min-width: 160px; max-width: 250px; } .dashboard-stats { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
-
-@media (max-width: 768px) { .navbar { padding: 0.5rem 1rem; width: 98%; height: auto; min-height: 60px; } .navbar-flex { justify-content: space-between; } .navbar-desktop-only { display: none !important; } .navbar-mobile-only { display: block !important; } .logo-container { position: relative; left: auto; transform: none; order: 1; } .logo { max-width: 80px; } .navbar-search { position: absolute; left: 50%; transform: translateX(-50%); width: calc(100% - 180px); max-width: 250px; min-width: 120px; } .navbar-search input[type="text"] { font-size: 0.9rem; padding: 0.3rem 0.8rem; height: 36px; } .navbar-right-section { justify-content: flex-end; margin-left: auto; } .burger-icon { width: 36px; height: 36px; } .dropdown { width: 220px; right: 0; } .dashboard-home, main { margin: 2rem 0.5rem; padding: 2rem 1.5rem; } .dashboard-row, .wishlist-carousel, .calendar-games-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 140px)); gap: 0.6rem; } .dashboard-stats { grid-template-columns: 1fr; gap: 0.8rem; margin: 1rem 0; } .stat-card { padding: 1rem 1.5rem; font-size: 1rem; } .filters-bar { flex-direction: column; gap: 0.7rem; padding: 0.7rem 0.5rem; } .filters-bar select { width: 100%; min-width: unset; } .checkbox-list { grid-template-columns: 1fr; } .game-card-universal, .game-card, .wishlist-card, .calendrier-card { height: 240px; } .game-card-universal .card-actions { opacity: 1; } .modal-content { padding: 1.5rem; width: 95%; max-height: 90vh; } .top5-modal-content { max-width: 95%; } .auth-section { margin: 2rem 0.5rem; padding: 1.5rem 1rem; } .auth-title { font-size: 1.5rem; } }
-
-@media (max-width: 480px) { .navbar { padding: 0.4rem 0.8rem; width: 96%; min-height: 55px; } .logo { max-width: 70px; } .navbar-search { width: calc(100% - 160px); max-width: 200px; min-width: 100px; } .navbar-search input[type="text"] { font-size: 0.8rem; padding: 0.25rem 0.6rem; height: 34px; } .burger-icon { width: 34px; height: 34px; } .dropdown { width: 180px; } .dashboard-home, main { margin: 1.5rem 0.25rem; padding: 1.5rem 1rem; } .home-btn { font-size: 0.9rem; padding: 8px 16px; width: 200px; text-align: center; } }
-
-@media (max-width: 360px) { .navbar { padding: 0.3rem 0.6rem; width: 98%; min-height: 50px; } .logo { max-width: 60px; } .navbar-search { width: calc(100% - 140px); max-width: 160px; min-width: 80px; } .navbar-search input[type="text"] { font-size: 0.75rem; padding: 0.2rem 0.5rem; height: 32px; } .burger-icon { width: 32px; height: 32px; } .dropdown { width: 160px; } .dashboard-home, main { padding: 1rem 0.5rem; } .home-btn { font-size: 0.9rem; width: 200px; } }
-
-@media (hover: none) and (pointer: coarse) { .game-card-universal .card-actions { opacity: 1 !important; } button, .home-btn { min-height: 44px; min-width: 44px; } .navbar-search input[type="text"] { min-height: 40px; } } 
+/* Reset et styles de base - on remet à zéro les styles par défaut du navigateur */
+* { 
+    box-sizing: border-box;             /* Change le calcul de taille : padding et border inclus dans width/height */
+}
+
+body { 
+    margin: 0;                          /* Supprime la marge par défaut du navigateur autour de la page */
+    font-family: 'Orbitron', sans-serif; /* Police futuriste pour le thème gaming - fallback sur police sans-serif */
+    background: url('../images/background.png') center/cover fixed no-repeat; /* Image centrée, qui couvre tout l'écran, fixe au scroll, pas de répétition */
+    color: var(--text-color);           /* Couleur de texte par défaut définie dans les variables */
+    line-height: 1.6;                   /* Espacement entre lignes = 1.6x la taille de police pour lisibilité */
+}
+
+h2 { 
+    color: var(--secondary-color);      /* Tous les titres h2 en couleur secondaire (violet clair) */
+}
+
+p { 
+    color: var(--text-color);           /* Tous les paragraphes en couleur de texte par défaut */
+}
+
+.hidden { 
+    display: none !important;           /* Classe utilitaire pour cacher un élément - !important force la règle */
+}
+
+/* Header et navigation - contient la barre de navigation principale */
+header { 
+    display: flex;                       /* Conteneur flexbox pour centrer la navbar */
+    justify-content: center;             /* Centre horizontalement le contenu */
+    background-color: transparent;       /* Arrière-plan transparent pour voir l'image de fond */
+    margin-top: 2rem;                    /* Marge de 32px en haut pour espacer du bord de l'écran */
+    z-index: 100;                        /* Couche d'affichage élevée pour passer au-dessus d'autres éléments */
+    position: relative;                  /* Positionnement relatif pour que z-index fonctionne */
+}
+
+.navbar { 
+    background-color: var(--background-dark); /* Fond sombre semi-transparent défini dans les variables */
+    border: 2px solid var(--primary-color);   /* Bordure violette de 2px tout autour */
+    border-radius: var(--border-radius);      /* Coins arrondis selon la variable (12px) */
+    padding: 0.5rem 2rem;               /* Espacement intérieur : 8px vertical, 32px horizontal */
+    max-width: 1100px;                  /* Largeur maximum de 1100px pour éviter d'être trop large */
+    height: 65px;                       /* Hauteur fixe de 65px */
+    width: 95%;                         /* Largeur de 95% de l'écran avec un peu de marge */
+    display: flex;                      /* Flexbox pour aligner les éléments à l'intérieur */
+    align-items: center;                /* Centre verticalement tous les éléments */
+    position: relative;                 /* Position relative pour placer le logo absolument dedans */
+    box-shadow: var(--box-shadow);     /* Ombre définie dans les variables pour effet de profondeur */
+}
+
+/* Structure flexbox de la navbar - organise les éléments horizontalement */
+.navbar-flex { 
+    display: flex;                      /* Conteneur flexbox pour aligner tous les éléments de la navbar */
+    align-items: center;                /* Centre verticalement tous les éléments enfants */
+    width: 100%;                        /* Prend toute la largeur disponible dans la navbar */
+    position: relative;                 /* Position relative pour pouvoir placer le logo en absolu dedans */
+}
+
+/* Section des liens de navigation à gauche */
+.navbar-section.navbar-links { 
+    display: flex;                      /* Flexbox pour aligner les liens horizontalement */
+    align-items: center;                /* Centre verticalement les liens */
+    gap: 1.2rem;                        /* Espacement de 19px entre chaque lien */
+    flex: 1;                            /* Prend l'espace disponible à gauche du logo */
+}
+
+/* Styles des liens de navigation */
+.navbar-links a { 
+    color: var(--secondary-color);      /* Couleur violette claire pour les liens */
+    text-decoration: none;              /* Supprime le soulignement des liens */
+    transition: color var(--transition-speed); /* Animation fluide de changement de couleur (0.3s) */
+    white-space: nowrap;                /* Empêche le retour à la ligne des textes de liens */
+}
+
+/* Effet de survol sur les liens de navigation */
+.navbar-links a:hover { 
+    color: var(--accent-color);         /* Changement de couleur au survol vers cyan */
+}
+
+/* Logo centré */
+.logo-container { 
+    position: absolute;                 /* Position absolue pour sortir du flux normal */
+    left: 50%;                          /* Place le bord gauche au centre de la navbar */
+    transform: translateX(-50%);        /* Décale vers la gauche de 50% de sa largeur pour centrer parfaitement */
+    z-index: 10;                        /* Couche au-dessus des autres éléments pour éviter les chevauchements */
+}
+
+/* Taille du logo */
+.logo { 
+    max-width: 130px;                   /* Largeur maximum de 130px */
+    height: auto;                       /* Hauteur automatique pour garder les proportions */
+}
+
+/* Section droite de la navbar */
+.navbar-right-section { 
+    display: flex;                      /* Flexbox pour organiser recherche et menu burger */
+    align-items: center;                /* Centre verticalement les éléments */
+    gap: 1rem;                          /* Espacement de 16px entre les éléments */
+    flex: 1;                            /* Prend l'espace disponible à droite du logo */
+    justify-content: flex-end;          /* Aligne les éléments à droite */
+}
+
+/* Barre de recherche */
+.navbar-search { 
+    display: flex;                      /* Flexbox pour aligner input et éventuels boutons */
+    align-items: center;                /* Centre verticalement dans la barre de recherche */
+    position: relative;                 /* Position relative pour placer les suggestions en absolu */
+    min-width: 200px;                   /* Largeur minimum de 200px */
+    max-width: 300px;                   /* Largeur maximum de 300px */
+    margin-right: 4rem;                 /* Marge droite de 64px pour espacer du menu burger */
+}
+
+/* Champ de saisie de la recherche */
+.navbar-search input[type="text"] { 
+    width: 100%;                        /* Prend toute la largeur du conteneur */
+    height: 40px;                       /* Hauteur fixe de 40px */
+    font-size: 1rem;                    /* Taille de police de 16px (1rem) */
+    border-radius: 18px;                /* Coins très arrondis de 18px pour look moderne */
+    padding: 0.4rem 1.2rem;             /* Espacement intérieur : 6px vertical, 19px horizontal */
+    background: var(--background-dark); /* Fond sombre semi-transparent */
+    color: var(--text-color);           /* Couleur de texte claire pour contraste */
+    border: 1.5px solid var(--primary-color); /* Bordure violette de 1.5px */
+    outline: none;                      /* Supprime la bordure de focus par défaut du navigateur */
+    box-shadow: 0 2px 8px rgba(127, 57, 251, 0.13); /* Ombre légère violette */
+    transition: border 0.2s, box-shadow 0.2s; /* Animation sur bordure et ombre */
+}
+
+/* État focus du champ de recherche */
+.navbar-search input[type="text"]:focus { 
+    border: 2px solid var(--accent-color); /* Bordure cyan plus épaisse en focus */
+    box-shadow: 0 4px 16px rgba(0, 229, 255, 0.2); /* Ombre cyan plus prononcée */
+}
+
+/* Suggestions de recherche */
+.navbar-suggestions { 
+    position: absolute;                 /* Position absolue sous le champ de recherche */
+    top: 110%;                          /* Placé à 110% pour laisser un petit espace */
+    left: 0;                            /* Aligné à gauche du champ de recherche */
+    width: 100%;                        /* Même largeur que le champ de recherche */
+    background: #1E1E2F;                /* Fond sombre spécifique pour les suggestions */
+    border-radius: 0 0 12px 12px;       /* Coins arrondis seulement en bas */
+    z-index: 1000;                      /* Couche très haute pour passer au-dessus de tout */
+    box-shadow: 0 4px 16px rgba(127, 57, 251, 0.13); /* Ombre pour effet de profondeur */
+    list-style: none;                   /* Supprime les puces de liste */
+    margin: 0;                          /* Supprime les marges par défaut */
+    padding: 0;                         /* Supprime le padding par défaut */
+    max-height: 260px;                  /* Hauteur maximum de 260px */
+    overflow-y: auto;                   /* Défilement vertical si trop de suggestions */
+    display: none;                      /* Caché par défaut, affiché via JavaScript */
+}
+
+/* Éléments individuels des suggestions */
+.navbar-suggestions li { 
+    color: var(--secondary-color);      /* Couleur violette claire pour le texte */
+    padding: 0.7rem 1.2rem;             /* Espacement intérieur : 11px vertical, 19px horizontal */
+    cursor: pointer;                    /* Curseur pointeur pour indiquer que c'est cliquable */
+    transition: background 0.2s;        /* Animation de changement de fond */
+    font-size: 1rem;                    /* Taille de police de 16px */
+}
+
+/* Effet de survol sur les suggestions */
+.navbar-suggestions li:hover { 
+    background: var(--background-dark); /* Fond sombre au survol */
+    color: var(--accent-color);         /* Couleur cyan au survol */
+}
+
+/* Menu burger */
+.burger-menu { 
+    display: flex;                      /* Flexbox pour centrer l'icône burger */
+    align-items: center;                /* Centre verticalement l'icône */
+    position: relative;                 /* Position relative pour placer le dropdown */
+}
+
+/* Bouton burger lui-même */
+.burger { 
+    font-size: 24px;                    /* Taille de police de 24px pour l'icône */
+    background: none;                   /* Pas d'arrière-plan */
+    border: none;                       /* Pas de bordure */
+    cursor: pointer;                    /* Curseur pointeur */
+    color: var(--text-color);           /* Couleur de texte claire */
+    z-index: 101;                       /* Couche au-dessus du dropdown (z-index 1000) */
+    padding: 0;                         /* Pas de padding */
+    display: flex;                      /* Flexbox pour centrer le contenu */
+    align-items: center;                /* Centre verticalement */
+    justify-content: center;            /* Centre horizontalement */
+}
+
+/* Icône burger (image de profil) */
+.burger-icon { 
+    width: 40px;                        /* Largeur de 40px */
+    height: 40px;                       /* Hauteur de 40px (carré) */
+    border-radius: 50%;                 /* Arrondi complet pour faire un cercle */
+    object-fit: cover;                  /* Couvre tout l'espace en gardant les proportions */
+    transition: transform var(--transition-speed) ease; /* Animation de transformation (0.3s) */
+    border: 2px solid var(--secondary-color); /* Bordure violette claire de 2px */
+}
+
+/* Effet de survol sur l'icône burger */
+.burger-icon:hover { 
+    transform: scale(1.1);              /* Agrandissement de 10% au survol */
+}
+
+/* Menu déroulant */
+.dropdown { 
+    position: absolute;                 /* Position absolue par rapport au burger-menu */
+    top: calc(100% + 8px);              /* Positionné 8px sous le bouton burger */
+    right: 0;                           /* Aligné à droite du bouton burger */
+    background: var(--background-dark); /* Fond sombre semi-transparent */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    border-radius: 12px;                /* Coins arrondis de 12px */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur */
+    z-index: 1000;                      /* Couche haute pour passer au-dessus du contenu */
+    width: 200px;                       /* Largeur fixe de 200px */
+    transform: translateY(-10px);       /* Décalage initial vers le haut de 10px */
+    opacity: 0;                         /* Complètement transparent au départ */
+    visibility: hidden;                 /* Caché du lecteur d'écran */
+    transition: all var(--transition-speed) cubic-bezier(0.23, 1, 0.32, 1); /* Animation fluide avec courbe de Bézier */
+    pointer-events: none;               /* Désactive les événements de clic quand caché */
+}
+
+/* État actif du dropdown */
+.dropdown.active { 
+    transform: translateY(0);           /* Revient à sa position normale */
+    opacity: 1;                         /* Complètement visible */
+    visibility: visible;                /* Visible pour le lecteur d'écran */
+    pointer-events: auto;               /* Réactive les événements de clic */
+}
+
+/* Liste des éléments du dropdown */
+.dropdown ul { 
+    list-style: none;                   /* Supprime les puces de liste */
+    margin: 0;                          /* Supprime les marges par défaut */
+    padding: 8px 0;                     /* Padding vertical de 8px */
+}
+
+/* Éléments de liste du dropdown */
+.dropdown ul li { 
+    padding: 0;                         /* Pas de padding sur les li */
+    margin: 0;                          /* Pas de marge sur les li */
+}
+
+/* Liens dans le dropdown */
+.dropdown ul li a { 
+    display: block;                     /* Prend toute la largeur cliquable */
+    padding: 12px 20px;                 /* Espacement intérieur : 12px vertical, 20px horizontal */
+    text-decoration: none;              /* Supprime le soulignement */
+    color: var(--secondary-color);      /* Couleur violette claire */
+    font-size: 1rem;                    /* Taille de police de 16px */
+    transition: all 0.2s ease;          /* Animation fluide sur tous les changements */
+    border-radius: 0;                   /* Pas d'arrondi par défaut */
+}
+
+/* Effet de survol sur les liens du dropdown */
+.dropdown ul li a:hover { 
+    background: rgba(127, 57, 251, 0.2); /* Fond violette semi-transparent */
+    color: var(--accent-color);         /* Couleur cyan */
+}
+
+/* Premier élément du dropdown avec arrondi en haut */
+.dropdown ul li:first-child a { 
+    border-radius: 10px 10px 0 0;       /* Arrondi seulement en haut */
+}
+
+/* Dernier élément du dropdown avec arrondi en bas */
+.dropdown ul li:last-child a { 
+    border-radius: 0 0 10px 10px;       /* Arrondi seulement en bas */
+}
+
+/* Classes de visibilité responsive */
+.navbar-desktop-only { 
+    display: flex !important;           /* Force l'affichage en flexbox sur desktop */
+}
+
+.navbar-mobile-only { 
+    display: none !important;           /* Force la non-affichage sur desktop */
+}
+
+/* Contenu principal - conteneurs dashboard et pages principales */
+.dashboard-home, main { 
+    max-width: 1100px;                  /* Largeur maximum de 1100px pour éviter d'être trop large */
+    margin: 2rem auto;                  /* Marge de 32px en haut/bas, centré horizontalement */
+    background: var(--background-darker); /* Fond sombre pour contraste avec l'arrière-plan */
+    border-radius: 18px;                /* Coins arrondis de 18px pour un look moderne */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur et délimitation */
+    padding: 2.5rem 2rem;               /* Espacement intérieur : 40px vertical, 32px horizontal */
+}
+
+/* Titres des sections dans le dashboard */
+.dashboard-home h2 { 
+    color: var(--secondary-color);      /* Couleur violette claire pour les titres de section */
+    margin: 2rem 0 1rem 0;              /* Marge : 32px haut, 0 côtés, 16px bas */
+    font-size: 1.5rem;                  /* Taille de police de 24px */
+    letter-spacing: 1px;                /* Espacement des lettres de 1px pour effet futuriste */
+}
+
+/* Grilles de cartes de jeux - layout responsive pour toutes les collections */
+.dashboard-row, .wishlist-carousel, .calendar-games-grid { 
+    display: grid;                      /* Affichage en grille CSS pour organiser les cartes */
+    gap: 0.8rem;                        /* Espacement de 13px entre les cartes */
+    margin-bottom: 2rem;                /* Marge de 32px en bas pour espacer les sections */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 170px)); /* Colonnes auto-adaptatives : min 140px, max 170px par carte */
+    justify-content: center;            /* Centre les cartes horizontalement dans la grille */
+}
+
+/* Cartes de jeux universelles - style commun pour toutes les cartes de jeux */
+.game-card-universal, .game-card, .wishlist-card, .calendrier-card { 
+    background: var(--background-darker);    /* Fond sombre pour contraste avec l'image */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px pour délimiter la carte */
+    border-radius: var(--border-radius);    /* Coins arrondis de 12px pour un look moderne */
+    box-shadow: var(--box-shadow);          /* Ombre portée pour effet de profondeur */
+    height: 280px;                          /* Hauteur fixe de 280px pour toutes les cartes */
+    display: flex;                          /* Flexbox pour organiser le contenu */
+    flex-direction: column;                 /* Organisation verticale : image puis texte */
+    color: var(--text-color);              /* Couleur de texte par défaut */
+    transition: transform 0.2s, box-shadow 0.2s; /* Animation fluide sur la transformation et l'ombre */
+    cursor: pointer;                        /* Curseur pointeur pour indiquer que c'est cliquable */
+    overflow: hidden;                       /* Cache tout contenu qui dépasse (important pour l'image) */
+    position: relative;                     /* Position relative pour placer l'overlay et les actions */
+}
+
+/* Effet de survol sur toutes les cartes de jeux */
+.game-card-universal:hover, .game-card:hover, .wishlist-card:hover, .calendrier-card:hover { 
+    transform: translateY(-4px);           /* Déplace la carte 4px vers le haut au survol pour effet d'élévation */
+    box-shadow: 0 8px 25px rgba(127, 57, 251, 0.3); /* Ombre plus grande et colorée au survol */
+}
+
+/* Images dans toutes les cartes de jeux */
+.game-card-universal img, .game-card img, .wishlist-card img, .calendrier-card img { 
+    width: 100%;                        /* Prend toute la largeur de la carte */
+    height: 100%;                       /* Prend toute la hauteur de la carte */
+    object-fit: cover;                  /* Couvre tout l'espace en gardant les proportions */
+    border-radius: calc(var(--border-radius) - 2px); /* Coins arrondis ajustés pour la bordure (10px) */
+}
+
+/* Overlay d'informations sur les cartes */
+.card-info-overlay { 
+    position: absolute;                 /* Position absolue pour se placer au-dessus de l'image */
+    bottom: 0;                          /* Collé en bas de la carte */
+    left: 0;                            /* Collé à gauche de la carte */
+    right: 0;                           /* Collé à droite de la carte */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent); /* Dégradé vertical : noir opaque en bas vers transparent en haut */
+    color: white;                       /* Couleur de texte blanche pour contraste sur fond sombre */
+    padding: 1rem 0.8rem;               /* Espacement intérieur : 16px vertical, 13px horizontal */
+    border-radius: 0 0 calc(var(--border-radius) - 2px) calc(var(--border-radius) - 2px); /* Coins arrondis seulement en bas, ajustés pour la bordure */
+}
+
+/* Nom du jeu dans l'overlay */
+.card-info-overlay .card-name { 
+    font-size: 0.85rem;                 /* Taille de police de 14px */
+    font-weight: bold;                  /* Texte en gras pour mise en évidence */
+    margin-bottom: 0.3rem;              /* Marge de 5px en bas */
+    color: var(--secondary-color);      /* Couleur violette claire */
+    line-height: 1.2;                   /* Espacement entre lignes serré (1.2x) */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Ombre du texte pour lisibilité */
+}
+
+/* Date de sortie dans l'overlay */
+.card-info-overlay .card-date { 
+    font-size: 0.75rem;                 /* Taille de police de 12px */
+    color: var(--text-color);           /* Couleur de texte par défaut */
+    opacity: 0.9;                       /* Légèrement transparent (90% opacité) */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6); /* Ombre du texte moins prononcée */
+}
+
+/* Actions sur les cartes */
+.game-card-universal .card-actions { 
+    position: absolute;                 /* Position absolue pour se placer au-dessus de la carte */
+    top: 8px;                           /* 8px du haut de la carte */
+    right: 8px;                         /* 8px de la droite de la carte */
+    display: flex;                      /* Flexbox pour aligner les boutons horizontalement */
+    gap: 6px;                           /* Espacement de 6px entre les boutons d'action */
+    opacity: 0;                         /* Invisible par défaut (apparaît au survol) */
+    transition: opacity 0.3s;           /* Animation de fondu en 0.3s */
+}
+
+/* Apparition des actions au survol de la carte */
+.game-card-universal:hover .card-actions { 
+    opacity: 1;                         /* Devient visible au survol de la carte */
+}
+
+/* Boutons d'action sur les cartes de jeux */
+.game-card-universal .btn-action { 
+    width: 32px;                        /* Largeur de 32px pour un bouton compact */
+    height: 32px;                       /* Hauteur de 32px (carré) */
+    border-radius: 50%;                 /* Arrondi complet pour faire un cercle */
+    border: none;                       /* Pas de bordure */
+    cursor: pointer;                    /* Curseur pointeur pour indiquer que c'est cliquable */
+    color: white;                       /* Couleur de texte blanche pour contraste */
+    font-size: 0.8rem;                  /* Taille de police de 13px */
+    transition: transform 0.2s ease;    /* Animation de transformation en 0.2s */
+    z-index: 10;                        /* Couche élevée pour passer au-dessus de l'overlay */
+    display: flex;                      /* Flexbox pour centrer l'icône */
+    align-items: center;                /* Centre verticalement l'icône */
+    justify-content: center;            /* Centre horizontalement l'icône */
+    line-height: 1;                     /* Espacement de ligne serré pour éviter décalages */
+}
+
+/* Boutons d'action colorés - différentes couleurs selon l'action */
+.btn-action.delete { 
+    background: linear-gradient(45deg, var(--error-color), #ff3742); /* Dégradé rouge 45° pour bouton suppression - de rouge foncé vers rouge clair */
+}
+
+.btn-action.edit { 
+    background: linear-gradient(45deg, var(--accent-color), var(--secondary-color)); /* Dégradé cyan vers violet pour bouton édition */
+}
+
+.btn-action.transfer { 
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); /* Dégradé violet vers cyan pour bouton transfert */
+}
+
+.btn-action:hover { 
+    transform: scale(1.1);               /* Agrandit le bouton de 10% au survol pour feedback visuel */
+}
+
+/* Placeholders pour jeux sans image */
+.game-cover-placeholder, .default-game-cover { 
+    background: linear-gradient(145deg, var(--background-dark), var(--background-darker)); /* Dégradé 145° du fond sombre vers fond plus sombre */
+    border-radius: 10px;                /* Coins arrondis de 10px */
+    display: flex;                      /* Flexbox pour centrer le contenu */
+    flex-direction: column;             /* Organisation verticale : titre puis texte */
+    justify-content: center;            /* Centre verticalement le contenu */
+    align-items: center;                /* Centre horizontalement le contenu */
+    padding: 0.5rem;                    /* Espacement intérieur de 8px */
+    text-align: center;                 /* Texte centré */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    box-shadow: 0 2px 8px rgba(127, 57, 251, 0.27); /* Ombre violette avec 27% d'opacité */
+    width: 100%;                        /* Prend toute la largeur disponible */
+    height: 100%;                       /* Prend toute la hauteur disponible */
+}
+
+/* Titre dans les placeholders */
+.placeholder-title, .game-title { 
+    color: var(--primary-color);        /* Couleur violette foncée */
+    font-weight: bold;                  /* Texte en gras */
+    margin-bottom: 0.3rem;              /* Marge de 5px en bas */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Ombre du texte pour effet de profondeur */
+    letter-spacing: 0.5px;              /* Espacement des lettres de 0.5px */
+    line-height: 1.2;                   /* Espacement entre lignes serré */
+}
+
+/* Texte descriptif dans les placeholders */
+.placeholder-text, .no-cover-text { 
+    color: var(--secondary-color);      /* Couleur violette claire */
+    opacity: 0.8;                       /* 80% d'opacité pour un effet plus discret */
+    line-height: 1.3;                   /* Espacement entre lignes de 1.3x */
+    font-size: 0.8rem;                  /* Taille de police de 13px */
+}
+
+/* Statistiques du dashboard */
+.dashboard-stats { 
+    display: grid;                      /* Affichage en grille CSS */
+    gap: 1.5rem;                        /* Espacement de 24px entre les cartes */
+    margin-top: 1.5rem;                 /* Marge de 24px en haut */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colonnes auto-adaptatives : min 250px, max 1fr */
+}
+
+/* Cartes individuelles de statistiques */
+.stat-card { 
+    background: var(--background-darker); /* Fond sombre pour contraste */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    border-radius: 10px;                /* Coins arrondis de 10px */
+    color: var(--accent-color);         /* Couleur cyan pour le texte principal */
+    font-size: 1.1rem;                  /* Taille de police de 18px */
+    padding: 1.2rem 2.2rem;             /* Espacement intérieur : 19px vertical, 35px horizontal */
+    text-align: center;                 /* Texte centré */
+    font-family: 'Orbitron', sans-serif; /* Police cohérente avec le thème */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour effet de profondeur */
+    transition: transform 0.2s ease;    /* Animation de transformation en 0.2s */
+}
+
+/* Valeurs numériques dans les cartes statistiques */
+.stat-card span { 
+    color: var(--text-color);           /* Couleur de texte claire pour les valeurs */
+    font-weight: bold;                  /* Texte en gras pour mise en évidence */
+    font-size: 1.2em;                   /* Taille de police 20% plus grande que le parent */
+    display: block;                     /* Affichage en bloc pour passage à la ligne */
+}
+
+/* Effet de survol sur les cartes statistiques */
+.stat-card:hover { 
+    transform: translateY(-2px);        /* Déplace la carte 2px vers le haut au survol */
+}
+
+/* Messages d'état vide */
+.wishlist-empty-message, .games-empty-message { 
+    text-align: center;                 /* Texte centré */
+    color: var(--secondary-color);      /* Couleur violette claire */
+    background: var(--background-darker); /* Fond sombre pour contraste */
+    border: 2px dashed var(--primary-color); /* Bordure pointillée violette de 2px */
+    border-radius: 14px;                /* Coins arrondis de 14px */
+    padding: 2.5rem 1.5rem;             /* Espacement intérieur : 40px vertical, 24px horizontal */
+    font-size: 1.3rem;                  /* Taille de police de 21px pour bien voir */
+    margin: 3rem auto;                  /* Marge de 48px en haut/bas, centré horizontalement */
+    max-width: 500px;                   /* Largeur maximum de 500px */
+    box-shadow: 0 2px 12px rgba(127, 57, 251, 0.13); /* Ombre violette avec 13% d'opacité */
+    font-family: 'Orbitron', sans-serif; /* Police cohérente avec le thème */
+}
+
+/* Barre de filtres */
+.filters-bar { 
+    display: flex;                      /* Flexbox pour aligner les filtres horizontalement */
+    gap: 1.2rem;                        /* Espacement de 19px entre les éléments */
+    margin: 2rem 0 2.5rem 0;            /* Marge : 32px haut, 0 côtés, 40px bas */
+    padding: 1rem 1.5rem;               /* Espacement intérieur : 16px vertical, 24px horizontal */
+    background: var(--background-darker); /* Fond sombre pour contraste */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18); /* Ombre noire avec 18% d'opacité */
+    align-items: center;                /* Centre verticalement tous les éléments */
+    flex-wrap: wrap;                    /* Permet aux éléments de passer à la ligne si nécessaire */
+}
+
+/* Formulaires de base */
+form { 
+    display: flex;                      /* Flexbox pour organiser les champs */
+    flex-direction: column;             /* Organisation verticale des champs */
+    gap: 1rem;                          /* Espacement de 16px entre les champs */
+    align-items: center;                /* Centre horizontalement tous les éléments */
+}
+
+/* Groupes de champs de formulaire */
+.form-group { 
+    position: relative;                 /* Position relative pour placer les éléments enfants absolument si nécessaire */
+    margin-bottom: 2rem;                /* Marge de 32px en bas pour espacer les champs */
+    width: 100%;                        /* Prend toute la largeur disponible */
+    max-width: 400px;                   /* Largeur maximum de 400px pour éviter des champs trop larges */
+}
+
+/* Champs de formulaire */
+.form-control, input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea, .filters-bar select { 
+    width: 100%;                        /* Prend toute la largeur du conteneur */
+    padding: 10px 15px;                 /* Espacement intérieur : 10px vertical, 15px horizontal */
+    border: 2px solid var(--secondary-color); /* Bordure violette claire de 2px */
+    border-radius: 8px;                 /* Coins arrondis de 8px */
+    font-size: 1rem;                    /* Taille de police de 16px */
+    font-family: 'Orbitron', sans-serif; /* Police cohérente avec le site */
+    color: var(--text-color);           /* Couleur de texte claire */
+    background-color: var(--background-darker); /* Fond sombre pour contraste */
+    transition: all var(--transition-speed) ease; /* Animation fluide sur tous les changements */
+    outline: none;                      /* Supprime la bordure de focus par défaut */
+}
+
+/* État focus des champs de formulaire */
+.form-control:focus, input:focus, select:focus, textarea:focus { 
+    border-color: var(--accent-color);  /* Bordure cyan en focus */
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5); /* Ombre cyan diffuse en focus */
+}
+
+/* Labels des formulaires */
+label { 
+    display: block;                     /* Affichage en bloc pour prendre toute la largeur */
+    margin-bottom: 0.5rem;              /* Marge de 8px en bas pour espacer du champ */
+    font-size: 1rem;                    /* Taille de police de 16px */
+    color: var(--secondary-color);      /* Couleur violette claire */
+    width: 100%;                        /* Prend toute la largeur */
+}
+
+/* Messages d'erreur de validation */
+.text-danger { 
+    color: var(--error-color);          /* Couleur rouge pour les erreurs */
+    font-size: 0.9rem;                  /* Taille de police légèrement plus petite (14px) */
+    margin-top: 0.5rem;                 /* Marge de 8px en haut */
+    background: var(--background-darker); /* Fond sombre pour faire ressortir le message */
+    border-radius: 8px;                 /* Coins arrondis de 8px */
+    padding: 6px 12px;                  /* Espacement intérieur : 6px vertical, 12px horizontal */
+}
+
+/* Boutons principaux */
+button:not(.burger), input[type="submit"], input[type="button"], .home-btn { 
+    background: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%); /* Dégradé horizontal de violet foncé (80%) vers violet clair (100%) */
+    color: var(--text-color);           /* Couleur de texte claire */
+    border: 2px solid var(--primary-color); /* Bordure violette foncée de 2px */
+    border-radius: 8px;                 /* Coins arrondis de 8px */
+    padding: 10px 20px;                 /* Espacement intérieur : 10px vertical, 20px horizontal */
+    font-size: 1rem;                    /* Taille de police de 16px */
+    font-family: 'Orbitron', sans-serif; /* Police cohérente avec le site */
+    cursor: pointer;                    /* Curseur pointeur pour indiquer que c'est cliquable */
+    transition: all var(--transition-speed) ease; /* Animation fluide sur tous les changements */
+    text-transform: uppercase;          /* Texte en majuscules pour un look futuriste */
+    outline: none;                      /* Supprime la bordure de focus par défaut */
+    text-decoration: none;              /* Supprime le soulignement si c'est un lien */
+    display: inline-block;              /* Affichage en bloc en ligne pour permettre padding */
+    text-align: center;                 /* Centre le texte horizontalement */
+}
+
+/* Effet de survol sur les boutons */
+button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hover, .home-btn:hover { 
+    background: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%); /* Dégradé de violet clair vers cyan au survol */
+    color: var(--background-darker);    /* Couleur de texte sombre pour contraste sur fond clair */
+    border-color: var(--accent-color);  /* Bordure cyan au survol */
+    transform: scale(1.05);             /* Agrandissement de 5% au survol */
+}
+
+/* Conteneur des boutons sur la page d'accueil */
+.home-btns-container { 
+    display: flex;                      /* Flexbox pour aligner les boutons horizontalement */
+    gap: 1.5rem;                        /* Espacement de 24px entre les boutons */
+    justify-content: center;            /* Centre les boutons horizontalement */
+    margin: 2rem 0;                     /* Marge de 32px en haut et en bas */
+    flex-wrap: wrap;                    /* Permet aux boutons de passer à la ligne si nécessaire */
+}
+
+/* Modales */
+.modal { 
+    display: none;                      /* Caché par défaut */
+    position: fixed;                    /* Position fixe par rapport à la fenêtre */
+    z-index: 200;                       /* Couche très haute pour passer au-dessus de tout */
+    left: 0;                            /* Positionné tout à gauche */
+    top: 0;                             /* Positionné tout en haut */
+    width: 100%;                        /* Couvre toute la largeur de l'écran */
+    height: 100%;                       /* Couvre toute la hauteur de l'écran */
+    background-color: rgba(0, 0, 0, 0.8); /* Fond noir semi-transparent (80% opacité) */
+    backdrop-filter: blur(5px);         /* Effet de flou sur l'arrière-plan */
+}
+
+/* État actif de la modale */
+.modal.active { 
+    display: flex;                      /* Affichage en flexbox quand active */
+    justify-content: center;            /* Centre horizontalement le contenu */
+    align-items: center;                /* Centre verticalement le contenu */
+}
+
+/* Contenu de la modale */
+.modal-content { 
+    background: var(--background-darker); /* Fond sombre pour le contenu */
+    padding: 2rem;                      /* Espacement intérieur de 32px */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    width: 90%;                         /* Largeur de 90% de l'écran */
+    max-width: 600px;                   /* Largeur maximum de 600px */
+    max-height: 85vh;                   /* Hauteur maximum de 85% de la hauteur d'écran */
+    overflow-y: auto;                   /* Défilement vertical si contenu trop long */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur */
+    position: relative;                 /* Position relative pour placer le bouton fermer en absolu */
+}
+
+/* Titre de la modale */
+.modal-content h2 { 
+    color: var(--primary-color);        /* Couleur violette foncée */
+    margin-bottom: 1.5rem;              /* Marge de 24px en bas */
+    text-align: center;                 /* Texte centré */
+}
+
+/* Bouton fermer de la modale */
+.modal-close { 
+    position: absolute;                 /* Position absolue dans le modal-content */
+    top: 15px;                          /* 15px du haut */
+    right: 20px;                        /* 20px de la droite */
+    color: var(--secondary-color);      /* Couleur violette claire */
+    font-size: 28px;                    /* Taille de police de 28px pour bien voir */
+    font-weight: bold;                  /* Texte en gras */
+    cursor: pointer;                    /* Curseur pointeur */
+    width: 30px;                        /* Largeur de 30px */
+    height: 30px;                       /* Hauteur de 30px (carré) */
+    display: flex;                      /* Flexbox pour centrer le symbole */
+    align-items: center;                /* Centre verticalement */
+    justify-content: center;            /* Centre horizontalement */
+    border-radius: 50%;                 /* Arrondi complet pour faire un cercle */
+    transition: all 0.2s ease;          /* Animation fluide sur tous les changements */
+    text-decoration: none;              /* Supprime le soulignement si c'est un lien */
+}
+
+/* Effet de survol sur le bouton fermer */
+.modal-close:hover { 
+    color: var(--accent-color);         /* Couleur cyan au survol */
+    background: rgba(127, 57, 251, 0.2); /* Fond violette semi-transparent au survol */
+}
+
+/* Section d'authentification */
+.auth-section { 
+    max-width: 400px;                   /* Largeur maximum de 400px */
+    margin: 2rem auto;                  /* Marge de 32px en haut/bas, centré horizontalement */
+    background: var(--background-darker); /* Fond sombre */
+    border-radius: 18px;                /* Coins arrondis de 18px */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur */
+    padding: 2.5rem 2rem;               /* Espacement intérieur : 40px vertical, 32px horizontal */
+}
+
+/* Titre de la section d'authentification */
+.auth-title { 
+    color: var(--primary-color);        /* Couleur violette foncée */
+    text-align: center;                 /* Texte centré */
+    font-size: 1.8rem;                  /* Taille de police de 29px */
+    margin-bottom: 1.5rem;              /* Marge de 24px en bas */
+}
+
+/* Formulaire d'authentification */
+.auth-form { 
+    margin-bottom: 1.5rem;              /* Marge de 24px en bas */
+}
+
+/* Conteneur pour la case "Se souvenir de moi" */
+.remember-me-container { 
+    display: flex;                      /* Flexbox pour aligner checkbox et label */
+    align-items: center;                /* Centre verticalement */
+    gap: 0.5rem;                        /* Espacement de 8px entre checkbox et label */
+    margin: 1rem 0;                     /* Marge de 16px en haut et en bas */
+    color: var(--secondary-color);      /* Couleur violette claire pour le texte */
+}
+
+/* Case à cocher "Se souvenir de moi" */
+.remember-me-container input[type="checkbox"] { 
+    width: auto;                        /* Largeur automatique (pas 100% comme les autres inputs) */
+    margin: 0;                          /* Pas de marge */
+    transform: scale(1.2);              /* Agrandissement de 20% pour être plus visible */
+}
+
+/* Lien vers autre page d'authentification */
+.auth-link { 
+    text-align: center;                 /* Texte centré */
+    margin-top: 1rem;                   /* Marge de 16px en haut */
+    color: var(--secondary-color);      /* Couleur violette claire */
+}
+
+/* Liens dans la section d'authentification */
+.auth-link a { 
+    color: var(--secondary-color);      /* Couleur violette claire */
+    text-decoration: none;              /* Supprime le soulignement */
+    transition: color var(--transition-speed); /* Animation de changement de couleur */
+}
+
+/* Effet de survol sur les liens d'authentification */
+.auth-link a:hover { 
+    color: var(--accent-color);         /* Couleur cyan au survol */
+}
+
+/* Navigation semaine */
+.week-selector-container, .week-navigation { 
+    display: flex;                      /* Flexbox pour aligner les éléments horizontalement */
+    justify-content: center;            /* Centre horizontalement les boutons de navigation */
+    align-items: center;                /* Centre verticalement tous les éléments */
+    gap: 1rem;                          /* Espacement de 16px entre les éléments */
+    margin: 1.5rem 0;                   /* Marge de 24px en haut et en bas */
+    background: var(--background-darker); /* Fond sombre pour contraste */
+    padding: 1rem;                      /* Espacement intérieur de 16px */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+}
+
+/* Liste de cases à cocher en grille */
+.checkbox-list { 
+    display: grid;                      /* Affichage en grille CSS */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Colonnes auto-adaptatives : min 200px, max 1fr */
+    gap: 0.5rem;                        /* Espacement de 8px entre les éléments */
+    margin: 1rem 0;                     /* Marge de 16px en haut et en bas */
+}
+
+/* Liste de suggestions */
+.suggestions-list { 
+    background: var(--background-darker); /* Fond sombre pour contraste */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    max-height: 200px;                  /* Hauteur maximum de 200px */
+    overflow-y: auto;                   /* Défilement vertical si trop de suggestions */
+    position: absolute;                 /* Position absolue par rapport au parent relatif */
+    top: 100%;                          /* Positionné juste sous l'élément parent */
+    left: 0;                            /* Aligné à gauche du parent */
+    right: 0;                           /* Aligné à droite du parent */
+    z-index: 1000;                      /* Couche haute pour passer au-dessus du contenu */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur */
+    list-style: none;                   /* Supprime les puces de liste */
+    margin: 0;                          /* Supprime les marges par défaut */
+    padding: 0;                         /* Supprime le padding par défaut */
+}
+
+/* Éléments individuels des suggestions */
+.suggestions-list li { 
+    padding: 0.7rem 1rem;               /* Espacement intérieur : 11px vertical, 16px horizontal */
+    cursor: pointer;                    /* Curseur pointeur pour indiquer que c'est cliquable */
+    transition: background 0.2s;        /* Animation de changement de fond en 0.2s */
+    color: var(--text-color);           /* Couleur de texte claire */
+}
+
+/* Dernier élément avec coins arrondis en bas */
+.suggestions-list li:last-child { 
+    border-radius: 0 0 calc(var(--border-radius) - 2px) calc(var(--border-radius) - 2px); /* Arrondi seulement en bas, ajusté pour la bordure */
+}
+
+/* Effet de survol sur les suggestions */
+.suggestions-list li:hover { 
+    background: rgba(127, 57, 251, 0.2); /* Fond violette semi-transparent (20% opacité) */
+    color: var(--accent-color);         /* Couleur cyan pour le texte */
+}
+
+/* Scrollbars personnalisées - styles pour navigateurs WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar { 
+    width: 10px;                        /* Largeur de la scrollbar verticale */
+    height: 10px;                       /* Hauteur de la scrollbar horizontale */
+}
+
+/* Piste de la scrollbar (arrière-plan) */
+::-webkit-scrollbar-track { 
+    background: var(--background-dark); /* Fond sombre pour s'intégrer au thème */
+    border-radius: 8px;                 /* Coins arrondis de 8px */
+}
+
+/* Poignée de la scrollbar (partie mobile) */
+::-webkit-scrollbar-thumb { 
+    background: var(--primary-color);   /* Couleur violette pour cohérence avec le thème */
+    border-radius: 8px;                 /* Coins arrondis de 8px */
+    border: 2px solid var(--background-dark); /* Bordure sombre pour effet de séparation */
+}
+
+/* Effet de survol sur la poignée de scrollbar */
+::-webkit-scrollbar-thumb:hover { 
+    background: var(--secondary-color); /* Couleur violette claire au survol */
+}
+
+/* Animation d'apparition des cartes - effet de fondu et glissement */
+@keyframes cardFadeIn { 
+    from {                              /* État initial de l'animation */
+        opacity: 0;                     /* Complètement transparent */
+        transform: translateY(20px);    /* Décalé de 20px vers le bas */
+    } 
+    to {                                /* État final de l'animation */
+        opacity: 1;                     /* Complètement visible */
+        transform: translateY(0);       /* Position normale (pas de décalage) */
+    } 
+}
+
+/* Styles page d'accueil */
+.welcome-title, .personal-welcome { 
+    color: var(--primary-color);        /* Couleur violette foncée pour les titres de bienvenue */
+    text-align: center;                 /* Texte centré */
+    font-size: 2.2rem;                  /* Taille de police de 35px pour un impact visuel */
+    margin-bottom: 2.2rem;              /* Marge de 35px en bas */
+}
+
+/* Description de bienvenue */
+.welcome-description { 
+    font-size: 1.15rem;                 /* Taille de police de 18px */
+    text-align: center;                 /* Texte centré */
+    margin-bottom: 2.5rem;              /* Marge de 40px en bas */
+    color: var(--text-color);           /* Couleur de texte claire */
+}
+
+/* Liste des fonctionnalités */
+.features-list { 
+    font-size: 1.08rem;                 /* Taille de police de 17px */
+    line-height: 1.7;                   /* Espacement entre lignes de 1.7x la taille de police */
+    color: var(--secondary-color);      /* Couleur violette claire */
+    margin-bottom: 2.5rem;              /* Marge de 40px en bas */
+    max-width: 600px;                   /* Largeur maximum de 600px pour lisibilité */
+    margin-left: auto;                  /* Centre horizontalement avec margin-right */
+    margin-right: auto;                 /* Centre horizontalement avec margin-left */
+}
+
+/* Titres des sections de fonctionnalités */
+.features-section h2 { 
+    color: var(--primary-color);        /* Couleur violette foncée */
+    text-align: center;                 /* Texte centré */
+    margin: 2.5rem 0 1.2rem 0;          /* Marge : 40px haut, 0 côtés, 19px bas */
+}
+
+/* Conteneur de prévisualisation de fonctionnalité */
+.feature-preview { 
+    margin-bottom: 2.5rem;              /* Marge de 40px en bas pour espacer les fonctionnalités */
+}
+
+/* Sous-titres des prévisualisations */
+.feature-preview h3 { 
+    color: var(--secondary-color);      /* Couleur violette claire */
+    text-align: center;                 /* Texte centré */
+    font-size: 1.3rem;                  /* Taille de police de 21px */
+    margin-bottom: 1.2rem;              /* Marge de 19px en bas */
+}
+
+/* Images de prévisualisation */
+.feature-preview img { 
+    max-width: 100%;                    /* Prend maximum 100% de la largeur disponible */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur */
+    display: block;                     /* Affichage en bloc */
+    margin: 0 auto 1.5rem auto;         /* Centré horizontalement avec marge de 24px en bas */
+}
+
+/* Paragraphes de description des fonctionnalités */
+.feature-preview p { 
+    text-align: center;                 /* Texte centré */
+    color: var(--text-color);           /* Couleur de texte claire */
+}
+
+/* Texte de chargement */
+.loading-text { 
+    color: #BB86FC;                     /* Couleur violette claire spécifique */
+}
+
+/* Profil utilisateur */
+.profile-container, .profile-form, .adult-filter-form { 
+    display: flex;                      /* Flexbox pour organiser les éléments */
+    align-items: center;                /* Centre verticalement tous les éléments */
+    background: var(--background-dark); /* Fond sombre semi-transparent */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    padding: var(--spacing-md);         /* Espacement intérieur de 19px */
+    margin-bottom: var(--spacing-md);   /* Marge de 19px en bas */
+}
+
+/* Conteneurs de profil en colonne */
+.profile-container, .profile-form { 
+    flex-direction: column;             /* Organisation verticale des éléments */
+}
+
+/* Image de profil utilisateur */
+.profile-picture { 
+    max-width: 100px;                   /* Largeur maximum de 100px */
+    max-height: 100px;                  /* Hauteur maximum de 100px */
+    border-radius: 50%;                 /* Arrondi complet pour faire un cercle */
+    object-fit: cover;                  /* Couvre tout l'espace en gardant les proportions */
+    margin-bottom: var(--spacing-md);   /* Marge de 19px en bas */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur */
+    transition: transform var(--transition-speed) ease; /* Animation de transformation */
+}
+
+/* Champ d'upload de fichier */
+.file-upload { 
+    width: 100%;                        /* Prend toute la largeur disponible */
+    margin-bottom: 0.7rem;              /* Marge de 11px en bas */
+}
+
+/* Titres des sections de profil */
+.profile-section-title { 
+    color: var(--secondary-color);      /* Couleur violette claire */
+    margin: var(--spacing-lg) 0 var(--spacing-md) 0; /* Marge : 32px haut, 0 côtés, 19px bas */
+    font-size: 1.3rem;                  /* Taille de police de 21px */
+    letter-spacing: 1px;                /* Espacement des lettres de 1px pour effet futuriste */
+}
+
+/* Modal Top 5 */
+.top5-modal-content { 
+    max-width: 500px;                   /* Largeur maximum de 500px */
+    background: var(--background-darker); /* Fond sombre pour contraste */
+    border: 2px solid var(--primary-color); /* Bordure violette de 2px */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    max-height: 80vh;                   /* Hauteur maximum de 80% de l'écran */
+    overflow: hidden;                   /* Cache tout dépassement pour gérer le scroll interne */
+}
+
+/* Conteneur des jeux dans le Top 5 */
+.top5-games-container { 
+    max-height: 400px;                  /* Hauteur maximum de 400px */
+    overflow-y: auto;                   /* Défilement vertical si trop de jeux */
+    padding: 0.7rem;                    /* Espacement intérieur de 11px */
+    background: var(--background-darker); /* Fond sombre pour contraste */
+}
+
+/* Élément individuel de jeu dans le Top 5 */
+.top5-game-item { 
+    display: flex;                      /* Flexbox pour aligner checkbox, image et texte */
+    align-items: center;                /* Centre verticalement tous les éléments */
+    margin-bottom: 0.7rem;              /* Marge de 11px en bas */
+    padding: 0.5rem;                    /* Espacement intérieur de 8px */
+    border-radius: var(--border-radius); /* Coins arrondis de 12px */
+    transition: background var(--transition-speed) ease; /* Animation de changement de fond */
+    background: rgba(127, 57, 251, 0.05); /* Fond violette très transparent (5% opacité) */
+    border: 1px solid rgba(127, 57, 251, 0.2); /* Bordure violette semi-transparente (20% opacité) */
+}
+
+/* Checkbox du Top 5 */
+.top5-checkbox { 
+    margin-right: 0.7rem;               /* Marge de 11px à droite */
+}
+
+/* Couvertures de jeux et placeholders dans le Top 5 */
+.top5-game-cover, .top5-game-cover-placeholder { 
+    width: 40px;                        /* Largeur de 40px */
+    height: 40px;                       /* Hauteur de 40px (carré) */
+    border-radius: calc(var(--border-radius) / 2); /* Coins arrondis de 6px (moitié de 12px) */
+    margin-right: 0.7rem;               /* Marge de 11px à droite */
+    border: 1px solid var(--primary-color); /* Bordure violette de 1px */
+}
+
+/* Couverture de jeu avec image */
+.top5-game-cover { 
+    object-fit: cover;                  /* Couvre tout l'espace en gardant les proportions */
+}
+
+/* Placeholder pour jeu sans couverture */
+.top5-game-cover-placeholder { 
+    background: var(--background-dark); /* Fond sombre */
+    display: flex;                      /* Flexbox pour centrer le contenu */
+    align-items: center;                /* Centre verticalement */
+    justify-content: center;            /* Centre horizontalement */
+    color: var(--secondary-color);      /* Couleur violette claire pour le texte */
+}
+
+/* Label des jeux dans le Top 5 */
+.top5-game-label { 
+    cursor: pointer;                    /* Curseur pointeur pour indiquer que c'est cliquable */
+    color: var(--text-color);           /* Couleur de texte claire */
+    transition: color var(--transition-speed) ease; /* Animation de changement de couleur */
+}
+
+/* Effet de survol sur les labels de jeux */
+.top5-game-label:hover { 
+    color: var(--accent-color);         /* Couleur cyan au survol */
+}
+
+/* Numéro de position dans le Top 5 */
+.top5-position { 
+    font-weight: bold;                  /* Texte en gras */
+    color: var(--accent-color);         /* Couleur cyan pour mise en évidence */
+    margin-right: 0.5rem;               /* Marge de 8px à droite */
+}
+
+/* Plateforme du jeu dans le Top 5 */
+.top5-platform { 
+    color: var(--secondary-color);      /* Couleur violette claire */
+    font-size: 0.95em;                  /* Taille de police légèrement plus petite */
+}
+
+/* Conteneur du bouton de soumission Top 5 */
+.top5-submit-container { 
+    margin-top: var(--spacing-md);      /* Marge de 19px en haut */
+    text-align: center;                 /* Texte centré */
+    padding: 0.7rem;                    /* Espacement intérieur de 11px */
+    border-top: 1px solid var(--primary-color); /* Bordure violette en haut pour séparer */
+}
+
+/* Message quand le Top 5 est vide */
+.empty-top5-message { 
+    color: var(--primary-color);        /* Couleur violette foncée */
+    text-align: center;                 /* Texte centré */
+    padding: var(--spacing-md);         /* Espacement intérieur de 19px */
+    font-style: italic;                 /* Texte en italique */
+}
+
+/* Filtre contenu adulte */
+.adult-filter-label { 
+    color: var(--secondary-color);      /* Couleur violette claire */
+    font-size: 1.08rem;                 /* Taille de police de 17px */
+    gap: 0.7rem;                        /* Espacement de 11px entre les éléments */
+    transition: color var(--transition-speed) ease; /* Animation de changement de couleur */
+}
+
+/* Effet de survol sur le filtre contenu adulte */
+.adult-filter-label:hover { 
+    color: var(--accent-color);         /* Couleur cyan au survol */
+}
+
+/* Media queries - Desktop large (écrans > 1200px) */
+@media (min-width: 1201px) { 
+    .dashboard-row, .wishlist-carousel, .calendar-games-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(160px, 180px)); /* Grille auto qui s'adapte : min 160px, max 180px par carte */
+        gap: 1rem;                      /* Espacement de 16px entre les cartes */
+    } 
+    .game-card-universal, .game-card, .wishlist-card, .calendrier-card { 
+        height: 320px;                  /* Cartes plus hautes (320px au lieu de 280px) sur grands écrans */
+    } 
+}
+
+/* Media queries - Desktop moyen (écrans 800px-1200px) - navbar compacte pour tablettes et petits desktops */
+@media (min-width: 800px) and (max-width: 1200px) { 
+    .logo { 
+        max-width: 100px !important;        /* Logo plus petit : 100px au lieu de 130px */
+    } 
+    .navbar-section.navbar-links { 
+        gap: 0.8rem !important;             /* Espacement réduit entre les liens : 13px au lieu de 19px */
+    } 
+    .navbar-links a { 
+        font-size: 0.85rem !important;      /* Taille de police des liens réduite : 14px */
+    } 
+    .navbar-search { 
+        min-width: 200px !important;        /* Largeur minimum fixée à 200px */
+        max-width: 200px !important;        /* Largeur maximum fixée à 200px (plus petite) */
+        margin-right: 0.5rem !important;   /* Marge droite réduite à 8px pour laisser plus de place */
+    } 
+    .navbar-search input[type="text"] { 
+        font-size: 0.75rem !important;     /* Taille de police réduite à 12px */
+        height: 32px !important;           /* Hauteur réduite à 32px */
+        padding: 0.2rem 0.6rem !important; /* Padding réduit : 3px vertical, 10px horizontal */
+    } 
+}
+
+/* Media queries - Tablette (écrans ≤ 1024px) - adaptations pour tablettes */
+@media (max-width: 1024px) { 
+    .navbar { 
+        padding: 0.5rem 1.5rem;             /* Padding réduit : 8px vertical, 24px horizontal */
+        width: 90%;                         /* Largeur de 90% au lieu de 95% */
+    } 
+    .navbar-search { 
+        min-width: 160px;                   /* Largeur minimum réduite à 160px */
+        max-width: 250px;                   /* Largeur maximum réduite à 250px */
+    } 
+    .dashboard-stats { 
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Cartes stats : min 200px */
+    } 
+}
+
+/* Media queries - Mobile (écrans ≤ 768px) - adaptations pour smartphones et tablettes */
+@media (max-width: 768px) { 
+    .navbar { 
+        padding: 0.5rem 1rem;           /* Moins de padding horizontal (16px au lieu de 32px) */
+        width: 98%;                     /* Prend presque toute la largeur (98%) */
+        height: auto;                   /* Hauteur automatique au lieu de fixe */
+        min-height: 60px;               /* Hauteur minimum de 60px pour rester lisible */
+    }   
+    .navbar-flex { 
+        justify-content: space-between; /* Répartit les éléments aux extrémités (logo à gauche, burger à droite) */
+    } 
+    .navbar-desktop-only { 
+        display: none !important;       /* Cache complètement les éléments desktop (liens navigation) */
+    } 
+    .navbar-mobile-only { 
+        display: block !important;      /* Affiche les éléments mobile (menu burger) */
+    } 
+    .logo-container { 
+        position: relative;             /* Position relative au lieu d'absolue pour s'intégrer dans le flux */
+        left: auto;                     /* Remet left à auto (annule le 50%) */
+        transform: none;                /* Supprime la transformation de centrage */
+        order: 1;                       /* Ordre 1 pour apparaître en premier dans le flexbox */
+    } 
+    .logo { 
+        max-width: 80px;                /* Largeur réduite à 80px pour laisser plus de place */
+    } 
+    .navbar-search { 
+        position: absolute;             /* Position absolue pour le centrer */
+        left: 50%;                      /* Placé au centre de la navbar */
+        transform: translateX(-50%);    /* Centré parfaitement */
+        width: calc(100% - 180px);      /* Largeur calculée : largeur totale moins 180px pour logo et burger */
+        max-width: 250px;               /* Largeur maximum de 250px */
+        min-width: 120px;               /* Largeur minimum de 120px */
+    } 
+    .navbar-search input[type="text"] { 
+        font-size: 0.9rem;              /* Taille de police réduite à 14px */
+        padding: 0.3rem 0.8rem;         /* Padding réduit : 5px vertical, 13px horizontal */
+        height: 36px;                   /* Hauteur réduite à 36px */
+    } 
+    .navbar-right-section { 
+        justify-content: flex-end;      /* Aligne le contenu à droite */
+        margin-left: auto;              /* Pousse la section à droite */
+    } 
+    .burger-icon { 
+        width: 36px;                    /* Largeur réduite à 36px */
+        height: 36px;                   /* Hauteur réduite à 36px */
+    } 
+    .dropdown { 
+        width: 220px;                   /* Largeur du dropdown à 220px */
+        right: 0;                       /* Aligné à droite */
+    } 
+    .dashboard-home, main { 
+        margin: 2rem 0.5rem;            /* Marge : 32px vertical, 8px horizontal */
+        padding: 2rem 1.5rem;           /* Padding : 32px vertical, 24px horizontal */
+    } 
+    .dashboard-row, .wishlist-carousel, .calendar-games-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(120px, 140px)); /* Cartes plus petites : min 120px, max 140px */
+        gap: 0.6rem;                    /* Espacement réduit à 10px */
+    } 
+    .dashboard-stats { 
+        grid-template-columns: 1fr;     /* Une seule colonne pour les statistiques */
+        gap: 0.8rem;                    /* Espacement de 13px entre les cartes */
+        margin: 1rem 0;                 /* Marge de 16px en haut et en bas */
+    } 
+    .stat-card { 
+        padding: 1rem 1.5rem;           /* Padding : 16px vertical, 24px horizontal */
+        font-size: 1rem;                /* Taille de police de 16px */
+    } 
+    .filters-bar { 
+        flex-direction: column;         /* Organisation verticale des filtres */
+        gap: 0.7rem;                    /* Espacement de 11px entre les éléments */
+        padding: 0.7rem 0.5rem;         /* Padding : 11px vertical, 8px horizontal */
+    } 
+    .filters-bar select { 
+        width: 100%;                    /* Largeur complète pour les selects */
+        min-width: unset;               /* Supprime la largeur minimum */
+    } 
+    .checkbox-list { 
+        grid-template-columns: 1fr;     /* Une seule colonne pour les checkboxes */
+    } 
+    .game-card-universal, .game-card, .wishlist-card, .calendrier-card { 
+        height: 240px;                  /* Hauteur réduite à 240px */
+    } 
+    .game-card-universal .card-actions { 
+        opacity: 1;                     /* Actions toujours visibles sur mobile */
+    } 
+    .modal-content { 
+        padding: 1.5rem;                /* Padding réduit à 24px */
+        width: 95%;                     /* Largeur de 95% de l'écran */
+        max-height: 90vh;               /* Hauteur maximum de 90% de l'écran */
+    } 
+    .top5-modal-content { 
+        max-width: 95%;                 /* Largeur maximum de 95% pour le Top 5 */
+    } 
+    .auth-section { 
+        margin: 2rem 0.5rem;            /* Marge : 32px vertical, 8px horizontal */
+        padding: 1.5rem 1rem;           /* Padding : 24px vertical, 16px horizontal */
+    } 
+    .auth-title { 
+        font-size: 1.5rem;              /* Taille de police réduite à 24px */
+    } 
+}
+
+/* Media queries - Petit mobile (écrans ≤ 480px) - optimisations pour petits smartphones */
+@media (max-width: 480px) { 
+    .navbar { 
+        padding: 0.4rem 0.8rem;         /* Padding encore plus réduit : 6px vertical, 13px horizontal */
+        width: 96%;                     /* Largeur de 96% de l'écran */
+        min-height: 55px;               /* Hauteur minimum réduite à 55px */
+    } 
+    .logo { 
+        max-width: 70px;                /* Logo encore plus petit : 70px */
+    } 
+    .navbar-search { 
+        width: calc(100% - 160px);      /* Largeur calculée : total moins 160px pour logo et burger */
+        max-width: 200px;               /* Largeur maximum réduite à 200px */
+        min-width: 100px;               /* Largeur minimum réduite à 100px */
+    } 
+    .navbar-search input[type="text"] { 
+        font-size: 0.8rem;              /* Taille de police encore plus petite : 13px */
+        padding: 0.25rem 0.6rem;        /* Padding réduit : 4px vertical, 10px horizontal */
+        height: 34px;                   /* Hauteur réduite à 34px */
+    } 
+    .burger-icon { 
+        width: 34px;                    /* Largeur réduite à 34px */
+        height: 34px;                   /* Hauteur réduite à 34px */
+    } 
+    .dropdown { 
+        width: 180px;                   /* Largeur du dropdown réduite à 180px */
+    } 
+    .dashboard-home, main { 
+        margin: 1.5rem 0.25rem;         /* Marge : 24px vertical, 4px horizontal */
+        padding: 1.5rem 1rem;           /* Padding : 24px vertical, 16px horizontal */
+    } 
+    .home-btn { 
+        font-size: 0.9rem;              /* Taille de police des boutons réduite à 14px */
+        padding: 8px 16px;              /* Padding : 8px vertical, 16px horizontal */
+        width: 200px;                   /* Largeur fixe de 200px */
+        text-align: center;             /* Texte centré */
+    } 
+}
+
+/* Media queries - Très petit mobile (écrans ≤ 360px) - adaptations pour très petits écrans */
+@media (max-width: 360px) { 
+    .navbar { 
+        padding: 0.3rem 0.6rem;         /* Padding minimal : 5px vertical, 10px horizontal */
+        width: 98%;                     /* Largeur de 98% pour utiliser tout l'espace */
+        min-height: 50px;               /* Hauteur minimum de 50px */
+    } 
+    .logo { 
+        max-width: 60px;                /* Logo très petit : 60px maximum */
+    } 
+    .navbar-search { 
+        width: calc(100% - 140px);      /* Largeur calculée : total moins 140px */
+        max-width: 160px;               /* Largeur maximum très réduite : 160px */
+        min-width: 80px;                /* Largeur minimum très réduite : 80px */
+    } 
+    .navbar-search input[type="text"] { 
+        font-size: 0.75rem;             /* Taille de police minimale : 12px */
+        padding: 0.2rem 0.5rem;         /* Padding minimal : 3px vertical, 8px horizontal */
+        height: 32px;                   /* Hauteur minimale : 32px */
+    } 
+    .burger-icon { 
+        width: 32px;                    /* Largeur minimale : 32px */
+        height: 32px;                   /* Hauteur minimale : 32px */
+    } 
+    .dropdown { 
+        width: 160px;                   /* Largeur du dropdown minimale : 160px */
+    } 
+    .dashboard-home, main { 
+        padding: 1rem 0.5rem;           /* Padding minimal : 16px vertical, 8px horizontal */
+    } 
+    .home-btn { 
+        font-size: 0.9rem;              /* Taille de police : 14px */
+        width: 200px;                   /* Largeur maintenue à 200px */
+    } 
+}
+
+/* Media queries - Écrans tactiles (détection des appareils sans survol) */
+@media (hover: none) and (pointer: coarse) { 
+    .game-card-universal .card-actions { 
+        opacity: 1 !important;          /* Actions toujours visibles sur tactile car pas de survol possible */
+    } 
+    button, .home-btn { 
+        min-height: 44px;               /* Hauteur minimum de 44px pour accessibilité tactile */
+        min-width: 44px;                /* Largeur minimum de 44px pour être facilement cliquable au doigt */
+    } 
+    .navbar-search input[type="text"] { 
+        min-height: 40px;               /* Hauteur minimum de 40px pour faciliter la saisie tactile */
+    } 
+} 
