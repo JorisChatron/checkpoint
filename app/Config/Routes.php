@@ -5,7 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-
+//c
 
 $routes->get('/', 'Home::index');
 $routes->get('profile', 'UserController::profile');
