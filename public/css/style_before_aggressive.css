@@ -132,7 +132,7 @@ button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hove
 
 .modal.active { display: flex; justify-content: center; align-items: center; }
 
-.modal-content { background: var(--background-darker); padding: 2rem; border-radius: var(--border-radius); width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; border: 2px solid var(--primary-color); box-shadow: var(--box-shadow); position: relative; }
+.modal-content { background: var(--background-darker); padding: 2rem; border-radius: var(--border-radius); width: 90%; max-width: 600px; border: 2px solid var(--primary-color); box-shadow: var(--box-shadow); position: relative; }
 
 .modal-content h2 { color: var(--primary-color); margin-bottom: 1.5rem; text-align: center; }
 
@@ -185,13 +185,7 @@ button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hove
 .feature-preview p { color: var(--text-color); }
 .loading-text { color: #BB86FC; }
 
-.profile-container, .profile-form, .adult-filter-form { display: flex; align-items: center; background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: var(--border-radius); padding: var(--spacing-md); margin-bottom: var(--spacing-md); }
-
-.top5-modal-content { max-width: 500px; background: var(--background-darker); border: 2px solid var(--primary-color); border-radius: var(--border-radius); max-height: 80vh; overflow: hidden; }
-
-.top5-games-container { max-height: 400px; overflow-y: auto; padding: 0.7rem; background: var(--background-darker); }
-
-.top5-game-item { display: flex; align-items: center; margin-bottom: 0.7rem; padding: 0.5rem; border-radius: var(--border-radius); transition: background var(--transition-speed) ease; background: rgba(127, 57, 251, 0.05); border: 1px solid rgba(127, 57, 251, 0.2); }
+.profile-container, .profile-form, .top5-modal-content, .top5-games-container, .top5-game-item, .adult-filter-form { display: flex; align-items: center; background: var(--background-dark); border: 2px solid var(--primary-color); border-radius: var(--border-radius); padding: var(--spacing-md); margin-bottom: var(--spacing-md); }
 
 .profile-container, .profile-form { flex-direction: column; }
 
@@ -219,7 +213,7 @@ button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hove
 
 @media (max-width: 1024px) { .navbar { padding: 0.5rem 1.5rem; width: 90%; } .navbar-search { min-width: 160px; max-width: 250px; } .dashboard-stats { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
 
-@media (max-width: 768px) { .navbar { padding: 0.5rem 1rem; width: 98%; height: auto; min-height: 60px; } .navbar-flex { justify-content: space-between; } .navbar-desktop-only { display: none !important; } .navbar-mobile-only { display: block !important; } .logo-container { position: relative; left: auto; transform: none; order: 1; } .logo { max-width: 80px; } .navbar-search { position: absolute; left: 50%; transform: translateX(-50%); width: calc(100% - 180px); max-width: 250px; min-width: 120px; } .navbar-search input[type="text"] { font-size: 0.9rem; padding: 0.3rem 0.8rem; height: 36px; } .navbar-right-section { justify-content: flex-end; margin-left: auto; } .burger-icon { width: 36px; height: 36px; } .dropdown { width: 220px; right: 0; } .dashboard-home, main { margin: 2rem 0.5rem; padding: 2rem 1.5rem; } .dashboard-row, .wishlist-carousel, .calendar-games-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 140px)); gap: 0.6rem; } .dashboard-stats { grid-template-columns: 1fr; gap: 0.8rem; margin: 1rem 0; } .stat-card { padding: 1rem 1.5rem; font-size: 1rem; } .filters-bar { flex-direction: column; gap: 0.7rem; padding: 0.7rem 0.5rem; } .filters-bar select { width: 100%; min-width: unset; } .checkbox-list { grid-template-columns: 1fr; } .game-card-universal, .game-card, .wishlist-card, .calendrier-card { height: 240px; } .game-card-universal .card-actions { opacity: 1; } .modal-content { padding: 1.5rem; width: 95%; max-height: 90vh; } .top5-modal-content { max-width: 95%; } .auth-section { margin: 2rem 0.5rem; padding: 1.5rem 1rem; } .auth-title { font-size: 1.5rem; } }
+@media (max-width: 768px) { .navbar { padding: 0.5rem 1rem; width: 98%; height: auto; min-height: 60px; } .navbar-flex { justify-content: space-between; } .navbar-desktop-only { display: none !important; } .navbar-mobile-only { display: block !important; } .logo-container { position: relative; left: auto; transform: none; order: 1; } .logo { max-width: 80px; } .navbar-search { position: absolute; left: 50%; transform: translateX(-50%); width: calc(100% - 180px); max-width: 250px; min-width: 120px; } .navbar-search input[type="text"] { font-size: 0.9rem; padding: 0.3rem 0.8rem; height: 36px; } .navbar-right-section { justify-content: flex-end; margin-left: auto; } .burger-icon { width: 36px; height: 36px; } .dropdown { width: 220px; right: 0; } .dashboard-home, main { margin: 2rem 0.5rem; padding: 2rem 1.5rem; } .dashboard-row, .wishlist-carousel, .calendar-games-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 140px)); gap: 0.6rem; } .dashboard-stats { grid-template-columns: 1fr; gap: 0.8rem; margin: 1rem 0; } .stat-card { padding: 1rem 1.5rem; font-size: 1rem; } .filters-bar { flex-direction: column; gap: 0.7rem; padding: 0.7rem 0.5rem; } .filters-bar select { width: 100%; min-width: unset; } .checkbox-list { grid-template-columns: 1fr; } .game-card-universal, .game-card, .wishlist-card, .calendrier-card { height: 240px; } .game-card-universal .card-actions { opacity: 1; } .modal-content { padding: 1.5rem; width: 95%; } .auth-section { margin: 2rem 0.5rem; padding: 1.5rem 1rem; } .auth-title { font-size: 1.5rem; } }
 
 @media (max-width: 480px) { .navbar { padding: 0.4rem 0.8rem; width: 96%; min-height: 55px; } .logo { max-width: 70px; } .navbar-search { width: calc(100% - 160px); max-width: 200px; min-width: 100px; } .navbar-search input[type="text"] { font-size: 0.8rem; padding: 0.25rem 0.6rem; height: 34px; } .burger-icon { width: 34px; height: 34px; } .dropdown { width: 180px; } .dashboard-home, main { margin: 1.5rem 0.25rem; padding: 1.5rem 1rem; } .home-btn { font-size: 0.9rem; padding: 8px 16px; width: 200px; text-align: center; } }
 
