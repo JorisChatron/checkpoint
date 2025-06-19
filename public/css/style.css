@@ -2,126 +2,126 @@
    VARIABLES ET CONFIGURATION GLOBALE
    =========================================== */
 :root {
-    /* Couleurs principales */
-    --primary-color: #7F39FB;
-    --secondary-color: #BB86FC;
-    --accent-color: #00E5FF;
-    --text-color: #E0F7FA;
+    /* Couleurs principales - Définissent l'identité visuelle de Checkpoint */
+    --primary-color: #7F39FB;    /* Violet principal utilisé pour les bordures, boutons et accents principaux */
+    --secondary-color: #BB86FC;  /* Violet clair pour les liens, titres et éléments secondaires */
+    --accent-color: #00E5FF;     /* Cyan pour les actions importantes et effets de survol */
+    --text-color: #E0F7FA;       /* Blanc-cyan pour le texte principal, assure la lisibilité sur fond sombre */
     
-    /* Couleurs de fond */
-    --background-dark: rgba(31, 27, 46, 0.9);
-    --background-darker: rgba(13, 13, 26, 0.85);
+    /* Couleurs de fond - Créent la profondeur et l'ambiance gaming */
+    --background-dark: rgba(31, 27, 46, 0.9);    /* Fond principal semi-transparent pour les cartes et modales */
+    --background-darker: rgba(13, 13, 26, 0.85); /* Fond plus sombre pour les éléments superposés */
     
-    /* Couleurs d'action */
-    --error-color: #ff4444;
-    --success-color: #2ed573;
-    --warning-color: #ff3742;
+    /* Couleurs d'action - Feedback visuel pour les actions utilisateur */
+    --error-color: #ff4444;      /* Rouge pour les erreurs et actions destructives (suppression) */
+    --success-color: #2ed573;    /* Vert pour les actions réussies et confirmations */
+    --warning-color: #ff3742;    /* Rouge-orange pour les avertissements */
     
-    /* Dégradés */
-    --gradient-primary: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%);
-    --gradient-hover: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%);
-    --gradient-dark: linear-gradient(145deg, var(--background-dark), var(--background-darker));
-    --gradient-delete: linear-gradient(45deg, var(--error-color), var(--warning-color));
-    --gradient-edit: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-    --gradient-success: linear-gradient(45deg, var(--success-color), var(--success-color));
+    /* Dégradés - Créent des effets visuels modernes et attrayants */
+    --gradient-primary: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%); /* Dégradé principal pour les boutons et éléments importants */
+    --gradient-hover: linear-gradient(90deg, var(--secondary-color) 80%, var(--accent-color) 100%);     /* Dégradé de survol pour les interactions */
+    --gradient-dark: linear-gradient(145deg, var(--background-dark), var(--background-darker));        /* Dégradé sombre pour les arrière-plans */
+    --gradient-delete: linear-gradient(45deg, var(--error-color), var(--warning-color));              /* Dégradé rouge pour les boutons de suppression */
+    --gradient-edit: linear-gradient(45deg, var(--accent-color), var(--secondary-color));             /* Dégradé cyan-violet pour les boutons d'édition */
+    --gradient-success: linear-gradient(45deg, var(--success-color), var(--success-color));          /* Dégradé vert pour les actions de succès */
 
-    /* Ombres spécifiques */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.15);
-    --shadow-primary: 0 2px 8px rgba(127, 57, 251, 0.27);
-    --shadow-accent: 0 4px 16px rgba(0, 229, 255, 0.2);
+    /* Ombres spécifiques - Créent la profondeur et l'élévation des éléments */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);                    /* Ombre légère pour les petits éléments */
+    --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.15);                  /* Ombre importante pour les modales et cartes */
+    --shadow-primary: 0 2px 8px rgba(127, 57, 251, 0.27);         /* Ombre violette pour les éléments principaux */
+    --shadow-accent: 0 4px 16px rgba(0, 229, 255, 0.2);           /* Ombre cyan pour les éléments d'accent */
     
-    /* Éléments d'interface */
-    --border-radius: 12px;
-    --transition-speed: 0.3s;
-    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    --box-shadow-hover: 0 8px 25px rgba(127, 57, 251, 0.3);
+    /* Éléments d'interface - Constantes pour la cohérence visuelle */
+    --border-radius: 12px;        /* Rayon de bordure standard pour tous les éléments arrondis */
+    --transition-speed: 0.3s;     /* Durée des animations pour une expérience fluide */
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);                  /* Ombre standard pour les cartes de jeux */
+    --box-shadow-hover: 0 8px 25px rgba(127, 57, 251, 0.3);       /* Ombre de survol avec effet violet */
     
-    /* Espacements */
-    --spacing-xs: 0.4rem;
-    --spacing-sm: 0.7rem;
-    --spacing-md: 1.2rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 2.5rem;
+    /* Espacements - Système de spacing cohérent */
+    --spacing-xs: 0.4rem;         /* Espacement très petit pour les détails */
+    --spacing-sm: 0.7rem;         /* Espacement petit pour les marges internes */
+    --spacing-md: 1.2rem;         /* Espacement moyen pour les sections */
+    --spacing-lg: 2rem;           /* Espacement large pour les séparations */
+    --spacing-xl: 2.5rem;         /* Espacement très large pour les marges externes */
 }
 
 /* ===========================================
    RESET ET STYLES DE BASE
    =========================================== */
 * { 
-    /* Applique le modèle de boîte border-box à tous les éléments */
+    /* Applique le modèle de boîte border-box à tous les éléments - Simplifie les calculs de dimensions */
     box-sizing: border-box; 
 }
 
 body {
-    /* Supprime les marges par défaut */
+    /* Supprime les marges par défaut du navigateur pour un contrôle total */
     margin: 0;
-    /* Définit la police principale */
+    /* Définit la police principale - Orbitron donne un look futuriste/gaming */
     font-family: 'Orbitron', sans-serif;
-    /* Définit l'image de fond fixe */
+    /* Définit l'image de fond fixe - Crée l'ambiance gaming avec une image de fond fixe */
     background: url('../images/background.png') center/cover fixed no-repeat;
-    /* Définit la couleur du texte */
+    /* Définit la couleur du texte principal pour la lisibilité */
     color: var(--text-color);
-    /* Définit la hauteur de ligne */
+    /* Définit la hauteur de ligne pour une meilleure lisibilité du texte */
     line-height: 1.6;
 }
 
-/* Couleur violette claire pour les titres h2 */
+/* Couleur violette claire pour les titres h2 - Distingue les sections principales */
 h2 { color: var(--secondary-color); }
-/* Couleur du texte standard pour les paragraphes */
+/* Couleur du texte standard pour les paragraphes - Assure la lisibilité */
 p { color: var(--text-color); }
-/* Cache les éléments avec la classe hidden */
+/* Cache les éléments avec la classe hidden - Utilisé pour masquer temporairement des éléments */
 .hidden { display: none !important; }
 
 /* ===========================================
    NAVIGATION PRINCIPALE
    =========================================== */
 header {
-    /* Centre la barre de navigation */
+    /* Centre la barre de navigation horizontalement sur la page */
     display: flex;
     justify-content: center;
-    /* Rend le fond transparent */
+    /* Rend le fond transparent pour laisser voir l'image de fond */
     background-color: transparent;
-    /* Ajoute une marge en haut */
+    /* Ajoute une marge en haut pour séparer du bord de la page */
     margin-top: 2rem;
-    /* Assure que le header reste au-dessus des autres éléments */
+    /* Assure que le header reste au-dessus des autres éléments (modales, etc.) */
     z-index: 100;
-    /* Position relative pour le positionnement des enfants */
+    /* Position relative pour permettre le positionnement absolu des enfants */
     position: relative;
 }
 
 .navbar {
-    /* Définit le fond de la barre de navigation */
+    /* Définit le fond de la barre de navigation avec transparence pour l'effet glassmorphism */
     background-color: var(--background-dark);
-    /* Ajoute une bordure */
+    /* Ajoute une bordure violette pour délimiter la navbar */
     border: 2px solid var(--primary-color);
-    /* Arrondit les coins */
+    /* Arrondit les coins pour un look moderne */
     border-radius: var(--border-radius);
-    /* Ajoute du padding */
+    /* Ajoute du padding interne pour l'espacement des éléments */
     padding: 0.5rem 2rem;
-    /* Définit la largeur maximale */
+    /* Définit la largeur maximale pour éviter qu'elle soit trop large sur grands écrans */
     max-width: 1100px;
-    /* Définit la hauteur */
+    /* Définit la hauteur fixe pour la cohérence */
     height: 65px;
-    /* Définit la largeur */
+    /* Définit la largeur relative pour s'adapter à l'écran */
     width: 95%;
-    /* Centre les éléments verticalement */
+    /* Centre les éléments verticalement dans la navbar */
     display: flex;
     align-items: center;
-    /* Position relative pour le positionnement des enfants */
+    /* Position relative pour permettre le positionnement absolu du logo */
     position: relative;
-    /* Ajoute une ombre */
+    /* Ajoute une ombre pour donner de la profondeur à la navbar */
     box-shadow: var(--box-shadow);
 }
 
 .navbar-flex {
-    /* Utilise flexbox pour l'agencement */
+    /* Utilise flexbox pour organiser les éléments de la navbar */
     display: flex;
     /* Centre les éléments verticalement */
     align-items: center;
-    /* Occupe toute la largeur disponible */
+    /* Occupe toute la largeur disponible de la navbar */
     width: 100%;
-    /* Position relative pour le positionnement des enfants */
+    /* Position relative pour permettre le positionnement absolu du logo */
     position: relative;
 }
 
@@ -129,60 +129,60 @@ header {
    NAVIGATION SECTIONS
    =========================================== */
 .navbar-section.navbar-links {
-    /* Utilise flexbox pour l'agencement */
+    /* Utilise flexbox pour organiser les liens de navigation */
     display: flex;
     /* Centre les éléments verticalement */
     align-items: center;
-    /* Espace entre les liens */
+    /* Espace entre les liens pour une meilleure lisibilité */
     gap: 1.2rem;
-    /* Permet de prendre tout l'espace disponible */
+    /* Permet à cette section de prendre tout l'espace disponible */
     flex: 1;
 }
 
 .navbar-links a {
-    /* Couleur des liens */
+    /* Couleur des liens en violet clair pour la cohérence visuelle */
     color: var(--secondary-color);
-    /* Supprime le soulignement des liens */
+    /* Supprime le soulignement par défaut des liens */
     text-decoration: none;
-    /* Animation de la couleur */
+    /* Animation de la couleur au survol pour le feedback utilisateur */
     transition: color var(--transition-speed);
-    /* Empêche le retour à la ligne */
+    /* Empêche le retour à la ligne pour garder les liens sur une ligne */
     white-space: nowrap;
 }
 
-/* Change la couleur au survol */
+/* Change la couleur au survol pour indiquer l'interactivité */
 .navbar-links a:hover { color: var(--accent-color); }
 
 /* ===========================================
    LOGO CENTRÉ
    =========================================== */
 .logo-container {
-    /* Position absolue par rapport au parent */
+    /* Position absolue par rapport à la navbar pour le centrage parfait */
     position: absolute;
-    /* Centre horizontalement */
+    /* Centre horizontalement le logo */
     left: 50%;
-    /* Ajuste la position pour un centrage parfait */
+    /* Ajuste la position pour un centrage parfait en tenant compte de la largeur du logo */
     transform: translateX(-50%);
-    /* Assure que le logo reste au-dessus des autres éléments */
+    /* Assure que le logo reste au-dessus des autres éléments de la navbar */
     z-index: 10;
 }
 
-/* Limite la taille du logo */
+/* Limite la taille du logo pour éviter qu'il soit trop grand */
 .logo { max-width: 130px; height: auto; }
 
 /* ===========================================
    SECTION DROITE
    =========================================== */
 .navbar-right-section {
-    /* Utilise flexbox pour l'agencement */
+    /* Utilise flexbox pour organiser la barre de recherche et le menu burger */
     display: flex;
     /* Centre les éléments verticalement */
     align-items: center;
-    /* Espace entre les éléments */
+    /* Espace entre la barre de recherche et le menu burger */
     gap: 1rem;
-    /* Permet de prendre tout l'espace disponible */
+    /* Permet à cette section de prendre tout l'espace disponible */
     flex: 1;
-    /* Aligne les éléments à droite */
+    /* Aligne les éléments à droite de la navbar */
     justify-content: flex-end;
 }
 
@@ -190,13 +190,13 @@ header {
    BARRE DE RECHERCHE
    =========================================== */
 .navbar-search {
-    /* Utilise flexbox pour l'agencement */
+    /* Utilise flexbox pour organiser l'input et les suggestions */
     display: flex;
     /* Centre les éléments verticalement */
     align-items: center;
-    /* Position relative pour le positionnement des suggestions */
+    /* Position relative pour permettre le positionnement absolu des suggestions */
     position: relative;
-    /* Largeur minimale de la barre de recherche */
+    /* Largeur minimale pour assurer une taille utilisable */
     min-width: 200px;
     /* Largeur maximale de la barre de recherche */
     max-width: 300px;
@@ -206,35 +206,35 @@ header {
 
 /* Style du champ de recherche */
 .navbar-search input[type="text"] {
-    /* Occupe toute la largeur disponible */
+    /* Occupe toute la largeur disponible du conteneur */
     width: 100%;
-    /* Hauteur fixe */
+    /* Hauteur fixe pour une taille cohérente */
     height: 40px;
-    /* Taille de la police */
+    /* Taille de la police pour la lisibilité */
     font-size: 1rem;
-    /* Coins arrondis */
+    /* Coins arrondis pour un look moderne */
     border-radius: 18px;
-    /* Espacement interne */
+    /* Espacement interne pour le confort de saisie */
     padding: 0.4rem 1.2rem;
-    /* Couleur de fond */
+    /* Couleur de fond semi-transparente pour l'effet glassmorphism */
     background: var(--background-dark);
-    /* Couleur du texte */
+    /* Couleur du texte pour la lisibilité */
     color: var(--text-color);
-    /* Style de la bordure */
+    /* Style de la bordure avec la couleur principale */
     border: 1.5px solid var(--primary-color);
-    /* Supprime le contour par défaut */
+    /* Supprime le contour par défaut du navigateur */
     outline: none;
-    /* Ajoute une ombre */
+    /* Ajoute une ombre violette subtile */
     box-shadow: 0 2px 8px rgba(127, 57, 251, 0.13);
-    /* Animation des changements */
+    /* Animation des changements de bordure et ombre */
     transition: border 0.2s, box-shadow 0.2s;
 }
 
-/* Style du champ de recherche au focus */
+/* Style du champ de recherche au focus - Feedback visuel */
 .navbar-search input[type="text"]:focus {
-    /* Change la couleur de la bordure */
+    /* Change la couleur de la bordure vers le cyan pour indiquer l'activité */
     border: 2px solid var(--accent-color);
-    /* Ajoute une ombre colorée */
+    /* Ajoute une ombre colorée pour renforcer l'effet de focus */
     box-shadow: var(--shadow-accent);
 }
 
@@ -242,7 +242,7 @@ header {
    SUGGESTIONS
    =========================================== */
 .navbar-suggestions {
-    /* Position absolue par rapport à la barre de recherche */
+    /* Position absolue pour superposer le contenu */
     position: absolute;
     /* Place la liste sous la barre de recherche */
     top: 110%;
@@ -1161,7 +1161,7 @@ input[type="button"]:hover,
 .auth-link a:hover { color: var(--accent-color); }
 
 /* ===========================================
-   UTILITAIRES
+   SÉLECTEURS DE SEMAINE - CALENDRIER
    =========================================== */
 /* Conteneurs pour le sélecteur de semaine et la recherche du calendrier */
 .week-selector-container,
@@ -1503,221 +1503,334 @@ input[type="button"]:hover,
 }
 
 /* ===========================================
-   PAGE D'ACCUEIL
+   PAGE D'ACCUEIL - STYLES DE PRÉSENTATION
    =========================================== */
 .welcome-title {
+    /* Couleur violette principale pour le titre d'accueil */
     color: var(--primary-color);
+    /* Centre le titre de bienvenue */
     text-align: center;
+    /* Grande taille pour attirer l'attention des nouveaux visiteurs */
     font-size: 2.2rem;
+    /* Espace en bas pour séparer de la description */
     margin-bottom: 2.2rem;
 }
 
 .welcome-description {
+    /* Taille légèrement agrandie pour la lisibilité de la description */
     font-size: 1.15rem;
+    /* Centre la description de présentation */
     text-align: center;
+    /* Grand espace en bas pour séparer de la liste des fonctionnalités */
     margin-bottom: 2.5rem;
+    /* Couleur du texte principal pour la lisibilité */
     color: var(--text-color);
 }
 
 .features-list {
+    /* Taille de police optimisée pour la liste des fonctionnalités */
     font-size: 1.08rem;
+    /* Hauteur de ligne augmentée pour une meilleure lisibilité des listes */
     line-height: 1.7;
+    /* Couleur violette claire pour distinguer les fonctionnalités */
     color: var(--secondary-color);
+    /* Espace en bas avant la section suivante */
     margin-bottom: 2.5rem;
+    /* Largeur maximale pour éviter des lignes trop longues */
     max-width: 600px;
+    /* Centre automatiquement la liste */
     margin-left: auto;
     margin-right: auto;
 }
 
 .features-section h2 {
+    /* Couleur violette principale pour les titres de section */
     color: var(--primary-color);
+    /* Centre les titres de section */
     text-align: center;
+    /* Espacement vertical autour des titres de section */
     margin: 2.5rem 0 1.2rem 0;
 }
 
 .feature-preview {
+    /* Espace entre chaque aperçu de fonctionnalité */
     margin-bottom: 2.5rem;
 }
 
 .feature-preview h3 {
+    /* Couleur violette claire pour les sous-titres */
     color: var(--secondary-color);
+    /* Centre les titres des aperçus */
     text-align: center;
+    /* Taille intermédiaire pour la hiérarchie visuelle */
     font-size: 1.3rem;
+    /* Espace en bas avant l'image */
     margin-bottom: 1.2rem;
 }
 
 .feature-preview img {
+    /* Responsive : s'adapte à la largeur du conteneur */
     max-width: 100%;
+    /* Coins arrondis cohérents avec le design général */
     border-radius: var(--border-radius);
+    /* Ombre pour donner de la profondeur aux images de démonstration */
     box-shadow: var(--box-shadow);
+    /* Centre les images dans leur conteneur */
     display: block;
     margin: 0 auto 1.5rem auto;
 }
 
 .feature-preview p {
+    /* Centre la description sous chaque image */
     text-align: center;
+    /* Couleur du texte principal */
     color: var(--text-color);
 }
 
 .loading-text {
+    /* Couleur violette claire pour les textes de chargement */
     color: #BB86FC;
 }
 
-/* Container pour le message de bienvenue personnel */
+/* Container pour le message de bienvenue personnel quand l'utilisateur est connecté */
 .personal-welcome {
+    /* Couleur violette distinctive pour personnaliser l'accueil */
     color: #9B5DE5;
+    /* Centre le message de bienvenue personnel */
     text-align: center;
+    /* Grande taille pour l'importance du message personnel */
     font-size: 2.2rem;
+    /* Espace en bas pour séparer du contenu suivant */
     margin-bottom: 2.2rem;
 }
 
 /* ===========================================
-   PAGE PROFIL
+   PAGE PROFIL - GESTION DU PROFIL UTILISATEUR
    =========================================== */
 .profile-container {
+    /* Organisation verticale des éléments du profil */
     display: flex;
     flex-direction: column;
+    /* Centre tous les éléments du profil */
     align-items: center;
+    /* Espace en bas du conteneur de profil */
     margin-bottom: var(--spacing-lg);
 }
 
 .profile-picture {
+    /* Taille maximale de la photo de profil */
     max-width: 100px;
     max-height: 100px;
+    /* Forme circulaire pour la photo de profil */
     border-radius: 50%;
+    /* Ajuste l'image pour couvrir le cercle sans déformation */
     object-fit: cover;
+    /* Espace sous la photo de profil */
     margin-bottom: var(--spacing-md);
+    /* Bordure violette autour de la photo */
     border: 2px solid var(--primary-color);
+    /* Ombre pour donner de la profondeur à la photo */
     box-shadow: var(--box-shadow);
+    /* Animation douce pour les transformations */
     transition: transform var(--transition-speed) ease;
 }
 
 .profile-form {
+    /* Organisation verticale du formulaire de profil */
     display: flex;
     flex-direction: column;
+    /* Centre les éléments du formulaire */
     align-items: center;
+    /* Prend toute la largeur disponible */
     width: 100%;
+    /* Largeur maximale pour éviter un formulaire trop large */
     max-width: 320px;
+    /* Centre automatiquement le formulaire */
     margin: 0 auto;
+    /* Fond sombre pour distinguer le formulaire */
     background: var(--background-dark);
+    /* Espacement interne du formulaire */
     padding: var(--spacing-md);
+    /* Coins arrondis cohérents */
     border-radius: var(--border-radius);
+    /* Bordure violette pour la cohérence visuelle */
     border: 2px solid var(--primary-color);
+    /* Ombre pour donner de la profondeur */
     box-shadow: var(--box-shadow);
 }
 
 .file-upload {
+    /* Prend toute la largeur du formulaire */
     width: 100%;
+    /* Espace en bas du champ de téléchargement */
     margin-bottom: var(--spacing-sm);
 }
 
 .profile-section-title {
+    /* Couleur violette claire pour les titres de section du profil */
     color: var(--secondary-color);
+    /* Espacement vertical autour des titres de section */
     margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+    /* Taille moyenne pour les titres de section */
     font-size: 1.3rem;
+    /* Espacement des lettres pour un effet moderne */
     letter-spacing: 1px;
 }
 
 .top5-modal-content {
+    /* Largeur maximale du modal du top 5 */
     max-width: 500px;
+    /* Fond plus sombre pour distinguer du modal principal */
     background: var(--background-darker);
+    /* Bordure violette cohérente */
     border: 2px solid var(--primary-color);
+    /* Coins arrondis standard */
     border-radius: var(--border-radius);
 }
 
 .top5-games-container {
+    /* Hauteur maximale avec défilement pour la liste des jeux */
     max-height: 320px;
+    /* Permet le défilement vertical si nécessaire */
     overflow-y: auto;
+    /* Espacement interne du conteneur */
     padding: var(--spacing-sm);
 }
 
 .top5-game-item {
+    /* Organisation horizontale des éléments de jeu */
     display: flex;
+    /* Centre verticalement les éléments */
     align-items: center;
+    /* Espace entre chaque jeu */
     margin-bottom: var(--spacing-sm);
+    /* Espacement interne de chaque élément */
     padding: var(--spacing-xs);
+    /* Coins arrondis pour chaque élément */
     border-radius: var(--border-radius);
+    /* Animation douce du fond au survol */
     transition: background var(--transition-speed) ease;
 }
 
 .top5-checkbox {
+    /* Espace à droite de la checkbox */
     margin-right: var(--spacing-sm);
 }
 
 .top5-game-cover {
+    /* Dimensions fixes pour les jaquettes du top 5 */
     width: 40px;
     height: 40px;
+    /* Ajuste l'image pour couvrir l'espace sans déformation */
     object-fit: cover;
+    /* Coins légèrement arrondis */
     border-radius: calc(var(--border-radius) / 2);
+    /* Espace à droite de la jaquette */
     margin-right: var(--spacing-sm);
+    /* Bordure fine violette */
     border: 1px solid var(--primary-color);
 }
 
 .top5-game-cover-placeholder {
+    /* Dimensions identiques à la jaquette */
     width: 40px;
     height: 40px;
+    /* Coins arrondis identiques */
     border-radius: calc(var(--border-radius) / 2);
+    /* Espace à droite identique */
     margin-right: var(--spacing-sm);
+    /* Fond sombre pour le placeholder */
     background: var(--background-dark);
+    /* Bordure identique à la jaquette */
     border: 1px solid var(--primary-color);
+    /* Centre le contenu du placeholder */
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Couleur du texte du placeholder */
     color: var(--secondary-color);
 }
 
 .top5-game-label {
+    /* Curseur pointeur pour indiquer la cliquabilité */
     cursor: pointer;
+    /* Couleur du texte des labels */
     color: var(--text-color);
+    /* Animation douce de la couleur */
     transition: color var(--transition-speed) ease;
 }
 
 .top5-game-label:hover {
+    /* Couleur cyan au survol pour l'interactivité */
     color: var(--accent-color);
 }
 
 .top5-position {
+    /* Texte en gras pour la position dans le top 5 */
     font-weight: bold;
+    /* Couleur cyan pour distinguer la position */
     color: var(--accent-color);
+    /* Petit espace à droite de la position */
     margin-right: var(--spacing-xs);
 }
 
 .top5-platform {
+    /* Couleur violette claire pour la plateforme */
     color: var(--secondary-color);
+    /* Taille légèrement réduite */
     font-size: 0.95em;
 }
 
 .top5-submit-container {
+    /* Espace au-dessus du bouton de soumission */
     margin-top: var(--spacing-md);
+    /* Centre le bouton de soumission */
     text-align: center;
+    /* Espacement interne du conteneur */
     padding: var(--spacing-sm);
+    /* Bordure en haut pour séparer */
     border-top: 1px solid var(--primary-color);
 }
 
 .empty-top5-message {
+    /* Couleur violette principale pour le message vide */
     color: var(--primary-color);
+    /* Centre le message */
     text-align: center;
+    /* Espacement interne */
     padding: var(--spacing-md);
+    /* Style italique pour distinguer */
     font-style: italic;
 }
 
 .adult-filter-form {
+    /* Espace en bas du formulaire de filtre */
     margin-bottom: var(--spacing-lg);
+    /* Largeur maximale du formulaire */
     max-width: 400px;
+    /* Espacement interne */
     padding: var(--spacing-sm);
+    /* Fond sombre pour distinguer */
     background: var(--background-dark);
+    /* Coins arrondis standard */
     border-radius: var(--border-radius);
 }
 
 .adult-filter-label {
+    /* Couleur violette claire pour le label */
     color: var(--secondary-color);
+    /* Taille de police légèrement agrandie */
     font-size: 1.08rem;
+    /* Organisation horizontale avec la checkbox */
     display: flex;
     align-items: center;
+    /* Espace entre la checkbox et le texte */
     gap: var(--spacing-sm);
+    /* Animation de couleur au survol */
     transition: color var(--transition-speed) ease;
 }
 
 .adult-filter-label:hover {
+    /* Couleur cyan au survol pour l'interactivité */
     color: var(--accent-color);
 }
