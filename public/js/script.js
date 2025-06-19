@@ -234,12 +234,28 @@ class GameLibraryApp {
                 ${game.description_raw || 'Aucune description disponible.'}
             </div>
             <div style="text-align:center;">
-                <button onclick="window.gameLibrary.addToWishlist(${JSON.stringify(game).replace(/"/g, '&quot;')})" 
-                        class="home-btn" style="margin:0.5rem;">Ajouter à la wishlist</button>
-                <button onclick="window.gameLibrary.addToMyGames(${JSON.stringify(game).replace(/"/g, '&quot;')})" 
-                        class="home-btn" style="margin:0.5rem;background:#00E5FF;color:#1E1E2F;">Ajouter à mes jeux</button>
+                <button class="home-btn game-action-btn" data-action="wishlist" style="margin:0.5rem;">Ajouter à la wishlist</button>
+                <button class="home-btn game-action-btn" data-action="mygames" style="margin:0.5rem;background:#00E5FF;color:#1E1E2F;">Ajouter à mes jeux</button>
             </div>
         `;
+        
+        // Stocker les données du jeu de manière sûre dans le conteneur
+        container.gameData = game;
+        
+        // Ajouter des écouteurs d'événements aux boutons
+        const actionButtons = container.querySelectorAll('.game-action-btn');
+        actionButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                const gameData = container.gameData;
+                
+                if (action === 'wishlist') {
+                    this.addToWishlist(gameData);
+                } else if (action === 'mygames') {
+                    this.addToMyGames(gameData);
+                }
+            });
+        });
     }
 
     /**
@@ -317,19 +333,79 @@ class GameLibraryApp {
      * @param {Object} data - Les données à soumettre
      */
     async submitToEndpoint(url, data) {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        if (!result.success && result.error?.includes('non connecté')) {
-            setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
+        try {
+            console.log('Envoi des données:', data);
+            console.log('Vers l\'URL:', url);
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            console.log('Status de la réponse:', response.status);
+            
+            const result = await response.json();
+            console.log('Résultat:', result);
+            
+            if (result.success) {
+                // Afficher un message de succès temporaire
+                this.showMessage('Jeu ajouté avec succès !', 'success');
+            } else {
+                // Gérer les erreurs
+                if (result.error?.includes('non connecté')) {
+                    setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
+                } else if (result.message) {
+                    this.showMessage(result.message, 'warning');
+                } else {
+                    this.showMessage(result.error || 'Erreur lors de l\'ajout', 'error');
+                }
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi:', error);
+            this.showMessage('Erreur de connexion', 'error');
         }
+    }
+
+    /**
+     * Affiche un message temporaire à l'utilisateur
+     * @param {string} message - Le message à afficher
+     * @param {string} type - Le type de message ('success', 'error', 'warning')
+     */
+    showMessage(message, type = 'info') {
+        // Supprimer les anciens messages
+        const existingMessage = document.querySelector('.temp-message');
+        if (existingMessage) existingMessage.remove();
+        
+        // Créer le nouveau message
+        const messageEl = document.createElement('div');
+        messageEl.className = 'temp-message';
+        messageEl.textContent = message;
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 9999;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : type === 'warning' ? '#ff9800' : '#2196F3'};
+        `;
+        
+        document.body.appendChild(messageEl);
+        
+        // Supprimer le message après 3 secondes
+        setTimeout(() => {
+            if (messageEl.parentNode) {
+                messageEl.remove();
+            }
+        }, 3000);
     }
 
     /**
