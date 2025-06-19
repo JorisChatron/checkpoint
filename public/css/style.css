@@ -291,12 +291,19 @@ header {
 }
 
 /* Contenu principal - conteneurs dashboard et pages principales */
-.dashboard-home, main { 
+.dashboard-home { 
     max-width: 1100px;                  /* Largeur maximum de 1100px pour éviter d'être trop large */
     margin: 2rem auto;                  /* Marge de 32px en haut/bas, centré horizontalement */
-    background: var(--background-darker); /* Fond sombre pour contraste avec l'arrière-plan */
+    background: var(--background-darker); /* Fond sombre pour contraste et lisibilité du texte */
     border-radius: 18px;                /* Coins arrondis de 18px pour un look moderne */
     box-shadow: var(--box-shadow);      /* Ombre pour effet de profondeur et délimitation */
+    padding: 2.5rem 2rem;               /* Espacement intérieur : 40px vertical, 32px horizontal */
+}
+
+/* Style pour l'élément main sans fond pour éviter le double fond */
+main { 
+    max-width: 1100px;                  /* Largeur maximum de 1100px pour éviter d'être trop large */
+    margin: 2rem auto;                  /* Marge de 32px en haut/bas, centré horizontalement */
     padding: 2.5rem 2rem;               /* Espacement intérieur : 40px vertical, 32px horizontal */
 }
 
