@@ -40,7 +40,7 @@ class GameLibraryApp {
             this.initNavbarSearch();     // Barre de recherche
             this.initModalSystem();      // Système de modales
             this.initGameModals();       // Modales spécifiques aux jeux
-            this.initGameActions();      // Actions sur les jeux (édition, suppression)
+            this.initGameActions();      // Actions sur les jeux (suppression uniquement)
         });
     }
 
@@ -418,16 +418,14 @@ class GameLibraryApp {
     }
 
     /**
-     * Initialise les actions sur les jeux (édition, suppression)
-     * Configure les écouteurs d'événements pour les boutons d'action
+     * Initialise les actions sur les jeux (suppression uniquement)
+     * L'édition est gérée localement dans chaque page
      */
     initGameActions() {
-        // Délégation d'événements pour les actions de jeux
+        // Délégation d'événements pour la suppression de jeux
         document.addEventListener('click', async (e) => {
             if (e.target.matches('.btn-action.delete')) {
                 await this.handleDelete(e.target);
-            } else if (e.target.matches('.btn-action.edit')) {
-                this.handleEdit(e.target);
             }
         });
     }
@@ -467,35 +465,6 @@ class GameLibraryApp {
                 this.checkEmptyPage();
             }
         }
-    }
-
-    /**
-     * Gère l'édition des détails d'un jeu
-     * @param {HTMLElement} button - Le bouton d'édition cliqué
-     */
-    handleEdit(button) {
-        // Vérifie si l'utilisateur est connecté
-        if (!this.checkAuth()) return;
-        
-        const gameData = JSON.parse(button.dataset.game || '{}');
-        this.openEditModal(gameData);
-    }
-
-    /**
-     * Ouvre le modal d'édition avec les détails du jeu pré-remplis
-     * @param {Object} gameData - Les données du jeu à éditer
-     */
-    openEditModal(gameData) {
-        const modal = document.getElementById('editGameModal');
-        if (!modal) return;
-        
-        // Remplir les champs du modal d'édition
-        Object.entries(gameData).forEach(([key, value]) => {
-            const field = document.getElementById(`edit_${key}`);
-            if (field) field.value = value || '';
-        });
-        
-        modal.classList.add('active');
     }
 
     /**
