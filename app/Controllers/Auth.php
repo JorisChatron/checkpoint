@@ -11,6 +11,11 @@ use CodeIgniter\Controller;
  */
 class Auth extends Controller
 {
+    public function __construct()
+    {
+        helper('form'); // Charger le helper form pour set_value()
+    }
+
     /**
      * Définit le cookie "remember me"
      */
