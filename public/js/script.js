@@ -26,8 +26,6 @@ class GameLibraryApp {
      */
     constructor() {
         this.initEventListeners();
-        // Timer pour gérer le délai du dropdown
-        this.dropdownTimeout = null;
     }
 
     /**
@@ -41,6 +39,7 @@ class GameLibraryApp {
             this.initModalSystem();      // Système de modales
             this.initGameModals();       // Modales spécifiques aux jeux
             this.initGameActions();      // Actions sur les jeux (suppression uniquement)
+            this.initGlobalAddModal();   // Modal d'ajout global
         });
     }
 
@@ -114,9 +113,14 @@ class GameLibraryApp {
      * @param {HTMLElement} container - Le conteneur où afficher les suggestions
      */
     async searchGames(query, container) {
-        const response = await fetch(`https://api.rawg.io/api/games?key=${CONFIG.API_KEY}&search=${encodeURIComponent(query)}&page_size=8`);
-        const data = await response.json();
-        this.displaySuggestions(data.results || [], container);
+        try {
+            const response = await fetch(`https://api.rawg.io/api/games?key=${CONFIG.API_KEY}&search=${encodeURIComponent(query)}&page_size=8`);
+            const data = await response.json();
+            this.displaySuggestions(data.results || [], container);
+        } catch (error) {
+            container.innerHTML = '<li style="padding:8px 12px;color:#f44336;">Erreur de recherche</li>';
+            container.style.display = 'block';
+        }
     }
 
     /**
@@ -138,7 +142,7 @@ class GameLibraryApp {
             const platform = game.platforms?.[0]?.platform?.name || 'Plateforme inconnue';
             
             return `
-                <li onclick="openGameModal(${game.id})" style="padding:8px 12px;cursor:pointer;border-bottom:1px solid #2D2742;">
+                <li onclick="window.gameLibrary.openGameModal(${game.id})" style="padding:8px 12px;cursor:pointer;border-bottom:1px solid #2D2742;">
                     <div style="font-weight:bold;color:#9B5DE5;">${game.name}</div>
                     <small style="color:#BB86FC;">${platform} • ${released}</small>
                 </li>
@@ -181,20 +185,27 @@ class GameLibraryApp {
      * Configure l'ouverture des modales avec les détails du jeu
      */
     initGameModals() {
-        window.openGameModal = (gameId) => {
-            const modal = document.getElementById('gameModal');
-            const modalBody = document.getElementById('gameModalBody');
-            
-            // Sort si les éléments n'existent pas
-            if (!modal || !modalBody) return;
-            
-            // Indicateur de chargement
-            modalBody.innerHTML = '<div style="text-align:center;color:#BB86FC;padding:2rem;">Chargement...</div>';
-            modal.classList.add('active');
-            
-            // Charge les détails du jeu
-            this.loadGameDetails(gameId, modalBody);
-        };
+        // Fonction globale pour ouvrir une modal de jeu
+        window.openGameModal = (gameId) => this.openGameModal(gameId);
+    }
+
+    /**
+     * Ouvre une modal avec les détails d'un jeu
+     * @param {number} gameId - L'ID du jeu à afficher
+     */
+    openGameModal(gameId) {
+        const modal = document.getElementById('gameModal');
+        const modalBody = document.getElementById('gameModalBody');
+        
+        // Sort si les éléments n'existent pas
+        if (!modal || !modalBody) return;
+        
+        // Indicateur de chargement
+        modalBody.innerHTML = '<div style="text-align:center;color:#BB86FC;padding:2rem;">Chargement...</div>';
+        modal.classList.add('active');
+        
+        // Charge les détails du jeu
+        this.loadGameDetails(gameId, modalBody);
     }
 
     /**
@@ -203,9 +214,13 @@ class GameLibraryApp {
      * @param {HTMLElement} container - Le conteneur où afficher les détails du jeu
      */
     async loadGameDetails(gameId, container) {
-        const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${CONFIG.API_KEY}`);
-        const game = await response.json();
-        this.renderGameModal(game, container);
+        try {
+            const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${CONFIG.API_KEY}`);
+            const game = await response.json();
+            this.renderGameModal(game, container);
+        } catch (error) {
+            container.innerHTML = '<div style="text-align:center;color:#f44336;padding:2rem;">Erreur lors du chargement</div>';
+        }
     }
 
     /**
@@ -292,7 +307,7 @@ class GameLibraryApp {
         };
 
         // Envoie les données au point de terminaison pour ajout à la wishlist
-        this.submitToEndpoint('/checkpoint/public/wishlist/add', gameData);
+        this.submitToEndpoint(`${CONFIG.BASE_URL}wishlist/add`, gameData);
         
         // Fermer le modal après l'ajout
         document.getElementById('gameModal')?.classList.remove('active');
@@ -306,7 +321,7 @@ class GameLibraryApp {
         // Vérifie si l'utilisateur est connecté
         if (!this.checkAuth()) return;
         document.getElementById('gameModal')?.classList.remove('active');
-        window.openAddGameModalFromRawg?.(game);
+        this.openAddGameModalFromRawg(game);
     }
 
     /**
@@ -334,9 +349,6 @@ class GameLibraryApp {
      */
     async submitToEndpoint(url, data) {
         try {
-            console.log('Envoi des données:', data);
-            console.log('Vers l\'URL:', url);
-            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -346,10 +358,7 @@ class GameLibraryApp {
                 body: JSON.stringify(data)
             });
             
-            console.log('Status de la réponse:', response.status);
-            
             const result = await response.json();
-            console.log('Résultat:', result);
             
             if (result.success) {
                 // Afficher un message de succès temporaire
@@ -365,7 +374,6 @@ class GameLibraryApp {
                 }
             }
         } catch (error) {
-            console.error('Erreur lors de l\'envoi:', error);
             this.showMessage('Erreur de connexion', 'error');
         }
     }
@@ -446,23 +454,28 @@ class GameLibraryApp {
         
         // Détermine le point de terminaison en fonction de la page actuelle
         if (currentPath.includes('/mes-jeux')) {
-            endpoint = `/checkpoint/public/mes-jeux/delete/${gameId}`;
+            endpoint = `${CONFIG.BASE_URL}mes-jeux/delete/${gameId}`;
         } else if (currentPath.includes('/wishlist')) {
-            endpoint = `/checkpoint/public/wishlist/delete/${gameId}`;
+            endpoint = `${CONFIG.BASE_URL}wishlist/delete/${gameId}`;
         }
         
         if (endpoint) {
-            // Envoie la requête de suppression
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            });
-            
-            const data = await response.json();
-            if (data.success) {
-                // Supprime la carte du jeu de l'interface
-                button.closest('.game-card-universal')?.remove();
-                this.checkEmptyPage();
+            try {
+                // Envoie la requête de suppression
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    // Supprime la carte du jeu de l'interface
+                    button.closest('.game-card-universal')?.remove();
+                    this.checkEmptyPage();
+                    this.showMessage('Jeu supprimé avec succès !', 'success');
+                }
+            } catch (error) {
+                this.showMessage('Erreur lors de la suppression', 'error');
             }
         }
     }
@@ -476,6 +489,108 @@ class GameLibraryApp {
         if (gameCards.length === 0) {
             setTimeout(() => location.reload(), 300);
         }
+    }
+
+    /**
+     * Initialise le modal d'ajout global
+     */
+    initGlobalAddModal() {
+        const globalModal = document.getElementById('globalAddGameModal');
+        const closeBtn = document.getElementById('closeGlobalAddGameModal');
+        const form = document.getElementById('globalAddGameForm');
+        
+        // Sortie anticipée si le modal n'existe pas dans le DOM
+        if (!globalModal) return;
+        
+        // Configuration des gestionnaires de fermeture du modal
+        closeBtn?.addEventListener('click', () => {
+            globalModal.classList.remove('active');
+        });
+        
+        // Fermeture du modal en cliquant en dehors de son contenu
+        globalModal.addEventListener('click', (e) => {
+            if (e.target === globalModal) globalModal.classList.remove('active');
+        });
+        
+        // Gestion de la soumission du formulaire d'ajout de jeu
+        form?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Conversion des données du formulaire en objet JSON
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+            
+            try {
+                // Envoi des données au serveur via une requête AJAX
+                const response = await fetch(`${CONFIG.BASE_URL}mes-jeux/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(jsonData)
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    // Fermeture du modal et rechargement de la page après ajout réussi
+                    globalModal.classList.remove('active');
+                    this.showMessage('Jeu ajouté avec succès !', 'success');
+                    setTimeout(() => location.reload(), 300);
+                }
+            } catch (error) {
+                this.showMessage('Erreur lors de l\'ajout', 'error');
+            }
+        });
+    }
+
+    /**
+     * Ouvre le modal d'ajout de jeu avec les données d'un jeu de l'API RAWG
+     * @param {Object} game - Les données du jeu depuis l'API RAWG
+     */
+    openAddGameModalFromRawg(game) {
+        // Vérifier si on est connecté
+        if (!this.checkAuth()) return;
+
+        // Utiliser le modal global
+        const globalModal = document.getElementById('globalAddGameModal');
+        if (!globalModal) return;
+
+        // Définition d'un objet contenant tous les champs à remplir automatiquement
+        const fields = {
+            'global_addGame_game_id': game.id || '',
+            'global_addGame_searchGame': game.name || '',
+            'global_addGame_platform': game.platforms?.[0]?.platform?.name || 'Inconnue',
+            'global_addGame_releaseYear': game.released ? new Date(game.released).getFullYear() : '',
+            'global_addGame_genre': game.genres?.map(g => g.name).join(', ') || '',
+            'global_addGame_cover': game.background_image || '',
+            'global_addGame_developer': game.developers?.map(d => d.name).join(', ') || '',
+            'global_addGame_publisher': game.publishers?.map(p => p.name).join(', ') || ''
+        };
+
+        // Parcourt chaque paire clé/valeur de l'objet fields
+        Object.entries(fields).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) element.value = value;
+        });
+
+        // Récupère l'élément qui affiche le nom du jeu sélectionné
+        const selectedGameName = document.getElementById('global_selectedGameName');
+        if (selectedGameName) {
+            selectedGameName.textContent = game.name || 'Jeu sélectionné';
+        }
+
+        // Liste des champs utilisateur à réinitialiser
+        ['global_addGame_status', 'global_addGame_playtime', 'global_addGame_notes'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.value = '';
+        });
+
+        // Active le modal en ajoutant la classe CSS 'active'
+        globalModal.classList.add('active');
     }
 }
 
@@ -521,119 +636,8 @@ window.extractYear = (dateString) => {
     return dateString ? new Date(dateString).getFullYear() : '';
 };
 
-// Initialisation
+// Initialisation de l'application
 window.gameLibrary = new GameLibraryApp();
 
-// Fonction globale simplifiée pour ouvrir le modal d'ajout de jeu
-window.openAddGameModalFromRawg = function(game) {
-    // Vérifier si on est connecté
-    const profileLink = document.querySelector('a[href*="profile"]');
-    const logoutLink = document.querySelector('a[href*="logout"]');
-    const isLoggedIn = profileLink && logoutLink;
-    
-    if (!isLoggedIn) {
-        setTimeout(() => window.location.href = CONFIG.BASE_URL + 'login', 500);
-        return;
-    }
-
-    // Utiliser le modal global
-    const globalModal = document.getElementById('globalAddGameModal');
-    if (!globalModal) return;
-
-    // Définition d'un objet contenant tous les champs à remplir automatiquement
-    const fields = {
-        // ID du jeu depuis l'API RAWG
-        'global_addGame_game_id': game.id || '',
-        // Nom du jeu
-        'global_addGame_searchGame': game.name || '',
-        // Première plateforme disponible, avec chaînage optionnel pour éviter les erreurs
-        'global_addGame_platform': game.platforms?.[0]?.platform?.name || 'Inconnue',
-        // Année de sortie extraite de la date complète, avec opérateur ternaire
-        'global_addGame_releaseYear': game.released ? new Date(game.released).getFullYear() : '',
-        // Liste des genres séparés par des virgules, utilise map et join
-        'global_addGame_genre': game.genres?.map(g => g.name).join(', ') || '',
-        // URL de l'image de couverture
-        'global_addGame_cover': game.background_image || '',
-        // Liste des développeurs séparés par des virgules
-        'global_addGame_developer': game.developers?.map(d => d.name).join(', ') || '',
-        // Liste des éditeurs séparés par des virgules
-        'global_addGame_publisher': game.publishers?.map(p => p.name).join(', ') || ''
-    };
-
-    // Parcourt chaque paire clé/valeur de l'objet fields
-    Object.entries(fields).forEach(([id, value]) => {
-        // Recherche l'élément HTML correspondant à l'ID
-        const element = document.getElementById(id);
-        // Si l'élément existe, met à jour sa valeur
-        if (element) element.value = value;
-    });
-
-    // Récupère l'élément qui affiche le nom du jeu sélectionné
-    const selectedGameName = document.getElementById('global_selectedGameName');
-    // Si l'élément existe, met à jour son contenu avec le nom du jeu ou un texte par défaut
-    if (selectedGameName) {
-        selectedGameName.textContent = game.name || 'Jeu sélectionné';
-    }
-
-    // Liste des champs utilisateur à réinitialiser
-    ['global_addGame_status', 'global_addGame_playtime', 'global_addGame_notes'].forEach(id => {
-        // Pour chaque ID, recherche l'élément correspondant
-        const element = document.getElementById(id);
-        // Si l'élément existe, vide sa valeur
-        if (element) element.value = '';
-    });
-
-    // Active le modal en ajoutant la classe CSS 'active'
-    globalModal.classList.add('active');
-};
-
-// Gestion du modal global d'ajout - Initialisation et configuration
-document.addEventListener('DOMContentLoaded', function() {
-    // Récupération des éléments du DOM nécessaires pour le modal
-    const globalModal = document.getElementById('globalAddGameModal');
-    const closeBtn = document.getElementById('closeGlobalAddGameModal');
-    const form = document.getElementById('globalAddGameForm');
-    
-    // Sortie anticipée si le modal n'existe pas dans le DOM
-    if (!globalModal) return;
-    
-    // Configuration des gestionnaires de fermeture du modal
-    closeBtn?.addEventListener('click', function() {
-        globalModal.classList.remove('active');
-    });
-    
-    // Fermeture du modal en cliquant en dehors de son contenu
-    globalModal.addEventListener('click', function(e) {
-        if (e.target === this) this.classList.remove('active');
-    });
-    
-    // Gestion de la soumission du formulaire d'ajout de jeu
-    form?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Conversion des données du formulaire en objet JSON
-        const formData = new FormData(this);
-        const jsonData = {};
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
-        
-        // Envoi des données au serveur via une requête AJAX
-        fetch('/checkpoint/public/mes-jeux/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify(jsonData)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                // Fermeture du modal et rechargement de la page après ajout réussi
-                globalModal.classList.remove('active');
-                setTimeout(() => location.reload(), 300);
-            }
-        });
-    });
-});
+// Fonction globale pour compatibilité avec le code existant
+window.openAddGameModalFromRawg = (game) => window.gameLibrary.openAddGameModalFromRawg(game);

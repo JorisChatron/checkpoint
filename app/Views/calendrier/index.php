@@ -351,92 +351,7 @@ function initAddGameModal() {
         return;
     }
     
-    // Fonction pour ouvrir le modal d'ajout depuis les données RAWG
-    window.openAddGameModalFromRawg = function(game) {
-        if (!checkAuthAndRedirect('ajouter un jeu à votre collection')) {
-            return;
-        }
-
-        // Remplir les champs cachés
-        const elements = {
-            'addGame_searchGame': game.name || 'Jeu sans nom',
-            'addGame_game_id': game.id || '',
-            'addGame_platform': '',
-            'addGame_releaseYear': extractYear(game.released),
-            'addGame_genre': (game.genres && game.genres.length) ? game.genres.map(g => g.name).join(', ') : '',
-            'addGame_cover': game.background_image || '',
-            'addGame_developer': (game.developers && game.developers.length) ? game.developers.map(d => d.name).join(', ') : '',
-            'addGame_publisher': (game.publishers && game.publishers.length) ? game.publishers.map(p => p.name).join(', ') : ''
-        };
-        
-        // Gestion spéciale pour platform
-        let platform = 'Inconnue';
-        if (game.platforms && Array.isArray(game.platforms) && game.platforms.length > 0) {
-            const plat = game.platforms[0];
-            if (plat && plat.platform && plat.platform.name) {
-                platform = plat.platform.name;
-            } else if (plat && plat.name) {
-                platform = plat.name;
-            }
-        }
-        elements['addGame_platform'] = platform;
-        
-        // Remplir tous les champs
-        Object.entries(elements).forEach(([id, value]) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.value = value;
-            } else {
-                console.warn(`Élément ${id} non trouvé`);
-            }
-        });
-        
-        // Gérer l'aperçu du jeu sélectionné
-        const gamePreview = document.getElementById('addGame_gamePreview');
-        const selectedGameCover = document.getElementById('addGame_selectedGameCover');
-        const selectedGameName = document.getElementById('addGame_selectedGameName');
-        const selectedGameDetails = document.getElementById('addGame_selectedGameDetails');
-
-        if (gamePreview && selectedGameCover && selectedGameName && selectedGameDetails) {
-            gamePreview.style.display = 'block';
-            
-            if (elements.addGame_cover) {
-                selectedGameCover.src = elements.addGame_cover;
-                selectedGameCover.style.display = 'block';
-                const placeholder = gamePreview.querySelector('.game-cover-placeholder');
-                if (placeholder) placeholder.style.display = 'none';
-            } else {
-                selectedGameCover.style.display = 'none';
-                let placeholder = gamePreview.querySelector('.game-cover-placeholder');
-                if (!placeholder) {
-                    // Créer le placeholder en utilisant la fonction utilitaire
-                    placeholder = createSmallCoverPlaceholder(elements.addGame_searchGame);
-                    selectedGameCover.parentNode.insertBefore(placeholder, selectedGameCover);
-                } else {
-                    placeholder.style.display = 'flex';
-                    placeholder.querySelector('.placeholder-title').textContent = elements.addGame_searchGame;
-                }
-            }
-            
-            selectedGameName.textContent = elements.addGame_searchGame;
-            
-            const details = [];
-            if (platform) details.push(platform);
-            if (elements.addGame_releaseYear) details.push(elements.addGame_releaseYear);
-            if (elements.addGame_genre) details.push(elements.addGame_genre);
-            selectedGameDetails.textContent = details.join(' • ');
-        }
-        
-        // Réinitialiser les champs utilisateur
-        const userFields = ['addGame_status', 'addGame_playtime', 'addGame_notes'];
-        userFields.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.value = '';
-        });
-        
-        // Ouvrir le modal
-        addGameModal.classList.add('active');
-    };
+    // Note: La fonction openAddGameModalFromRawg est maintenant définie globalement dans script.js
     
     // Event listeners pour fermer le modal
     if (closeAddGameModal) {
@@ -472,7 +387,7 @@ function initAddGameModal() {
                 jsonData[key] = value;
             });
             
-            fetch('/checkpoint/public/mes-jeux/add', {
+            fetch(BASE_URL + 'mes-jeux/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -491,13 +406,13 @@ function initAddGameModal() {
                             window.location.href = BASE_URL + 'login';
                         }, 500);
                     } else {
-                        console.error(data.error || data.message || 'Erreur lors de l\'ajout');
+                        // Erreur lors de l'ajout - message déjà géré côté serveur
                     }
                 }
                 isSubmitting = false;
             })
             .catch(error => {
-                console.error('Erreur lors de l\'ajout');
+                // Erreur de réseau ou autre
                 isSubmitting = false;
             });
         });
@@ -610,7 +525,7 @@ function initWeekPicker() {
                 const date = selectedDates[0];
                 const year = date.getFullYear();
                 const week = getWeekNumber(date);
-                window.location.href = `/checkpoint/public/calendrier/${year}/${week}`;
+                window.location.href = `${BASE_URL}calendrier/${year}/${week}`;
             }
         },
         disableMobile: true,
