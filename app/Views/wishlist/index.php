@@ -132,7 +132,7 @@ $this->section('content');
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestion des boutons de suppression
+    // Gestion des boutons de suppression optimisée
     document.querySelectorAll('.btn-action.delete').forEach(button => {
         button.addEventListener('click', async (e) => {
             e.preventDefault();
@@ -142,21 +142,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!gameId) return;
 
             try {
-                const response = await fetch(`/checkpoint/public/wishlist/delete/${gameId}`, {
-                    method: 'POST',
-                    headers: {'X-Requested-With': 'XMLHttpRequest'}
-                });
-                const data = await response.json();
-
-                if (data.success) {
+                const result = await GameUtils.apiCall(`/checkpoint/public/wishlist/delete/${gameId}`, 'POST');
+                if (result.success) {
                     const card = button.closest('.game-card-universal');
                     if (card) {
                         card.remove();
+                        GameUtils.showSuccess('Jeu supprimé de la wishlist !');
                         checkEmptyPage();
                     }
+                } else {
+                    GameUtils.showError('Erreur lors de la suppression');
                 }
             } catch (error) {
-                console.log('Erreur lors de la suppression');
+                GameUtils.showError('Erreur de connexion');
             }
         });
     });
@@ -238,37 +236,26 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('addGame_notes').value = '';
             
             // Ouvrir le modal d'ajout
-            document.getElementById('addGameModal').classList.add('active');
+            ModalUtils.open('addGameModal');
         });
     });
 
-    // Gestion du formulaire d'ajout
-    document.getElementById('addGameWishlistForm').addEventListener('submit', function(e) {
+    // Gestion du formulaire d'ajout optimisée
+    document.getElementById('addGameWishlistForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const formData = new FormData(this);
         const wishlistId = document.getElementById('wishlist_item_id').value;
         
-        const jsonData = {};
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
-        
-        // Ajout de l'ID de la wishlist pour la suppression
+        // Ajouter l'ID de wishlist aux données
+        const formData = new FormData(this);
+        const jsonData = FormUtils.formDataToJson(formData);
         jsonData.wishlist_id = wishlistId;
         
-        fetch('/checkpoint/public/wishlist/transfer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify(jsonData)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('addGameModal').classList.remove('active');
+        try {
+            const result = await GameUtils.apiCall('/checkpoint/public/wishlist/transfer', 'POST', jsonData);
+            if (result.success) {
+                ModalUtils.close('addGameModal');
+                GameUtils.showSuccess('Jeu transféré vers Mes Jeux !');
                 
                 // Supprimer la carte de la wishlist
                 const transferBtn = document.querySelector(`[data-id="${wishlistId}"].transfer`);
@@ -280,27 +267,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 
-                // Recharger la page après un court délai
                 setTimeout(() => location.reload(), 300);
+            } else {
+                GameUtils.showError('Erreur lors du transfert');
             }
-        })
-        .catch(error => {
-            console.log('Erreur lors du transfert');
-        });
-    });
-
-    // Fermeture du modal d'ajout
-    document.getElementById('closeAddGameModal').addEventListener('click', function() {
-        document.getElementById('addGameModal').classList.remove('active');
-    });
-
-    // Fermeture du modal d'ajout en cliquant à l'extérieur
-    window.addEventListener('click', function(e) {
-        const addGameModal = document.getElementById('addGameModal');
-        if (e.target === addGameModal) {
-            addGameModal.classList.remove('active');
+        } catch (error) {
+            GameUtils.showError('Erreur de connexion');
         }
     });
+
+    // Configuration des modals avec utilitaires
+    ModalUtils.setupAutoClose('addGameModal', 'closeAddGameModal');
 
     // Redirection du bouton "Ajouter un jeu" vers la barre de recherche navbar
     document.getElementById('openModal').addEventListener('click', function(e) {

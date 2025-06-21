@@ -254,6 +254,16 @@ document.getElementById('openModal').addEventListener('click', function(e) {
         }, 2000);
     }
 });
+
+// Fonction locale pour le placeholder (OBLIGATOIRE)
+function createInlineCoverPlaceholder(title) {
+    return `
+        <div style="width:220px;height:220px;background:linear-gradient(45deg,#1F1B2E,#2A1B3D);border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;margin:0 auto 1.2rem;border:2px solid #7F39FB;">
+            <div style="color:#9B5DE5;font-weight:bold;text-align:center;padding:1rem;font-size:1.2rem;">${title}</div>
+            <div style="color:#BB86FC;opacity:0.8;font-size:1rem;">Aucune jaquette</div>
+        </div>
+    `;
+}
 </script>
 
 </section>

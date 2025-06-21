@@ -48,11 +48,8 @@ $this->section('content');
             <div class="week-navigation">
                 <!-- Bouton semaine précédente -->
                 <a href="<?= base_url('calendrier/'.$prevYear.'/'.$prevWeek) ?>" 
-                   class="home-btn week-nav-btn" 
-                   style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#7F39FB,#9B5DE5);color:#fff;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
-                   title="Semaine précédente"
-                   onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #7F39FB44';"
-                   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #7F39FB22';">
+                   class="home-btn week-nav-btn prev" 
+                   title="Semaine précédente">
                     &#8249;
                 </a>
                 
@@ -63,11 +60,8 @@ $this->section('content');
                 
                 <!-- Bouton semaine suivante -->
                 <a href="<?= base_url('calendrier/'.$nextYear.'/'.$nextWeek) ?>" 
-                   class="home-btn week-nav-btn" 
-                   style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;padding:0;border-radius:50%;background:linear-gradient(45deg,#00E5FF,#BB86FC);color:#1E1E2F;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
-                   title="Semaine suivante"
-                   onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 4px 16px #00E5FF44';"
-                   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px #00E5FF22';">
+                   class="home-btn week-nav-btn next" 
+                   title="Semaine suivante">
                     &#8250;
                 </a>
             </div>

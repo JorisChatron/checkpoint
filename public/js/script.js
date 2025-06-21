@@ -636,6 +636,219 @@ window.extractYear = (dateString) => {
     return dateString ? new Date(dateString).getFullYear() : '';
 };
 
+// Fonctions utilitaires globales communes à toutes les vues
+
+/**
+ * Utilitaires pour les API calls - évite la duplication de code
+ */
+window.GameUtils = {
+    /**
+     * Effectue un appel API standardisé
+     * @param {string} url - L'URL de l'endpoint
+     * @param {string} method - La méthode HTTP (GET, POST, etc.)
+     * @param {Object|FormData} data - Les données à envoyer
+     * @returns {Promise} - Promesse avec la réponse JSON
+     */
+    async apiCall(url, method = 'POST', data = null) {
+        const options = { 
+            method, 
+            headers: { 'X-Requested-With': 'XMLHttpRequest' } 
+        };
+        
+        if (data) {
+            if (data instanceof FormData) {
+                options.body = data;
+            } else {
+                options.headers['Content-Type'] = 'application/json';
+                options.body = JSON.stringify(data);
+            }
+        }
+        
+        const response = await fetch(url, options);
+        return await response.json();
+    },
+
+    /**
+     * Affiche un message d'erreur temporaire
+     * @param {string} message - Le message d'erreur
+     */
+    showError(message) {
+        console.error('Erreur: ' + message);
+        // Afficher un message temporaire si nécessaire
+        if (window.gameLibrary && window.gameLibrary.showMessage) {
+            window.gameLibrary.showMessage(message, 'error');
+        }
+    },
+
+    /**
+     * Affiche un message de succès temporaire
+     * @param {string} message - Le message de succès
+     */
+    showSuccess(message) {
+        if (window.gameLibrary && window.gameLibrary.showMessage) {
+            window.gameLibrary.showMessage(message, 'success');
+        }
+    }
+};
+
+/**
+ * Utilitaires pour la gestion des modals
+ */
+window.ModalUtils = {
+    /**
+     * Ouvre une modal
+     * @param {string} modalId - L'ID de la modal à ouvrir
+     */
+    open(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.add('active');
+    },
+
+    /**
+     * Ferme une modal
+     * @param {string} modalId - L'ID de la modal à fermer
+     */
+    close(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.remove('active');
+    },
+
+    /**
+     * Configure la fermeture automatique d'une modal
+     * @param {string} modalId - L'ID de la modal
+     * @param {string} closeButtonId - L'ID du bouton de fermeture
+     */
+    setupAutoClose(modalId, closeButtonId) {
+        const modal = document.getElementById(modalId);
+        const closeBtn = document.getElementById(closeButtonId);
+        
+        if (!modal) return;
+        
+        // Fermeture par bouton
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.close(modalId));
+        }
+        
+        // Fermeture par clic en dehors
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) this.close(modalId);
+        });
+    }
+};
+
+/**
+ * Utilitaires pour la gestion des formulaires
+ */
+window.FormUtils = {
+    /**
+     * Convertit un FormData en objet JSON
+     * @param {FormData} formData - Les données du formulaire
+     * @returns {Object} - Objet JSON
+     */
+    formDataToJson(formData) {
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+        return jsonData;
+    },
+
+    /**
+     * Gère la soumission d'un formulaire avec AJAX
+     * @param {HTMLFormElement} form - Le formulaire
+     * @param {string} endpoint - L'URL de l'endpoint
+     * @param {Function} onSuccess - Callback en cas de succès
+     * @param {Function} onError - Callback en cas d'erreur
+     */
+    async handleSubmit(form, endpoint, onSuccess = null, onError = null) {
+        const formData = new FormData(form);
+        const jsonData = this.formDataToJson(formData);
+        
+        try {
+            const result = await GameUtils.apiCall(endpoint, 'POST', jsonData);
+            
+            if (result.success) {
+                if (onSuccess) onSuccess(result);
+                else GameUtils.showSuccess('Opération réussie !');
+            } else {
+                if (onError) onError(result);
+                else GameUtils.showError(result.error || 'Erreur lors de l\'opération');
+            }
+        } catch (error) {
+            if (onError) onError(error);
+            else GameUtils.showError('Erreur de connexion');
+        }
+    }
+};
+
+/**
+ * Utilitaires pour la gestion des fichiers (upload, preview)
+ */
+window.FileUtils = {
+    /**
+     * Configure la preview d'un fichier image
+     * @param {string} inputId - L'ID de l'input file
+     * @param {string} previewId - L'ID de l'élément de preview
+     * @param {string} labelId - L'ID du label (optionnel)
+     */
+    setupImagePreview(inputId, previewId, labelId = null) {
+        const fileInput = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const label = labelId ? document.querySelector(`label[for="${inputId}"], #${labelId}`) : null;
+        
+        if (!fileInput || !preview) return;
+        
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            
+            if (file) {
+                // Vérification de la taille (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    GameUtils.showError('Fichier trop volumineux (max 5MB)');
+                    fileInput.value = '';
+                    if (label) label.textContent = 'Choisir un fichier';
+                    return;
+                }
+                
+                // Mise à jour du label
+                if (label) {
+                    const displayName = file.name.length > 20 ? 
+                        file.name.substring(0, 17) + '...' : file.name;
+                    label.textContent = displayName;
+                }
+                
+                // Preview de l'image
+                const reader = new FileReader();
+                reader.onload = (e) => preview.src = e.target.result;
+                reader.readAsDataURL(file);
+            } else {
+                if (label) label.textContent = 'Choisir un fichier';
+            }
+        });
+    }
+};
+
+/**
+ * Fonction pour vérifier l'authentification
+ * @returns {boolean} - True si l'utilisateur est connecté
+ */
+window.checkAuth = () => {
+    if (window.gameLibrary && window.gameLibrary.checkAuth) {
+        return window.gameLibrary.checkAuth();
+    }
+    return true; // Fallback
+};
+
+/**
+ * Fonction pour vérifier si la page est vide après suppression
+ */
+window.checkEmptyPage = () => {
+    const gameCards = document.querySelectorAll('.game-card-universal');
+    if (gameCards.length === 0) {
+        setTimeout(() => location.reload(), 300);
+    }
+};
+
 // Initialisation de l'application
 window.gameLibrary = new GameLibraryApp();
 

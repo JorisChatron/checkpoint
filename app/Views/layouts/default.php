@@ -14,6 +14,7 @@
     <main>
         <?= $this->renderSection('content') ?>
     </main>
+    <!-- JavaScript optimisé avec utilitaires centralisés -->
     <script>
         window.CP_BASE_URL = '<?= base_url() ?>';
     </script>

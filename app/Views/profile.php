@@ -100,44 +100,35 @@
 <!-- JavaScript pour la preview -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Utilisation des utilitaires globaux pour les requêtes API
-        async function apiCall(url, method = 'POST', data = null) {
-            const options = { method, headers: { 'X-Requested-With': 'XMLHttpRequest' } };
-            if (data) {
-                if (data instanceof FormData) {
-                    options.body = data;
-                } else {
-                    options.headers['Content-Type'] = 'application/json';
-                    options.body = JSON.stringify(data);
-                }
-            }
-            const response = await fetch(url, options);
-            return await response.json();
-        }
-
-        // Gestion upload photo optimisée
+        // Gestion upload photo optimisée avec les utilitaires
         const fileInput = document.getElementById('profile_picture');
         const preview = document.getElementById('preview');
         const uploadForm = document.querySelector('form[action*="profile/upload"]');
 
+        // Gestion du formulaire d'upload
         uploadForm?.addEventListener('submit', async (e) => {
             e.preventDefault();
             try {
-                const result = await apiCall(e.target.action, 'POST', new FormData(e.target));
-                if (result.success) setTimeout(() => location.reload(), 300);
-                else showError(result.error || 'Erreur lors de la mise à jour');
+                const result = await GameUtils.apiCall(e.target.action, 'POST', new FormData(e.target));
+                if (result.success) {
+                    GameUtils.showSuccess('Photo mise à jour !');
+                    setTimeout(() => location.reload(), 300);
+                } else {
+                    GameUtils.showError(result.error || 'Erreur lors de la mise à jour');
+                }
             } catch (error) {
-                showError('Erreur réseau');
+                GameUtils.showError('Erreur réseau');
             }
         });
 
+        // Preview de l'image (garder le code existant car utilise une classe)
         fileInput?.addEventListener('change', (event) => {
             const file = event.target.files[0];
             const label = document.querySelector('.custom-file-label');
             
             if (file) {
                 if (file.size > 5 * 1024 * 1024) {
-                    showError('Fichier trop volumineux (max 5MB)');
+                    GameUtils.showError('Fichier trop volumineux (max 5MB)');
                     fileInput.value = '';
                     label.textContent = 'Choisir un fichier';
                     return;
@@ -200,19 +191,11 @@
             }
         }
 
-        // Modal top 5 optimisé
-        const elements = {
-            openBtn: document.getElementById('openTop5Modal'),
-            closeBtn: document.getElementById('closeTop5Modal'),
-            modal: document.getElementById('top5Modal'),
-            form: document.getElementById('top5Form')
-        };
-
-        elements.openBtn?.addEventListener('click', () => elements.modal.classList.add('active'));
-        elements.closeBtn?.addEventListener('click', () => elements.modal.classList.remove('active'));
-        window.addEventListener('click', (e) => {
-            if (e.target === elements.modal) elements.modal.classList.remove('active');
-        });
+        // Modal top 5 optimisé avec utilitaires
+        const openBtn = document.getElementById('openTop5Modal');
+        
+        openBtn?.addEventListener('click', () => ModalUtils.open('top5Modal'));
+        ModalUtils.setupAutoClose('top5Modal', 'closeTop5Modal');
 
         // Top 5 selection optimisé
         let clickOrder = [];
@@ -246,42 +229,48 @@
             });
         });
 
-        elements.form?.addEventListener('submit', async (e) => {
+        // Gestion du formulaire top 5
+        const top5Form = document.getElementById('top5Form');
+        top5Form?.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (clickOrder.length !== 5) {
-                showError('Sélectionnez exactement 5 jeux');
+                GameUtils.showError('Sélectionnez exactement 5 jeux');
                 return;
             }
             
             try {
-                const result = await apiCall('/checkpoint/public/profile/setTop5', 'POST', { top5: clickOrder });
-                if (result.success) setTimeout(() => location.reload(), 300);
-                else showError(result.error || 'Erreur mise à jour top 5');
+                const result = await GameUtils.apiCall('/checkpoint/public/profile/setTop5', 'POST', { top5: clickOrder });
+                if (result.success) {
+                    GameUtils.showSuccess('Top 5 mis à jour !');
+                    setTimeout(() => location.reload(), 300);
+                } else {
+                    GameUtils.showError(result.error || 'Erreur mise à jour top 5');
+                }
             } catch (error) {
-                showError('Erreur réseau');
+                GameUtils.showError('Erreur réseau');
             }
         });
 
         // Préférence adulte optimisée
         document.getElementById('showAdultCheckbox')?.addEventListener('change', async function() {
             try {
+                // Utilisation du format fetch classique car envoi form-encoded
                 const result = await fetch('<?= base_url('profile/toggleAdult') ?>', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
                     body: 'show_adult=' + (this.checked ? '1' : '0')
                 });
                 const data = await result.json();
-                if (data.success) setTimeout(() => location.reload(), 300);
-                else showError('Erreur sauvegarde préférence');
+                if (data.success) {
+                    GameUtils.showSuccess('Préférence mise à jour !');
+                    setTimeout(() => location.reload(), 300);
+                } else {
+                    GameUtils.showError('Erreur sauvegarde préférence');
+                }
             } catch (error) {
-                showError('Erreur réseau');
+                GameUtils.showError('Erreur réseau');
             }
         });
-
-        // Fonction utilitaire pour les erreurs
-        function showError(message) {
-            console.log('Erreur: ' + message);
-        }
     });
 </script>
 <?= $this->endSection() ?>

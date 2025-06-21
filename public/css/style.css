@@ -290,6 +290,42 @@ header {
     display: none !important;           /* Force la non-affichage sur desktop */
 }
 
+/* Boutons de navigation de semaine pour le calendrier */
+.week-nav-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    padding: 0;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.week-nav-btn.prev {
+    background: linear-gradient(45deg, #7F39FB, #9B5DE5);
+    color: #fff;
+}
+
+.week-nav-btn.next {
+    background: linear-gradient(45deg, #00E5FF, #BB86FC);
+    color: #1E1E2F;
+}
+
+.week-nav-btn:hover {
+    transform: scale(1.05);
+}
+
+.week-nav-btn.prev:hover {
+    box-shadow: 0 4px 16px #7F39FB44;
+}
+
+.week-nav-btn.next:hover {
+    box-shadow: 0 4px 16px #00E5FF44;
+}
+
 /* Contenu principal - conteneurs dashboard et pages principales */
 .dashboard-home { 
     background: transparent;            /* Fond transparent pour ne pas doubler le fond avec main */
