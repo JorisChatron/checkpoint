@@ -6,51 +6,10 @@ use CodeIgniter\Model;
 class UserModel extends Model
 {
     protected $table = 'users';
-    protected $allowedFields = ['username', 'email', 'password', 'profile_picture', 'remember_token', 'remember_token_expires'];
+    protected $allowedFields = ['username', 'email', 'password', 'profile_picture'];
     protected $useTimestamps = true; // si tu veux que CI remplisse automatiquement created_at
 
-    /**
-     * Génère et sauvegarde un token "remember me" pour l'utilisateur
-     */
-    public function setRememberToken($userId, $durationDays = 30)
-    {
-        $token = bin2hex(random_bytes(32)); // Génère un token sécurisé
-        $expires = date('Y-m-d H:i:s', strtotime("+{$durationDays} days"));
-        
-        $this->update($userId, [
-            'remember_token' => hash('sha256', $token), // Stocke le hash du token
-            'remember_token_expires' => $expires
-        ]);
-        
-        return $token; // Retourne le token non hashé pour le cookie
-    }
 
-    /**
-     * Vérifie un token "remember me" et retourne l'utilisateur si valide
-     */
-    public function getUserByRememberToken($token)
-    {
-        if (empty($token)) {
-            return null;
-        }
-
-        $hashedToken = hash('sha256', $token);
-        
-        return $this->where('remember_token', $hashedToken)
-                   ->where('remember_token_expires >', date('Y-m-d H:i:s'))
-                   ->first();
-    }
-
-    /**
-     * Supprime le token "remember me" (déconnexion)
-     */
-    public function clearRememberToken($userId)
-    {
-        $this->update($userId, [
-            'remember_token' => null,
-            'remember_token_expires' => null
-        ]);
-    }
 
     public function getUserTopGames($userId)
     {

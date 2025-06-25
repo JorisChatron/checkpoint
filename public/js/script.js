@@ -6,7 +6,7 @@
  */
 const CONFIG = {
     // Clé API pour accéder à RAWG.io (API de jeux vidéo)
-    API_KEY: 'ff6f7941c211456c8806541638fdfaff',
+    API_KEY: window.CP_RAWG_API_KEY || '',
     // URL de base de l'application, peut être configurée globalement
     BASE_URL: window.CP_BASE_URL || '',
     // Délai en millisecondes avant de déclencher la recherche
@@ -82,9 +82,8 @@ class GameLibraryApp {
         // Timer pour le délai de recherche
         let searchTimeout;
 
-        // Gère la saisie dans la barre de recherche
         searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);  // Réinitialise le timer à chaque frappe
+            clearTimeout(searchTimeout); 
             const query = e.target.value.trim();
 
             // Vérifie si la recherche est assez longue

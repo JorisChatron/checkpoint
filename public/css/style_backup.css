@@ -597,23 +597,7 @@ button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hove
     gap: 1.2rem;
 }
 
-.remember-me-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: var(--text-color);
-    margin-bottom: 1.5rem;
-}
 
-.remember-me-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    accent-color: var(--primary-color);
-    cursor: pointer;
-}
 
 .auth-link {
     margin-top: 1.5rem;

@@ -193,7 +193,7 @@
 
         // Modal top 5 optimisé avec utilitaires
         const openBtn = document.getElementById('openTop5Modal');
-        
+
         openBtn?.addEventListener('click', () => ModalUtils.open('top5Modal'));
         ModalUtils.setupAutoClose('top5Modal', 'closeTop5Modal');
 

@@ -43,7 +43,7 @@ class Calendrier extends Controller
         $apiPage = $page;
 
         // Appel à l'API RAWG pour récupérer les jeux
-        $apiKey = 'ff6f7941c211456c8806541638fdfaff';
+        $apiKey = getenv('RAWG_API_KEY');
         $url = "https://api.rawg.io/api/games?key=$apiKey&dates=$start,$end&ordering=released&page_size=$pageSize&page=$apiPage";
         $games = [];
         $error = null;

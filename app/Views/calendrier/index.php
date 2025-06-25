@@ -558,7 +558,7 @@ function initCalendarGameSearch() {
         return;
     }
 
-    const API_KEY = 'ff6f7941c211456c8806541638fdfaff';
+    const API_KEY = window.CP_RAWG_API_KEY || '';
     let searchTimeout;
 
     const updateGameFields = async (game) => {

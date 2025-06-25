@@ -749,21 +749,7 @@ button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hove
     margin-bottom: 1.5rem;              /* Marge de 24px en bas */
 }
 
-/* Conteneur pour la case "Se souvenir de moi" */
-.remember-me-container { 
-    display: flex;                      /* Flexbox pour aligner checkbox et label */
-    align-items: center;                /* Centre verticalement */
-    gap: 0.5rem;                        /* Espacement de 8px entre checkbox et label */
-    margin: 1rem 0;                     /* Marge de 16px en haut et en bas */
-    color: var(--secondary-color);      /* Couleur violette claire pour le texte */
-}
 
-/* Case à cocher "Se souvenir de moi" */
-.remember-me-container input[type="checkbox"] { 
-    width: auto;                        /* Largeur automatique (pas 100% comme les autres inputs) */
-    margin: 0;                          /* Pas de marge */
-    transform: scale(1.2);              /* Agrandissement de 20% pour être plus visible */
-}
 
 /* Lien vers autre page d'authentification */
 .auth-link { 

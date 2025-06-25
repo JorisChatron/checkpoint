@@ -4,11 +4,18 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class AddRememberTokenToUsers extends Migration
+class RemoveRememberTokenFromUsers extends Migration
 {
     public function up()
     {
-        $this->forge->addColumn('users', [
+        // Supprimer les colonnes remember_token et remember_token_expires
+        $this->forge->dropColumn('users', ['remember_token', 'remember_token_expires']);
+    }
+
+    public function down()
+    {
+        // Ajouter les colonnes remember_token et remember_token_expires si besoin de rollback
+        $fields = [
             'remember_token' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
@@ -20,11 +27,8 @@ class AddRememberTokenToUsers extends Migration
                 'null' => true,
                 'comment' => 'Date d\'expiration du token "Se souvenir de moi"'
             ]
-        ]);
+        ];
+        
+        $this->forge->addColumn('users', $fields);
     }
-
-    public function down()
-    {
-        $this->forge->dropColumn('users', ['remember_token', 'remember_token_expires']);
-    }
-}
+} 

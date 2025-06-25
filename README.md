@@ -239,7 +239,7 @@ L'application implémente plusieurs couches de sécurité pour protéger vos don
 ### 🔐 Authentification et sessions
 - **Mots de passe hachés** : Utilisation de `password_hash()` avec algorithme bcrypt
 - **Sessions sécurisées** : Configuration sécurisée des sessions PHP
-- **Tokens "Remember me"** : Système de connexion persistante avec tokens chiffrés
+
 - **Contrôle d'accès** : Vérification des droits utilisateur sur chaque action
 
 ### 🛡️ Protection des données
@@ -345,7 +345,7 @@ session.cookieHTTPOnly = true
 
 ```sql
 -- Tables principales
-users (id, username, email, password, profile_picture, remember_token)
+users (id, username, email, password, profile_picture)
 games (id, name, platform, release_date, category, developer, publisher, cover, rawg_id)
 game_stats (id, user_id, game_id, play_time, progress, status, notes)
 wishlist (id, user_id, game_id)

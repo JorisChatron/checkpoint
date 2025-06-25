@@ -146,9 +146,7 @@ button:not(.burger):hover, input[type="submit"]:hover, input[type="button"]:hove
 
 .auth-form { margin-bottom: 1.5rem; }
 
-.remember-me-container { display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; color: var(--secondary-color); }
 
-.remember-me-container input[type="checkbox"] { width: auto; margin: 0; transform: scale(1.2); }
 
 .auth-link { text-align: center; margin-top: 1rem; color: var(--secondary-color); }
 
