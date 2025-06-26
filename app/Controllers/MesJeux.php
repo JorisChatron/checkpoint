@@ -211,7 +211,6 @@ class MesJeux extends BaseController
                 'play_time' => $data['playtime'] ?? 0,
                 'status' => $data['status'] ?? null,
                 'notes' => $data['notes'] ?? null,
-                'progress' => 0,
         ]);
 
         return $this->response->setJSON(['success' => true]);

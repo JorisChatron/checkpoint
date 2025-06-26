@@ -18,7 +18,7 @@ class UserModel extends Model
             ->select('user_top_games.*, games.name, games.platform, games.release_date, games.category, games.cover')
             ->join('games', 'games.id = user_top_games.game_id')
             ->where('user_top_games.user_id', $userId)
-            ->orderBy('user_top_games.position', 'ASC')
+            ->orderBy('user_top_games.rank_position', 'ASC')
             ->get()->getResultArray();
     }
 

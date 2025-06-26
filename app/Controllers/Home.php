@@ -50,7 +50,7 @@ class Home extends BaseController
             ->join('games', 'games.id = user_top_games.game_id')
             ->join('game_stats', 'game_stats.game_id = games.id AND game_stats.user_id = user_top_games.user_id')
             ->where('user_top_games.user_id', $userId)
-            ->orderBy('user_top_games.position ASC')
+            ->orderBy('user_top_games.rank_position ASC')
             ->limit(5)
             ->get()->getResultArray();
 

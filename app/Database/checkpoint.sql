@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 25 juin 2025 à 11:37
+-- Généré le : mer. 25 juin 2025 à 15:59
 -- Version du serveur : 8.0.42-0ubuntu0.24.04.1
 -- Version de PHP : 8.3.6
 
@@ -153,7 +153,6 @@ CREATE TABLE `game_stats` (
   `user_id` int NOT NULL,
   `game_id` int NOT NULL,
   `play_time` int DEFAULT '0',
-  `progress` int DEFAULT '0',
   `status` varchar(20) DEFAULT NULL,
   `notes` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -164,20 +163,20 @@ CREATE TABLE `game_stats` (
 -- Déchargement des données de la table `game_stats`
 --
 
-INSERT INTO `game_stats` (`id`, `user_id`, `game_id`, `play_time`, `progress`, `status`, `notes`, `created_at`, `updated_at`) VALUES
-(164, 1, 191, 234, 0, 'termine', 'der', '2025-06-10 13:19:03', NULL),
-(191, 1, 188, 2004, 0, 'en cours', 'ddee', '2025-06-11 13:13:06', NULL),
-(193, 1, 213, 1, 0, 'termine', 'f', '2025-06-11 13:13:57', NULL),
-(201, 1, 219, 3333, 0, 'termine', 'f', '2025-06-11 15:10:00', NULL),
-(208, 1, 231, 234, 0, 'termine', '', '2025-06-19 13:23:16', NULL),
-(209, 1, 199, 234, 0, 'complete', 'okkkkk', '2025-06-19 13:23:43', NULL),
-(210, 1, 232, 633, 0, 'en cours', 'didon', '2025-06-19 13:24:09', NULL),
-(211, 1, 189, 2004, 0, 'termine', 'd', '2025-06-19 13:24:20', NULL),
-(212, 1, 233, 3333, 0, 'complete', 'd', '2025-06-19 13:25:33', NULL),
-(213, 1, 234, 200, 0, 'termine', 'd', '2025-06-19 13:26:07', NULL),
-(215, 1, 236, 200, 0, 'complete', 'okl', '2025-06-19 13:35:34', NULL),
-(216, 1, 237, 200, 0, 'termine', 'j', '2025-06-19 13:35:59', NULL),
-(217, 1, 238, 23, 0, 'termine', '', '2025-06-19 13:36:30', NULL);
+INSERT INTO `game_stats` (`id`, `user_id`, `game_id`, `play_time`, `status`, `notes`, `created_at`, `updated_at`) VALUES
+(164, 1, 191, 234, 'termine', 'der', '2025-06-10 13:19:03', NULL),
+(191, 1, 188, 2004, 'en cours', 'ddee', '2025-06-11 13:13:06', NULL),
+(193, 1, 213, 1, 'termine', 'f', '2025-06-11 13:13:57', NULL),
+(201, 1, 219, 3333, 'termine', 'f', '2025-06-11 15:10:00', NULL),
+(208, 1, 231, 234, 'termine', '', '2025-06-19 13:23:16', NULL),
+(209, 1, 199, 234, 'complete', 'okkkkk', '2025-06-19 13:23:43', NULL),
+(210, 1, 232, 633, 'en cours', 'didon', '2025-06-19 13:24:09', NULL),
+(211, 1, 189, 2004, 'termine', 'd', '2025-06-19 13:24:20', NULL),
+(212, 1, 233, 3333, 'complete', 'd', '2025-06-19 13:25:33', NULL),
+(213, 1, 234, 200, 'termine', 'd', '2025-06-19 13:26:07', NULL),
+(215, 1, 236, 200, 'complete', 'okl', '2025-06-19 13:35:34', NULL),
+(216, 1, 237, 200, 'termine', 'j', '2025-06-19 13:35:59', NULL),
+(217, 1, 238, 23, 'termine', '', '2025-06-19 13:36:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -212,7 +211,7 @@ CREATE TABLE `user_top_games` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `game_id` int NOT NULL,
-  `position` tinyint NOT NULL,
+  `rank_position` tinyint NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -220,7 +219,7 @@ CREATE TABLE `user_top_games` (
 -- Déchargement des données de la table `user_top_games`
 --
 
-INSERT INTO `user_top_games` (`id`, `user_id`, `game_id`, `position`, `created_at`) VALUES
+INSERT INTO `user_top_games` (`id`, `user_id`, `game_id`, `rank_position`, `created_at`) VALUES
 (81, 1, 199, 1, '2025-06-20 15:25:22'),
 (82, 1, 232, 2, '2025-06-20 15:25:22'),
 (83, 1, 189, 3, '2025-06-20 15:25:22'),
@@ -285,7 +284,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_top_games`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_position` (`user_id`,`position`),
+  ADD UNIQUE KEY `unique_user_rank_position` (`user_id`,`rank_position`),
   ADD KEY `game_id` (`game_id`),
   ADD KEY `idx_user_id` (`user_id`);
 

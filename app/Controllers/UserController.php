@@ -111,7 +111,7 @@ class UserController extends BaseController
             $db->table('user_top_games')
                 ->where('id', $id)
                 ->where('user_id', $userId)
-                ->update(['position' => $position + 1]);
+                ->update(['rank_position' => $position + 1]);
         }
         return $this->response->setJSON(['success' => true]);
     }
@@ -141,7 +141,7 @@ class UserController extends BaseController
             $db->table('user_top_games')->insert([
                 'user_id' => $userId,
                 'game_id' => $gameId,
-                'position' => $position + 1
+                'rank_position' => $position + 1
             ]);
         }
         return $this->response->setJSON(['success' => true]);

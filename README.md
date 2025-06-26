@@ -349,7 +349,7 @@ users (id, username, email, password, profile_picture)
 games (id, name, platform, release_date, category, developer, publisher, cover, rawg_id)
 game_stats (id, user_id, game_id, play_time, progress, status, notes)
 wishlist (id, user_id, game_id)
-user_top_games (id, user_id, game_id, position)
+user_top_games (id, user_id, game_id, rank_position)
 ```
 
 ## 🛠️ Troubleshooting

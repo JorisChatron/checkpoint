@@ -45,7 +45,7 @@
                 
                 <div class="card-info-overlay">
                     <div class="card-name"><?= esc($game['name']) ?></div>
-                    <div class="card-date">#<?= $game['position'] ?><?= !empty($game['play_time']) ? ' • ' . $game['play_time'] . 'h' : '' ?></div>
+                    <div class="card-date">#<?= $game['rank_position'] ?><?= !empty($game['play_time']) ? ' • ' . $game['play_time'] . 'h' : '' ?></div>
                 </div>
             </div>
         <?php endforeach; ?>
