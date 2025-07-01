@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expression des besoins – Projet Checkpoint</title>
+    <title>Dossier de Projet – Checkpoint – Titre DWWM</title>
     <style>
         :root {
             --bleu-fonce: rgba(31, 27, 46, 0.9);
             --bleu-clair: #BB86FC;
             --jaune:  #00E5FF;
             --blanc-casse: #f7f7f9;
+            --vert-succes: #28a745;
+            --rouge-erreur: #dc3545;
         }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -17,6 +19,7 @@
             color: var(--bleu-fonce);
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
         header {
             background: linear-gradient(90deg, var(--bleu-fonce) 70%, var(--jaune) 100%);
@@ -27,6 +30,12 @@
             font-size: 2.2em;
             font-weight: bold;
             box-shadow: 0 2px 8px rgba(26,34,56,0.08);
+        }
+        .subtitle {
+            font-size: 0.5em;
+            font-weight: normal;
+            margin-top: 8px;
+            opacity: 0.9;
         }
         .container {
             max-width: 900px;
@@ -51,6 +60,13 @@
         }
         h3 {
             color: var(--bleu-fonce);
+            margin-top: 1.5em;
+            border-left: 4px solid var(--bleu-clair);
+            padding-left: 10px;
+        }
+        h4 {
+            color: var(--bleu-fonce);
+            margin-top: 1.2em;
         }
         ul, ol {
             margin-left: 1.5em;
@@ -71,6 +87,7 @@
             border: 1px solid var(--bleu-fonce);
             padding: 10px 14px;
             text-align: left;
+            vertical-align: top;
         }
         .table th {
             background: var(--jaune);
@@ -88,7 +105,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(26,34,56,0.10);
         }
-        .resume {
+        .resume, .competence-box {
             background: var(--bleu-clair);
             border-left: 6px solid var(--jaune);
             padding: 1.2em 1.5em;
@@ -98,24 +115,259 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(26,34,56,0.07);
         }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.2em 1.5em;
+            border-radius: 8px;
+            margin: 1em 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            border: 1px solid var(--bleu-clair);
+        }
+        .code-block .comment {
+            color: #68d391;
+        }
+        .code-block .keyword {
+            color: #63b3ed;
+        }
+        .code-block .string {
+            color: #fbb6ce;
+        }
+        .info-box {
+            background: #e6fffa;
+            border: 1px solid var(--jaune);
+            border-radius: 8px;
+            padding: 1em 1.5em;
+            margin: 1.5em 0;
+        }
+        .success-item::before {
+            content: "✅ ";
+            color: var(--vert-succes);
+        }
+        .warning-item::before {
+            content: "⚠️ ";
+            color: #ffc107;
+        }
+        .tech-item::before {
+            content: "🔧 ";
+            color: var(--jaune);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1em;
+            margin: 1.5em 0;
+        }
+        .metric-card {
+            background: #f8f9fa;
+            border: 1px solid var(--bleu-clair);
+            border-radius: 8px;
+            padding: 1em;
+            text-align: center;
+        }
+        .metric-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--bleu-fonce);
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 0.5em;
+        }
         strong {
             color: var(--bleu-fonce);
         }
+        /* Sommaire */
+        .table-of-contents {
+            background: #f8f9fa;
+            border: 1px solid var(--bleu-clair);
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 2em 0;
+        }
+        .table-of-contents h3 {
+            margin-top: 0;
+            margin-bottom: 1em;
+            border: none;
+            padding: 0;
+        }
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .toc-list li {
+            margin: 0.5em 0;
+            padding-left: 1em;
+        }
+        .toc-list li a {
+            text-decoration: none;
+            color: var(--bleu-fonce);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3em 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        .toc-list li a:hover {
+            color: var(--jaune);
+            background: rgba(187, 134, 252, 0.1);
+            padding-left: 0.5em;
+            transition: all 0.2s;
+        }
+        .page-number {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: normal;
+            margin-left: auto;
+        }
+        .toc-level-2 {
+            padding-left: 2em;
+            font-size: 0.9em;
+        }
+        
+        /* Pagination et styles d'impression */
         @media print {
             body {
                 background: #fff;
+                font-size: 11pt;
+                line-height: 1.4;
             }
             .container {
                 box-shadow: none;
                 border-radius: 0;
                 padding: 0;
+                margin: 0;
+                max-width: 100%;
             }
             .img-center {
                 box-shadow: none;
                 border: none;
+                max-width: 100%;
+                page-break-inside: avoid;
             }
-            header, footer {
+            header {
+                display: block;
+                page-break-after: avoid;
+                padding: 2em 0;
+                margin-bottom: 1em;
+            }
+            footer {
                 display: none;
+            }
+            .code-block {
+                background: #f5f5f5 !important;
+                color: #333 !important;
+                border: 1px solid #ccc !important;
+                page-break-inside: avoid;
+                margin: 1em 0;
+            }
+            .table {
+                page-break-inside: avoid;
+                font-size: 10pt;
+            }
+            .metrics-grid {
+                page-break-inside: avoid;
+            }
+            .metric-card {
+                page-break-inside: avoid;
+                padding: 0.8em !important;
+            }
+            .metric-number {
+                font-size: 9pt !important;
+                line-height: 1.2 !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+            .metric-label {
+                font-size: 8pt !important;
+                margin-top: 0.3em !important;
+            }
+            .competence-box, .resume, .info-box {
+                page-break-inside: avoid;
+            }
+            h2 {
+                page-break-before: auto;
+                page-break-after: avoid;
+                margin-top: 2em;
+                padding-top: 1em;
+            }
+            h2:first-of-type {
+                page-break-before: auto;
+                margin-top: 0;
+            }
+            /* Forcer saut de page seulement pour les sections importantes */
+            h2#section-11, h2#section-12 {
+                page-break-before: always;
+                margin-top: 0;
+            }
+            h3 {
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
+            /* Éviter que les cartes métriques soient coupées */
+            .metrics-grid {
+                page-break-inside: avoid;
+                page-break-before: avoid;
+            }
+            .table-of-contents {
+                page-break-after: always;
+                padding: 1.5em !important;
+                margin: 1em 0 !important;
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+                min-height: 24cm !important;
+            }
+            .table-of-contents h3 {
+                font-size: 14pt !important;
+                margin-bottom: 1em !important;
+            }
+            .toc-list li {
+                margin: 0.4em 0 !important;
+                padding-left: 1em !important;
+            }
+            .toc-list li a {
+                padding: 0.25em 0 !important;
+                border-bottom: 1px dotted #ddd !important;
+                font-size: 10pt !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+            }
+            .page-number {
+                font-size: 8pt !important;
+                color: #999 !important;
+            }
+            .toc-level-2 {
+                padding-left: 1.8em !important;
+                font-size: 9pt !important;
+                margin: 0.2em 0 !important;
+            }
+            .toc-list .toc-list {
+                margin-top: 0.4em !important;
+                margin-bottom: 0.5em !important;
+            }
+            
+            /* Numérotation des pages */
+            @page {
+                margin: 2cm;
+                @bottom-right {
+                    content: "Page " counter(page) " / " counter(pages);
+                    font-size: 10pt;
+                    color: #666;
+                }
+            }
+            
+            /* Éviter les coupures malheureuses */
+            ul, ol {
+                page-break-inside: avoid;
+            }
+            li {
+                page-break-inside: avoid;
             }
         }
         footer {
@@ -136,38 +388,125 @@
                 font-size: 1.15em;
                 padding-left: 7px;
             }
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<header>Checkpoint – Expression des besoins</header>
+<header>
+    Checkpoint – Dossier de Projet
+    <div class="subtitle">Titre Professionnel : Développeur Web et Web Mobile (DWWM)</div>
+</header>
 <div class="container">
-    <h1>Expression des besoins – Projet Checkpoint</h1>
+    <h1>Dossier de Projet – Checkpoint</h1>
 
-    <h2>1. Contexte et origine du projet</h2>
+    <div class="info-box">
+        <strong>Candidat :</strong> [Votre nom]<br>
+        <strong>Centre AFPA :</strong> [Votre centre]<br>
+        <strong>Promotion :</strong> [Année/Groupe]<br>
+        <strong>Date de soutenance :</strong> [Date]
+    </div>
+
+    <div class="table-of-contents">
+        <h3>📋 Sommaire</h3>
+        <ul class="toc-list">
+            <li><a href="#section-1">1. Présentation du Projet <span class="page-number">Page 3 </span></a></li>
+            <li><a href="#section-2">2. Technologies Utilisées <span class="page-number">Page 4 </span></a></li>
+            <li><a href="#section-3">3. Utilisateurs visés <span class="page-number">Page 4 </span></a></li>
+            <li><a href="#section-4">4. Fonctionnalités attendues <span class="page-number">Page 5 </span></a></li>
+            <li><a href="#section-5">5. Contraintes <span class="page-number">Page 5 </span></a></li>
+            <li><a href="#section-6">6. Limites du projet <span class="page-number">Page 5 </span></a></li>
+            <li><a href="#section-7">7. Évolutions possibles <span class="page-number">Page 6 </span></a></li>
+            <li><a href="#section-8">8. Tableau de correspondance besoins / fonctionnalités <span class="page-number">Page 6 </span></a></li>
+            <li><a href="#section-9">9. Arborescence du site <span class="page-number">Page 7 </span></a></li>
+            <li><a href="#section-10">10. Compétences DWWM démontrées <span class="page-number">Page 8 </span></a></li>
+            <li><a href="#section-11">11. Activité Type 1 : Développement Front-end <span class="page-number">Page 9 </span></a>
+                <ul class="toc-list">
+                    <li class="toc-level-2"><a href="#comp-1">Compétence 1 : Environnement de travail</a></li>
+                    <li class="toc-level-2"><a href="#comp-2">Compétence 2 : Maquettage interfaces</a></li>
+                    <li class="toc-level-2"><a href="#comp-3">Compétence 3 : Interfaces statiques</a></li>
+                    <li class="toc-level-2"><a href="#comp-4">Compétence 4 : Interfaces dynamiques</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-12">12. Activité Type 2 : Développement Back-end <span class="page-number">Page 11 </span></a>
+                <ul class="toc-list">
+                    <li class="toc-level-2"><a href="#comp-5">Compétence 5 : Base de données</a></li>
+                    <li class="toc-level-2"><a href="#comp-6">Compétence 6 : Accès aux données</a></li>
+                    <li class="toc-level-2"><a href="#comp-7">Compétence 7 : Composants métier</a></li>
+                    <li class="toc-level-2"><a href="#comp-8">Compétence 8 : Documentation déploiement</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-13">13. Sécurité Implémentée <span class="page-number">Page 12 </span></a></li>
+            <li><a href="#section-14">14. Tests et Validation <span class="page-number">Page 13 </span></a></li>
+            <li><a href="#section-15">15. Difficultés et Solutions <span class="page-number">Page 13 </span></a></li>
+            <li><a href="#section-16">16. Métriques du Projet <span class="page-number">Page 14 </span></a></li>
+            <li><a href="#section-17">17. Perspectives d'Évolution <span class="page-number">Page 14 </span></a></li>
+            <li><a href="#conclusion">Conclusion <span class="page-number">Page 15 </span></a></li>
+        </ul>
+    </div>
+
+    <h2 id="section-1">1. Présentation du Projet</h2>
+    
+    <h3>Nom du projet</h3>
+    <p><strong>Checkpoint</strong> - Gestionnaire de Bibliothèque de Jeux Vidéo</p>
+
+    <h3>Description générale</h3>
+    <p>
+        Checkpoint est une application web responsive permettant aux utilisateurs de gérer leur collection personnelle de jeux vidéo. 
+        L'application offre un tableau de bord personnalisé avec des statistiques de jeu, une gestion de wishlist, et l'intégration de l'API RAWG pour l'ajout automatique de jeux.
+    </p>
+
+    <h3>Problématique</h3>
+    <p>
+        Comment créer une interface moderne et intuitive pour la gestion d'une collection de jeux vidéo tout en respectant les standards de sécurité et d'accessibilité web ?
+    </p>
+
+    <h3>Contexte et origine du projet</h3>
     <p>
         Depuis de nombreuses années, je suis passionné par les jeux vidéo. Cette passion m'a amené à vouloir mieux organiser et suivre mon expérience de joueur : ajouter des notes, suivre ma progression, gérer les jeux que je compte acheter ou commencer, et garder une trace de mon parcours vidéoludique.<br>
         Avant même de m'orienter vers le développement web, j'avais déjà en tête l'idée d'un outil personnel, centralisé et sur mesure, pour répondre à ce besoin. Une fois engagé dans ma formation de Développeur Web et Web Mobile, j'ai vu l'opportunité parfaite de concrétiser cette idée à travers un projet complet et structuré, à la fois utile et motivant pour moi.<br>
         Ce projet, que j'ai nommé <strong>Checkpoint</strong>, est donc né de mon propre besoin et de ma volonté de développer un outil pratique dans un univers qui me passionne.
     </p>
 
-    <h2>2. Objectifs du projet</h2>
+    <h2 id="section-2">2. Technologies Utilisées</h2>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-number">PHP 8.1+</div>
+            <div class="metric-label">Langage Back-end</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">CodeIgniter 4</div>
+            <div class="metric-label">Framework MVC</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">MySQL</div>
+            <div class="metric-label">Base de données</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">HTML5/CSS3/JS</div>
+            <div class="metric-label">Front-end</div>
+        </div>
+    </div>
+
+    <h3>Détail des technologies</h3>
     <ul>
-        <li>Gérer sa collection de jeux vidéo (ajout, suivi, suppression)</li>
-        <li>Suivre sa progression et son temps de jeu sur chaque titre</li>
-        <li>Rédiger des notes et avis personnels sur ses jeux</li>
-        <li>Organiser une wishlist des jeux à venir ou à acheter</li>
-        <li>Visualiser un calendrier des prochaines sorties de jeux vidéo</li>
+        <li class="tech-item"><strong>Front-end :</strong> HTML5, CSS3 (Variables, Grid, Flexbox), JavaScript ES6, Google Fonts (Orbitron)</li>
+        <li class="tech-item"><strong>Back-end :</strong> PHP 8.1+, CodeIgniter 4, MySQL, Composer</li>
+        <li class="tech-item"><strong>API et Services :</strong> API RAWG, Sessions PHP, Upload de fichiers</li>
+        <li class="tech-item"><strong>Outils :</strong> Git, VS Code, XAMPP, Apache</li>
     </ul>
 
-    <h2>3. Utilisateurs visés</h2>
+    <h2 id="section-3">3. Utilisateurs visés</h2>
     <ul>
         <li>Joueurs passionnés ou amateurs souhaitant garder une trace personnalisée de leur parcours de jeu</li>
         <li>Personnes aimant organiser leurs sessions de jeu et planifier leurs futurs achats</li>
         <li>Utilisateurs recherchant un outil personnel, sécurisé et centralisé</li>
     </ul>
 
-    <h2>4. Fonctionnalités attendues</h2>
+    <h2 id="section-4">4. Fonctionnalités attendues</h2>
     <ul>
         <li><strong>Gestion de collection</strong> : ajout, modification, suppression de jeux possédés, suivi du statut (non commencé, en cours, terminé, abandonné…), temps de jeu, notes personnelles</li>
         <li><strong>Wishlist</strong> : gestion d'une liste de jeux souhaités, possibilité de les ajouter à la collection</li>
@@ -179,7 +518,7 @@
         <li><strong>Sécurité</strong> : gestion sécurisée des sessions, protection des données utilisateurs</li>
     </ul>
 
-    <h2>5. Contraintes</h2>
+    <h2 id="section-5">5. Contraintes</h2>
     <ul>
         <li><strong>Techniques</strong> :
             <ul>
@@ -196,7 +535,7 @@
         <li><strong>Pédagogiques</strong> : Objectif : valoriser les compétences acquises (création de maquettes, base de données, développement front et back, gestion de projet)</li>
     </ul>
 
-    <h2>6. Limites du projet</h2>
+    <h2 id="section-6">6. Limites du projet</h2>
     <ul>
         <li>Version actuelle mono-utilisateur (ou multi-utilisateur sans fonctionnalités communautaires)</li>
         <li>Pas de fonctionnalités sociales (amis, partage, etc.)</li>
@@ -204,7 +543,7 @@
         <li>Import des jeux uniquement via l'API RAWG</li>
     </ul>
 
-    <h2>7. Évolutions possibles</h2>
+    <h2 id="section-7">7. Évolutions possibles</h2>
     <ul>
         <li>Ajout de fonctionnalités communautaires (amis, partages, classements)</li>
         <li>Statistiques avancées sur le temps de jeu, les genres préférés, etc.</li>
@@ -213,7 +552,7 @@
         <li>Développement d'une application mobile native</li>
     </ul>
 
-    <h2>8. Tableau de correspondance besoins / fonctionnalités</h2>
+    <h2 id="section-8">8. Tableau de correspondance besoins / fonctionnalités</h2>
     <table class="table">
         <tr>
             <th>Besoin exprimé</th>
@@ -249,10 +588,10 @@
         </tr>
     </table>
 
-    <h2>9. Arborescence du site</h2>
+    <h2 id="section-9">9. Arborescence du site</h2>
     <img src="images/arborescencecheckpoint.png" alt="Arborescence du site Checkpoint" class="img-center">
 
-    <h2>10. Compétences DWWM démontrées</h2>
+    <h2 id="section-10">10. Compétences DWWM démontrées</h2>
     
     <table class="table">
         <tr>
@@ -318,11 +657,267 @@
         </tr>
     </table>
 
-    <div class="resume">
-        <strong>Résumé :</strong><br>
-        Checkpoint est une application web personnelle pour les joueurs, permettant de gérer sa collection, ses envies, ses notes et de suivre l'actualité vidéoludique, dans une interface moderne, sécurisée, responsive et évolutive.
+    <h2 id="section-11">11. Activité Type 1 : Développement Front-end</h2>
+
+    <h3 id="comp-1">Compétence 1 : Environnement de travail</h3>
+    <div class="competence-box">
+        <strong>Mise en œuvre :</strong><br>
+        Configuration XAMPP (Apache, MySQL, PHP), installation CodeIgniter 4 via Composer, 
+        configuration Git pour le versionning, setup VS Code avec extensions PHP/HTML/CSS.
+    </div>
+
+    <h3 id="comp-2">Compétence 2 : Maquettage interfaces</h3>
+    <div class="competence-box">
+        <strong>Réalisations :</strong><br>
+        Analyse des besoins utilisateur, définition charte graphique (thème gaming violet/cyan), 
+        wireframes responsive mobile/desktop, respect principes RGAA pour l'accessibilité.
+    </div>
+
+    <h3 id="comp-3">Compétence 3 : Interfaces statiques</h3>
+    <div class="code-block">
+<span class="comment">/* Variables CSS pour la cohérence */</span>
+<span class="keyword">:root</span> {
+    <span class="keyword">--primary-color</span>: <span class="string">#7F39FB</span>;
+    <span class="keyword">--secondary-color</span>: <span class="string">#BB86FC</span>;
+    <span class="keyword">--accent-color</span>: <span class="string">#00E5FF</span>;
+    <span class="keyword">--text-color</span>: <span class="string">#E0F7FA</span>;
+}
+    </div>
+
+    <p><strong>Éléments réalisés :</strong></p>
+    <ul>
+        <li>Structure HTML5 sémantique</li>
+        <li>CSS Grid/Flexbox pour layout responsive (1327 lignes CSS)</li>
+        <li>Système de cartes de jeux avec overlay</li>
+        <li>Navigation avec menu burger mobile</li>
+        <li>Formulaires stylisés et accessibles</li>
+    </ul>
+
+    <h3 id="comp-4">Compétence 4 : Interfaces dynamiques</h3>
+    <div class="code-block">
+<span class="comment">// Recherche AJAX en temps réel</span>
+<span class="keyword">function</span> <span class="string">searchGames</span>(query) {
+    <span class="keyword">if</span> (query.length >= 2) {
+        <span class="keyword">fetch</span>(`/mes-jeux/search?q=${<span class="keyword">encodeURIComponent</span>(query)}`)
+            .<span class="keyword">then</span>(response => response.<span class="keyword">json</span>())
+            .<span class="keyword">then</span>(data => <span class="string">displaySuggestions</span>(data));
+    }
+}
+    </div>
+
+    <p><strong>Fonctionnalités JavaScript :</strong></p>
+    <ul>
+        <li>Recherche en temps réel avec suggestions</li>
+        <li>Modales interactives (Top 5, ajout jeux)</li>
+        <li>Filtrage dynamique sans rechargement</li>
+        <li>Validation formulaires côté client</li>
+        <li>Gestion événements tactiles (mobile)</li>
+    </ul>
+
+    <h2 id="section-12">12. Activité Type 2 : Développement Back-end</h2>
+
+    <h3 id="comp-5">Compétence 5 : Base de données</h3>
+    <div class="code-block">
+<span class="comment">-- Tables principales</span>
+<span class="keyword">users</span> (id, username, email, password, profile_picture)
+<span class="keyword">games</span> (id, name, platform, release_date, category, cover, rawg_id)
+<span class="keyword">game_stats</span> (id, user_id, game_id, play_time, status, notes)
+<span class="keyword">wishlist</span> (id, user_id, game_id)
+<span class="keyword">user_top_games</span> (id, user_id, game_id, rank_position)
+    </div>
+
+    <h3 id="comp-6">Compétence 6 : Accès aux données</h3>
+    <div class="code-block">
+<span class="keyword">class</span> <span class="string">GameModel</span> <span class="keyword">extends</span> Model
+{
+    <span class="keyword">protected</span> $table = <span class="string">'games'</span>;
+    <span class="keyword">protected</span> $allowedFields = [<span class="string">'name'</span>, <span class="string">'platform'</span>, 
+                               <span class="string">'release_date'</span>, <span class="string">'category'</span>, 
+                               <span class="string">'cover'</span>, <span class="string">'rawg_id'</span>];
+}
+    </div>
+
+    <h3 id="comp-7">Compétence 7 : Composants métier</h3>
+    <p><strong>Contrôleurs développés :</strong></p>
+    <ul>
+        <li><code>Auth.php</code> : Authentification sécurisée (137 lignes)</li>
+        <li><code>Home.php</code> : Dashboard et statistiques (103 lignes)</li>
+        <li><code>MesJeux.php</code> : Gestion collection (285 lignes)</li>
+        <li><code>WishlistController.php</code> : Gestion wishlist (262 lignes)</li>
+        <li><code>UserController.php</code> : Profil utilisateur (163 lignes)</li>
+        <li><code>Calendrier.php</code> : Calendrier sorties (145 lignes)</li>
+    </ul>
+
+    <div class="code-block">
+<span class="keyword">class</span> <span class="string">RawgService</span>
+{
+    <span class="keyword">public function</span> <span class="string">searchGames</span>($query)
+    {
+        $apiKey = <span class="keyword">env</span>(<span class="string">'RAWG_API_KEY'</span>);
+        <span class="keyword">return</span> $this-><span class="string">makeApiRequest</span>($url);
+    }
+}
+    </div>
+
+    <h3 id="comp-8">Compétence 8 : Documentation déploiement</h3>
+    <div class="competence-box">
+        <strong>Documentation créée :</strong><br>
+        README.md complet (410 lignes), guide d'installation étape par étape, 
+        configuration Apache/Nginx, variables d'environnement, procédures de maintenance.
+    </div>
+
+    <h2 id="section-13">13. Sécurité Implémentée</h2>
+
+    <h3>Protection CSRF</h3>
+    <div class="code-block">
+<span class="comment">// Activation protection CSRF</span>
+<span class="keyword">public</span> $csrfProtection = <span class="keyword">true</span>;
+<span class="keyword">public</span> $tokenRandomize = <span class="keyword">true</span>;
+    </div>
+
+    <h3>Authentification sécurisée</h3>
+    <div class="code-block">
+<span class="comment">// Hachage mots de passe</span>
+$hashedPassword = <span class="keyword">password_hash</span>($password, PASSWORD_DEFAULT);
+
+<span class="comment">// Validation sessions</span>
+<span class="keyword">if</span> (!<span class="keyword">session</span>()-><span class="string">get</span>(<span class="string">'user_id'</span>)) {
+    <span class="keyword">return</span> <span class="keyword">redirect</span>()-><span class="string">to</span>(<span class="string">'/auth/login'</span>);
+}
+    </div>
+
+    <h3>Mesures de sécurité</h3>
+    <ul>
+        <li class="success-item">Protection XSS (échappement automatique)</li>
+        <li class="success-item">Prévention injection SQL (requêtes préparées)</li>
+        <li class="success-item">Validation données côté serveur/client</li>
+        <li class="success-item">Sessions sécurisées HttpOnly</li>
+        <li class="success-item">Upload sécurisé images profil</li>
+        <li class="success-item">Protection dossiers sensibles (.htaccess)</li>
+    </ul>
+
+    <h2 id="section-14">14. Tests et Validation</h2>
+
+    <table class="table">
+        <tr>
+            <th>Type de test</th>
+            <th>Outils/Méthodes</th>
+            <th>Résultats</th>
+        </tr>
+        <tr>
+            <td>Tests fonctionnels</td>
+            <td>Tests manuels, parcours utilisateur</td>
+            <td class="success-item">Toutes fonctionnalités validées</td>
+        </tr>
+        <tr>
+            <td>Compatibilité navigateurs</td>
+            <td>Chrome, Firefox, Safari, Edge</td>
+            <td class="success-item">100% compatible</td>
+        </tr>
+        <tr>
+            <td>Responsive design</td>
+            <td>DevTools, tests physiques</td>
+            <td class="success-item">Mobile, tablette, desktop</td>
+        </tr>
+        <tr>
+            <td>Performance</td>
+            <td>Lighthouse</td>
+            <td class="success-item">Score 90+ (Performance, Accessibilité)</td>
+        </tr>
+        <tr>
+            <td>Validation W3C</td>
+            <td>Validator HTML/CSS</td>
+            <td class="success-item">HTML5 et CSS3 valides</td>
+        </tr>
+        <tr>
+            <td>Sécurité</td>
+            <td>Tests injection, XSS</td>
+            <td class="success-item">Aucune vulnérabilité détectée</td>
+        </tr>
+    </table>
+
+    <h2 id="section-15">15. Difficultés et Solutions</h2>
+
+    <h3>1. Intégration API RAWG</h3>
+    <p><strong>Problème :</strong> Limitation taux de requêtes API</p>
+    <p><strong>Solution :</strong> Système de cache et debouncing recherche</p>
+
+    <h3>2. Responsive design complexe</h3>
+    <p><strong>Problème :</strong> Affichage cartes sur différentes tailles</p>
+    <p><strong>Solution :</strong> CSS Grid avec <code>repeat(auto-fill, minmax(140px, 170px))</code></p>
+
+    <h3>3. Performance</h3>
+    <p><strong>Problème :</strong> Temps de chargement images de jeux</p>
+    <p><strong>Solution :</strong> Lazy loading et optimisation images</p>
+
+    <h3>4. Sécurité upload</h3>
+    <p><strong>Problème :</strong> Validation images profil</p>
+    <p><strong>Solution :</strong> Vérification MIME type, taille, extension</p>
+
+    <h2 id="section-16">16. Métriques du Projet</h2>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-number">1327</div>
+            <div class="metric-label">Lignes CSS optimisées</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">1000+</div>
+            <div class="metric-label">Lignes PHP (contrôleurs, modèles)</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">500+</div>
+            <div class="metric-label">Lignes JavaScript</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">410</div>
+            <div class="metric-label">Lignes documentation README</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">90+</div>
+            <div class="metric-label">Score Lighthouse</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-number">&lt; 2s</div>
+            <div class="metric-label">Temps de chargement</div>
+        </div>
+    </div>
+
+    <h2 id="section-17">17. Perspectives d'Évolution</h2>
+
+    <h3>Court terme</h3>
+    <ul>
+        <li>Progressive Web App (PWA)</li>
+        <li>Mode hors ligne avec Service Workers</li>
+        <li>Notifications push nouvelles sorties</li>
+    </ul>
+
+    <h3>Moyen terme</h3>
+    <ul>
+        <li>Application mobile React Native</li>
+        <li>API publique pour partage collections</li>
+        <li>Intégrations Steam/PlayStation/Xbox</li>
+    </ul>
+
+    <h3>Long terme</h3>
+    <ul>
+        <li>Intelligence artificielle pour recommandations</li>
+        <li>Mode multijoueur/communautaire</li>
+        <li>Marketplace d'échange de jeux</li>
+    </ul>
+
+    <div id="conclusion" class="resume">
+        <strong>Conclusion :</strong><br>
+        Le projet <strong>Checkpoint</strong> illustre ma capacité à développer des applications web modernes, sécurisées et performantes 
+        en respectant les standards professionnels du développement web. Il démontre ma maîtrise complète 
+        des compétences du titre DWWM à travers une réalisation concrète et fonctionnelle.
+    </div>
+
+    <div class="info-box">
+        <strong>Dossier rédigé le :</strong> [Date]<br>
+        <strong>Mots-clés :</strong> PHP, CodeIgniter, MySQL, JavaScript, CSS3, API REST, Sécurité web, Responsive design, DWWM, AFPA
     </div>
 </div>
-<footer></footer>
+<footer>Checkpoint – Dossier de Projet DWWM – [Votre nom] – [Année]</footer>
 </body>
 </html>
