@@ -5,13 +5,13 @@
  * @constant {Object} CONFIG
  */
 const CONFIG = {
-    // Clé API pour accéder à RAWG.io (API de jeux vidéo)
+    // clé pour accéder à rawg
     API_KEY: window.CP_RAWG_API_KEY || '',
-    // URL de base de l'application, peut être configurée globalement
+    // url de base de l'application
     BASE_URL: window.CP_BASE_URL || '',
-    // Délai en millisecondes avant de déclencher la recherche
+    // Délai en ms avant de déclencher la recherche
     SEARCH_DELAY: 300,
-    // Nombre minimum de caractères pour déclencher la recherche
+    // Nombre min de caractères pour déclencher la recherche
     MIN_SEARCH_LENGTH: 2
 };
 

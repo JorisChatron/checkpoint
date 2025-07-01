@@ -1,0 +1,960 @@
+Dossier Professionnel (DP)
+
+
+
+Nom de naissance
+
+Chatron-Colliet
+Nom d’usage
+
+Chatron-Colliet
+Prénom
+
+Joris
+Adresse
+
+83 boulevard du Redon, La rouvière bâtiment D5, 13009, Marseille
+
+
+Titre professionnel visé
+
+Développeur Web et Web Mobile
+
+Modalité d’accès :
+
+☐
+Parcours de formation
+☐
+Validation des Acquis de l’Expérience (VAE)
+
+
+Présentation du dossier
+
+
+
+Le dossier professionnel (DP) constitue un élément du système de validation du titre professionnel.
+Ce titre est délivré par le Ministère chargé de l’emploi.
+Le DP appartient au candidat. Il le conserve, l’actualise durant son parcours et le présente obligatoirement à chaque session d’examen.
+Pour rédiger le DP, le candidat peut être aidé par un formateur ou par un accompagnateur VAE.
+Il est consulté par le jury au moment de la session d’examen.
+
+Pour prendre sa décision, le jury dispose :
+    1. des résultats de la mise en situation professionnelle complétés, éventuellement, du questionnaire professionnel ou de l’entretien professionnel ou de l’entretien technique ou du questionnement à partir de productions.
+
+    2. du Dossier Professionnel (DP) dans lequel le candidat a consigné les preuves de sa pratique professionnelle.
+
+    3. des résultats des évaluations passées en cours de formation lorsque le candidat évalué est issu d’un parcours de formation
+
+    4. de l’entretien final (dans le cadre de la session titre).
+
+		[Arrêté du 22 décembre 2015, relatif aux conditions de délivrance des titres professionnels
+du ministère chargé de l’Emploi]
+
+Ce dossier comporte :
+    • pour chaque activité-type du titre visé, un à trois exemples de pratique professionnelle ;
+    • un tableau à renseigner si le candidat souhaite porter à la connaissance du jury la détention d’un titre, d’un diplôme, d’un certificat de qualification professionnelle (CQP) ou des attestations de formation ;
+    • une déclaration sur l’honneur à compléter et à signer ;
+    • des documents illustrant la pratique professionnelle du candidat (facultatif)
+    • des annexes, si nécessaire.
+Pour compléter ce dossier, le candidat dispose d’un site web en accès libre sur le site.
+
+
+http://formation.acc/checkpoint/public/
+
+Sommaire
+
+Exemples de pratique professionnelle
+
+
+Dévélopper la partie front d’une application web ou web mobileen intégrant les recommandations de sécurité
+p.
+6
+
+- Maquette du site
+p.
+6
+
+- Création de la page de collection "Mes Jeux"
+p.
+10
+
+- Intégrer une API qui recherche et récupère les infos d’un jeu
+p.
+14
+
+
+
+
+Développer la partie back-end d’une application web ou web mobile en intégrant les recommandations de sécurité
+p.
+
+
+- Créer une base de données
+p.
+17
+
+- Ajouter des jeux via API externe à la collection « Mes jeux » 
+p.
+23
+
+- Authentification sécurisée des utilisateurs
+p.
+27
+
+
+
+
+Intitulé de l’activité-type n° 3
+p.
+
+
+ Intitulé de l’exemple n° 1  	p.
+p.
+
+
+ Intitulé de l’exemple n° 2  	p.
+p.
+
+
+ Intitulé de l’exemple n° 3  	p
+p.
+
+
+
+
+
+Intitulé de l’activité-type n° 4
+p.
+
+
+ Intitulé de l’exemple n° 1  	p.
+p.
+
+
+ Intitulé de l’exemple n° 2  	p.
+p.
+
+
+ Intitulé de l’exemple n° 3  	p
+p.
+
+
+
+
+
+Titres, diplômes, CQP, attestations de formation (facultatif)
+p.
+
+Déclaration sur l’honneur
+p.
+
+Documents illustrant la pratique professionnelle (facultatif)
+p.
+
+Annexes (Si le RC le prévoit)
+p.
+
+
+Exemples de pratique
+professionnelle
+
+
+Activité-type
+1
+Développer la partie front-end d'une application web ou web mobile en intégrant les recommandations de sécurité
+
+Exemple n°1  
+Maquette du site
+
+
+1. Décrivez les tâches ou opérations que vous avez effectuées, et dans quelles conditions :
+
+J'ai créé les maquettes de toutes les pages de mon application Checkpoint avant de commencer à coder.
+
+J’ai commencé par déterminer la charte graphique de mon site :
+
+
+Violet 1 :  #7F39FB  
+
+Violet 2 :  #BB86FC
+
+Bleu cyan : #00E5FF
+
+Logo
+
+
+Typo : Orbitron
+
+
+
+
+Pour le violet, je me suis inspiré de Twitch, une célèbre plateforme de streaming de jeux vidéo.
+
+J’ai ajouté du bleu cyan car je trouvais que les couleurs allaient bien ensemble.
+
+J’ai demandé à ChatGPT de me créer un logo sur mesure, puis j’ai ajouté quelques effets avec Gimp
+
+Pour la typographie, j’ai choisi « Orbitron » car je trouve que ça correspond bien avec l’univers « gaming ».
+
+
+
+Ensuite, j’ai pensé et réalisé la maquette de mon site :
+
+
+
+
+
+Le visiteur arrive sur une page d’accueil qui lui présente le site et lui propose un lien pour s’inscrire ou se connecter. Il n’a accès qu’à l’accueil visiteur, au calendrier des sorties et aux pages d’authentification.
+L'inscription utilisera bien sûr un hachage des mots de passe (password_hash()) avant stockage en base de données par mesure de sécurité.
+Une fois connecté, il devient un utilisateur et peut accéder à l’accueil utilisateur, sa collection de jeu, à sa wishlist et à son profil.
+
+
+
+
+
+
+
+
+Schéma de l’arborescence du site :
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. Précisez les moyens utilisés :
+
+    • Figma pour créer la maquette du projet
+      
+      https://www.figma.com/design/ONfZzu6jCFH2iNOkLrWPQR/maquette-checkpoint-v2?node-id=0-1&t=WT5lVqzY5fM5DULa-1
+      
+    • ChatGPT pour créer le logo Checkpoint et Gimp pour l’arranger un peu 
+      
+    • Pinterest utilisé comme une banque d’image gratuite pour l’image en background
+      
+    • Twitch pour l’inspiration des couleurs de la charte graphique
+
+    • Gloomaps pour créer le schéma de l’arborescence de Checkpoint
+
+
+
+3. Avec qui avez-vous travaillé ?
+
+J'ai travaillé seul 
+
+4. Contexte
+
+
+Nom de l’entreprise, organisme ou association  
+Checkpoint
+Chantier, atelier, service	
+Résurgences
+Période d’exercice  	Du :	22/04/2025	au :	16/06/2025
+
+
+5. Informations complémentaires (facultatif)
+
+
+
+Activité-type
+1
+Développer la partie front-end d'une application web ou web mobile en intégrant les recommandations de sécurité
+
+Exemple n° 2  
+Création de la page de collection "Mes Jeux"
+
+
+1. Décrivez les tâches ou opérations que vous avez effectuées, et dans quelles conditions :
+
+J'ai créé l'interface de la collection des utilisateurs.
+
+J’ai rendu ma page responsive avec des media queries comme celle ci :
+
+
+
+
+
+
+
+
+
+
+Ce que donne le format bureau : 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Le format tablette :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Et le format smartphone : 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J’ai fait des menus déroulants avec un select, pour trier les jeux par plateforme et statut.
+
+La validation se fait avec le onchange pour plus de fluidité et éviter à l’utilisateur d’avoir à valider par bouton. La boucle foreach ajoute une option pour chaque plateforme disponible :
+
+
+
+
+
+
+
+
+
+
+
+L'affichage des jeux sous forme de cartes avec les infos (‘cover‘ est une colonne de la table games dans la base de données, stockant la couverture des jeux ayant été récupérés) :
+
+
+
+
+
+
+
+
+
+
+
+J’ai aussi fait des effets et des boutons hover (pour la version bureau) pour modifier et supprimer les jeux et j’ai testé l'affichage responsive sur mon navigateur.
+
+
+
+
+
+
+
+
+
+
+
+
+2. Précisez les moyens utilisés :
+
+    • -Visual Studio Code pour écrire le code
+
+    •  CSS pour les Media queries et autres effets d’apparence comme les hover, les couleurs, etc
+      
+    • HTML pour structurer les cartes de jeux et les menus déroulants
+
+    • JavaScript pour les filtres de tri par plateforme et statut
+
+    • Vue adaptative de Firefox pour tester le responsive sur plusieurs tailles d'écran
+
+    • Github pour sauvegarder mon travail
+
+3. Avec qui avez-vous travaillé ?
+J’ai travaillé seul
+
+4. Contexte
+
+
+Nom de l’entreprise, organisme ou association  
+Checkpoint
+Chantier, atelier, service	
+Résurgences
+Période d’exercice  	Du :	22/04/2025	au :	16/06/2025
+
+
+5. Informations complémentaires (facultatif)
+
+
+
+Activité-type
+1
+Développer la partie front-end d'une application web ou web mobile en intégrant les recommandations de sécurité
+Exemple n° 3  
+Intégrer une API qui recherche et affiche les infos d’un jeu
+
+
+1. Décrivez les tâches ou opérations que vous avez effectuées, et dans quelles conditions :
+
+Pour récupérer ma clé API, j’ai du créer un compte sur Rawg.io et me rendre à cette adresse : https://rawg.io/apidocs
+Puis demander à générer ma clé.
+Une fois obtenue, je l’ai stockée dans une variable dans mon .env pour éviter de la laisser dans mon code source, en cas de publication sur GitHub, comme ceci : 
+
+
+
+
+J’ai ensuite récupéré la variable avec getenv(’RAWG_API_KEY’) pour mes appels API.
+Pour utiliser l’auto-complétion avec le Javascript, Php injecte la clé dans une variable globale du navigateur.
+
+
+
+J’ai configuré un délai de 300ms dans un objet « CONFIG » déclaré au début de mon fichier script.js
+
+
+
+Ce délai implémente une technique appelée "debouncing" grâce à une variable searchTimeout qui stocke un minuteur. 
+À chaque frappe de l'utilisateur, j'annule le minuteur précédent avec clearTimeout(searchTimeout) et je programme un nouveau délai de 300ms avec setTimeout()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Grâce à ça, si l'utilisateur tape rapidement "Mario", au lieu de faire 5 appels, le système n'en effectue qu’un, après 300ms d'inactivité.
+
+
+La recherche s'effectue via l'API RAWG avec cette URL :
+
+
+
+L'utilisateur voit les résultats s'afficher instantanément dès qu'il arrête de taper, sans surcharger l'API.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. Précisez les moyens utilisés :
+
+    • Rawg.io, pour récupérer leur clé API
+      
+    • Visual Studio Code pour écrire le code
+
+    •  CSS pour l’apparence des suggestions de l’API
+      
+    • HTML pour structurer les cartes de jeux et les menus déroulants
+
+    • JavaScript pour l’autocompletion et les appels AJAX
+
+    • Github pour sauvegarder mon travaillé
+      
+    • ChatGPT qui m’a suggéré le stockage de ma clé dans le fichier .env et le debouncing
+      
+
+3. Avec qui avez-vous travaillé ?
+
+J’ai travaillé seul
+
+4. Contexte
+
+
+Nom de l’entreprise, organisme ou association  
+Checkpoint
+Chantier, atelier, service	
+Résurgences
+Période d’exercice  	Du :	22/04/2025	au :	16/06/2025
+
+
+
+
+5. Informations complémentaires (facultatif)
+
+
+Activité-type
+2
+Développer la partie back-end d’une application web ou web mobile en intégrant les recommandations de sécurité
+
+Exemple n°1  
+Créer une base de données
+
+
+1. Décrivez les tâches ou opérations que vous avez effectuées, et dans quelles conditions :
+
+Pour concevoir la base de données de mon application, j’ai appliqué la méthode Merise, comme cela m’a été enseigné lors de ma formation. Cette méthode consiste à suivre trois étapes : le MCD (Modèle Conceptuel de Données), le MLD (Modèle Logique de Données) et le MPD (Modèle Physique de Données).
+
+Voici donc mon modèle conceptuel, crée sur Looping : 
+
+
+    • users : Sert à stocker toutes les infos des utilisateurs.
+      
+    • games : Stocke les jeux et les infos qu’on a récupéré grâce à l’API de RAWG.
+      
+    • game_stats : Enregistre les statistiques des utilisateurs sur chaque jeu.
+      
+    • wishlist : Liste chaque jeu que les utilisateurs souhaitent acheter ou garder en mémoire.
+      
+    • user_top_games : Permet à l’utilisateur d’organiser un top 5 de ses jeux favoris.
+
+
+
+J’ai pensé les cardinalités de cette manière : 
+
+users / game_stats : 
+
+Un utilisateur peut avoir plusieurs statistiques de jeu, mais chaque statistique appartient à un seul utilisateur.
+
+games / game_stats : 
+
+Un jeu peut être joué par plusieurs utilisateurs, mais chaque statistique concerne un seul jeu.
+
+users / wishlist : 
+
+Un utilisateur peut avoir plusieurs jeux dans sa wishlist mais chaque ajout en wishlist appartient à un seul utilisateur.
+
+users / user_top_games : 
+
+Un utilisateur peut classer plusieurs jeux dans son top et chaque entrée du top appartient à un seul utilisateur.
+
+games / user_top_games : 
+
+Un jeu peut figurer dans le top de plusieurs utilisateurs, mais chaque entrée de top est réalisée par un utilisateur.
+
+games / wishlist : 
+
+Un jeu peut figurer dans la wishlist de plusieurs utilisateurs mais chaque entrée dans la wishlist est réalisée par un utilisateur.
+
+
+
+
+
+
+
+
+
+
+
+L’illustration du MLD en faisait la transition MCD→MLD toujours via Looping :
+
+
+Ce modèle logique traduit le modèle conceptuel et les associations deviennent des clés étrangères : id_1 = user_id, id_2 = game_id.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ensuite, j’ai exporté ce schéma sous forme de script sql dans workbench, puis j’ai fait quelques modifications, comme remplacer les noms des clés étrangères :
+
+
+
+
+Ce dernier schéma montre la structure physique de la database, avec les bons noms de colonnes et les contraintes d’intégrité qui seront nécessaires au bon fonctionnement de mon application.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. Précisez les moyens utilisés :
+
+Méthode Merise, pour structurer la conception en trois étapes (MCD, MLD, MPD)
+
+    • Looping, pour réaliser la modélisation conceptuelle et logique des données
+      
+    • MySQL, comme système de gestion de base de données relationnelle
+      
+    • Workbench, pour générer le diagramme physique final par reverse engineering
+      
+    • SQL, pour écrire les scripts de création des tables et contraintes
+      
+    • Visual Studio Code, pour éditer et adapter les scripts SQL
+
+
+3. Avec qui avez-vous travaillé ?
+J’ai travaillé seul
+
+4. Contexte
+
+
+Nom de l’entreprise, organisme ou association  
+Checkpoint
+Chantier, atelier, service	
+Résurgences
+Période d’exercice  	Du :	22/04/2025	au :	16/06/2025
+
+
+
+
+5. Informations complémentaires (facultatif)
+
+
+
+Activité-type
+2
+Développer la partie back-end d'une application web ou web mobile en intégrant les recommandations de sécurité
+Exemple n°2  
+Ajouter des jeux via API externe à la collection « Mes jeux »
+1. Décrivez les tâches ou opérations que vous avez effectuées, et dans quelles conditions :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Quand un utilisateur clique sur le bouton "Ajouter à mes jeux", le contrôleur MesJeux reçoit la requête :
+
+
+
+
+
+
+
+Le contrôleur appelle le service « RawgService.php », une classe à part qui sert uniquement à récupérer les données des jeux depuis Rawg. Ce service permet d’appliquer le principe « DRY » (Don’t Repeat Yourself ) et rend donc le code plus « propre »  :
+
+
+
+
+
+
+
+
+
+
+
+RawgService vérifie si le jeu existe ou non dans la database pour éviter les doublons :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Si le jeu n’est pas trouvé, il fait l’appel API et stocke les données : 
+
+
+
+Pour éviter les plantages si l’API rawg a un problème, j’ai ajouté une gestion sécurisée d’erreur try/catch : 
+
+Le try essaie de récupérer les données depuis l'API RAWG.
+Si l'API répond normalement, le jeu est créé avec ses infos, comme le titre, la plateforme, le studio de développement, etc.
+Si l'API a un problème et n’est pas accessible, là le catch intervient :
+Il enregistre l'erreur dans les logs avec log_message() et appelle createMinimalGame() pour créer quand même une entrée basique
+Avantage : L'utilisateur peut toujours ajouter son jeu à sa collection, même si on n'a pas toutes les infos. 
+Une fois le jeu créé dans la base, mon contrôleur MesJeux l'ajoute avec ses notes, son temps de jeu et son statut.
+
+
+
+2. Précisez les moyens utilisés :
+
+    • RawgService.php, service personnalisé pour centraliser les interactions avec l'API
+      
+    • Try/catch, pour la gestion d'erreurs et la robustesse de l'application
+
+    • API RAWG, pour récupérer automatiquement les informations des jeux
+      
+    • Sessions PHP, pour la gestion sécurisée de l'authentification
+      
+    • JSON, pour les échanges de données entre front-end et back-end
+      
+    • MySQL, pour le stockage en base de données
+      
+    • PhpMyAdmin pour tester et vérifier les entrées dans ma base de données
+      
+    • Visual Studio Code pour l'édition du code
+      
+    • GitHub pour la sauvegarde du code
+
+3. Avec qui avez-vous travaillé ?
+J’ai travaillé seul
+
+4. Contexte
+
+
+Nom de l’entreprise, organisme ou association  
+Checkpoint
+Chantier, atelier, service	
+Résurgences
+Période d’exercice  	Du :	22/04/2025	au :	16/06/2025
+
+
+
+
+5. Informations complémentaires (facultatif)
+
+
+
+
+Activité-type
+2
+Développer la partie back-end d'une application web ou web mobile en intégrant les recommandations de sécurité
+Exemple n°3 
+Authentification sécurisée des utilisateurs
+
+
+1. Décrivez les tâches ou opérations que vous avez effectuées, et dans quelles conditions :
+
+J'ai créé un système d'inscription et de connexion sécurisé pour mon application.
+
+Au lieu de stocker le mot de passe en clair dans la base de données (ce qui serait dangereux), je le chiffre avec la fonction password_hash() dans ma méthode register : 
+
+A la connexion, je vérifie le mot de passe avec password_verify() qui compare le mot de passe saisi avec le hash :
+
+
+
+J'ai aussi ajouté des règles de validation pour sécuriser les entrées pour l’inscription : 
+
+
+
+
+
+
+
+Et pour la connexion : 
+
+
+
+
+
+
+
+
+
+
+
+
+2. Précisez les moyens utilisés :
+
+    • password_hash(), fonction PHP pour chiffrer les mots de passe
+      
+    • password_verify(), fonction PHP pour vérifier les mots de passe
+      
+    • Sessions PHP, pour maintenir la connexion de l'utilisateur
+      
+    • CodeIgniter 4 et son système de validation
+      
+    • MySQL pour stocker les utilisateurs inscrits
+      
+    • PhpMyAdmin pour tester et vérifier les entrées dans ma base de données
+      
+    • Visual Studio Code pour l'édition du code
+
+3. Avec qui avez-vous travaillé ?
+J’ai travaillé seul
+
+4. Contexte
+
+
+Nom de l’entreprise, organisme ou association  
+Checkpoint
+Chantier, atelier, service	
+Résurgences
+Période d’exercice  	Du :	22/04/2025	au :	16/06/2025
+
+
+
+
+5. Informations complémentaires (facultatif)
+
+
+Titres, diplômes, CQP, attestations de formation
+
+(facultatif)
+
+
+Intitulé
+Autorité ou organisme
+Date
+Cliquez ici.
+Cliquez ici pour taper du texte.
+Cliquez ici pour sélectionner une date.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Déclaration sur l’honneur
+
+
+
+
+
+
+Je soussigné(e) [prénom et nom] 	,
+déclare sur l’honneur que les renseignements fournis dans ce dossier sont exacts et que je suis l’auteur(e) des réalisations jointes.
+
+
+Fait à Marseille	 le 22/05/2025	
+pour faire valoir ce que de droit.
+
+Signature :
+
+
+
+Documents illustrant la pratique professionnelle
+
+(facultatif)
+
+
+Intitulé
+Cliquez ici pour taper du texte.
+
+
+
+
+
+
+
+
+
+
+
+
+Annexes
+
+(Si le RC le prévoit)
+
+
+
+
+
+
+

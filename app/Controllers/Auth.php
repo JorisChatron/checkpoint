@@ -34,14 +34,12 @@ class Auth extends Controller
      */
     public function register()
     {
-        // Récupération du service de validation
         $validation = \Config\Services::validation();
 
-        // Définition des règles de validation
         $validation->setRules([
-            'username' => 'required|min_length[3]',     // Nom d'utilisateur requis, min 3 caractères
-            'email'    => 'required|valid_email',       // Email requis et valide
-            'password' => 'required|min_length[6]'      // Mot de passe requis, min 6 caractères
+            'username' => 'required|min_length[3]',    
+            'email'    => 'required|valid_email',    
+            'password' => 'required|min_length[6]'
         ]);
 
         // Exécution de la validation
@@ -60,7 +58,7 @@ class Auth extends Controller
             'username' => $this->request->getPost('username'),
             'email'    => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT), // Hashage du mot de passe
-            'profile_picture' => 'images/burger-icon.png', // Image de profil par défaut
+            'profile_picture' => 'images/burger-icon.png',
         ]);
 
         return redirect()->to('/'); // Redirection vers la page d'accueil
@@ -85,10 +83,9 @@ class Auth extends Controller
         // Récupération du service de validation
         $validation = \Config\Services::validation();
 
-        // Définition des règles de validation
         $validation->setRules([
-            'username' => 'required', // Nom d'utilisateur requis
-            'password' => 'required'  // Mot de passe requis
+            'username' => 'required',
+            'password' => 'required'  
         ]);
 
         // Exécution de la validation
@@ -105,11 +102,10 @@ class Auth extends Controller
 
         // Vérification de l'existence de l'utilisateur et du mot de passe
         if ($user && password_verify($this->request->getPost('password'), $user['password'])) {
-            // Création de la session utilisateur
             session()->set([
                 'user_id' => $user['id'],
                 'username' => $user['username'],
-                'profile_picture' => $user['profile_picture'] ?? 'images/burger-icon.png', // Image par défaut si non définie
+                'profile_picture' => $user['profile_picture'] ?? 'images/burger-icon.png',
             ]);
 
             return redirect()->to('/'); // Redirection vers la page d'accueil

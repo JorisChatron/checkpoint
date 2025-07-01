@@ -93,18 +93,18 @@ class MesJeux extends BaseController
     public function add()
     {
         try {
-        // Vérification de la connexion de l'utilisateur
+        // vérif connexion utilisateur
         $userId = session()->get('user_id');
         if (!$userId) {
             return $this->response->setJSON(['success' => false, 'error' => 'Utilisateur non connecté']);
         }
 
-            // Récupération des données du formulaire
+            // récup données formulaire
             $data = $this->request->getJSON(true) ?: $this->request->getPost();
 
-            // Priorité à l'ID RAWG même si on a searchGame (cas du calendrier)
+            // Prio à l'ID RAWG même si on a searchGame comme dans le calendrier
             if (isset($data['game_id']) && is_numeric($data['game_id'])) {
-                return $this->handleRawgGame($userId, $data);  // Jeu depuis RAWG
+                return $this->handleRawgGame($userId, $data); 
             }
 
             return $this->handleFormGame($userId, $data);      // Jeu depuis formulaire

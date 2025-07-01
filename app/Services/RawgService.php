@@ -42,7 +42,7 @@ class RawgService
      */
     public function getOrCreateGame($rawgId)
     {
-        // Vérifie si le jeu existe déjà dans notre base
+        // Check si le jeu existe déjà dans la bdd
         $existingGame = $this->gameModel->where('rawg_id', $rawgId)->first();
         if ($existingGame) {
             return $existingGame['id'];
@@ -61,7 +61,7 @@ class RawgService
     protected function createGameFromRawg($rawgId)
     {
         try {
-            // Tente de récupérer les données du jeu depuis l'API
+            // essaie de récupérer les données depuis l'API
             $response = @file_get_contents("https://api.rawg.io/api/games/{$rawgId}?key={$this->apiKey}");
             
             if (!$response) {
@@ -70,12 +70,12 @@ class RawgService
 
             $game = json_decode($response, true);
             
-            // Extrait les informations complexes du jeu
+            // extrait les infos
             $developers = $this->extractDevelopers($game);
             $publishers = $this->extractPublishers($game);
             $platform = $this->extractPlatform($game);
             
-            // Crée une nouvelle entrée dans la base de données
+            // On crée une nouvelle entrée dans la base de données
             return $this->gameModel->insert([
                 'name' => $game['name'],
                 'platform' => $platform,
@@ -87,7 +87,7 @@ class RawgService
                 'rawg_id' => $rawgId
             ], true);
         } catch (\Exception $e) {
-            // Log l'erreur et crée une entrée minimale en cas d'échec
+            // Log l'erreur, crée une entrée minimale si échec
             log_message('error', 'Erreur RAWG: ' . $e->getMessage());
             return $this->createMinimalGame($rawgId);
         }

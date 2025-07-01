@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 25 juin 2025 à 15:59
+-- Généré le : dim. 29 juin 2025 à 09:59
 -- Version du serveur : 8.0.42-0ubuntu0.24.04.1
 -- Version de PHP : 8.3.6
 
@@ -220,11 +220,11 @@ CREATE TABLE `user_top_games` (
 --
 
 INSERT INTO `user_top_games` (`id`, `user_id`, `game_id`, `rank_position`, `created_at`) VALUES
-(81, 1, 199, 1, '2025-06-20 15:25:22'),
-(82, 1, 232, 2, '2025-06-20 15:25:22'),
-(83, 1, 189, 3, '2025-06-20 15:25:22'),
-(84, 1, 219, 4, '2025-06-20 15:25:22'),
-(85, 1, 213, 5, '2025-06-20 15:25:22');
+(91, 1, 231, 1, '2025-06-26 08:38:32'),
+(92, 1, 189, 2, '2025-06-26 08:38:32'),
+(93, 1, 236, 3, '2025-06-26 08:38:32'),
+(94, 1, 234, 4, '2025-06-26 08:38:32'),
+(95, 1, 219, 5, '2025-06-26 08:38:32');
 
 -- --------------------------------------------------------
 
@@ -284,7 +284,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_top_games`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_rank_position` (`user_id`,`rank_position`),
+  ADD UNIQUE KEY `unique_user_position` (`user_id`,`rank_position`),
   ADD KEY `game_id` (`game_id`),
   ADD KEY `idx_user_id` (`user_id`);
 
@@ -322,7 +322,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `user_top_games`
 --
 ALTER TABLE `user_top_games`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT pour la table `wishlist`
