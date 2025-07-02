@@ -423,7 +423,7 @@
             <li><a href="#section-9">9. Évolutions possibles <span class="page-number">Page 9 </span></a></li>
             <li><a href="#section-10">10. Tableau de correspondance besoins / fonctionnalités <span class="page-number">Page 10 </span></a></li>
             <li><a href="#section-11">11. Arborescence du site <span class="page-number">Page 10 </span></a></li>
-            <li><a href="#section-12">12. Compétences DWWM démontrées <span class="page-number">Page 11 </span></a></li>
+            <li><a href="#section-12">12. Compétences DWWM mobilisées dans le projet</a></li>
             <li><a href="#section-13">13. Activité Type 1 : Développement Front-end <span class="page-number">Page 12 </span></a>
                 <ul class="toc-list">
                     <li class="toc-level-2"><a href="#comp-1">Compétence 1 : Environnement de travail</a></li>
@@ -601,22 +601,53 @@ app/
         et lui donne accès à toutes les fonctionnalités de gestion.
     </p>
 
+    <div class="competence-box">
+        <strong>Résumé des rôles :</strong><br>
+        <u>Visiteur non connecté :</u> Peut consulter l'accueil, le calendrier des sorties, et accéder aux pages d'inscription/connexion.<br>
+        <u>Utilisateur connecté :</u> Accède à toutes les fonctionnalités personnalisées : gestion de collection, wishlist, profil, statistiques, etc.
+    </div>
+
     <h4>Navigation principale</h4>
     <ul>
-        <li><strong>🏠 Accueil utilisateur :</strong> Dashboard avec statistiques personnelles (nb jeux, temps total, jeux terminés)</li>
-        <li><strong>🎮 Mes Jeux :</strong> Collection personnelle avec filtres par plateforme, statut, genre</li>
-        <li><strong>💝 Wishlist :</strong> Liste de souhaits avec possibilité de transfert vers la collection</li>
-        <li><strong>📅 Calendrier :</strong> Sorties à venir avec filtrage contenu adulte</li>
-        <li><strong>👤 Profil :</strong> Gestion du profil, photo, top 5 personnel</li>
+        <li><strong>🏠 Accueil utilisateur :</strong> Dashboard avec statistiques personnelles (nombre de jeux, temps total, jeux terminés, top 5, dernières activités)</li>
+        <li><strong>🎮 Mes Jeux :</strong> Collection personnelle avec filtres par plateforme, statut, genre, année. Ajout, modification, suppression de jeux. Détail complet de chaque jeu (fiche, jaquette, développeur, éditeur, description, notes, temps de jeu, statut, etc.)</li>
+        <li><strong>💝 Wishlist :</strong> Liste de souhaits. Ajout de jeux depuis la recherche ou manuellement, transfert vers la collection, suppression.</li>
+        <li><strong>📅 Calendrier :</strong> Sorties à venir, filtrage par plateforme/genre, ajout d'une sortie à la wishlist.</li>
+        <li><strong>👤 Profil :</strong> Modification des informations personnelles (pseudo, email, photo), changement de mot de passe, gestion du top 5 (glisser-déposer), statistiques détaillées (répartition par statut, temps cumulé, genres préférés).</li>
+    </ul>
+
+    <div class="competence-box">
+        <strong>Exemple de parcours utilisateur :</strong><br>
+        Paul s'inscrit sur Checkpoint. Il ajoute ses jeux préférés via la recherche, complète son profil, crée sa wishlist pour les sorties à venir, et suit sa progression sur chaque jeu. Il consulte régulièrement le calendrier pour ne pas rater les nouveautés, et partage son top 5 avec ses amis.
+    </div>
+
+    <h4>Fonctionnalités détaillées accessibles à l'utilisateur connecté</h4>
+    <ul>
+        <li><strong>Ajouter un jeu à la collection :</strong> Recherche intelligente (API RAWG), formulaire pré-rempli, validation des doublons.</li>
+        <li><strong>Modifier/supprimer un jeu :</strong> Changement de statut (en cours, terminé, abandonné…), édition des notes, du temps de jeu, suppression avec confirmation.</li>
+        <li><strong>Filtrer/trier la collection :</strong> Par plateforme, statut, genre, année, etc.</li>
+        <li><strong>Voir les détails d'un jeu :</strong> Fiche complète, jaquette, développeur, éditeur, description, notes personnelles.</li>
+        <li><strong>Gérer la wishlist :</strong> Ajout depuis la recherche, transfert vers la collection, suppression.</li>
+        <li><strong>Consulter le calendrier :</strong> Voir les sorties à venir, filtrer, ajouter à la wishlist.</li>
+        <li><strong>Personnaliser son profil :</strong> Photo, pseudo, email, mot de passe, top 5.</li>
+        <li><strong>Voir ses statistiques détaillées :</strong> Nombre total de jeux, temps cumulé, répartition par statut, genres préférés.</li>
+        <li><strong>Déconnexion sécurisée</strong> et gestion des sessions.</li>
+    </ul>
+
+    <h4>Points forts de l'expérience utilisateur</h4>
+    <ul>
+        <li><strong>Interface responsive :</strong> Utilisable sur mobile, tablette, desktop.</li>
+        <li><strong>Navigation fluide :</strong> Menus clairs, accès rapide à toutes les sections.</li>
+        <li><strong>Feedback visuel :</strong> Messages de succès/erreur, confirmations d'action.</li>
+        <li><strong>Accessibilité :</strong> Couleurs contrastées, navigation clavier, labels explicites.</li>
     </ul>
 
     <h3>6.4 Fonctionnalités en action</h3>
 
     <h4>Ajout d'un jeu à la collection</h4>
-    <p>L'utilisateur peut ajouter un jeu de <strong>deux façons :</strong></p>
+    <p>L'utilisateur peut ajouter un jeu <strong>uniquement via la recherche API RAWG :</strong></p>
     <ul>
         <li><strong>Via recherche API RAWG :</strong> Tape le nom, sélectionne dans les suggestions, les données se remplissent automatiquement</li>
-        <li><strong>Saisie manuelle :</strong> Remplit lui-même tous les champs (nom, plateforme, année, genre, etc.)</li>
     </ul>
 
     <div class="competence-box">
@@ -731,71 +762,19 @@ app/
     <h2 id="section-11">11. Arborescence du site</h2>
     <img src="images/arborescencecheckpoint.png" alt="Arborescence du site Checkpoint" class="img-center">
 
-    <h2 id="section-12">12. Compétences DWWM démontrées</h2>
-    
-    <table class="table">
-        <tr>
-            <th>Compétence du référentiel</th>
-            <th>Mise en œuvre dans le projet</th>
-        </tr>
-        <tr>
-            <td>Maquetter une application</td>
-            <td>
-                - Design moderne avec variables CSS personnalisées<br>
-                - Interface responsive (mobile-first)<br>
-                - Maquettes et wireframes du projet
-            </td>
-        </tr>
-        <tr>
-            <td>Développer une interface utilisateur web dynamique</td>
-            <td>
-                - JavaScript pour l'interaction avec l'API RAWG<br>
-                - Gestion asynchrone des requêtes (async/await)<br>
-                - Manipulation dynamique du DOM
-            </td>
-        </tr>
-        <tr>
-            <td>Créer une base de données</td>
-            <td>
-                - Conception du schéma de base de données<br>
-                - Tables relationnelles (users, games, wishlist...)<br>
-                - Optimisation avec index
-            </td>
-        </tr>
-        <tr>
-            <td>Développer les composants d'accès aux données</td>
-            <td>
-                - Modèles CodeIgniter (GameModel, UserModel...)<br>
-                - Requêtes préparées pour la sécurité<br>
-                - Service RawgService pour l'API externe
-            </td>
-        </tr>
-        <tr>
-            <td>Développer la partie back-end</td>
-            <td>
-                - Architecture MVC avec CodeIgniter 4<br>
-                - Système d'authentification sécurisé<br>
-                - Gestion des sessions et cookies
-            </td>
-        </tr>
-        <tr>
-            <td>Élaborer et mettre en œuvre des composants dans une application de gestion de contenu</td>
-            <td>
-                - CRUD complet (Create, Read, Update, Delete)<br>
-                - Gestion des uploads d'images<br>
-                - Système de filtres et recherche
-            </td>
-        </tr>
-        <tr>
-            <td>Aspects de sécurité</td>
-            <td>
-                - Protection CSRF<br>
-                - Hachage des mots de passe<br>
-                - Validation des données<br>
-                - Protection contre XSS et injections SQL
-            </td>
-        </tr>
-    </table>
+    <h2 id="section-12">12. Compétences DWWM mobilisées dans le projet</h2>
+    <div class="competence-box">
+        Ce projet m'a permis de mettre en œuvre l'ensemble des compétences attendues pour le titre professionnel DWWM :
+        <ul>
+            <li><strong>Maquettage et conception d'interface</strong> : création de maquettes, choix d'une charte graphique adaptée à l'univers gaming, réalisation d'une interface responsive et accessible.</li>
+            <li><strong>Développement front-end dynamique</strong> : intégration JavaScript pour la recherche de jeux en temps réel, manipulation du DOM, gestion des modales et de l'expérience utilisateur.</li>
+            <li><strong>Gestion de base de données</strong> : conception du schéma relationnel, création et optimisation des tables, gestion des relations entre utilisateurs, jeux, wishlist, statistiques.</li>
+            <li><strong>Développement back-end</strong> : utilisation du framework CodeIgniter 4 (architecture MVC), développement de contrôleurs, modèles et services pour la logique métier et l'accès aux données.</li>
+            <li><strong>Sécurité</strong> : mise en place de la protection CSRF, hachage des mots de passe, validation des données, protection contre XSS et injections SQL, gestion sécurisée des sessions.</li>
+            <li><strong>Documentation et déploiement</strong> : rédaction d'une documentation technique (README), guide d'installation, configuration des environnements, gestion du versionnement avec Git.</li>
+        </ul>
+        Ce projet illustre ainsi ma capacité à couvrir l'ensemble du référentiel DWWM, de la conception à la mise en production, en passant par la sécurité et l'expérience utilisateur.
+    </div>
 
     <h2 id="section-13">13. Activité Type 1 : Développement Front-end</h2>
 
