@@ -1,0 +1,655 @@
+Dossier personnel pour le titre de développeur web et web mobile
+Jouer Ensemble
+URL du site : http://localhost/jouer_ensemble_2_CI/public/home
+Rédaction : Quentin Van den Ende
+Dernière mise à jour : 31/08/20231
+TABLE DES MATIÈRES
+1. Présentation du projet ………………………………………………………………………………….p2
+2. Cahier des charges ……………………………………………………………………………………….p3
+2.1 Présentation d’ensemble du projet ……………………………………………………..
+2.1.1 Présentation de l’entreprise …………………………………………………..
+2.1.2 Les objectifs du site ………………………………………………………………
+2.1.3 Les cibles adressées par le site ……………………………………………….
+2.1.4 Objectifs quantitatifs …………………………………………………………….
+2.1.5 Périmètre du projet ………………………………………………………………
+2.1.6 Description de l’existant ………………………………………………………..
+2.2 Description graphique et ergonomique ……………………………………………….
+2.2.1 Charte graphique ………………………………………………………………….
+2.2.2 Design …………………………………………………………………………………
+2.3 Description fonctionnelle et technique ………………………………………………..
+2.3.1 Arborescence du site ……………………………………………………………..
+2.3.2 Description fonctionnelle ……………………………………………………….
+2.3.3 Informations relatives au contenu …………………………………………..
+2.3.4 Contraintes techniques …………………………………………………………..
+3. Spécifications techniques ……………………………………………………………………………p5
+3.1 Prérequis de déploiement ……………………………………………………………………
+3.2 Bibliothèques et API ……………………………………………………………………………
+4. Principales fonctionnalités ………………………………………………………………………….p6
+4.1 Inscription et connexion ………………………………………………………………………
+4.2 Création d’annonces …………………………………………………………………………….
+4.3 Système de favori pour les annonces ……………………………………………………..
+4.4 Système de messages privés …………………………………………………………………
+4.5 Gestion de profil pour l’utilisateur ………………………………………………………..
+5. Compétences professionnelles ……………………………………………………………………p10
+5.1 Maquetter une application et réaliser une interface utilisateur web
+statique et adaptable ………………………………………………………………………..…p10
+5.2 Développer une interface dynamique ………………………………………………p13
+5.3 Créer une base de données …………………………………………………………..…p15
+5.4 Développement d’une partie back-end …………………………………………….p18
+6. Traduction d’un extrait de texte anglophone en français dans le cas d’une
+recherche d’information …………………………………………………………………………………p27
+12
+1. Présentation du projet :
+JouerEnsemble est un site de rencontres entre musiciens.
+L’utilisateur s’enregistre en y mentionnant le ou les instruments qu’il pratique, ainsi
+que ses années d’expérience. Ensuite, grâce à la localisation, il peut voir les autres
+musiciens de sa région.
+L’idée de celui-ci m’est venue de ma propre expérience professionnelle dans le
+domaine musical.
+Lorsque l’on s’inscrit dans une école de musique, nous rencontrons naturellement
+d’autres musiciens. Notre professeur de musique nous donne des morceaux à
+travailler, et lorsque l’on passe notre examen, il nous trouve un accompagnateur pour
+jouer avec nous.
+C’est l’avantage de faire l’école de musique, car on ne doit s’occuper de rien.
+Le problème, c’est que si on arrête la musique suite à un changement de mode de vie,
+retourner dans ce milieu quelques années plus tard devient très compliqué !
+Les cours privés sont chers, et nous n’avons pas toujours les moyens ou l’envie d’en
+prendre.
+Pour y remédier, les musiciens peuvent rejoindre ce site pour y rencontrer, et
+contacter les autres artistes de leur région. Éventuellement se rencontrer pour
+répéter leur morceaux ensemble, et ainsi se créer ou recréer leur cercle musical.
+Les professeurs de musique pourront aussi se faire connaître en plus des autres
+plateformes spécifiques à cela.
+23
+2. Cahier des charges
+2.1 Présentation d’ensemble du projet :
+2.1.1 Présentation de l’entreprise :
+Date de création : 20 juin 2022.
+1 salarié (projet prototype dans le cadre d’une formation comme développeur web.
+Le principal concurrent du site est : musiciens.fr
+Le rôle du projet web est d’enregistrer un maximum de musiciens, les classer par
+région, et leur permettre de se contacter entre eux pour réaliser leurs projets.
+2.1.2 Les objectifs du site :
+Le site fournit un service. Pas de vente en ligne, ou d’objectifs payants.
+Il possède une section blog (articles) où ils peuvent partager des infos, activités, …
+sur la musique.
+Les recherches sur le site doivent se faire de manière dynamique en fonction de la
+région du visiteur.
+2.1.3 Les cibles adressées par le site :
+Il faut pratiquer la musique pour profiter pleinement des services proposés par le
+site.
+Les professionnels peuvent mettre en avant leurs activités et ainsi se faire connaître.
+2.1.4 Objectifs quantitatifs :
+Le volume de trafic concernerait la France dans sa globalité. Le site doit être optimisé
+pour enregistrer des centaines de milliers de membres (pour un maximum d’ 1 000
+000).
+2.1.5 Périmètre du projet :
+La langue concernée sera le français. Pas d’adaptation dans une autre langue ou de
+version mobile dans l’immédiat.
+2.1.6 Description de l’existant :
+Le principal concurrent du site est musiciens.fr qui regroupe les musiciens en
+Europe.
+Le projet que je présente se base sur ce principe, mais avec la possibilité pour les
+membres de se contacter entre eux.
+34
+2.2 Description graphique et ergonomique :
+2.2.1 Charte graphique :
+Les couleurs dominantes seront le blanc et le bleu foncé.
+Il n’ y aura pas de logo personnel pour le site.
+La police utilisée sera une police libre de droits.
+2.2.2 Design :
+Le site sera dans un style flat-design, mais quelques ombres ou combinaisons de
+couleurs seront tolérées.
+2.3 Description fonctionnelle et technique :
+2.3.1 Arborescence du site :
+2.3.2 Description fonctionnelle :
+Il doit y avoir un espace client sécurisé par mot de passe. Le visiteur devra renseigner
+un maximum d’informations lors de son inscription pour le bon fonctionnement du
+site.
+L’adresse précise du visiteur ne sera pas nécessaire, juste sa région.
+45
+Il devra mentionner toute son expérience professionnelle dans le domaine musical
+(en année).
+Il y aura une distinction entre les membres (musiciens seulement , où professeurs de
+musique).
+2.3.3 Informations relatives au contenu :
+Le contenu du site sera exclusivement des articles.
+Les différentes sections devront être gérées par un administrateur supplémentaire.
+2.3.4 Contraintes techniques :
+Frameworks utilisés : Bootstrap 5 et CodeIgniter 4
+Le site doit être compatible avec tous les navigateurs.
+3. Spécifications techniques
+3.1 Prérequis de déploiement
+Nom de domaine : local
+Hébergement : http://localhost/jouer_ensemble_2_CI/public/home
+Langages utilisés : html, css, php, js
+Framework installés : bootstrap, codeIgniter 4
+Base de données : mariadb, SQL
+3.2 Bibliothèques et API
+Api des villes de France : https://geo.api.gouv.fr
+JQuery : https://jquery.com
+Iconifi : https://iconify.design
+56
+4. Principales fonctionnalités
+4.1 Inscription et connexion
+L’utilisateur peut s’inscrire sur le site et se connecter pour pouvoir interagir avec les
+autres membres. Il peut tout de même consulter les annonces déjà créées sur le site,
+mais ne pourra pas répondre à son auteur.
+Interface d’un utilisateur avec le statut visiteur sur la page d’une annonce
+Même page, mais avec un statut connecté
+J’ai utilisé la librairie JQuery pour faire ma requête AJAX et aller sur l’api des villes
+de France.
+https://api.gouv.fr/les-api/api-geo
+67
+4.2 Création d’annonces
+L’utilisateur connecté peut créer, éditer ou supprimer plusieurs annonces depuis sa
+page profil.
+L’utilisateur peut créer une annonce
+L’utilisateur peut modifier ou supprimer une annonce qu’il à créé
+4.3 Système de favori pour les annonces
+Il peut aussi ajouter l’annonce dans ses favoris pour la retrouver facilement depuis sa
+page profil.
+78
+L’utilisateur peut ajouter l’annonce à ses favoris.
+Pour pouvoir afficher l'icône du favori lorsque l’annonce est enregistrée, j’ai créé une
+variable $favori dans mon contrôleur que je renvoie à la vue avec la valeur 1 ou 0.
+$data = $annonceModel->selectOneByUser($id); // sélectionner
+une annonce précise (renvoie un tableau)
+if (session('userSession')){
+$favoriData =
+$favoriModel->selectFavoriUser(session('userSession')['id']);
+} else {
+$favoriData = [];
+}
+// on vérifie si l'annonce cible à été ajoutée aux favoris de
+l'user
+if ($favoriData) {
+foreach ($favoriData as $annonce) {
+if ($annonce['annonce_id'] == $data['id']){
+$favori = 1;
+break;
+} else {
+$favori = 0;
+}
+}
+} else {
+89
+$favoriData = [];
+$favori = 0;
+}
+return view('site/annonce-cible', [
+'annonce' => $data,
+'instruUser' => $data2,
+'favori' => $favori,
+]);
+4.4 Messages privés entre utilisateurs
+Comme pour la création d’annonces, l’utilisateur connecté pourra contacter les
+autres membres par messages privés, et ceux-ci seront gérables par l’utilisateur
+depuis sa page profil.
+L’utilisateur peut consulter les messages qu’il a reçus ou envoyés, ainsi que les supprimer
+4.5 Gestion de profil pour l’utilisateur
+L’utilisateur peut effectuer plusieurs actions depuis sa page profil, ainsi que modifier
+ses informations personnelles.
+910
+L’utilisateur peut ajouter ou supprimer un instrument de musique qu’il a pratiqué.
+5. Compétences professionnelles
+5.1 Maquetter une application et réaliser une interface
+utilisateur web statique et adaptable
+J’ai réalisé une maquette sur Figma avant de créer mon code html, css.
+Maquette du site réalisé avec l’application Figma
+1011
+J’ai utilisé le système de layout dans le framework CodeIgniter 4 qui utilise un
+master dans lequel je joins mon header et mon footer.
+<?= $this->include('includes/header')?>
+<?= $this->renderSection('body-contents')?>
+<?= $this->include('includes/footer')?>
+Le fichier header sera composé de toute la structure <head> html avec la balise
+ouvrante <body>.
+Et le fichier footer comprendra les balises fermantes </body> et </html>
+Ce master sera appelé sur chacune de mes vues, qui auront un contenu différent.
+<?= $this->extend('layouts/master') ?>
+<?= $this->section('body-contents') ?>
+<?= $this->endSection() ?>
+1112
+Le contenu des annonces de la page index change en fonction de l’état de l’utilisateur.
+Si c’est un utilisateur connecté ou non.
+Lorsque l’utilisateur n’est pas connecté
+Lorsque l’utilisateur est connecté
+Sur la page des annonces, l’utilisateur peut trier les annonces par région.
+1213
+Même système JavaScript que pour l’inscription
+5.2 Développer une interface dynamique
+Lors de l’inscription de l’utilisateur, j’ai utilisé JQuery pour faire une requête
+asynchrone sur l’Api des villes de France.
+Lorsque je reçois les données, je modifie le DOM en ajoutant un cadre avec les
+données (maximum 10 résultats) à chaque fois que l’utilisateur entre une lettre dans
+la barre de recherche. Ainsi le résultat devient de plus en plus précis, et l’utilisateur
+n’a plus qu’à cliquer sur sa ville.
+let respUl = `<ul class="form-control apiCity"></ul>`;
+$('#inputCity').on('keyup', function (e) {
+let valueInput = e.target.value;
+let urlApiCity =
+'https://geo.api.gouv.fr/communes?nom='+valueInput+'&limit=10'
+;
+if (e.target.value.length == 0) {
+$(ulHtml).children().remove();
+$(ulHtml).hide();
+$('#cityHelp').text('* Entrez votre ville, et
+sélectionnez-la dans la liste.');
+}
+if (e.target.value.length >= 1) {
+let ulHtml = $('#zoneCity').find('.apiCity');
+$(ulHtml).show();
+$('#cityHelp').text('* Entrez votre ville, et
+sélectionnez-la dans la liste.');
+$.get(urlApiCity)
+1314
+.done(function (resp) {
+$(ulHtml).children().remove(); // suppression
+des enfants avant le foreach des villes trouvées
+resp.forEach(element => {
+let respLi = `
+<li id="${element.nom}" class="d-flex
+justify-content-between city">
+<p>${element.nom}</p>
+<p>Département :
+${element.codeDepartement}</p>
+</li>`;
+$(ulHtml).append(respLi); // ajout des
+<li> pour chaques ville trouvées
+let cityAction = $(ulHtml).find('.city');
+$(cityAction).on('click', function (e) {
+// changement de la value de l'input au click sur la ville
+trouvée
+nameCity = e.target.id;
+$('#inputCity')[0].value = nameCity;
+$(ulHtml).hide();
+$('#cityHelp').text('');
+});
+});
+});
+}
+});
+1415
+L’Api a renvoyé 4 résultat pour la saisie de l’utilisateur.
+J’ai également fait un affichage dynamique des messages d’erreurs. A chaque saisie
+sur un input du formulaire, JavaScript teste cette valeur, et tant qu’elle n’est pas
+correcte, le message ne disparaît pas.
+Notamment sur les input de mots de passe. Lorsque les 2 input sont identiques, le
+message d’erreur disparaît.
+5.3 Créer une base de données
+Je me suis renseigné sur l UML (langage de modélisation unifié) qui consiste à
+détailler les différents cas d’utilisation d’une application.
+Voici un exemple de cas d’utilisation détaillé :
+1516
+Schéma UML du projet
+Cas d’utilisation détaillé :
+Nom : Consulter les annonces.
+Acteur : Visiteur/Membre/Admin.
+Donnée d’entrée : Le cas d’utilisation détaillé commence lorsque l’utilisateur clique
+sur « Annonces » depuis le menu de navigation.
+Scénario principal :
+1. Le système envoie la liste des annonces sauvegardées dans la BDD et l’affiche à
+l’écran.
+2. Le client peut sélectionner une annonce cible en cliquant dessus.
+3. Le système envoie les information de l’annonce cible, ainsi que celle de l’utilisateur
+qui a rédigé celle-ci.
+4. Le client peut voir le profil de l’utilisateur qui a rédigé l’annonce.
+Fin du scénario principal.
+Scénario secondaires 1 : Si l’utilisateur est connecté sur le site.
+1. Le client peut enregistrer ou supprimer l’annonce consultée dans ses favoris qui
+s’afficheront sur son profil.
+1617
+2. Le client peut envoyer un message privé à l’utilisateur qui a rédigé l’annonce.
+3. Le client peut rédiger une nouvelle annonce en cliquant sur le bouton « nouvelle
+annonce ».
+Fin du scénario secondaire 1.
+Scénario secondaire 2 : Si l’admin est connecté.
+1. Le client peut supprimer une annonce.
+5. Fin du scénario secondaire 2.
+J’ai ensuite fait les schémas MCD et MLD de la méthode Merise avant de créer ma
+base de donnée sur dbeaver et heidiSQL qui sont 2 logiciels de gestion de base de
+données.
+MCD du projet
+MLD du projet
+1718
+Interface de l’application HeidiSQL (HS)
+5.4 Développement d’une partie back-end
+Avant de parler du framework que j’ai utilisé. A la création de ma Base de données,
+j’ai eu besoin d’avoir une bonne liste de différents instruments qui existent. Comme
+pour la ville de l’utilisateur, je ne voulais pas avoir des instruments mal
+orthographiés ou qui n’existent pas. Je n’ai pas trouvé d’Api gratuites sur les
+instruments de musique. J’ai donc été sur un site qui présentait une liste avec plus de
+500 instruments existants. Avec l’aide d’un collègue de la formation, nous avons créé
+un script JavaScript pour récupérer cette liste et l’enregistrer dans un fichier texte.
+Grâce à ce fichier texte, j’ai pu créer un script php pour enregistrer chacun des
+instruments dans ma base de donnée.
+$fichier = fopen('liste_instruments_monde.txt', 'rb');
+try{
+$sql = "INSERT INTO instrument(nom) VALUES (:name)";
+while(!feof($fichier)){
+$ligne = rtrim(strtolower(fgets($fichier))); // rtrim
+éviter les retour à la ligne insérés dans la base
+$PDO = new PDO($dsn,DBUSER,DBPASS,$OPTION);
+$request = $PDO->prepare($sql);
+$request->bindParam(':name', $ligne);
+$request->execute();
+if ($request) {
+1819
+echo 'SUCCES'.'<br>';
+} else {
+echo 'ERROR'.'<br>';
+}
+}
+}catch(PDOException $pe){
+echo 'ERREUR : '.$pe->getMessage();
+}
+Avec ces données , j’ai pu faire le même système dynamique que pour l’inscription
+lorsque l’utilisateur choisit sa ville.
+Mais la requête AJAX en JavaScript s’exécute sur un Controller qui renvoie la liste
+des instruments de ma base de données.
+public function getAllInstruments ($name)
+{
+$instrumentModel = new InstrumentModel();
+$listInstrument = $instrumentModel->searchInstru($name);
+return json_encode($listInstrument);
+}
+Dans mon fichier JavaScript, je ferai une requête Ajax sur une route qui me dirige
+vers cette méthode de mon Controller. La réponse de cette requête sera mon objet
+tableau.
+$.get('http://localhost/jouer_ensemble_2_CI/public/ajax/all-in
+stru-user').done(function (resp) {}
+Le framework CodeIgniter 4 imposé par ma formation est un framework totalement
+libre de droits.
+Comme la plupart des frameworks, codeIgniter utilise un grand choix de
+bibliothèques avec des méthodes pré-construites pour faciliter et accélérer le travail
+du développeur. Il utilise l’architecture MVC (Modèle, Controller, Vue), bien dans le
+développement.
+Un Model est une classe php représentant une table de ma base de données.
+Il possède des attributs qui seront les informations relatives aux informations de la
+table. Chaque modèle est une sous-classe du modèle de base du framework, qui lui
+contient toutes les informations relatives à mon système de gestion de base de
+données (MYSQL). Pour plus de facilités, j’instancie un Model pour chacune de mes
+tables de ma base de données.
+1920
+namespace App\Models;
+use CodeIgniter\Model;
+class Instrument_userModel extends Model
+{
+protected $DBGroup = 'default';
+protected $table
+= 'instrument_user';
+protected $primaryKey = 'id';
+protected $useAutoIncrement = true;
+protected $returnType
+= 'array';
+protected $allowedFields = ['user_id', 'instrument_id',
+'annee_exp'];
+Dans ce modèle, je vais pouvoir créer mes méthodes personnalisées que j’aurai
+besoin pour faire des requêtes SQL précises que je pourrai appeler sur mon objet
+Model depuis mon Controller. Par exemple une jointure SQL relativement longue qui
+sera utilisée plusieurs fois dans la navigation du site. J’utilise les méthodes
+pré-construites de codeIgniter (select(), where(), join(), findAll(), …).
+/**
+* Sélectionne tous les instrument de l'user
+*
+* @param integer $idUser
+* @return array
+*/
+public function selectInstruUser ($idUser)
+{
+$request = $this->select('instrument.nom as nameInstru,
+instrument_user.*, user.nom, user.prenom, user.pseudo,
+user.genre, user.ville, user.solfege, user.professeur,
+user.dateInscription, user.avatar, user.description')
+->where('user_id', $idUser)
+->join('instrument',
+'instrument_user.instrument_id = instrument.id')
+->join('user', 'instrument_user.user_id =
+user.id')
+->findAll();
+return $request;
+2021
+}
+Le Controller représente les classes qui se connectent aux modèles et à la vue.
+Il permet d’exécuter du code avant de renvoyer un résultat ou non à une vue.
+Pour rester sur mon exemple ci-dessus, dans mon Controller, je vais exécuter du
+code pour aller chercher toutes les informations d’une annonce précise que
+l’utilisateur aura sélectionnée. Les informations du membre qui a créé l’annonce.
+Sachant que pour mon projet, un membre enregistré sur le site à indiqué un
+instrument ou plusieurs qu’il pratique. Cela signifie qu’il y a une autre table
+“instrument” dans ma base de donnée qui contient tous les instruments et leur nom.
+J’ai également un système de favoris pour les annonces dont j’ai parlé plus haut. Je
+vérifie si l’annonce consultée est présente dans les favoris de l’utilisateur. Voici le
+code complet de mon Controller qui reprend l’exemple des favoris.
+/**
+* Page annonce ciblee avec infos de l'user qui l'a posté
+*
+* @param integer $id de l'annonce
+* @return view
+*/
+public function getAnnonceById ($id)
+{
+$annonceModel = new AnnonceModel();
+$userInstruModel = new Instrument_userModel();
+$favoriModel = new Favori_user_annonceModel();
+$data = $annonceModel->selectOneByUser($id);
+$data2 =
+$userInstruModel->selectInstruUser($data['user_id']);
+if (session('userSession')){
+$favoriData =
+$favoriModel->selectFavoriUser(session('userSession')['id']);
+} else {
+$favoriData = [];
+}
+// on vérifie si l'annonce cible à été ajoutée aux favoris
+de l'user
+2122
+if ($favoriData) {
+foreach ($favoriData as $annonce) {
+if ($annonce['annonce_id'] == $data['id']){
+$favori = 1;
+break;
+} else {
+$favori = 0;
+}
+}
+} else {
+$favoriData = [];
+$favori = 0;
+}
+return view('site/annonce-cible', [
+'annonce' => $data,
+'instruUser' => $data2,
+'favori' => $favori,
+]);
+}
+Le tableau renvoyé dans la vue me permettra d’afficher les informations utiles pour
+l’utilisateur qui consulte l’annonce. Comme par exemple une petite icône de V ou de
+X concernant le solfège et si le membre est un professeur de musique.
+La variable $instruUser contient un tableau avec les informations du membre et les
+instruments qu’il pratique. Je n’ai plus qu'à faire une condition sur la clé solfège et
+professeur de mon tableau.
+<div>
+<p id="SolfegeUser">Solfège :
+<?php if ($annonce['solfege'] == 'oui') : ?>
+<iconify-icon class="valid"
+icon="material-symbols:fitbit-check-small" width="25"
+height="25"></iconify-icon>
+<?php else : ?>
+<iconify-icon class="invalid"
+icon="gridicons:cross-small" width="25"
+height="25"></iconify-icon>
+<?php endif ?>
+2223
+</p>
+<p id="ProfesseurUser">Professeur :
+<?php if ($annonce['professeur'] == 'oui') : ?>
+<iconify-icon class="valid"
+icon="material-symbols:fitbit-check-small" width="25"
+height="25"></iconify-icon>
+<?php else : ?>
+<iconify-icon class="invalid"
+icon="gridicons:cross-small" width="25"
+height="25"></iconify-icon>
+<?php endif ?>
+</p>
+</div>
+Ces interactions entre les models et les controllers se font avec un système de routing
+propre à chaque framework. Voici un exemple de routes pour la page espace membre
+de mon projet. Chaque route va chercher une méthode de l’un de mes controller.
+$routes->group('espace-personnel', static function ($routes) {
+$routes->get('/', 'HomeController::espaceUser');
+$routes->get('mes-informations',
+'HomeController::infosUser');
+$routes->get('mes-instruments',
+'HomeController::instrumentsUser');
+$routes->get('mes-messages',
+'HomeController::messagesUser');
+$routes->get('mes-messages/recus',
+'HomeController::messagesUserRecu');
+$routes->get('mes-messages/envoyes',
+'HomeController::messageUserEnvoye');
+$routes->get('mes-annonces',
+'HomeController::annoncesUser');
+$routes->get('mes-annonces/creer',
+'HomeController::creerAnnonce');
+$routes->get('mes-annonces/modifier/(:any)',
+'HomeController::modifyAnnonce/$1');
+$routes->get('mes-annonces/supprimer/(:any)',
+'HomeController::deleteAnnonce/$1');
+2324
+$routes->get('mes-favoris',
+'HomeController::favorisUser');
+$routes->get('deconnexion', 'HomeController::decoUser');
+});
+C’est le premier gros travail de recherche et d’apprentissage que j’ai dû faire pour
+apprendre à maîtriser ce framework. Et je suis encore dans l’apprentissage de
+celui-ci.
+Un petit exemple de travail de recherche particulier sur le framework en plus des
+bases obligatoires, était celui de faire une pagination personnalisée (celle de
+bootstrap). Car je trouvais la pagination de base du framework très moche.
+Pour cela, j’ai dû créer un nouveau fichier dans le dossier système de codeIgniter.
+J’avais l’exemple de base utilisé par le framework. Je me suis donc inspiré de cet
+exemple pour reprendre les méthodes déjà créées par le framework et faire mon code
+personnel en appliquant les style de bootstrap.
+Fichier de code html pour la navigation dans le dossier Système de CodeIgniter
+<nav aria-label="<?= lang('Pager.pageNavigation') ?>">
+<ul class="pagination">
+<?php if ($pager->hasPrevious()) : ?>
+<li class="page-item">
+<a class="page-link" href="<?=
+$pager->getFirst() ?>" aria-label="<?= lang('Pager.first')
+?>">
+<span aria-hidden="true">Premier</span>
+</a>
+</li>
+2425
+<li class="page-item">
+<a class="page-link" href="<?=
+$pager->getPreviousPage() ?>" aria-label="<?=
+lang('Pager.previous') ?>">
+<span aria-hidden="true">Précédent</span>
+</a>
+</li>
+<?php endif ?>
+<?php foreach ($pager->links() as $link) : ?>
+<li <?= $link['active'] ? 'class="active
+page-item"' : '' ?>>
+<a class="page-link" href="<?= $link['uri']
+?>">
+<?= $link['title'] ?>
+</a>
+</li>
+<?php endforeach ?>
+<?php if ($pager->hasNext()) : ?>
+<li class="page-item">
+<a class="page-link" href="<?=
+$pager->getNextPage() ?>" aria-label="<?= lang('Pager.next')
+?>">
+<span aria-hidden="true">Suivant</span>
+</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="<?=
+$pager->getLast() ?>" aria-label="<?= lang('Pager.last') ?>">
+<span aria-hidden="true">Dernier</span>
+</a>
+</li>
+<?php endif ?>
+</ul>
+</nav>
+2526
+Pour charger ce code dans la méthode pagination de CodeIgniter, j’ai rajouté le nom
+du fichier que je viens de créer dans le fichier Pager.php du dossier App.
+public $templates = [
+'default_full'
+=> 'CodeIgniter\Pager\Views\default_full',
+'default_simple' => 'CodeIgniter\Pager\Views\default_simple',
+'default_head'
+=> 'CodeIgniter\Pager\Views\default_head',
+'perso_full' => 'CodeIgniter\Pager\Views\perso_full',
+];
+Pour afficher la pagination, j’applique la méthode paginate() de codeIgniter sur mon
+tableau de données de mon Model, et je la renvoie dans la vue.
+public function annonces ()
+{
+$annonceModel = new AnnonceModel();
+$builder = $annonceModel->select('annonce.*, user.nom,
+user.prenom, user.genre, user.ville, user.solfege,
+user.professeur, user.dateInscription, user.description')
+->join('user', 'annonce.user_id =
+user.id');
+$data = $builder->paginate(5, 'group1');
+$pager = $builder->pager;
+return view('site/annonces', [
+'listAnnonces' => $data,
+'pager' => $pager,
+]);
+}
+$pager sera mon objet sur lequel je pourrai charger mon template pour la
+pagination. (perso_full) Je n’ai plus qu’à afficher l’echo de cette méthode en php
+dans mon html.
+<?= $pager->links('group1', 'perso_full') ?>
+2627
+6. Traduction d’un extrait de texte anglophone en
+français dans le cas d’une recherche d’information
+Comme je l’ai expliqué, CodeIgniter 4 m’a demandé beaucoup de travail de recherche
+sur la documentation officielle (en anglais). Ainsi que d’avoir suivi toute une série de
+vidéos formatrices en anglais sur youtube pour avoir les bases.
+Plus haut, j’ai expliqué que je m’étais informé pour pouvoir changer la pagination de
+base du framework. Voici un extrait de texte concernant la méthode pagination sur
+les modèles.
+Paginating with Models
+In most cases, you will be using the Pager library in order to paginate results that you
+retrieve from the database. When using the Model class, you can use its built-in
+paginate() method to automatically retrieve the current batch of results, as well as set
+up the Pager library so it’s ready to use in your controllers. It even reads the current
+page it should display from the current URL via a page=X query variable.
+To provide a paginated list of users in your application, your controller’s method
+would look something like: In this example, we first create a new instance of our
+UserModel. Then we populate the data to send to the view. The first element is the
+results from the database, users, which is retrieved for the correct page, returning 10
+users per page. The second item that must be sent to the view is the Pager instance
+itself. As a convenience, the Model will hold on to the instance it used and store it in
+the public property, $pager. So, we grab that and assign it to the $pager variable in
+the view.
+Traduction en français
+Pagination avec des modèles
+Dans la plupart des cas, vous utiliserez la bibliothèque Pager afin de paginer les
+résultats que vous récupérez de la base de données. Lorsque vous utilisez la classe
+Model , vous pouvez utiliser sa méthode intégrée paginate()pour récupérer
+automatiquement le lot actuel de résultats, ainsi que configurer la bibliothèque Pager
+afin qu'elle soit prête à être utilisée dans vos contrôleurs. Il lit même la page actuelle
+qu'il doit afficher à partir de l'URL actuelle via une page=X variable de requête.
+Pour fournir une liste paginée des utilisateurs dans votre application, la méthode de
+votre contrôleur ressemblerait à ceci : Dans cet exemple, nous créons d’abord une
+nouvelle instance de notre UserModel. Ensuite, nous remplissons les données à
+2728
+envoyer à la vue. Le premier élément correspond aux résultats de la base de données,
+users , qui sont récupérés pour la bonne page, renvoyant 10 utilisateurs par page. Le
+deuxième élément qui doit être envoyé à la vue est l'instance Pager elle-même. Pour
+plus de commodité, le modèle conservera l'instance qu'il a utilisée et la stockera dans
+la propriété publique $pager. Donc, nous récupérons cela et l'attribuons à la
+$pagervariable dans la vue.
+28
