@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Technique DWWM – Préparation Jury</title>
+    <style>
+        :root {
+            --bleu-fonce: rgba(31, 27, 46, 0.9);
+            --bleu-clair: #BB86FC;
+            --jaune:  #00E5FF;
+            --blanc-casse: #f7f7f9;
+            --vert-succes: #28a745;
+            --rouge-erreur: #dc3545;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--blanc-casse);
+            color: var(--bleu-fonce);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(90deg, var(--bleu-fonce) 70%, var(--jaune) 100%);
+            color: #fff;
+            padding: 32px 0 24px 0;
+            text-align: center;
+            letter-spacing: 2px;
+            font-size: 2.2em;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(26,34,56,0.08);
+        }
+        .subtitle {
+            font-size: 0.5em;
+            font-weight: normal;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto 24px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(26,34,56,0.10);
+            padding: 40px 32px 32px 32px;
+        }
+        h1 {
+            display: none;
+        }
+        h2 {
+            margin-top: 2em;
+            color: var(--bleu-fonce);
+            border-left: 8px solid var(--jaune);
+            padding-left: 12px;
+            font-size: 1.5em;
+            background: linear-gradient(90deg, var(--bleu-clair) 0%, transparent 100%);
+            border-bottom: 1.5px solid var(--bleu-clair);
+            padding-bottom: 0.2em;
+        }
+        h3 {
+            color: var(--bleu-fonce);
+            margin-top: 1.5em;
+            border-left: 4px solid var(--bleu-clair);
+            padding-left: 10px;
+        }
+        ul, ol {
+            margin-left: 1.5em;
+        }
+        ul li::marker {
+            color: var(--jaune);
+        }
+        .info-box, .competence-box {
+            background: var(--bleu-clair);
+            border-left: 6px solid var(--jaune);
+            padding: 1.2em 1.5em;
+            margin: 2em 0 0 0;
+            font-size: 1.13em;
+            color: var(--bleu-fonce);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(26,34,56,0.07);
+        }
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .toc-list li {
+            margin: 0.5em 0;
+            padding-left: 1em;
+        }
+        .toc-list li a {
+            text-decoration: none;
+            color: var(--bleu-fonce);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3em 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        .toc-list li a:hover {
+            color: var(--jaune);
+            background: rgba(187, 134, 252, 0.1);
+            padding-left: 0.5em;
+            transition: all 0.2s;
+        }
+        .page-number {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: normal;
+            margin-left: auto;
+        }
+        strong {
+            color: var(--bleu-fonce);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px 4vw 18px 4vw;
+            }
+            h2 {
+                font-size: 1.15em;
+                padding-left: 7px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    Checklist Technique DWWM
+    <div class="subtitle">Préparation à la soutenance et au jury – Conseils & Astuces</div>
+</header>
+<div class="container">
+    <h1>Checklist Technique DWWM</h1>
+    <div class="info-box">
+        <strong>Ce document regroupe toutes les attentes du jury, les conseils pratiques, la structure des dossiers et les retours d'expérience pour réussir la certification DWWM.</strong>
+    </div>
+    <div class="info-box" style="background:#e6fffa;border-left:6px solid var(--vert-succes);margin-top:1em;">
+        <strong>Astuce :</strong> Utilise le sommaire interactif pour naviguer rapidement entre les sections clés.
+    </div>
+    <div class="table-of-contents">
+        <h3>📋 Sommaire</h3>
+        <ul class="toc-list">
+            <li><a href="#section-1">1. Attentes du jury et préparation générale</a></li>
+            <li><a href="#section-2">2. Dossier projet & dossier professionnel</a></li>
+            <li><a href="#section-3">3. Présentation orale & conseils pratiques</a></li>
+            <li><a href="#section-4">4. Questions fréquentes et pièges à éviter</a></li>
+            <li><a href="#section-5">5. Annexes : retours d'expérience & checklists</a></li>
+        </ul>
+    </div>
+
+    <h2 id="section-1">1. Attentes du jury et préparation générale</h2>
+    <div class="competence-box">
+        <ul>
+            <li>Le jury est composé de deux professionnels expérimentés (au moins 3 ans d'expérience récente).</li>
+            <li>Ils évaluent autant la démarche que le résultat : il faut savoir expliquer ses choix, justifier son organisation, et montrer qu'on comprend ce qu'on a fait.</li>
+            <li>Le plus important n'est pas d'avoir un site « parfait », mais de savoir expliquer comment on a pensé, conçu et codé son projet.</li>
+            <li>Prépare-toi à expliquer ton schéma MCD, la sécurité, le fonctionnement de tes contrôleurs ou de ton code (ligne par ligne si besoin).</li>
+            <li>Le jury peut choisir un fichier ou un contrôleur au hasard et te demander de l'expliquer : il faut comprendre ce que tu as écrit, pas juste l'apprendre par cœur.</li>
+            <li>Prépare un résumé du projet en anglais (même court, au cas où).</li>
+            <li>Comprendre et savoir expliquer : MVC, PDO, POO, CRUD, requêtes SQL de base (jointures, etc.).</li>
+            <li>Rester honnête sur l'utilisation de l'IA (dire ce que tu as fait toi-même, ce que tu as cherché, etc.).</li>
+            <li>Ne pas essayer de baratiner : si tu ne maîtrises pas un point, dis-le franchement.</li>
+            <li>Sois prêt à montrer et expliquer chaque étape : installation, configuration, code, base de données, outils.</li>
+            <li>Anticipe les questions sur l'en-tête HTML, le CRUD, la sécurité, la BDD, et les outils utilisés.</li>
+            <li>Photocopie et apporte tous les documents demandés (livret, dossiers, identifiants de test, etc.).</li>
+        </ul>
+    </div>
+
+    <h2 id="section-2">2. Dossier projet & dossier professionnel</h2>
+    <div class="competence-box">
+        <ul>
+            <li><strong>Dossier projet</strong> : 30 à 35 pages, structuré, illustré, progression du travail. Présente la veille, le marché, la cible, les concurrents, les fonctionnalités, l'historique, les objectifs, l'espace utilisateur, l'arborescence, les outils, la palette de couleurs, la typo, le logo, la BDD, les tests, les difficultés, les perspectives. Mets en avant les compétences transverses (anglais, organisation, autonomie…)</li>
+            <li><strong>Dossier professionnel (DP)</strong> : document officiel à remplir (modèle Word en ligne). 2 à 3 exemples concrets pour chaque activité type (front-end et back-end). Pour chaque exemple : ce que tu as fait, contexte, moyens, outils, difficultés, solutions. Captures d'écran, extraits de code, schémas bienvenus. Respecte les intitulés officiels du référentiel (REAC).</li>
+            <li>Mettre des captures d'écran de la création de la BDD (Merise, Looping, Workbench, etc.) dans le dossier pro.</li>
+            <li>Faire le sommaire à la fin, garder les intitulés des activités type telles quelles (ne pas les reformuler).</li>
+            <li>Fournir 2 exemples externes au projet pour prouver que tu sais faire du front-end et du back-end.</li>
+        </ul>
+    </div>
+
+    <h2 id="section-3">3. Présentation orale & conseils pratiques</h2>
+    <div class="competence-box">
+        <ul>
+            <li>Durée de l'examen : ~2h (25-30 min de présentation, le reste en questions/réponses).</li>
+            <li>Présentation orale : 25-30 min, support PowerPoint propre, plan clair : intro, présentation Merise/BDD, phpMyAdmin, explication des cardinalités, maquette Figma, charte graphique, config database sur CodeIgniter, setup (installation, outils, commits GitHub, etc.).</li>
+            <li>Montrer et expliquer les fonctionnalités importantes (avec explications en tête, pas juste la démo).</li>
+            <li>Soigne la présentation orale (plan, slides, clarté, politesse).</li>
+            <li>Prépare des explications simples et honnêtes, ne t'invente pas des compétences.</li>
+            <li>Photocopie le livret d'évaluation rempli et signé + l'amener avec les deux dossiers (projet et professionnel).</li>
+        </ul>
+    </div>
+
+    <h2 id="section-4">4. Questions fréquentes et pièges à éviter</h2>
+    <div class="competence-box">
+        <ul>
+            <li><strong>HTML5 :</strong> Qu'est-ce que HTML5 ? Que signifie le « 5 » ? Quelles sont les balises sémantiques (header, footer, aside, main, nav, etc.) ? Pourquoi sont-elles importantes ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>HTML5</strong> est la cinquième version du langage HTML, utilisé pour structurer les pages web. Le « 5 » indique la version moderne, qui apporte de nouvelles balises et fonctionnalités (audio, vidéo, formulaires avancés, etc.).</li>
+                <li><strong>Balises sémantiques</strong> : ce sont des balises qui donnent du sens à la structure de la page (ex : <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>). Elles aident les moteurs de recherche et les lecteurs d'écran à comprendre le contenu.</li>
+                <li>Exemple : <code>&lt;header&gt;</code> pour l'en-tête, <code>&lt;footer&gt;</code> pour le pied de page, <code>&lt;nav&gt;</code> pour la navigation.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>HTTPS :</strong> Que veut dire le « S » dans HTTPS ? Pourquoi est-ce important ? Explique le rôle du certificat SSL/TLS.</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>HTTPS</strong> signifie « HyperText Transfer Protocol Secure ». Le « S » veut dire « Secure » (sécurisé).</li>
+                <li>HTTPS chiffre les échanges entre le navigateur et le serveur, grâce à un certificat SSL/TLS. Cela protège les données (mots de passe, infos perso) contre les interceptions.</li>
+                <li>Le certificat SSL/TLS garantit aussi l'identité du site (petit cadenas dans la barre d'adresse).</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>password_hash :</strong> Que fait cette fonction exactement ? Différence entre hachage et chiffrement ? Pourquoi ne pas stocker les mots de passe en clair ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><code>password_hash()</code> est une fonction PHP qui transforme un mot de passe en une chaîne illisible (appelée « hash »), impossible à retrouver même si on a accès à la base de données.</li>
+                <li><strong>Hachage</strong> : opération à sens unique, on ne peut pas retrouver le mot de passe d'origine à partir du hash. <strong>Chiffrement</strong> : on peut retrouver le texte d'origine si on a la clé.</li>
+                <li>On ne stocke jamais les mots de passe en clair pour éviter qu'ils soient volés en cas de piratage.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>MVC :</strong> Qu'est-ce que le modèle MVC ? Sais-tu reproduire le schéma et expliquer l'ordre des échanges (contrôleur, modèle, vue) ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>MVC</strong> = Modèle-Vue-Contrôleur. C'est une façon d'organiser le code :</li>
+                <li><strong>Modèle</strong> : gère les données (ex : accès à la base de données).</li>
+                <li><strong>Vue</strong> : gère l'affichage (HTML, CSS).</li>
+                <li><strong>Contrôleur</strong> : fait le lien entre les deux, reçoit les actions de l'utilisateur, demande les données au modèle, puis affiche la vue.</li>
+                <li>Ordre typique : L'utilisateur fait une action → le contrôleur la reçoit → il demande les données au modèle → il envoie les données à la vue → la vue affiche le résultat.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>CodeIgniter :</strong> Qu'est-ce que c'est ? Pourquoi l'avoir choisi ? Framework ou CMS ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>CodeIgniter</strong> est un framework PHP léger et rapide, qui permet de développer des applications web en respectant l'architecture MVC.</li>
+                <li>Ce n'est pas un CMS (comme WordPress), mais un cadre de développement qui facilite la gestion des routes, des contrôleurs, des modèles, etc.</li>
+                <li>On le choisit pour sa simplicité, sa rapidité, et sa documentation claire.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Bootstrap et autres outils :</strong> Sais-tu expliquer à quoi servent les outils utilisés (Bootstrap, VS Code, etc.) ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>Bootstrap</strong> : framework CSS qui permet de créer des interfaces responsives rapidement, avec des composants prêts à l'emploi (boutons, grilles, formulaires…)</li>
+                <li><strong>VS Code</strong> : éditeur de code moderne, pratique pour le développement web (coloration syntaxique, extensions, etc.)</li>
+                <li>Il faut savoir expliquer à quoi sert chaque outil que tu as utilisé dans ton projet.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Fonctions personnalisées :</strong> Si tu utilises des fonctions comme <code>isImage()</code>, sais-tu expliquer à quoi elles servent et comment elles fonctionnent (vérification MIME, sécurité upload, etc.) ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Une fonction comme <code>isImage()</code> sert à vérifier qu'un fichier uploadé est bien une image (et pas un fichier dangereux).</li>
+                <li>Elle vérifie le type MIME, l'extension, la taille, etc. pour éviter les failles de sécurité lors de l'upload.</li>
+                <li>Il faut savoir expliquer comment tu protèges les uploads dans ton projet.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Base de données :</strong> Sais-tu expliquer ton schéma MCD/MLD ? Les cardinalités, les relations, l'ordre des flèches, qui donne son id à qui ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>MCD</strong> : Modèle Conceptuel de Données (schéma des entités et relations du projet).</li>
+                <li><strong>Cardinalités</strong> : indiquent combien d'éléments d'une entité peuvent être liés à une autre (ex : un utilisateur peut avoir plusieurs jeux, mais un jeu appartient à un seul utilisateur).</li>
+                <li>Il faut savoir expliquer pourquoi tu as choisi telle ou telle relation, et dans quel sens vont les flèches (qui référence qui).</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Requêtes SQL :</strong> Sais-tu écrire une requête pour lister tous les utilisateurs ? (ex : <code>SELECT * FROM users;</code>)</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Pour lister tous les utilisateurs : <code>SELECT * FROM users;</code></li>
+                <li>Pour une jointure (ex : lister tous les jeux d'un utilisateur) : <code>SELECT games.name FROM games JOIN game_stats ON games.id = game_stats.game_id WHERE game_stats.user_id = ?;</code></li>
+                <li>Il faut savoir écrire et expliquer les requêtes de base (SELECT, INSERT, UPDATE, DELETE, JOIN).</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Différence entre GET et POST :</strong> Sais-tu expliquer la différence, le protocole HTTP, et pourquoi utiliser l'un ou l'autre ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li><strong>GET</strong> : méthode HTTP pour récupérer des données (ex : afficher une page, une liste).</li>
+                <li><strong>POST</strong> : méthode HTTP pour envoyer des données (ex : soumettre un formulaire, ajouter un utilisateur).</li>
+                <li>GET affiche, POST modifie ou ajoute. GET affiche les paramètres dans l'URL, POST les cache dans le corps de la requête.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Contrat client :</strong> Sais-tu ce qu'on trouve dans un contrat client (prix fixe, livrables, délais, etc.) ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Un contrat client précise le prix, les livrables attendus, les délais, les modalités de paiement, les conditions de maintenance, etc.</li>
+                <li>Il sert à protéger le client et le prestataire en cas de litige.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Maquette :</strong> Sais-tu expliquer les choix de fonts, couleurs, structure, etc. ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Il faut savoir justifier tes choix graphiques : pourquoi telle police, telles couleurs, telle disposition ?</li>
+                <li>Exemple : j'ai choisi Orbitron pour un style gaming, violet/cyan pour rappeler l'univers du jeu vidéo, etc.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Méthode agile :</strong> Sais-tu expliquer la méthode agile, les tickets « à faire », « en cours », « testé », « fini » ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>La méthode agile est une façon de gérer un projet en petites étapes (sprints), avec des tâches à faire, en cours, testées, terminées.</li>
+                <li>On utilise souvent un tableau (ex : Trello) pour suivre l'avancement : chaque ticket représente une tâche.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Fonctionnalités développées :</strong> Sais-tu expliquer à quoi sert chaque fonction que tu as créée ? (Expliquer le code, commenter au maximum)</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Pour chaque fonction, sache expliquer à quoi elle sert, comment elle fonctionne, et pourquoi tu l'as écrite ainsi.</li>
+                <li>Commente ton code pour t'aider à t'en souvenir et à l'expliquer au jury.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Pièges à éviter :</strong> Ne pas ajouter de fonctionnalités non maîtrisées (paiement, pagination complexe, etc.) si tu ne peux pas les expliquer ; un login et un CRUD fonctionnel suffisent.</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Ne te complique pas la vie avec des fonctionnalités que tu ne maîtrises pas à 100 %.</li>
+                <li>Un projet simple, fini et fonctionnel vaut mieux qu'un projet trop ambitieux mais non terminé ou non compris.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Questions sur la démarche :</strong> Pourquoi avoir fait tel choix technique ? Comment as-tu organisé ton travail ? As-tu utilisé la méthode agile ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Sois capable de justifier chaque choix (technique, organisation, outils, méthodes).</li>
+                <li>Exemple : j'ai choisi CodeIgniter pour sa simplicité, j'ai utilé Trello pour suivre les tâches, etc.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Questions sur la sécurité :</strong> Comment as-tu protégé les uploads ? Les mots de passe ? Les sessions ?</li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse :</strong><br>
+            <ul>
+                <li>Pour les uploads : vérification du type MIME, taille, extension, stockage dans un dossier sécurisé.</li>
+                <li>Pour les mots de passe : hachage avec <code>password_hash()</code>, jamais de stockage en clair.</li>
+                <li>Pour les sessions : utilisation des sessions PHP sécurisées, cookies HttpOnly, vérification des droits utilisateur.</li>
+            </ul>
+        </div>
+        <ul>
+            <li><strong>Questions potentielles :</strong>
+                <ul>
+                    <li>Ajouter un produit via le site et vérifier dans la BDD</li>
+                    <li>Expliquer une partie précise du code</li>
+                    <li>Effet "cascade" lors de la suppression (intégrité référentielle)</li>
+                    <li>À quoi sert tel élément de l'en-tête HTML (DOCTYPE, UTF-8, etc.)</li>
+                    <li>Utilité d'un modèle ou d'un contrôleur</li>
+                    <li>Questions sur les outils (DBeaver, phpMyAdmin, Looping, Workbench...)</li>
+                </ul>
+            </li>
+        </ul>
+        <div class="info-box">
+            <strong>Réponse générale :</strong><br>
+            <ul>
+                <li>Pour chaque question, prends le temps de réfléchir, explique simplement, donne un exemple si possible.</li>
+                <li>Si tu ne sais pas, dis-le honnêtement, mais montre que tu sais chercher ou que tu as compris l'essentiel.</li>
+            </ul>
+        </div>
+        <div style="margin-top:1em;">
+            <strong>Conseils clés :</strong>
+            <ul>
+                <li>Le jury peut te demander d'expliquer n'importe quelle partie de ton code ou de ton dossier : comprends ce que tu as écrit !</li>
+                <li>Commente au maximum ton code, et ne te complique pas la vie avec des fonctionnalités non maîtrisées.</li>
+                <li>Sois prêt à schématiser (MCD, MVC, etc.) et à expliquer l'ordre des échanges.</li>
+                <li>Prépare des réponses claires sur la sécurité, la structure, et les outils utilisés.</li>
+                <li>Reste simple et efficace : « Less is more » ! Un projet fini et fonctionnel vaut mieux qu'un projet trop ambitieux mais non maîtrisé.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2 id="section-5">5. Annexes : retours d'expérience & checklists</h2>
+    <div class="competence-box">
+        <ul>
+            <li>Le jury est bienveillant, il aide à trouver la réponse si tu bloques.</li>
+            <li>Les questions portent sur la technique, la démarche, l'organisation, la sécurité, la compréhension du code.</li>
+            <li>La préparation (orale, simulations, rédaction) est la clé pour réduire le stress.</li>
+            <li>Les plateformes d'accompagnement sont très utiles pour s'entraîner et ne rien oublier.</li>
+            <li>Participe à des jeux de rôle, remplis bien toutes les tâches de préparation, demande de l'aide si besoin.</li>
+            <li>Prépare des identifiants de test pour le jury, un rétroplanning, mets en avant les éléments « en plus » (charte graphique, logo, documentation…).</li>
+            <li>Utilise une plateforme d'accompagnement ou un carnet de bord pour suivre ta progression et générer automatiquement ton dossier projet.</li>
+            <li>Partage tes connaissances, reste en contact avec tes collègues.</li>
+        </ul>
+        <div style="margin-top:1em;">
+            <strong>Résumé :</strong> Le jury attend un projet fonctionnel, sécurisé, bien expliqué, mais surtout un(e) candidat(e) capable de justifier ses choix, de montrer sa démarche, et de s'adapter. Prépare-toi à expliquer, à illustrer, à documenter, et à t'entraîner à l'oral !<br><br>
+            <span style="color:var(--vert-succes);font-weight:bold;">Bonne chance pour ta soutenance DWWM ! 🚀</span>
+        </div>
+    </div>
+</div>
+</body>
+</html> 

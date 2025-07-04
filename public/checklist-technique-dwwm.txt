@@ -1,0 +1,147 @@
+Checklist technique DWWM – Comprendre les attentes du jury
+===========================================================
+
+Ce document synthétise les points clés attendus par le jury lors de la soutenance du titre professionnel DWWM, en s'appuyant sur la vidéo de Certif Academy et sur l'expérience d'un projet réel comme Checkpoint.
+
+1. Architecture et organisation du code
+--------------------------------------
+- Le projet doit respecter une architecture professionnelle (MVC avec CodeIgniter, Symfony, Django, etc.).
+- L'organisation du code doit permettre le travail en équipe : séparation claire des contrôleurs, modèles, vues, services…
+- Les bonnes pratiques d'organisation sont valorisées (fichiers bien nommés, arborescence logique).
+
+2. Responsive design
+--------------------
+- Le site doit être utilisable et lisible sur ordinateur, tablette et mobile.
+- L'ergonomie et l'accessibilité sont évaluées (menus clairs, navigation fluide, contrastes, labels, etc.).
+- L'utilisation de CSS Grid, Flexbox ou d'un framework CSS est un plus, mais pas obligatoire.
+
+3. Authentification et gestion des utilisateurs
+----------------------------------------------
+- Formulaires d'inscription et de connexion fonctionnels et sécurisés.
+- Hachage des mots de passe (ex : password_hash en PHP).
+- Gestion des sessions sécurisées (vérification de l'utilisateur connecté).
+- Possibilité de réinitialiser son mot de passe (bonus).
+
+4. CRUD complet sur au moins une entité
+---------------------------------------
+- Le site doit permettre de créer, lire, modifier et supprimer des contenus (jeux, utilisateurs, annonces, etc.).
+- Les actions CRUD doivent être accessibles via une interface claire.
+- Les pages d'administration (back-office) doivent être réservées aux administrateurs.
+
+5. Formulaire de contact et page de profil
+------------------------------------------
+- Un formulaire de contact doit permettre d'envoyer un email à l'administrateur.
+- Chaque utilisateur doit disposer d'une page de profil où il peut modifier ses informations.
+
+6. Sécurité et conformité
+------------------------
+- Protection contre les failles XSS, injections SQL, CSRF.
+- Validation des données côté client ET côté serveur.
+- Sessions sécurisées (HttpOnly, gestion des droits).
+- RGPD : informer sur les données collectées, politique de confidentialité, mentions légales, CGU/CGV.
+- Consentement explicite pour les cookies si utilisés.
+- Mots de passe stockés de façon sécurisée (hachage).
+- Déploiement en HTTPS (certificat SSL recommandé).
+- Notion de rôles utilisateurs (admin, utilisateur simple).
+
+7. Qualité du code et documentation
+-----------------------------------
+- Code source commenté (au moins pour les fonctions complexes ou les parties importantes).
+- Respect des standards (HTML5/CSS3 valides W3C).
+- Pas de classes CSS dupliquées ou inutiles.
+- README clair, guide d'installation, arborescence documentée.
+
+8. Tests et validation
+----------------------
+- Tests manuels de toutes les fonctionnalités (parcours utilisateur, formulaires, navigation, etc.).
+- Bonus : tests automatisés/unitaires si possible.
+- Vérification de la compatibilité sur plusieurs navigateurs (Chrome, Firefox, Edge, Safari).
+- Vérification du responsive sur différents appareils.
+- Score de performance et d'accessibilité (ex : Lighthouse > 90).
+
+9. Difficultés rencontrées et solutions
+--------------------------------------
+- Être capable d'expliquer les problèmes techniques rencontrés (API, responsive, sécurité, etc.) et les solutions apportées (ex : debouncing, cache, gestion des erreurs API).
+
+10. Ce qui compte vraiment pour le jury
+---------------------------------------
+- Le projet doit être fonctionnel, sécurisé, et répondre au référentiel DWWM.
+- Mais c'est surtout ta capacité à expliquer tes choix, à justifier tes solutions, et à montrer que tu comprends ce que tu as fait qui fera la différence.
+- Prépare-toi à expliquer chaque fonctionnalité, chaque choix technique, et à montrer que tu sais travailler proprement et en équipe.
+
+---
+
+**Astuce : Utilise cette checklist comme grille d'auto-évaluation avant l'oral ou la rédaction de ton dossier.**
+
+Bonne préparation et réussite pour ta soutenance DWWM ! 
+
+Annexe : Conseils et retours d'expérience issus des vidéos Certif Academy
+=======================================================================
+
+1. Ce qu'attend vraiment le jury DWWM
+-------------------------------------
+- Le jury est composé de deux professionnels expérimentés (au moins 3 ans d'expérience récente).
+- Ils évaluent **autant la démarche que le résultat** : il faut savoir expliquer ses choix, justifier son organisation, et montrer qu'on comprend ce qu'on a fait.
+- Le plus important n'est pas d'avoir un site « parfait », mais de **savoir expliquer** comment on a pensé, conçu et codé son projet.
+- Prépare-toi à expliquer ton schéma MCD, la sécurité, et le fonctionnement de tes contrôleurs ou de ton code (ligne par ligne si besoin).
+- Le jury peut choisir un fichier ou un contrôleur au hasard et te demander de l'expliquer : il faut comprendre ce que tu as écrit, pas juste l'apprendre par cœur.
+
+2. Conseils pour la soutenance et la préparation
+-----------------------------------------------
+- **Apporte** : ta convocation, une pièce d'identité, ton ordinateur (si possible), une clé USB avec tous les livrables (dossier projet PDF, support de présentation, code, identifiants de test, dossier professionnel).
+- Mets sur ta clé USB : le dossier projet (30-35 pages, PDF), le support de présentation (PDF ou PPT), le lien GitHub, le lien du site déployé, des identifiants de test (admin/user), le dossier professionnel rempli.
+- Prépare un support de présentation (slides) pour tenir 30-35 minutes : ce qui compte, c'est la **démarche** et ta capacité à expliquer, pas juste le résultat.
+- Entraîne-toi à l'oral avec un collègue ou en jeu de rôle (simulation jury/candidat) pour réduire le stress et repérer tes points faibles.
+- Le stress vient souvent d'un manque de préparation : plus tu t'entraînes, plus tu seras serein.
+
+3. Structure et rédaction du dossier professionnel (DP)
+------------------------------------------------------
+- Le DP est un document officiel à remplir (modèle disponible en ligne, format Word).
+- Il doit contenir : tes coordonnées, le titre visé, le contexte, et surtout **2 à 3 exemples concrets** pour chaque activité type (front-end et back-end).
+- Pour chaque exemple : explique ce que tu as fait, dans quel contexte (stage, formation, projet perso), les moyens utilisés (technos, outils), avec qui tu as travaillé, le contexte, les difficultés rencontrées et comment tu les as résolues.
+- N'hésite pas à joindre des captures d'écran, extraits de code, schémas, etc.
+- Ne dépasse pas 3 exemples par activité type (2 suffisent souvent).
+- Les intitulés des activités type doivent être repris textuellement du référentiel (REAC).
+
+4. Conseils pour le dossier projet
+---------------------------------
+- Le dossier projet doit faire 30 à 35 pages, être structuré, illustré, et montrer la progression de ton travail.
+- Utilise des paragraphes courts, des titres clairs, des exemples concrets, des captures d'écran, des schémas (MCD, arborescence, rétroplanning).
+- Présente ta veille de sécurité, le marché, la cible, les concurrents, les fonctionnalités importantes, l'historique de l'idée, les objectifs, les besoins auxquels répond le site.
+- Décris l'espace utilisateur, l'arborescence, les outils utilisés, la palette de couleurs, la typo, le logo, la méthodologie de création de la BDD, les tests réalisés, les difficultés rencontrées, les perspectives d'évolution.
+- Mets en avant les compétences transverses (anglais, organisation, autonomie, etc.).
+
+5. Exemples de questions posées à l'oral
+----------------------------------------
+- Explique ton schéma MCD (entités, relations, cardinalités, choix techniques).
+- Justifie les mesures de sécurité mises en place (XSS, SQL, RGPD, mots de passe, rôles, etc.).
+- Explique le fonctionnement d'un contrôleur ou d'une classe de ton projet (ligne par ligne si besoin).
+- Différence entre une classe et un objet ? (POO)
+- Écris une requête SQL pour lister tous les utilisateurs.
+- Explique la différence entre GET et POST (HTTP).
+- Comment as-tu testé la sécurité de ton site ? (injections, XSS, etc.)
+- Comment as-tu géré le responsive ? (CSS, media queries, frameworks)
+- Quelles difficultés as-tu rencontrées et comment les as-tu surmontées ?
+
+6. Astuces et bonnes pratiques
+------------------------------
+- Prépare des identifiants de test pour le jury (admin, user, etc.).
+- Prévois un rétroplanning pour montrer ton organisation.
+- Mets en avant les éléments « en plus » (charte graphique, logo, organisation, documentation, etc.).
+- Utilise la plateforme MaCertif ou un carnet de bord pour suivre ta progression et générer automatiquement ton dossier projet.
+- N'hésite pas à faire des vidéos explicatives ou à partager tes connaissances avec d'autres (ça valorise ton profil).
+- Reste en contact avec tes collègues de promo (entraide, simulations, partage de ressources).
+
+7. Retours d'expérience de candidats
+------------------------------------
+- Le jury est bienveillant, il aide à trouver la réponse si tu bloques.
+- Les questions sont techniques mais aussi sur la démarche, l'organisation, la sécurité, la compréhension du code.
+- La préparation (orale, simulations, rédaction) est la clé pour réduire le stress.
+- Les plateformes d'accompagnement (MaCertif, Discord, etc.) sont très utiles pour s'entraîner et ne rien oublier.
+- Participe à des jeux de rôle, remplis bien toutes les tâches de préparation, et n'hésite pas à demander de l'aide.
+
+---
+
+**Résumé : le jury attend un projet fonctionnel, sécurisé, bien expliqué, mais surtout un(e) candidat(e) capable de justifier ses choix, de montrer sa démarche, et de s'adapter. Prépare-toi à expliquer, à illustrer, à documenter, et à t'entraîner à l'oral !**
+
+Bonne chance pour ta soutenance DWWM ! 🚀 

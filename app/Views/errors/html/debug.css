@@ -1,194 +1,325 @@
+/**
+ * ===== FEUILLE DE STYLE POUR LES PAGES D'ERREUR DE DÉBOGAGE =====
+ * 
+ * Ce fichier CSS définit le style des pages d'erreur de débogage de CodeIgniter.
+ * Il est utilisé pour afficher les erreurs de développement avec un design
+ * professionnel et lisible, incluant la backtrace, les variables, et les détails techniques.
+ * 
+ * FONCTIONNALITÉS :
+ * - Design responsive et moderne
+ * - Affichage structuré des erreurs
+ * - Onglets pour organiser l'information
+ * - Syntax highlighting pour le code
+ * - Navigation intuitive
+ */
+
+/* ===== VARIABLES CSS (CUSTOM PROPERTIES) ===== */
+/* Définition des couleurs et valeurs réutilisables dans tout le fichier */
 :root {
-    --main-bg-color: #fff;
-    --main-text-color: #555;
-    --dark-text-color: #222;
-    --light-text-color: #c7c7c7;
-    --brand-primary-color: #E06E3F;
-    --light-bg-color: #ededee;
-    --dark-bg-color: #404040;
+    --main-bg-color: #fff;           /* Couleur de fond principale (blanc) */
+    --main-text-color: #555;         /* Couleur de texte principale (gris moyen) */
+    --dark-text-color: #222;         /* Couleur de texte sombre (gris foncé) */
+    --light-text-color: #c7c7c7;     /* Couleur de texte clair (gris clair) */
+    --brand-primary-color: #E06E3F;  /* Couleur primaire de la marque (orange) */
+    --light-bg-color: #ededee;       /* Couleur de fond claire (gris très clair) */
+    --dark-bg-color: #404040;        /* Couleur de fond sombre (gris foncé) */
 }
 
+/* ===== STYLES DE BASE ===== */
+/* Configuration générale du corps de la page */
 body {
-    height: 100%;
-    background: var(--main-bg-color);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    color: var(--main-text-color);
-    font-weight: 300;
-    margin: 0;
-    padding: 0;
+    height: 100%;                    /* Hauteur complète de la fenêtre */
+    background: var(--main-bg-color); /* Fond blanc */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"; /* Police système moderne */
+    color: var(--main-text-color);   /* Texte gris moyen */
+    font-weight: 300;                /* Police légère */
+    margin: 0;                       /* Pas de marge */
+    padding: 0;                      /* Pas de padding */
 }
+
+/* ===== STYLES DES TITRES ===== */
+/* Titre principal */
 h1 {
-    font-weight: lighter;
-    font-size: 3rem;
-    color: var(--dark-text-color);
-    margin: 0;
+    font-weight: lighter;            /* Police très légère */
+    font-size: 3rem;                 /* Taille de police importante */
+    color: var(--dark-text-color);   /* Couleur sombre */
+    margin: 0;                       /* Pas de marge */
 }
+
+/* Titre d'en-tête principal (page d'accueil d'erreur) */
 h1.headline {
-    margin-top: 20%;
-    font-size: 5rem;
+    margin-top: 20%;                 /* Marge supérieure importante */
+    font-size: 5rem;                 /* Taille très importante */
 }
+
+/* ===== CLASSES UTILITAIRES ===== */
+/* Centrage de texte */
 .text-center {
     text-align: center;
 }
+
+/* Paragraphe d'introduction */
 p.lead {
-    font-size: 1.6rem;
+    font-size: 1.6rem;               /* Taille de police plus grande */
 }
+
+/* ===== LAYOUT PRINCIPAL ===== */
+/* Conteneur principal avec largeur maximale */
 .container {
-    max-width: 75rem;
-    margin: 0 auto;
-    padding: 1rem;
+    max-width: 75rem;                /* Largeur maximale de 1200px */
+    margin: 0 auto;                  /* Centrage horizontal */
+    padding: 1rem;                   /* Padding interne */
 }
+
+/* ===== EN-TÊTE DE PAGE ===== */
+/* Section d'en-tête avec fond gris clair */
 .header {
-    background: var(--light-bg-color);
-    color: var(--dark-text-color);
-    margin-top: 2.17rem;
+    background: var(--light-bg-color); /* Fond gris clair */
+    color: var(--dark-text-color);     /* Texte sombre */
+    margin-top: 2.17rem;               /* Marge supérieure */
 }
+
+/* Conteneur de l'en-tête */
 .header .container {
-    padding: 1rem;
+    padding: 1rem;                     /* Padding interne */
 }
+
+/* Titre de l'en-tête */
 .header h1 {
-    font-size: 2.5rem;
-    font-weight: 500;
+    font-size: 2.5rem;                 /* Taille de police moyenne */
+    font-weight: 500;                  /* Police semi-grasse */
 }
+
+/* Paragraphe de l'en-tête */
 .header p {
-    font-size: 1.2rem;
-    margin: 0;
-    line-height: 2.5;
+    font-size: 1.2rem;                 /* Taille de police plus grande */
+    margin: 0;                         /* Pas de marge */
+    line-height: 2.5;                  /* Hauteur de ligne importante */
 }
+
+/* Lien dans l'en-tête (masqué par défaut) */
 .header a {
-    color: var(--brand-primary-color);
-    margin-left: 2rem;
-    display: none;
-    text-decoration: none;
+    color: var(--brand-primary-color); /* Couleur orange */
+    margin-left: 2rem;                 /* Marge gauche */
+    display: none;                     /* Masqué par défaut */
+    text-decoration: none;             /* Pas de soulignement */
 }
+
+/* Affichage du lien au survol de l'en-tête */
 .header:hover a {
-    display: inline;
+    display: inline;                   /* Affiché en ligne */
 }
 
+/* ===== BANNIÈRE D'ENVIRONNEMENT ===== */
+/* Bannière fixe en haut indiquant l'environnement (dev, test, prod) */
 .environment {
-    background: var(--brand-primary-color);
-    color: var(--main-bg-color);
-    text-align: center;
-    padding: calc(4px + 0.2083vw);
-    width: 100%;
-    margin-top: -2.14rem;
-    position: fixed;
+    background: var(--brand-primary-color); /* Fond orange */
+    color: var(--main-bg-color);           /* Texte blanc */
+    text-align: center;                    /* Centrage */
+    padding: calc(4px + 0.2083vw);         /* Padding responsive */
+    width: 100%;                           /* Largeur complète */
+    margin-top: -2.14rem;                  /* Marge négative pour chevaucher */
+    position: fixed;                       /* Position fixe en haut */
 }
 
+/* ===== AFFICHAGE DU CODE SOURCE ===== */
+/* Bloc de code source avec syntax highlighting */
 .source {
-    background: #343434;
-    color: var(--light-text-color);
-    padding: 0.5em 1em;
-    border-radius: 5px;
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    font-size: 0.85rem;
-    margin: 0;
-    overflow-x: scroll;
-}
-.source span.line {
-    line-height: 1.4;
-}
-.source span.line .number {
-    color: #666;
-}
-.source .line .highlight {
-    display: block;
-    background: var(--dark-text-color);
-    color: var(--light-text-color);
-}
-.source span.highlight .number {
-    color: #fff;
+    background: #343434;                   /* Fond gris foncé */
+    color: var(--light-text-color);        /* Texte gris clair */
+    padding: 0.5em 1em;                    /* Padding interne */
+    border-radius: 5px;                    /* Coins arrondis */
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace; /* Police monospace */
+    font-size: 0.85rem;                    /* Taille de police plus petite */
+    margin: 0;                             /* Pas de marge */
+    overflow-x: scroll;                    /* Défilement horizontal si nécessaire */
 }
 
+/* Ligne de code */
+.source span.line {
+    line-height: 1.4;                      /* Hauteur de ligne compacte */
+}
+
+/* Numéro de ligne */
+.source span.line .number {
+    color: #666;                           /* Couleur grise pour les numéros */
+}
+
+/* Ligne mise en surbrillance (ligne d'erreur) */
+.source .line .highlight {
+    display: block;                        /* Affichage en bloc */
+    background: var(--dark-text-color);    /* Fond sombre */
+    color: var(--light-text-color);        /* Texte clair */
+}
+
+/* Numéro de ligne pour la ligne mise en surbrillance */
+.source span.highlight .number {
+    color: #fff;                           /* Numéro blanc */
+}
+
+/* ===== SYSTÈME D'ONGLETS ===== */
+/* Liste des onglets */
 .tabs {
-    list-style: none;
-    list-style-position: inside;
-    margin: 0;
-    padding: 0;
-    margin-bottom: -1px;
+    list-style: none;                      /* Pas de puces */
+    list-style-position: inside;           /* Position des puces */
+    margin: 0;                             /* Pas de marge */
+    padding: 0;                            /* Pas de padding */
+    margin-bottom: -1px;                   /* Marge négative pour chevaucher le contenu */
 }
+
+/* Élément de liste d'onglet */
 .tabs li {
-    display: inline;
+    display: inline;                       /* Affichage en ligne */
 }
+
+/* Liens des onglets (état normal et visité) */
 .tabs a:link,
 .tabs a:visited {
-    padding: 0 1rem;
-    line-height: 2.7;
-    text-decoration: none;
-    color: var(--dark-text-color);
-    background: var(--light-bg-color);
-    border: 1px solid rgba(0,0,0,0.15);
-    border-bottom: 0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    display: inline-block;
+    padding: 0 1rem;                       /* Padding horizontal */
+    line-height: 2.7;                      /* Hauteur de ligne */
+    text-decoration: none;                 /* Pas de soulignement */
+    color: var(--dark-text-color);         /* Couleur sombre */
+    background: var(--light-bg-color);     /* Fond gris clair */
+    border: 1px solid rgba(0,0,0,0.15);    /* Bordure subtile */
+    border-bottom: 0;                      /* Pas de bordure inférieure */
+    border-top-left-radius: 5px;           /* Coins arrondis en haut */
+    border-top-right-radius: 5px;          /* Coins arrondis en haut */
+    display: inline-block;                 /* Affichage en bloc en ligne */
 }
+
+/* État de survol des onglets */
 .tabs a:hover {
-    background: var(--light-bg-color);
-    border-color: rgba(0,0,0,0.15);
+    background: var(--light-bg-color);     /* Fond gris clair */
+    border-color: rgba(0,0,0,0.15);        /* Bordure subtile */
 }
+
+/* Onglet actif */
 .tabs a.active {
-    background: var(--main-bg-color);
-    color: var(--main-text-color);
+    background: var(--main-bg-color);      /* Fond blanc */
+    color: var(--main-text-color);         /* Couleur de texte normale */
 }
+
+/* ===== CONTENU DES ONGLETS ===== */
+/* Conteneur du contenu des onglets */
 .tab-content {
-    background: var(--main-bg-color);
-    border: 1px solid rgba(0,0,0,0.15);
+    background: var(--main-bg-color);      /* Fond blanc */
+    border: 1px solid rgba(0,0,0,0.15);    /* Bordure subtile */
 }
+
+/* Contenu interne des onglets */
 .content {
-    padding: 1rem;
+    padding: 1rem;                         /* Padding interne */
 }
+
+/* ===== UTILITAIRES ===== */
+/* Classe pour masquer des éléments */
 .hide {
-    display: none;
+    display: none;                         /* Masquage complet */
 }
 
+/* ===== ALERTES ===== */
+/* Bloc d'alerte informatif */
 .alert {
-    margin-top: 2rem;
-    display: block;
-    text-align: center;
-    line-height: 3.0;
-    background: #d9edf7;
-    border: 1px solid #bcdff1;
-    border-radius: 5px;
-    color: #31708f;
+    margin-top: 2rem;                      /* Marge supérieure */
+    display: block;                        /* Affichage en bloc */
+    text-align: center;                    /* Centrage */
+    line-height: 3.0;                      /* Hauteur de ligne importante */
+    background: #d9edf7;                   /* Fond bleu clair */
+    border: 1px solid #bcdff1;             /* Bordure bleue */
+    border-radius: 5px;                    /* Coins arrondis */
+    color: #31708f;                        /* Texte bleu foncé */
 }
 
+/* ===== TABLEAUX ===== */
+/* Tableau général */
 table {
-    width: 100%;
-    overflow: hidden;
-}
-th {
-    text-align: left;
-    border-bottom: 1px solid #e7e7e7;
-    padding-bottom: 0.5rem;
-}
-td {
-    padding: 0.2rem 0.5rem 0.2rem 0;
-}
-tr:hover td {
-    background: #f1f1f1;
-}
-td pre {
-    white-space: pre-wrap;
+    width: 100%;                           /* Largeur complète */
+    overflow: hidden;                      /* Masquage du débordement */
 }
 
+/* En-tête de tableau */
+th {
+    text-align: left;                      /* Alignement à gauche */
+    border-bottom: 1px solid #e7e7e7;      /* Bordure inférieure */
+    padding-bottom: 0.5rem;                /* Padding inférieur */
+}
+
+/* Cellule de tableau */
+td {
+    padding: 0.2rem 0.5rem 0.2rem 0;       /* Padding interne */
+}
+
+/* État de survol des lignes de tableau */
+tr:hover td {
+    background: #f1f1f1;                   /* Fond gris très clair au survol */
+}
+
+/* Bloc de code dans les cellules */
+td pre {
+    white-space: pre-wrap;                 /* Conservation des espaces avec retour à la ligne */
+}
+
+/* ===== TRACES ET BACKTRACE ===== */
+/* Liens dans les traces */
 .trace a {
-    color: inherit;
+    color: inherit;                        /* Héritage de la couleur */
 }
+
+/* Tableau des traces */
 .trace table {
-    width: auto;
+    width: auto;                           /* Largeur automatique */
 }
+
+/* Première cellule des traces (numéro de ligne) */
 .trace tr td:first-child {
-    min-width: 5em;
-    font-weight: bold;
+    min-width: 5em;                        /* Largeur minimale */
+    font-weight: bold;                     /* Police en gras */
 }
+
+/* Cellules des traces */
 .trace td {
-    background: var(--light-bg-color);
-    padding: 0 1rem;
+    background: var(--light-bg-color);     /* Fond gris clair */
+    padding: 0 1rem;                       /* Padding horizontal */
 }
+
+/* Bloc de code dans les traces */
 .trace td pre {
-    margin: 0;
+    margin: 0;                             /* Pas de marge */
 }
+
+/* ===== ARGUMENTS DES FONCTIONS ===== */
+/* Section des arguments (masquée par défaut) */
 .args {
-    display: none;
+    display: none;                         /* Masquage par défaut */
 }
+
+/**
+ * ===== FONCTIONNEMENT GÉNÉRAL =====
+ * 
+ * Cette feuille de style crée une interface de débogage professionnelle avec :
+ * 
+ * 1. DESIGN RESPONSIVE :
+ *    - Utilisation de rem et vw pour les tailles
+ *    - Largeur maximale pour les grands écrans
+ *    - Adaptation mobile automatique
+ * 
+ * 2. HIÉRARCHIE VISUELLE :
+ *    - Couleurs cohérentes avec variables CSS
+ *    - Typographie hiérarchisée
+ *    - Espacement harmonieux
+ * 
+ * 3. INTERACTIVITÉ :
+ *    - Onglets pour organiser l'information
+ *    - États de survol et actifs
+ *    - Navigation intuitive
+ * 
+ * 4. LISIBILITÉ DU CODE :
+ *    - Police monospace pour le code
+ *    - Syntax highlighting
+ *    - Numérotation des lignes
+ * 
+ * 5. ACCESSIBILITÉ :
+ *    - Contrastes appropriés
+ *    - Tailles de police lisibles
+ *    - Navigation au clavier
+ */

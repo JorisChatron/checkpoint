@@ -214,17 +214,31 @@
         document.querySelectorAll('.top5-checkbox').forEach(cb => {
             cb.addEventListener('change', function() {
                 const gameId = this.value;
+                console.log('Checkbox changed - gameId:', gameId, 'checked:', this.checked);
                 
                 if (this.checked) {
-                    if (document.querySelectorAll('.top5-checkbox:checked').length > 5) {
+                    // Vérification du nombre maximum de jeux sélectionnés
+                    const checkedCount = document.querySelectorAll('.top5-checkbox:checked').length;
+                    console.log('Checked count:', checkedCount);
+                    
+                    if (checkedCount > 5) {
                         this.checked = false;
-                        showError('Maximum 5 jeux');
+                        GameUtils.showError('Maximum 5 jeux autorisés');
                         return;
                     }
-                    if (!clickOrder.includes(gameId)) clickOrder.push(gameId);
+                    
+                    // Ajout à l'ordre de sélection si pas déjà présent
+                    if (!clickOrder.includes(gameId)) {
+                        clickOrder.push(gameId);
+                        console.log('Added to clickOrder:', gameId);
+                    }
                 } else {
+                    // Retrait de l'ordre de sélection
                     clickOrder = clickOrder.filter(id => id !== gameId);
+                    console.log('Removed from clickOrder:', gameId);
                 }
+                
+                console.log('Current clickOrder:', clickOrder);
                 updateTop5Positions();
             });
         });
@@ -233,13 +247,24 @@
         const top5Form = document.getElementById('top5Form');
         top5Form?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // ===== VALIDATION AMÉLIORÉE =====
+            console.log('Top 5 validation - clickOrder:', clickOrder);
+            console.log('Top 5 validation - length:', clickOrder.length);
+            
             if (clickOrder.length !== 5) {
-                GameUtils.showError('Sélectionnez exactement 5 jeux');
+                GameUtils.showError(`Sélectionnez exactement 5 jeux (actuellement: ${clickOrder.length})`);
                 return;
             }
             
+            // ===== VÉRIFICATION DES DONNÉES AVANT ENVOI =====
+            const dataToSend = { top5: clickOrder };
+            console.log('Top 5 data to send:', dataToSend);
+            
             try {
-                const result = await GameUtils.apiCall('/checkpoint/public/profile/setTop5', 'POST', { top5: clickOrder });
+                const result = await GameUtils.apiCall('/checkpoint/public/profile/setTop5', 'POST', dataToSend);
+                console.log('Top 5 response:', result);
+                
                 if (result.success) {
                     GameUtils.showSuccess('Top 5 mis à jour !');
                     setTimeout(() => location.reload(), 300);
@@ -247,6 +272,7 @@
                     GameUtils.showError(result.error || 'Erreur mise à jour top 5');
                 }
             } catch (error) {
+                console.error('Top 5 error:', error);
                 GameUtils.showError('Erreur réseau');
             }
         });
